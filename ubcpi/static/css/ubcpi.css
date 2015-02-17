@@ -1,0 +1,9 @@
+/* CSS for PeerInstructionXBlock */
+
+.ubcpi_block .count {
+    font-weight: bold;
+}
+
+.ubcpi_block p {
+    cursor: pointer;
+}
