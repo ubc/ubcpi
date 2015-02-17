@@ -1,18 +1,19 @@
 /* Javascript for PeerInstructionXBlock. */
 function PeerInstructionXBlock(runtime, element) {
+    "use strict";
 
-    function updateCount(result) {
-        $('.count', element).text(result.count);
-    }
+    var handlerUrl = runtime.handlerUrl(element, 'submit_answer');
 
-    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
-
-    $('p', element).click(function(eventObject) {
+    $('input[type="radio"]', element).click(function (eventObject) {
+        var clicked = this;
+        var answer = clicked.value;
+        console.log("Submitting ", answer);
         $.ajax({
             type: "POST",
             url: handlerUrl,
-            data: JSON.stringify({"hello": "world"}),
-            success: updateCount
+            data: JSON.stringify({"q": answer}),
+            success: function () {
+            }
         });
     });
 
