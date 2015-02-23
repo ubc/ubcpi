@@ -3,7 +3,7 @@
 import pkg_resources
 
 from xblock.core import XBlock
-from xblock.fields import Scope, Integer, String
+from xblock.fields import Scope, Integer, String, List
 from xblock.fragment import Fragment
 
 
@@ -15,16 +15,45 @@ class PeerInstructionXBlock(XBlock):
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
 
-    # TO-DO: delete count, and define your own fields.
     answer = String(
         default=None, scope=Scope.user_state,
         help="Stored answer for the hardest question of all time",
     )
 
+    question_text = String(
+        default=None, scope=Scope.content,
+        help="Stored question text for the students",
+    )
+
+    options = List(
+        default=None, scope=Scope.content,
+        help="Stored question options",
+    )
+
+    def studio_view(self, context=None):
+        """
+        """
+        # self.options = ['Option1', 'Option2', 'Option3']
+        html = self.resource_string("static/html/ubcpi_edit.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
+
+        frag.initialize_js('PIEdit', {'question_text': self.question_text})
+
+        return frag
+
+    @XBlock.json_handler
+    def studio_submit(self, data, suffix=''):
+        self.question_text = data['question_text']
+        self.options = data['options']
+
+        return {'success': 'true'}
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
+
 
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):

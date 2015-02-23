@@ -1,0 +1,39 @@
+<div class="wrapper-comp-settings is-active editor-with-buttons" id="settings-tab">
+    <form id="pi-form">
+        <ul class="list-input settings-list" id="pi-line-items">
+            <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
+                <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text</label>
+                <input class="input setting-input" name="question_text" id="pi-question-text" value="{self.question_text}" type="text" />
+            </div>
+            </li>
+            <li class="field comp-setting-entry is-set">
+                <div class="wrapper-comp-setting">
+                    <label class="label setting-label pi-setting-label" for="pi-option-a">Option A</label>
+                    <input class="input setting-input pi-options" name="" id="pi-option-a" value="{self.options[0]}" type="text" />
+                </div>
+                <div class="wrapper-comp-setting">
+                    <label class="label setting-label pi-setting-label" for="pi-option-b">Option B</label>
+                    <input class="input setting-input pi-options" name="question_text" id="pi-option-b" value="{self.options[1]}" type="text" />
+                </div>
+                <div class="wrapper-comp-setting">
+                    <label class="label setting-label pi-setting-label" for="pi-option-c">Option C</label>
+                    <input class="input setting-input pi-options" name="question_text" id="pi-option-c" value="{self.options[2]}" type="text" />
+                </div>
+            </li>
+        </ul>
+        <div class="xblock-actions">
+        <ul>
+            <li class="action-item" id="pi-add-answer">
+                <a href="#" class="button action-button" class="pi-add-item-link" onclick="return false;">Add Answer</a>
+            </li>
+            <li class="action-item">
+                <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" onclick="return false;" />
+            </li>
+            <li class="action-item">
+                <a href="#" class="button cancel-button">Cancel</a>
+            </li>
+        </ul>
+        </div>
+    </form>
+</div>

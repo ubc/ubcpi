@@ -1,10 +1,10 @@
 <div class="ubcpi_block">
-	<p>Question: What is the answer to Life, the Universe, and Everything?</p>
+	<p>Question: {self.question_text}</p>
 	<form>
 		<ul>
-			<li><input name="q" type="radio" value="A"/>22</li>
-			<li><input name="q" type="radio" value="B"/>42</li>
-			<li><input name="q" type="radio" value="C"/>945</li>
+			<li><input name="q" type="radio" value="A"/>{self.options[0]}</li>
+			<li><input name="q" type="radio" value="B"/>{self.options[1]}</li>
+			<li><input name="q" type="radio" value="C"/>{self.options[2]}</li>
 		</ul>
 	</form>
 </p>
