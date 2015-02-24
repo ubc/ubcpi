@@ -3,6 +3,11 @@ function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
 
     var handlerUrl = runtime.handlerUrl(element, 'submit_answer');
+    var submitButton = $('.ubcpi_submit', element);
+
+    var enableSubmit = function () {
+        $('.ubcpi_submit', element).removeAttr('disabled');
+    };
 
     $('input[type="radio"]', element).click(function (eventObject) {
         var clicked = this;
@@ -13,6 +18,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             url: handlerUrl,
             data: JSON.stringify({"q": answer}),
             success: function ( data, textStatus, jqXHR ) {
+                enableSubmit();
             },
             error: function( jqXHR, textStatus, errorThrown ) {
             }
@@ -26,6 +32,9 @@ function PeerInstructionXBlock(runtime, element, data) {
         // Handle null case
         if( !savedAnswer ) {
             return;
+        }
+        else {
+            enableSubmit();
         }
 
         $('input[value="' + savedAnswer + '"]', element).prop( 'checked', 'checked' );

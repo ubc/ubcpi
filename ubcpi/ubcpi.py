@@ -15,9 +15,14 @@ class PeerInstructionXBlock(XBlock):
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
 
-    answer = String(
+    answer_original = String(
         default=None, scope=Scope.user_state,
-        help="Stored answer for the hardest question of all time",
+        help="Store the first answer that the user gave."
+    )
+
+    answer_revised = String(
+        default=None, scope=Scope.user_state,
+        help="Store the revised answer given after user sees other users' answers.",
     )
 
     question_text = String(
@@ -61,14 +66,19 @@ class PeerInstructionXBlock(XBlock):
         The primary view of the PeerInstructionXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/ubcpi.html")
+        html = ""
+        if (self.answer_original):
+            html += self.resource_string(
+                "static/html/revise_answer.html")
+        html += self.resource_string("static/html/ubcpi.html")
+        html = html.format(self=self)  # run templating engine
 
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
 
         # Pass the answer to out Javascript
-        frag.initialize_js('PeerInstructionXBlock', { 'answer': self.answer })
+        frag.initialize_js('PeerInstructionXBlock', {'answer': self.answer_original})
 
         return frag
 
@@ -76,8 +86,11 @@ class PeerInstructionXBlock(XBlock):
         """
         Placeholder for data persistence layer. Currently set the answer property of the object to what is clicked in the form
         """
-        self.answer = response
+        self.answer_original = response
 
+    @XBlock.json_handler
+    def get_other_answers(self, data, suffix=''):
+        return {"answers": [{"answer": "A"}, {"answer": "B"}, {"answer": "C"}]}
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
