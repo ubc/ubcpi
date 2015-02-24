@@ -26,6 +26,18 @@ function PeerInstructionXBlock(runtime, element, data) {
     });
 
     $(function ($) {
+        var app = angular.module('ubcpi', []);
+        app.controller('ReviseController', function ($scope) {
+            var isThisIsolated = 0;
+            $scope.test = isThisIsolated;
+            $scope.rnd = Math.random();
+            $scope.inc = function () {
+                isThisIsolated += 1;
+                $scope.test = isThisIsolated;
+            };
+        });
+        angular.bootstrap(element, ['ubcpi']);
+
         /* Here's where you'd do things on page load. */
         var savedAnswer = data.answer;
         

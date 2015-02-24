@@ -1,4 +1,10 @@
 <div class="ubcpi_block">
+	<div class="revise" ng-controller="ReviseController">
+		<p>{{test}}</p>
+		<p>{{1+1}}</p>
+		<p>{{rnd}}</p>
+		<input type="button" ng-click="inc()" value="click me" />
+	</div>
 	<p>Question: {self.question_text}</p>
 	<form>
 		<ul>
@@ -8,5 +14,4 @@
 		</ul>
 		<input disabled='disabled' type='button' class='ubcpi_submit' value='Next Step' />
 	</form>
-</p>
 </div>

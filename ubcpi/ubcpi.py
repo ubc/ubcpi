@@ -71,11 +71,13 @@ class PeerInstructionXBlock(XBlock):
             html += self.resource_string(
                 "static/html/revise_answer.html")
         html += self.resource_string("static/html/ubcpi.html")
-        html = html.format(self=self)  # run templating engine
+        #html = html.format(self=self) # run templating engine
 
-        frag = Fragment(html.format(self=self))
+        frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
+        #frag.add_javascript(self.resource_string("static/angular.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
+        frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {'answer': self.answer_original})
