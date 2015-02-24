@@ -35,15 +35,19 @@ class PeerInstructionXBlock(XBlock):
         help="Stored question options",
     )
 
+    correct_answer = String(
+        default=None, scope=Scope.content,
+        help="The correct option for the question",
+        )
+
     def studio_view(self, context=None):
         """
         """
-        # self.options = ['Option1', 'Option2', 'Option3']
         html = self.resource_string("static/html/ubcpi_edit.html")
         frag = Fragment(html.format(self=self))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
-        frag.initialize_js('PIEdit', {'question_text': self.question_text})
+        frag.initialize_js('PIEdit', {'correct_answer': self.correct_answer})
 
         return frag
 
@@ -51,6 +55,7 @@ class PeerInstructionXBlock(XBlock):
     def studio_submit(self, data, suffix=''):
         self.question_text = data['question_text']
         self.options = data['options']
+        self.correct_answer = data['correct_answer']
 
         return {'success': 'true'}
 

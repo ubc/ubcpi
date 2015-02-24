@@ -1,4 +1,4 @@
-function PIEdit(runtime, element) {
+function PIEdit(runtime, element, data) {
     var self = this;
     var notify;
 
@@ -11,6 +11,8 @@ function PIEdit(runtime, element) {
         });
 
         $(element).find('#pi-submit-options', element).bind('click', self.piEditSubmitHandler);
+
+        $('#pi-option-correct').val(data.correct_answer);
     };
 
     this.piEditSubmitHandler = function () {
@@ -24,6 +26,7 @@ function PIEdit(runtime, element) {
         data['options'] = $('input.pi-options', element).map(function(i, e) {
             return $(e).val();
         }).get();
+        data['correct_answer'] = $('#pi-option-correct', element).val();
 
         if (notify) {
             runtime.notify('save', {state: 'start', message: "Saving"});
@@ -46,7 +49,7 @@ function PIEdit(runtime, element) {
                 }
             }
         });
-    }
+    };
 
     self.init();
 }

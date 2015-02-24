@@ -9,7 +9,9 @@
             </li>
             <li class="field comp-setting-entry is-set">
                 <div class="wrapper-comp-setting">
-                    <label class="label setting-label pi-setting-label" for="pi-option-a">Option A</label>
+                    <label class="label setting-label pi-setting-label" for="pi-option-a">
+                        Option A
+                    </label>
                     <input class="input setting-input pi-options" name="" id="pi-option-a" value="{self.options[0]}" type="text" />
                 </div>
                 <div class="wrapper-comp-setting">
@@ -19,6 +21,16 @@
                 <div class="wrapper-comp-setting">
                     <label class="label setting-label pi-setting-label" for="pi-option-c">Option C</label>
                     <input class="input setting-input pi-options" name="question_text" id="pi-option-c" value="{self.options[2]}" type="text" />
+                </div>
+            </li>
+            <li class="field comp-setting-entry is-set">
+                <div class="wrapper-comp-setting">
+                    <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Answer</label>
+                    <select name="pi-option-correct" id="pi-option-correct">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
                 </div>
             </li>
         </ul>
