@@ -6,3 +6,6 @@
 .DS_Store
 *.pyc
 /ubcpi_xblock.egg-info
+
+# vim
+*.swp

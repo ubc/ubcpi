@@ -21,12 +21,12 @@ class PeerInstructionXBlock(XBlock):
     )
 
     question_text = String(
-        default=None, scope=Scope.content,
+        default="What is 1+1?", scope=Scope.content,
         help="Stored question text for the students",
     )
 
     options = List(
-        default=None, scope=Scope.content,
+        default=['1', '2', '3'], scope=Scope.content,
         help="Stored question options",
     )
 

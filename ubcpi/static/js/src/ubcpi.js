@@ -28,9 +28,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             return;
         }
 
-        // This will explode in the future
-        // @todo Make sure we're not always selecting by value ;)
-        $( 'input[value="' + savedAnswer + '"]' ).prop( 'checked', 'checked' );
+        $('input[value="' + savedAnswer + '"]', element).prop( 'checked', 'checked' );
 
     });
 }
