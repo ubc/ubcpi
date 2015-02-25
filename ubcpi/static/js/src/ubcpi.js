@@ -17,10 +17,7 @@ function PeerInstructionXBlock(runtime, element, data) {
     var handlerUrl = runtime.handlerUrl(element, 'submit_answer');
     var submitButton = $('.ubcpi_submit', element);
 
-    var enableSubmit = function () {
-        $('.ubcpi_submit', element).removeAttr('disabled');
-    };
-
+/*
     $('input[type="radio"]', element).click(function (eventObject) {
         var clicked = this;
         var answer = clicked.value;
@@ -30,20 +27,51 @@ function PeerInstructionXBlock(runtime, element, data) {
             url: handlerUrl,
             data: JSON.stringify({"q": answer}),
             success: function (data, textStatus, jqXHR) {
-                enableSubmit();
+                disableSubmit();
             },
             error: function (jqXHR, textStatus, errorThrown) {
             }
         });
     });
+*/
 
     $(function ($) {
         var appId = generatePIXBlockId();
         var app = angular.module(appId, []);
         app.controller('ReviseController', function ($scope) {
+            var self = this;
+
             $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
+
+            self.answer = data.answer;
+            self.submitting = false;
+
+            self.disableSubmit = function () {
+                var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
+                var enable = haveAnswer && !self.submitting;
+                return !enable;
+            };
+
+            self.clickSubmit = function ($event) {
+                console.log("Submitting ", self.answer);
+                self.submitting = true;
+
+                $.ajax({
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"q": self.answer}),
+                    success: function (data, textStatus, jqXHR) {
+                        console.log("Okay, got back", data);
+                        self.submitting = false;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Something went wrong", arguments);
+                    }
+                });
+            };
+
         });
         angular.bootstrap(element, [appId]);
 

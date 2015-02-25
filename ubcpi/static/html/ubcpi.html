@@ -1,13 +1,15 @@
 <div class="ubcpi_block">
-	<div class="revise" ng-controller="ReviseController">
-	<p>Question: {{question_text}}</p>
-	<form>
-		<ul>
-			<li data-ng-repeat="(ix, option) in options">
-				<input name="q" id="{{appId}}_option_{{ix}}" type="radio" value="{{ix}}"/>
-				<label for="{{appId}}_option_{{ix}}">{{option}}</label>
-			</li>
-		</ul>
-		<input disabled='disabled' type='button' class='ubcpi_submit' value='Next Step' />
-	</form>
+	<div class="revise" ng-controller="ReviseController as rc">
+		<p>Question: {{question_text}}</p>
+
+		<form>
+			<ul>
+				<li data-ng-repeat="option in options">
+					<input type="radio" id="{{appId}}_option_{{$index}}" name="q" data-ng-model="rc.answer" value="{{$index}}">
+					<label for="{{appId}}_option_{{$index}}">{{option}}</label>
+				</li>
+			</ul>
+			<input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
+		</form>
+	</div>
 </div>

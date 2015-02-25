@@ -25,8 +25,6 @@ function PIEdit(runtime, element) {
             return $(e).val();
         }).get();
 
-        console.log(data);
-
         if (notify) {
             runtime.notify('save', {state: 'start', message: "Saving"});
         }
