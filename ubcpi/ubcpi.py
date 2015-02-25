@@ -80,7 +80,11 @@ class PeerInstructionXBlock(XBlock):
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
         # Pass the answer to out Javascript
-        frag.initialize_js('PeerInstructionXBlock', {'answer': self.answer_original})
+        frag.initialize_js('PeerInstructionXBlock', {
+            'answer': self.answer_original,
+            'question_text': self.question_text,
+           'options': self.options,
+        })
 
         return frag
 

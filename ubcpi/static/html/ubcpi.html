@@ -1,16 +1,12 @@
 <div class="ubcpi_block">
 	<div class="revise" ng-controller="ReviseController">
-		<p>{{test}}</p>
-		<p>{{1+1}}</p>
-		<p>{{rnd}}</p>
-		<input type="button" ng-click="inc()" value="click me" />
-	</div>
-	<p>Question: {self.question_text}</p>
+	<p>Question: {{question_text}}</p>
 	<form>
 		<ul>
-			<li><input name="q" type="radio" value="A"/>{self.options[0]}</li>
-			<li><input name="q" type="radio" value="B"/>{self.options[1]}</li>
-			<li><input name="q" type="radio" value="C"/>{self.options[2]}</li>
+			<li data-ng-repeat="(ix, option) in options">
+				<input name="q" id="{{appId}}_option_{{ix}}" type="radio" value="{{ix}}"/>
+				<label for="{{appId}}_option_{{ix}}">{{option}}</label>
+			</li>
 		</ul>
 		<input disabled='disabled' type='button' class='ubcpi_submit' value='Next Step' />
 	</form>

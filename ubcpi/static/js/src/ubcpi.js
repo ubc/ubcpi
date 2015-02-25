@@ -41,13 +41,9 @@ function PeerInstructionXBlock(runtime, element, data) {
         var appId = generatePIXBlockId();
         var app = angular.module(appId, []);
         app.controller('ReviseController', function ($scope) {
-            var isThisIsolated = 0;
-            $scope.test = isThisIsolated;
-            $scope.rnd = Math.random();
-            $scope.inc = function () {
-                isThisIsolated += 1;
-                $scope.test = isThisIsolated;
-            };
+            $scope.appId = appId;
+            $scope.question_text = data.question_text;
+            $scope.options = data.options;
         });
         angular.bootstrap(element, [appId]);
 
