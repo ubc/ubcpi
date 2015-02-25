@@ -1,4 +1,16 @@
 /* Javascript for PeerInstructionXBlock. */
+
+var generatePIXBlockId;
+if (typeof generatePIXBlockId !== "function") {
+    generatePIXBlockId = (function () {
+        "use strict";
+        var id = 0;
+        return function () {
+            return "ubcpi_" + (id += 1);
+        }
+    }());
+}
+
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
 
@@ -26,7 +38,8 @@ function PeerInstructionXBlock(runtime, element, data) {
     });
 
     $(function ($) {
-        var app = angular.module('ubcpi', []);
+        var appId = generatePIXBlockId();
+        var app = angular.module(appId, []);
         app.controller('ReviseController', function ($scope) {
             var isThisIsolated = 0;
             $scope.test = isThisIsolated;
@@ -36,7 +49,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                 $scope.test = isThisIsolated;
             };
         });
-        angular.bootstrap(element, ['ubcpi']);
+        angular.bootstrap(element, [appId]);
 
         /* Here's where you'd do things on page load. */
         var savedAnswer = data.answer;
