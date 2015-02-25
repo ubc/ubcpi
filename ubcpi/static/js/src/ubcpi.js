@@ -17,10 +17,10 @@ function PeerInstructionXBlock(runtime, element, data) {
             type: "POST",
             url: handlerUrl,
             data: JSON.stringify({"q": answer}),
-            success: function ( data, textStatus, jqXHR ) {
+            success: function (data, textStatus, jqXHR) {
                 enableSubmit();
             },
-            error: function( jqXHR, textStatus, errorThrown ) {
+            error: function (jqXHR, textStatus, errorThrown) {
             }
         });
     });
@@ -40,16 +40,16 @@ function PeerInstructionXBlock(runtime, element, data) {
 
         /* Here's where you'd do things on page load. */
         var savedAnswer = data.answer;
-        
+
         // Handle null case
-        if( !savedAnswer ) {
+        if (!savedAnswer) {
             return;
         }
         else {
             enableSubmit();
         }
 
-        $('input[value="' + savedAnswer + '"]', element).prop( 'checked', 'checked' );
+        $('input[value="' + savedAnswer + '"]', element).prop('checked', 'checked');
 
     });
 }
