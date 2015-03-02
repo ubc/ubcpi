@@ -1,4 +1,5 @@
 """TO-DO: Write a description of what this XBlock is."""
+from django.core.exceptions import PermissionDenied
 
 import pkg_resources
 
@@ -6,6 +7,9 @@ from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String, List
 from xblock.fragment import Fragment
 
+STATUS_NEW = 0
+STATUS_ANSWERED = 1
+STATUS_REVISED = 2
 
 class PeerInstructionXBlock(XBlock):
     """
@@ -86,7 +90,8 @@ class PeerInstructionXBlock(XBlock):
 
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {
-            'answer': self.answer_original,
+            'answer_original': self.answer_original,
+            'answer_revised': self.answer_revised,
             'question_text': self.question_text,
             'options': self.options,
             'views': {
@@ -96,11 +101,17 @@ class PeerInstructionXBlock(XBlock):
 
         return frag
 
-    def record_response( self, response ) :
+    def record_response( self, response, status ) :
         """
         Placeholder for data persistence layer. Currently set the answer property of the object to what is clicked in the form
         """
-        self.answer_original = response
+        if self.answer_original is None and status == STATUS_NEW:
+            self.answer_original = response
+        elif self.answer_revised is None and status == STATUS_ANSWERED:
+            self.answer_revised = response
+        else:
+            raise PermissionDenied
+
 
     @XBlock.json_handler
     def get_other_answers(self, data, suffix=''):
@@ -114,8 +125,9 @@ class PeerInstructionXBlock(XBlock):
         An example handler, which increments the data.
         """
         # Just to show data coming in...
-        self.record_response( data['q'] )
-        return {"text": "You said " + data['q']}
+        self.record_response( data['q'], data['status'] )
+        return {"answer_original": self.answer_original,
+                "answer_revised": self.answer_revised}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
