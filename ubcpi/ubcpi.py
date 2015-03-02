@@ -88,7 +88,10 @@ class PeerInstructionXBlock(XBlock):
         frag.initialize_js('PeerInstructionXBlock', {
             'answer': self.answer_original,
             'question_text': self.question_text,
-           'options': self.options,
+            'options': self.options,
+            'views': {
+                'question': self.runtime.local_resource_url(self, 'public/html/question.html'),
+            },
         })
 
         return frag

@@ -33,6 +33,8 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.answer = data.answer;
             self.submitting = false;
 
+            self.views = [data.views.question];
+
             self.disableSubmit = function () {
                 var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
                 var enable = haveAnswer && !self.submitting;
