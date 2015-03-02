@@ -19,7 +19,11 @@ function PeerInstructionXBlock(runtime, element, data) {
     $(function ($) {
         var appId = generatePIXBlockId();
         var app = angular.module(appId, []);
-        app.controller('ReviseController', function ($scope) {
+        app.run(function($http) {
+            // set up CSRF Token from cookie. This is needed by all post requests
+            $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
+        });
+        app.controller('ReviseController', function ($scope, $http) {
             var self = this;
 
             $scope.appId = appId;
@@ -36,21 +40,21 @@ function PeerInstructionXBlock(runtime, element, data) {
             };
 
             self.clickSubmit = function ($event) {
-                console.log("Submitting ", self.answer);
+                runtime.notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
 
-                $.ajax({
-                    type: "POST",
-                    url: handlerUrl,
-                    data: JSON.stringify({"q": self.answer}),
-                    success: function (data, textStatus, jqXHR) {
+                $http.post(handlerUrl, JSON.stringify({"q": self.answer})).
+                    success(function(data, status, header, config) {
                         console.log("Okay, got back", data);
                         self.submitting = false;
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("Something went wrong", arguments);
-                    }
-                });
+                        runtime.notify('save', {state: 'end'})
+                    }).
+                    error(function(data, status, header, config) {
+                        runtime.notify('error', {
+                            'title': 'Error submitting answer!',
+                            'message': self.format_errors(data['errors'])
+                        });
+                    });
             };
         });
         angular.bootstrap(element, [appId]);
