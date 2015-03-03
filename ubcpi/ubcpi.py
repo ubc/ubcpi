@@ -42,7 +42,12 @@ class PeerInstructionXBlock(XBlock):
     correct_answer = String(
         default=None, scope=Scope.content,
         help="The correct option for the question",
-        )
+    )
+
+    stats = String(
+        default={'original': {}, 'revised':{}}, scope=Scope.settings,
+        help="Overall stats for the instructor",
+    )
 
     def studio_view(self, context=None):
         """
@@ -107,15 +112,22 @@ class PeerInstructionXBlock(XBlock):
         """
         if self.answer_original is None and status == STATUS_NEW:
             self.answer_original = response
+            num_resp = self.stats['original'].setdefault(response, 0)
+            self.stats['original'][response] = num_resp + 1
         elif self.answer_revised is None and status == STATUS_ANSWERED:
             self.answer_revised = response
+            num_resp = self.stats['revised'].setdefault(response, 0)
+            self.stats['revised'][response] = num_resp + 1
         else:
             raise PermissionDenied
-
 
     @XBlock.json_handler
     def get_other_answers(self, data, suffix=''):
         return {"answers": [{"answer": "A"}, {"answer": "B"}, {"answer": "C"}]}
+
+    @XBlock.json_handler
+    def get_stats(self, data, suffix=''):
+        return self.stats
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.

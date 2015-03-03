@@ -17,8 +17,15 @@
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
             </form>
         </div>
-        <div ng-if="rc.status() == rc.STATUS_REVISED">
-            some text
+        <div ng-if="rc.status() == rc.STATUS_REVISED" ng-init="rc.getStats()">
+			<h3>Original Answers</h3>
+			<div ng-repeat="(option,numResp) in rc.stats.original">
+				{{option}} - {{numResp}}
+			</div>
+			<h3>Revised Answers</h3>
+			<div ng-repeat="(option,numResp) in rc.stats.revised">
+				{{option}} - {{numResp}}
+			</div>
         </div>
 	</div>
 </div>

@@ -14,7 +14,6 @@ if (typeof generatePIXBlockId !== "function") {
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
 
-    var handlerUrl = runtime.handlerUrl(element, 'submit_answer');
 
     $(function ($) {
         var appId = generatePIXBlockId();
@@ -61,11 +60,12 @@ function PeerInstructionXBlock(runtime, element, data) {
                 return !enable;
             };
 
-            self.clickSubmit = function ($event) {
+            self.clickSubmit = function () {
                 runtime.notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
 
-                $http.post(handlerUrl, JSON.stringify({"q": self.answer, "status": self.status()})).
+                var submitUrl = runtime.handlerUrl(element, 'submit_answer');
+                $http.post(submitUrl, JSON.stringify({"q": self.answer, "status": self.status()})).
                     success(function(data, status, header, config) {
                         console.log("Okay, got back", data);
                         self.submitting = false;
@@ -78,6 +78,18 @@ function PeerInstructionXBlock(runtime, element, data) {
                             'title': 'Error submitting answer!',
                             'message': 'Please refresh the page and try again!'
                         });
+                    });
+            };
+
+            self.getStats = function() {
+                var statsUrl = runtime.handlerUrl(element, 'get_stats');
+                $http.post(statsUrl, '""').
+                    success(function(data, status, header, config) {
+                        console.log("Getting stats");
+                        console.log(data);
+                        self.stats = data;
+                    }).
+                    error(function(data, status, header, config) {
                     });
             };
 
