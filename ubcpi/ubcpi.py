@@ -11,6 +11,17 @@ STATUS_NEW = 0
 STATUS_ANSWERED = 1
 STATUS_REVISED = 2
 
+def reify(meth):
+    """
+    Property which caches value so it is only computed once.
+    """
+    def getter(inst):
+        value = meth(inst)
+        inst.__dict__[meth.__name__] = value
+        return value
+    return property(getter)
+
+@XBlock.needs('user')
 class PeerInstructionXBlock(XBlock):
     """
     TO-DO: document what your XBlock does.
@@ -93,6 +104,14 @@ class PeerInstructionXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
+        print '-------------------------------------------------'
+        print self.scope_ids
+        print self.block_id
+        print self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.user_id']
+        print self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.username']
+        print self.runtime.service(self, 'user').get_current_user().full_name
+        #print self.runtime.service(self, 'user').get_current_user().username
+        print '-------------------------------------------------'
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {
             'answer_original': self.answer_original,
@@ -155,3 +174,15 @@ class PeerInstructionXBlock(XBlock):
                 </vertical_demo>
              """),
         ]
+
+    @reify
+    def block_id(self):
+        return self.scope_ids.usage_id
+
+    def _get_current_user_id(self):
+        '''
+        Use the user service to retrieve the current logged in user's id
+        '''
+        # self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.username']
+        # self.runtime.service(self, 'user').get_current_user().full_name
+        return self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.user_id']
