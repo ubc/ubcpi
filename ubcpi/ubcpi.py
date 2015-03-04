@@ -153,7 +153,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {
             'answer_original': self.answer_original,
+            'rationale_original': self.rationale_original,
             'answer_revised': self.answer_revised,
+            'rationale_revised': self.rationale_revised,
             'question_text': self.question_text,
             'options': self.options,
             'views': {
@@ -163,15 +165,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         return frag
 
-    def record_response( self, response, status ) :
+    def record_response(self, answer, rationale, status):
         if self.answer_original is None and status == STATUS_NEW:
-            sas_api.save_original_answer(self.get_student_item_dict(), response)
-            num_resp = self.stats['original'].setdefault(response, 0)
-            self.stats['original'][response] = num_resp + 1
+            sas_api.save_original_answer(self.get_student_item_dict(), answer, rationale)
+            num_resp = self.stats['original'].setdefault(answer, 0)
+            self.stats['original'][answer] = num_resp + 1
         elif self.answer_revised is None and status == STATUS_ANSWERED:
-            sas_api.save_revised_answer(self.get_student_item_dict(), response)
-            num_resp = self.stats['revised'].setdefault(response, 0)
-            self.stats['revised'][response] = num_resp + 1
+            sas_api.save_revised_answer(self.get_student_item_dict(), answer, rationale)
+            num_resp = self.stats['revised'].setdefault(answer, 0)
+            self.stats['revised'][answer] = num_resp + 1
         else:
             raise PermissionDenied
 
@@ -185,17 +187,29 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
-        self.record_response( data['q'], data['status'] )
-        return {"answer_original": self.answer_original,
-                "answer_revised": self.answer_revised}
+        self.record_response(data['q'], data['rationale'], data['status'])
+        return {
+            "answer_original": self.answer_original,
+            "rationale_original": self.rationale_original,
+            "answer_revised": self.answer_revised,
+            "rationale_revised": self.rationale_revised,
+        }
 
     @property
     def answer_original(self):
         return sas_api.get_original_answer(self.get_student_item_dict())
 
     @property
+    def rationale_original(self):
+        return sas_api.get_original_rationale(self.get_student_item_dict())
+
+    @property
     def answer_revised(self):
         return sas_api.get_revised_answer(self.get_student_item_dict())
+
+    @property
+    def rationale_revised(self):
+        return sas_api.get_revised_rationale(self.get_student_item_dict())
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

@@ -34,8 +34,11 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.STATUS_REVISED  = 2;
 
             self.answer_original = data.answer_original;
+            self.rationale_original = data.rationale_original;
             self.answer_revised = data.answer_revised;
+            self.rationale_revised = data.rationale_revised;
             self.answer = self.answer_revised || self.answer_original;
+            self.rationale = self.rationale_revised || self.rationale_original;
             self.submitting = false;
 
             self.views = [data.views.question];
@@ -56,7 +59,8 @@ function PeerInstructionXBlock(runtime, element, data) {
 
             self.disableSubmit = function () {
                 var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
-                var enable = haveAnswer && !self.submitting;
+                var haveRationale = typeof self.rationale !== "undefined" && self.rationale !== null;
+                var enable = haveAnswer && haveRationale && !self.submitting;
                 return !enable;
             };
 
@@ -65,12 +69,18 @@ function PeerInstructionXBlock(runtime, element, data) {
                 self.submitting = true;
 
                 var submitUrl = runtime.handlerUrl(element, 'submit_answer');
-                $http.post(submitUrl, JSON.stringify({"q": self.answer, "status": self.status()})).
+                var submitData = JSON.stringify({
+                    "q": self.answer,
+                    "rationale": self.rationale,
+                    "status": self.status()
+                });
+                $http.post(submitUrl, submitData).
                     success(function(data, status, header, config) {
-                        console.log("Okay, got back", data);
                         self.submitting = false;
                         self.answer_original = data.answer_original;
+                        self.rationale_original = data.rationale_original;
                         self.answer_revised = data.answer_revised;
+                        self.rationale_revised = data.rationale_revised;
                         runtime.notify('save', {state: 'end'})
                     }).
                     error(function(data, status, header, config) {
@@ -90,6 +100,10 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.stats = data;
                     }).
                     error(function(data, status, header, config) {
+                        runtime.notify('error', {
+                            'title': 'Error retrieving statistics!',
+                            'message': 'Please refresh the page and try again!'
+                        });
                     });
             };
 

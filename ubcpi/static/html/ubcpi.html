@@ -7,6 +7,7 @@
             <div ng-if="rc.status() == rc.STATUS_ANSWERED">
                 <p>other answers</p>
             </div>
+
             <form>
                 <ul>
                     <li data-ng-repeat="option in options">
@@ -14,6 +15,10 @@
                         <label for="{{appId}}_option_{{$index}}">{{option}}</label>
                     </li>
                 </ul>
+
+	            <p>Please explain your selection:</p>
+	            <textarea rows="10" cols="60" name="rationale" data-ng-model="rc.rationale"></textarea>
+
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
             </form>
         </div>
