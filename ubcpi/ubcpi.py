@@ -13,6 +13,7 @@ STATUS_ANSWERED = 1
 STATUS_REVISED = 2
 
 
+# noinspection all
 class MissingDataFetcherMixin:
     """ Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py """
 
@@ -137,8 +138,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         The primary view of the PeerInstructionXBlock, shown to students
         when viewing courses.
         """
+        answers = self.get_answers_for_student()
         html = ""
-        if (self.answer_original):
+        if answers.has_revision(0):
             html += self.resource_string(
                 "static/html/revise_answer.html")
         html += self.resource_string("static/html/ubcpi.html")
@@ -152,10 +154,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {
-            'answer_original': self.answer_original,
-            'rationale_original': self.rationale_original,
-            'answer_revised': self.answer_revised,
-            'rationale_revised': self.rationale_revised,
+            'answer_original': answers.get_vote(0),
+            'rationale_original': answers.get_rationale(0),
+            'answer_revised': answers.get_vote(1),
+            'rationale_revised': answers.get_rationale(1),
             'question_text': self.question_text,
             'options': self.options,
             'views': {
@@ -166,12 +168,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         return frag
 
     def record_response(self, answer, rationale, status):
-        if self.answer_original is None and status == STATUS_NEW:
-            sas_api.save_original_answer(self.get_student_item_dict(), answer, rationale)
+        answers = self.get_answers_for_student()
+        if not answers.has_revision(0) and status == STATUS_NEW:
+            sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['original'].setdefault(answer, 0)
             self.stats['original'][answer] = num_resp + 1
-        elif self.answer_revised is None and status == STATUS_ANSWERED:
-            sas_api.save_revised_answer(self.get_student_item_dict(), answer, rationale)
+        elif not answers.has_revision(1) and status == STATUS_ANSWERED:
+            sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)
             self.stats['revised'][answer] = num_resp + 1
         else:
@@ -188,28 +191,16 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
         self.record_response(data['q'], data['rationale'], data['status'])
+        answers = self.get_answers_for_student()
         return {
-            "answer_original": self.answer_original,
-            "rationale_original": self.rationale_original,
-            "answer_revised": self.answer_revised,
-            "rationale_revised": self.rationale_revised,
+            "answer_original": answers.get_vote(0),
+            "rationale_original": answers.get_rationale(0),
+            "answer_revised": answers.get_vote(1),
+            "rationale_revised": answers.get_rationale(1),
         }
 
-    @property
-    def answer_original(self):
-        return sas_api.get_original_answer(self.get_student_item_dict())
-
-    @property
-    def rationale_original(self):
-        return sas_api.get_original_rationale(self.get_student_item_dict())
-
-    @property
-    def answer_revised(self):
-        return sas_api.get_revised_answer(self.get_student_item_dict())
-
-    @property
-    def rationale_revised(self):
-        return sas_api.get_revised_rationale(self.get_student_item_dict())
+    def get_answers_for_student(self):
+        return sas_api.get_answers_for_student(self.get_student_item_dict())
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
