@@ -29,6 +29,7 @@ setup(
     ],
     install_requires=[
         'XBlock',
+        'edx-submissions',
     ],
     entry_points={
         'xblock.v1': [

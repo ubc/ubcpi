@@ -6,39 +6,86 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String, List
 from xblock.fragment import Fragment
+import persistence as sas_api
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
 STATUS_REVISED = 2
 
-def reify(meth):
-    """
-    Property which caches value so it is only computed once.
-    """
-    def getter(inst):
-        value = meth(inst)
-        inst.__dict__[meth.__name__] = value
-        return value
-    return property(getter)
+
+class MissingDataFetcherMixin:
+    """ Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py """
+
+    def __init__(self):
+        pass
+
+    def get_student_item_dict(self, anonymous_user_id=None):
+        """Create a student_item_dict from our surrounding context.
+
+        See also: submissions.api for details.
+
+        Args:
+            anonymous_user_id(str): A unique anonymous_user_id for (user, course) pair.
+        Returns:
+            (dict): The student item associated with this XBlock instance. This
+                includes the student id, item id, and course id.
+        """
+
+        item_id = self._serialize_opaque_key(self.scope_ids.usage_id)
+
+        # This is not the real way course_ids should work, but this is a
+        # temporary expediency for LMS integration
+        if hasattr(self, "xmodule_runtime"):
+            course_id = self.course_id  # pylint:disable=E1101
+            if anonymous_user_id:
+                student_id = anonymous_user_id
+            else:
+                student_id = self.xmodule_runtime.anonymous_student_id  # pylint:disable=E1101
+        else:
+            course_id = "edX/Enchantment_101/April_1"
+            if self.scope_ids.user_id is None:
+                student_id = None
+            else:
+                student_id = unicode(self.scope_ids.user_id)
+
+        student_item_dict = dict(
+            student_id=student_id,
+            item_id=item_id,
+            course_id=course_id,
+            item_type='ubcpi'
+        )
+        return student_item_dict
+
+
+    def _serialize_opaque_key(self, key):
+        """
+        Gracefully handle opaque keys, both before and after the transition.
+        https://github.com/edx/edx-platform/wiki/Opaque-Keys
+
+        Currently uses `to_deprecated_string()` to ensure that new keys
+        are backwards-compatible with keys we store in ORA2 database models.
+
+        Args:
+            key (unicode or OpaqueKey subclass): The key to serialize.
+
+        Returns:
+            unicode
+
+        """
+        if hasattr(key, 'to_deprecated_string'):
+            return key.to_deprecated_string()
+        else:
+            return unicode(key)
+
 
 @XBlock.needs('user')
-class PeerInstructionXBlock(XBlock):
+class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     """
     TO-DO: document what your XBlock does.
     """
 
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
-
-    answer_original = String(
-        default=None, scope=Scope.user_state,
-        help="Store the first answer that the user gave."
-    )
-
-    answer_revised = String(
-        default=None, scope=Scope.user_state,
-        help="Store the revised answer given after user sees other users' answers.",
-    )
 
     question_text = String(
         default="What is 1+1?", scope=Scope.content,
@@ -103,14 +150,6 @@ class PeerInstructionXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
-        print '-------------------------------------------------'
-        print self.scope_ids
-        print self.block_id
-        print self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.user_id']
-        print self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.username']
-        print self.runtime.service(self, 'user').get_current_user().full_name
-        #print self.runtime.service(self, 'user').get_current_user().username
-        print '-------------------------------------------------'
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', {
             'answer_original': self.answer_original,
@@ -125,15 +164,12 @@ class PeerInstructionXBlock(XBlock):
         return frag
 
     def record_response( self, response, status ) :
-        """
-        Placeholder for data persistence layer. Currently set the answer property of the object to what is clicked in the form
-        """
         if self.answer_original is None and status == STATUS_NEW:
-            self.answer_original = response
+            sas_api.save_original_answer(self.get_student_item_dict(), response)
             num_resp = self.stats['original'].setdefault(response, 0)
             self.stats['original'][response] = num_resp + 1
         elif self.answer_revised is None and status == STATUS_ANSWERED:
-            self.answer_revised = response
+            sas_api.save_revised_answer(self.get_student_item_dict(), response)
             num_resp = self.stats['revised'].setdefault(response, 0)
             self.stats['revised'][response] = num_resp + 1
         else:
@@ -147,17 +183,19 @@ class PeerInstructionXBlock(XBlock):
     def get_stats(self, data, suffix=''):
         return self.stats
 
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
-        """
-        An example handler, which increments the data.
-        """
-        # Just to show data coming in...
         self.record_response( data['q'], data['status'] )
         return {"answer_original": self.answer_original,
                 "answer_revised": self.answer_revised}
+
+    @property
+    def answer_original(self):
+        return sas_api.get_original_answer(self.get_student_item_dict())
+
+    @property
+    def answer_revised(self):
+        return sas_api.get_revised_answer(self.get_student_item_dict())
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
@@ -173,15 +211,3 @@ class PeerInstructionXBlock(XBlock):
                 </vertical_demo>
              """),
         ]
-
-    @reify
-    def block_id(self):
-        return self.scope_ids.usage_id
-
-    def _get_current_user_id(self):
-        """
-        Use the user service to retrieve the current logged in user's id
-        """
-        # self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.username']
-        # self.runtime.service(self, 'user').get_current_user().full_name
-        return self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.user_id']
