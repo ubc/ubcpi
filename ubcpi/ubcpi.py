@@ -1,11 +1,14 @@
 """TO-DO: Write a description of what this XBlock is."""
+import random
+
 from django.core.exceptions import PermissionDenied
 
 import pkg_resources
 
 from xblock.core import XBlock
-from xblock.fields import Scope, Integer, String, List
+from xblock.fields import Scope, Integer, String, List, Dict
 from xblock.fragment import Fragment
+from answer_pool import offer_answer
 import persistence as sas_api
 
 STATUS_NEW = 0
@@ -78,7 +81,6 @@ class MissingDataFetcherMixin:
         else:
             return unicode(key)
 
-
 @XBlock.needs('user')
 class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     """
@@ -94,7 +96,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     options = List(
-        default=['1', '2', '3'], scope=Scope.content,
+        default=['A', 'B', 'C'], scope=Scope.content,
         help="Stored question options",
     )
 
@@ -103,10 +105,20 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The correct option for the question",
     )
 
-    stats = String(
-        default={'original': {}, 'revised':{}}, scope=Scope.settings,
+    stats = Dict(
+        default={'original': {}, 'revised':{}}, scope=Scope.user_state_summary,
         help="Overall stats for the instructor",
+    ) 
+    instructor_selected_answers = List(
+        default=[], scope=Scope.content,
+        help="Instructor configured examples to give to students during the revise stage.",
     )
+
+    sys_selected_answers = Dict(
+        default={}, scope=Scope.user_state_summary,
+        help="System selected answers to give to students during the revise stage.",
+    )
+
 
     def studio_view(self, context=None):
         """
@@ -140,36 +152,36 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         answers = self.get_answers_for_student()
         html = ""
-        if answers.has_revision(0):
-            html += self.resource_string(
-                "static/html/revise_answer.html")
         html += self.resource_string("static/html/ubcpi.html")
-        #html = html.format(self=self) # run templating engine
 
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
-        #frag.add_javascript(self.resource_string("static/angular.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
-        # Pass the answer to out Javascript
-        frag.initialize_js('PeerInstructionXBlock', {
+        js_vals = {
             'answer_original': answers.get_vote(0),
             'rationale_original': answers.get_rationale(0),
             'answer_revised': answers.get_vote(1),
             'rationale_revised': answers.get_rationale(1),
             'question_text': self.question_text,
             'options': self.options,
-        })
+        }
+        if answers.has_revision(0):
+            js_vals['other_answers'] = self.get_other_answers()
+        # Pass the answer to out Javascript
+        frag.initialize_js('PeerInstructionXBlock',js_vals) 
 
         return frag
 
     def record_response(self, answer, rationale, status):
         answers = self.get_answers_for_student()
         if not answers.has_revision(0) and status == STATUS_NEW:
-            sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
+            student_item = self.get_student_item_dict()
+            sas_api.add_answer_for_student(student_item, answer, rationale)
             num_resp = self.stats['original'].setdefault(answer, 0)
             self.stats['original'][answer] = num_resp + 1
+            offer_answer(self.sys_selected_answers, answer, rationale, student_item['student_id'])
         elif not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)
@@ -177,9 +189,22 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         else:
             raise PermissionDenied
 
-    @XBlock.json_handler
-    def get_other_answers(self, data, suffix=''):
-        return {"answers": [{"answer": "A"}, {"answer": "B"}, {"answer": "C"}]}
+    def get_other_answers(self):
+        answers = []
+        for option,students in self.sys_selected_answers.items():
+            student_item = self.get_student_item_dict()
+            student = random.choice(students.keys())
+            # exclude own answer from display
+            if student == student_item['student_id']:
+                # retry once cause lazy
+                student = random.choice(students.keys())
+                if student == student_item['student_id']:
+                    continue
+            student_item = self.get_student_item_dict(student)
+            submission = sas_api.get_answers_for_student(student_item)
+            answers.append({'option': option, 'rationale': submission.get_rationale(0)})
+
+        return {"answers": answers}
 
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
@@ -189,12 +214,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def submit_answer(self, data, suffix=''):
         self.record_response(data['q'], data['rationale'], data['status'])
         answers = self.get_answers_for_student()
-        return {
+        ret = {
             "answer_original": answers.get_vote(0),
             "rationale_original": answers.get_rationale(0),
             "answer_revised": answers.get_vote(1),
             "rationale_revised": answers.get_rationale(1),
         }
+        if answers.has_revision(0):
+            ret['other_answers'] = self.get_other_answers()
+        return ret
 
     def get_answers_for_student(self):
         return sas_api.get_answers_for_student(self.get_student_item_dict())

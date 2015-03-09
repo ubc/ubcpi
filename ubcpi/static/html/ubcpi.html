@@ -2,12 +2,20 @@
 	<div class="revise" data-ng-controller="ReviseController as rc">
         <span>status = {{rc.status()}}</span>
         <div ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
-            <p>Question: {{question_text}}</p>
+			<h2>Question: {{question_text}}</h2>
 
             <div ng-if="rc.status() == rc.STATUS_ANSWERED">
-                <p>other answers</p>
+                <h3>Other Answers</h3>
+				<ul>
+					<li ng-repeat="answer in rc.other_answers.answers">
+						<h4>{{options[answer.option]}}</h4>
+						<p>{{answer.rationale}}</p>
+					</li>
+				</ul>
+				<p>Would you like to change your answer?</p>
             </div>
 
+			<h2>Your Answer:</h2>
             <form>
                 <ul>
                     <li data-ng-repeat="option in options">
