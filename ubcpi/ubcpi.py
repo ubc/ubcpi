@@ -84,7 +84,6 @@ class PeerInstructionXBlock(XBlock):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
-
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
@@ -180,9 +179,9 @@ class PeerInstructionXBlock(XBlock):
         return self.scope_ids.usage_id
 
     def _get_current_user_id(self):
-        '''
+        """
         Use the user service to retrieve the current logged in user's id
-        '''
+        """
         # self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.username']
         # self.runtime.service(self, 'user').get_current_user().full_name
         return self.runtime.service(self, 'user').get_current_user().opt_attrs['edx-platform.user_id']
