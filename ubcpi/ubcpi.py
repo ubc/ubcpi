@@ -160,9 +160,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'rationale_revised': answers.get_rationale(1),
             'question_text': self.question_text,
             'options': self.options,
-            'views': {
-                'question': self.runtime.local_resource_url(self, 'public/html/question.html'),
-            },
         })
 
         return frag

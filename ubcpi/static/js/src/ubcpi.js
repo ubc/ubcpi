@@ -41,8 +41,6 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.rationale = self.rationale_revised || self.rationale_original;
             self.submitting = false;
 
-            self.views = [data.views.question];
-
             function getStatus(answer_original, answer_revised) {
                 if (typeof answer_original === 'undefined' || answer_original === null) {
                     return self.STATUS_NEW;
