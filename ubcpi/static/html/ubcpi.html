@@ -15,16 +15,16 @@
             </div>
 
             <h2>Your Answer:</h2>
-            <form>
-                <fieldset>
-                    <label for="{{appId}}_option_{{$index}}" data-ng-repeat="option in options">
-                        <input type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
+            <form class="choicegroup">
+                <fieldset role="radiogroup" aria-label>
+                    <label class="ubcpi-label ubcpi-answer" for="{{appId}}_option_{{$index}}" data-ng-repeat="option in options">
+                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
                         {{option}}
                     </label>
                 </fieldset>
 
-                <label for="{{appId}}_rationale">Please explain your selection:</label>
-                <textarea class="short-form-response" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
+                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection:</label>
+                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
 
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
             </form>
