@@ -1,92 +1,92 @@
 /* CSS for PeerInstructionXBlock */
 
 .ubcpi_block .count {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .ubcpi_block p {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .choicegroup fieldset{
-    border: 0;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0px 0px 20px;
-    padding-left: 20px;
-    border-left: 1px solid #ddd;
+  border: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0px 0px 20px;
+  padding-left: 20px;
+  border-left: 1px solid #ddd;
 }
 
 .ubcpi-label{
-    float: left;
-    clear: both;
-    margin-bottom: 5px;
-    display: block;
+  float: left;
+  clear: both;
+  margin-bottom: 5px;
+  display: block;
 }
 
 .ubcpi-field{
-    display: block;
+  display: block;
 }
 
 .ubcpi-field[type="radio"]{
-    float: left;
-    margin: 4px;
-    box-sizing: border-box;
-    padding: 0;
+  float: left;
+  margin: 4px;
+  box-sizing: border-box;
+  padding: 0;
 }
 
 textarea.ubcpi-field{
-    width: 100%;
-    height: 100px;
-    margin: 1em 0;
-    background: #fff;
-    border: 1px solid #c8c8c8;
-    border-radius: 0;
-    box-shadow: 0 1px 0 0 rgba(255,255,255,0.6),inset 0 0 3px 0 rgba(0,0,0,0.1);
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    font: normal 1em "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-    padding: 5px 12px;
-    vertical-align: top;
-    -webkit-font-smoothing: antialiased;
+  width: 100%;
+  height: 100px;
+  margin: 1em 0;
+  background: #fff;
+  border: 1px solid #c8c8c8;
+  border-radius: 0;
+  box-shadow: 0 1px 0 0 rgba(255,255,255,0.6),inset 0 0 3px 0 rgba(0,0,0,0.1);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font: normal 1em "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+  padding: 5px 12px;
+  vertical-align: top;
+  -webkit-font-smoothing: antialiased;
 }
 
 .choicegroup .ubcpi_submit{
-    border: 1px solid #cacaca;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 0 0 #fff;
-    color: #333;
-    display: inline-block;
-    font-size: inherit;
-    font-weight: bold;
-    background-color: #eee;
-    background-image: -webkit-linear-gradient(#eee,#d2d2d2);
-    background-image: linear-gradient(#eee,#d2d2d2);
-    padding: 7px 18px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #f8f8f8;
-    background-clip: padding-box;
-    border: 1px solid #cfc6c6;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 0 0 #fff;
-    color: #333;
-    display: inline-block;
-    font-size: inherit;
-    font-weight: bold;
-    background-color: #eee;
-    background-image: -webkit-linear-gradient(#eee,#d6cece);
-    background-image: linear-gradient(#eee,#d6cece);
-    padding: 7px 18px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #f9f8f8;
-    background-clip: padding-box;
-    font-size: 0.8125em;
+  border: 1px solid #cacaca;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 0 #fff;
+  color: #333;
+  display: inline-block;
+  font-size: inherit;
+  font-weight: bold;
+  background-color: #eee;
+  background-image: -webkit-linear-gradient(#eee,#d2d2d2);
+  background-image: linear-gradient(#eee,#d2d2d2);
+  padding: 7px 18px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #f8f8f8;
+  background-clip: padding-box;
+  border: 1px solid #cfc6c6;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 0 #fff;
+  color: #333;
+  display: inline-block;
+  font-size: inherit;
+  font-weight: bold;
+  background-color: #eee;
+  background-image: -webkit-linear-gradient(#eee,#d6cece);
+  background-image: linear-gradient(#eee,#d6cece);
+  padding: 7px 18px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #f9f8f8;
+  background-clip: padding-box;
+  font-size: 0.8125em;
 }
 
 .choicegroup input[type="button"]:disabled{
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
