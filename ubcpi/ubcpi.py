@@ -125,7 +125,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         html = self.resource_string("static/html/ubcpi_edit.html")
         frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/ubcpi.css"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
         frag.initialize_js('PIEdit', {'correct_answer': self.correct_answer})
@@ -156,6 +155,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         html += self.resource_string("static/html/ubcpi.html")
 
         frag = Fragment(html)
+        frag.add_css(self.resource_string("static/css/ubcpi.css"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
 
