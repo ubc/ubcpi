@@ -4,14 +4,15 @@
             <h2>Question: {{question_text}}</h2>
 
             <div ng-if="rc.status() == rc.STATUS_ANSWERED">
-                <h3>Other Answers</h3>
-                <ul>
+                <h3>Others' responses</h3>
+                <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
+                <ul class="ubcpi-other-answers">
                     <li ng-repeat="answer in rc.other_answers.answers">
-                    <h4>{{options[answer.option]}}</h4>
+                    <h4>Answer: {{options[answer.option]}}</h4>
                     <p>{{answer.rationale}}</p>
                     </li>
                 </ul>
-                <p>Would you like to change your answer?</p>
+                <p>If you wish, you may now revise your answer.</p>
             </div>
 
             <form class="choicegroup">
