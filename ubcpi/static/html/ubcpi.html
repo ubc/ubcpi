@@ -1,44 +1,43 @@
 <div class="ubcpi_block">
-	<div class="revise" data-ng-controller="ReviseController as rc">
-        <span>status = {{rc.status()}}</span>
+    <div class="revise" data-ng-controller="ReviseController as rc">
         <div ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
-			<h2>Question: {{question_text}}</h2>
+            <h2>Question: {{question_text}}</h2>
 
             <div ng-if="rc.status() == rc.STATUS_ANSWERED">
                 <h3>Other Answers</h3>
-				<ul>
-					<li ng-repeat="answer in rc.other_answers.answers">
-						<h4>{{options[answer.option]}}</h4>
-						<p>{{answer.rationale}}</p>
-					</li>
-				</ul>
-				<p>Would you like to change your answer?</p>
-            </div>
-
-			<h2>Your Answer:</h2>
-            <form>
                 <ul>
-                    <li data-ng-repeat="option in options">
-                        <input type="radio" id="{{appId}}_option_{{$index}}" name="q" data-ng-model="rc.answer" value="{{$index}}">
-                        <label for="{{appId}}_option_{{$index}}">{{option}}</label>
+                    <li ng-repeat="answer in rc.other_answers.answers">
+                    <h4>{{options[answer.option]}}</h4>
+                    <p>{{answer.rationale}}</p>
                     </li>
                 </ul>
+                <p>Would you like to change your answer?</p>
+            </div>
 
-	            <p>Please explain your selection:</p>
-	            <textarea rows="10" cols="60" name="rationale" data-ng-model="rc.rationale"></textarea>
+            <h2>Your Answer:</h2>
+            <form>
+                <fieldset>
+                    <label for="{{appId}}_option_{{$index}}" data-ng-repeat="option in options">
+                        <input type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
+                        {{option}}
+                    </label>
+                </fieldset>
+
+                <label for="{{appId}}_rationale">Please explain your selection:</label>
+                <textarea class="short-form-response" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
 
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
             </form>
         </div>
         <div ng-if="rc.status() == rc.STATUS_REVISED" ng-init="rc.getStats()">
-			<h3>Original Answers</h3>
-			<div ng-repeat="(option,numResp) in rc.stats.original">
-				{{option}} - {{numResp}}
-			</div>
-			<h3>Revised Answers</h3>
-			<div ng-repeat="(option,numResp) in rc.stats.revised">
-				{{option}} - {{numResp}}
-			</div>
+            <h3>Original Answers</h3>
+            <div ng-repeat="(option,numResp) in rc.stats.original">
+                {{option}} - {{numResp}}
+            </div>
+            <h3>Revised Answers</h3>
+            <div ng-repeat="(option,numResp) in rc.stats.revised">
+                {{option}} - {{numResp}}
+            </div>
         </div>
-	</div>
+    </div>
 </div>
