@@ -90,3 +90,30 @@ textarea.ubcpi-field{
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Other Answers */
+div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
+  list-style-type: none;
+  border: 1px solid #cfc6c6;
+  background: #F6F6F6;
+  padding: 0;
+}
+
+  div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li{
+    margin: 0.75em;
+    border-bottom: 1px solid #cfc6c6;
+  }
+
+  div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li:last-of-type{
+    border-bottom: none;
+  }
+
+.ubcpi-other-answers h3,
+.ubcpi-other-answers h4 {
+  text-align: left;
+  font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+}
+
+  .ubcpi-other-answers h4{
+    margin-bottom: 1em;
+  }
