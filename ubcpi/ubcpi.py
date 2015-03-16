@@ -119,6 +119,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="System selected answers to give to students during the revise stage.",
     )
 
+    algo = String(
+        default="simple", scope=Scope.content,
+        help="The algorithm for selecting which answers to be presented to students",
+    )
+
 
     def studio_view(self, context=None):
         """
@@ -130,7 +135,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.initialize_js('PIEdit', {
                     'correct_answer': self.correct_answer,
                     'question_text': self.question_text,
-                    'options': self.options
+                    'options': self.options,
+                    'algo': self.algo,
+                    'algos': {'simple': 'one of each option',
+                              'random': 'completely random section'},
         })
 
         return frag
@@ -140,6 +148,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         self.question_text = data['question_text']
         self.options = data['options']
         self.correct_answer = data['correct_answer']
+        self.algo = data['algo']
 
         return {'success': 'true'}
 
@@ -185,7 +194,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             sas_api.add_answer_for_student(student_item, answer, rationale)
             num_resp = self.stats['original'].setdefault(answer, 0)
             self.stats['original'][answer] = num_resp + 1
-            offer_answer(self.sys_selected_answers, answer, rationale, student_item['student_id'])
+            offer_answer(self.sys_selected_answers, answer, rationale, student_item['student_id'], self.algo)
         elif not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)

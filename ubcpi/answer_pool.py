@@ -3,7 +3,7 @@ import random
 class UnknownChooseAnswerAlgorithm(Exception):
     pass
 
-def offer_answer(pool, answer, rationale, student_id, algo='simple'):
+def offer_answer(pool, answer, rationale, student_id, algo):
     '''
     Answers format:
     {

@@ -25,6 +25,14 @@
                     </select>
                 </div>
             </li>
+            <li class="field comp-setting-entry is-set">
+                <div class="wrapper-comp-setting">
+                    <label class="label setting-label pi-setting-label" for="pi-algo">Selection Algorithm</label>
+                    <select name="pi-algo" id="pi-algo" ng-model="esc.data.algo" ng-options="algo as algo for (algo, desc) in esc.algos" required>
+                    </select>
+                </div>
+                <span class="tip setting-help">{{ esc.algos[esc.data.algo] }}</span>
+            </li>
         </ul>
         <div class="xblock-actions">
         <ul>

@@ -9,12 +9,14 @@ function PIEdit(runtime, element, data) {
         });
         app.controller('EditSettingsController', function ($scope, $http) {
             var self = this;
+            self.algos = data.algos;
 			self.data = {};
 			self.data.question_text = data.question_text;
 			self.data.options = data.options;
 			self.data.correct_answer = data.options[0];
 			if (data.correct_answer)
 				self.data.correct_answer = data.correct_answer;
+            self.data.algo = data.algo;
 
 			self.cancel = function() {
 				runtime.notify('cancel', {});
