@@ -124,10 +124,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         """
         html = self.resource_string("static/html/ubcpi_edit.html")
-        frag = Fragment(html.format(self=self))
+        frag = Fragment(html)
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
-        frag.initialize_js('PIEdit', {'correct_answer': self.correct_answer})
+        frag.initialize_js('PIEdit', {
+                    'correct_answer': self.correct_answer,
+                    'question_text': self.question_text,
+                    'options': self.options
+        })
 
         return frag
 

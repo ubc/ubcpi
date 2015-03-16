@@ -17,7 +17,7 @@
 
             <form class="choicegroup">
                 <fieldset role="radiogroup" aria-label>
-                    <label class="ubcpi-label ubcpi-answer" for="{{appId}}_option_{{$index}}" data-ng-repeat="option in options">
+                    <label class="ubcpi-label ubcpi-answer" for="{{appId}}_option_{{$index}}" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
                         {{option}}
                     </label>

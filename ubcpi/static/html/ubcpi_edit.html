@@ -1,51 +1,41 @@
 <div class="wrapper-comp-settings is-active editor-with-buttons" id="settings-tab">
-    <form id="pi-form">
+	<div ng-controller="EditSettingsController as esc">
+    <form id="pi-form" ng-submit="esc.submit()">
         <ul class="list-input settings-list" id="pi-line-items">
             <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
                 <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text</label>
-                <input class="input setting-input" name="question_text" id="pi-question-text" value="{self.question_text}" type="text" />
+                <input class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text" type="text" required />
             </div>
             </li>
             <li class="field comp-setting-entry is-set">
-                <div class="wrapper-comp-setting">
-                    <label class="label setting-label pi-setting-label" for="pi-option-a">
-                        Option A
+                <div class="wrapper-comp-setting" ng-repeat="option in esc.data.options track by $index">
+					<label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">
+						Option {{$index + 1}}
                     </label>
-                    <input class="input setting-input pi-options" name="" id="pi-option-a" value="{self.options[0]}" type="text" />
+					<input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index]" type="text" required />
+					<a href="" ng-click="esc.delete_option($index)">X</a>
                 </div>
-                <div class="wrapper-comp-setting">
-                    <label class="label setting-label pi-setting-label" for="pi-option-b">Option B</label>
-                    <input class="input setting-input pi-options" name="question_text" id="pi-option-b" value="{self.options[1]}" type="text" />
-                </div>
-                <div class="wrapper-comp-setting">
-                    <label class="label setting-label pi-setting-label" for="pi-option-c">Option C</label>
-                    <input class="input setting-input pi-options" name="question_text" id="pi-option-c" value="{self.options[2]}" type="text" />
-                </div>
+				<input type="button" class="button pi-add-item-link" ng-click="esc.add_option()" value="Add Option" />
             </li>
             <li class="field comp-setting-entry is-set">
                 <div class="wrapper-comp-setting">
-                    <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Answer</label>
-                    <select name="pi-option-correct" id="pi-option-correct">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
+                    <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option</label>
+                    <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="option for option in esc.data.options" required>
                     </select>
                 </div>
             </li>
         </ul>
         <div class="xblock-actions">
         <ul>
-            <li class="action-item" id="pi-add-answer">
-                <a href="#" class="button action-button" class="pi-add-item-link" onclick="return false;">Add Answer</a>
+            <li class="action-item">
+                <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0"/>
             </li>
             <li class="action-item">
-                <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" onclick="return false;" />
-            </li>
-            <li class="action-item">
-                <a href="#" class="button cancel-button">Cancel</a>
+                <a href="" class="button cancel-button" ng-click="esc.cancel()">Cancel</a>
             </li>
         </ul>
         </div>
     </form>
+	</div>
 </div>

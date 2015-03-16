@@ -1,56 +1,50 @@
 function PIEdit(runtime, element, data) {
     var self = this;
-    var notify;
 
-    // The workbench doesn't support notifications.
-    notify = typeof(runtime.notify) != 'undefined';
-
-    this.init = function () {
-        $(element).find('.cancel-button', element).bind('click', function () {
-            runtime.notify('cancel', {});
+    $(function ($) {
+        var app = angular.module("ubcpi_edit", []);
+        app.run(function($http) {
+            // set up CSRF Token from cookie. This is needed by all post requests
+            $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
         });
+        app.controller('EditSettingsController', function ($scope, $http) {
+            var self = this;
+			self.data = {};
+			self.data.question_text = data.question_text;
+			self.data.options = data.options;
+			self.data.correct_answer = data.options[0];
+			if (data.correct_answer)
+				self.data.correct_answer = data.correct_answer;
 
-        $(element).find('#pi-submit-options', element).bind('click', self.piEditSubmitHandler);
+			self.cancel = function() {
+				runtime.notify('cancel', {});
+			};
+			self.add_option = function() {
+				self.data.options.push('');
+			};
+			self.delete_option = function(index) {
+				self.data.options.splice(index, 1);
+			};
+			self.submit = function() {
+				// Take all of the fields, serialize them, and pass them to the
+				// server for saving.
+				var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
 
-        $('#pi-option-correct').val(data.correct_answer);
-    };
-
-    this.piEditSubmitHandler = function () {
-        // Take all of the fields, serialize them, and pass them to the
-        // server for saving.
-        var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
-
-        var data = {};
-
-        data['question_text'] = $('#pi-question-text', element).val();
-        data['options'] = $('input.pi-options', element).map(function(i, e) {
-            return $(e).val();
-        }).get();
-        data['correct_answer'] = $('#pi-option-correct', element).val();
-
-        if (notify) {
-            runtime.notify('save', {state: 'start', message: "Saving"});
-        }
-
-        $.ajax({
-            type: "POST",
-            url: handlerUrl,
-            data: JSON.stringify(data),
-            // There are issues with using proper status codes at the moment.
-            // So we pass along a 'success' key for now.
-            success: function (result) {
-                if (result['success'] && notify) {
-                    runtime.notify('save', {state: 'end'})
-                } else if (notify) {
-                    runtime.notify('error', {
-                        'title': 'Error saving question',
-                        'message': self.format_errors(result['errors'])
+				runtime.notify('save', {state: 'start', message: "Saving"});
+				
+                $http.post(handlerUrl, self.data).
+                    success(function(data, status, header, config) {
+						runtime.notify('save', {state: 'end'})
+                    }).
+                    error(function(data, status, header, config) {
+						runtime.notify('error', {
+							'title': 'Error saving question',
+							'message': self.format_errors(result['errors'])
+						});
                     });
-                }
-            }
+			};
         });
-    };
-
-    self.init();
+        angular.bootstrap(element, ["ubcpi_edit"]);
+    });
 }
 
