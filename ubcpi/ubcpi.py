@@ -6,9 +6,10 @@ from django.core.exceptions import PermissionDenied
 import pkg_resources
 
 from xblock.core import XBlock
+from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, Integer, String, List, Dict
 from xblock.fragment import Fragment
-from answer_pool import offer_answer
+from answer_pool import offer_answer, validate_seeded_answers
 import persistence as sas_api
 
 STATUS_NEW = 0
@@ -60,7 +61,6 @@ class MissingDataFetcherMixin:
         )
         return student_item_dict
 
-
     def _serialize_opaque_key(self, key):
         """
         Gracefully handle opaque keys, both before and after the transition.
@@ -108,8 +108,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     stats = Dict(
         default={'original': {}, 'revised':{}}, scope=Scope.user_state_summary,
         help="Overall stats for the instructor",
-    ) 
-    instructor_selected_answers = List(
+    )
+    seeded_answers = List(
         default=[], scope=Scope.content,
         help="Instructor configured examples to give to students during the revise stage.",
     )
@@ -123,7 +123,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         default="simple", scope=Scope.content,
         help="The algorithm for selecting which answers to be presented to students",
     )
-
 
     def studio_view(self, context=None):
         """
@@ -139,6 +138,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'algo': self.algo,
                     'algos': {'simple': 'one of each option',
                               'random': 'completely random section'},
+                    'seeds': self.seeded_answers,
         })
 
         return frag
@@ -149,6 +149,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         self.options = data['options']
         self.correct_answer = data['correct_answer']
         self.algo = data['algo']
+        self.seeded_answers = data['seeds']
 
         return {'success': 'true'}
 
@@ -171,6 +172,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
+        frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
 
         js_vals = {
             'answer_original': answers.get_vote(0),
@@ -183,7 +185,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         if answers.has_revision(0):
             js_vals['other_answers'] = self.get_other_answers()
         # Pass the answer to out Javascript
-        frag.initialize_js('PeerInstructionXBlock',js_vals) 
+        frag.initialize_js('PeerInstructionXBlock',js_vals)
 
         return frag
 
@@ -239,6 +241,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     def get_answers_for_student(self):
         return sas_api.get_answers_for_student(self.get_student_item_dict())
+
+    @XBlock.json_handler
+    def validate_form(self, data, suffix=''):
+        msg = validate_seeded_answers(data['seeds'], data['options'], data['algo'])
+        if msg is None:
+            return {'success': 'true'}
+        else:
+            raise JsonHandlerError(400, msg)
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

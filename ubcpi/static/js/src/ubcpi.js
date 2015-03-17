@@ -13,7 +13,10 @@ if (typeof generatePIXBlockId !== "function") {
 
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
+    var notify;
 
+    // The workbench doesn't support notifications.
+    notify = runtime.notify || function(){};
 
     $(function ($) {
         var appId = generatePIXBlockId();
@@ -64,7 +67,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             };
 
             self.clickSubmit = function () {
-                runtime.notify('save', {state: 'start', message: "Submitting"});
+                notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
 
                 var submitUrl = runtime.handlerUrl(element, 'submit_answer');
@@ -81,10 +84,10 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.answer_revised = data.answer_revised;
                         self.rationale_revised = data.rationale_revised;
 						self.other_answers = data.other_answers;
-                        runtime.notify('save', {state: 'end'})
+                        notify('save', {state: 'end'})
                     }).
                     error(function(data, status, header, config) {
-                        runtime.notify('error', {
+                        notify('error', {
                             'title': 'Error submitting answer!',
                             'message': 'Please refresh the page and try again!'
                         });
@@ -100,7 +103,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.stats = data;
                     }).
                     error(function(data, status, header, config) {
-                        runtime.notify('error', {
+                        notify('error', {
                             'title': 'Error retrieving statistics!',
                             'message': 'Please refresh the page and try again!'
                         });

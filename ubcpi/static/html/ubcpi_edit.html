@@ -1,6 +1,6 @@
 <div class="wrapper-comp-settings is-active editor-with-buttons" id="settings-tab">
 	<div ng-controller="EditSettingsController as esc">
-    <form id="pi-form" ng-submit="esc.submit()">
+    <form id="pi-form" name="piForm" ng-submit="esc.submit()" ng-model="esc.data" ng-model-options="{allowInvalid: true}" validate-form>
         <ul class="list-input settings-list" id="pi-line-items">
             <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
@@ -33,11 +33,27 @@
                 </div>
                 <span class="tip setting-help">{{ esc.algos[esc.data.algo] }}</span>
             </li>
+
+            <li class="field comp-setting-entry is-set">
+                <div ng-messages='piForm.$errors'>
+                    <div ng-message="seed_error">{{piForm.$errors.seed_error}}</div>
+                </div>
+                <div class="wrapper-comp-setting" ng-repeat="option in esc.data.seeds track by $index">
+                    <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">
+                        Seeded Answer {{$index + 1}}
+                        <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="option for option in esc.data.options" required>
+                        </select>
+                    </label>
+                    <textarea class="input setting-input pi-options" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" required></textarea>
+                    <a href="" ng-click="esc.deleteSeed($index)">X</a>
+                </div>
+                <input type="button" class="button pi-add-item-link" ng-click="esc.addSeed()" value="Add Seed" />
+            </li>
         </ul>
         <div class="xblock-actions">
         <ul>
             <li class="action-item">
-                <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0"/>
+                <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
             </li>
             <li class="action-item">
                 <a href="" class="button cancel-button" ng-click="esc.cancel()">Cancel</a>
