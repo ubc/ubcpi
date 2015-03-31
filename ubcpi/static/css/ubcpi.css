@@ -117,3 +117,29 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   .ubcpi-other-answers h4{
     margin-bottom: 1em;
   }
+
+.pi-add-item-link {
+  display: inline-block;
+  margin-left: 26.5%;
+  padding: 10px 50px;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 17.76px;
+  line-height: 1.776rem;
+  font-weight: 600;
+  -webkit-transition: all 0.15s;
+  -moz-transition: all 0.15s;
+  transition: all 0.15s;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #66c5f0;
+  background-color: transparent;
+  color: #66c5f0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.pi-add-item-link:hover {
+  color: white;
+  background: #66c5f0;
+}

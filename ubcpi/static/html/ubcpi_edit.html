@@ -20,7 +20,8 @@
 		<input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index]" type="text" required />
 		<a href="" ng-click="esc.delete_option($index)">X</a>
                     </div>
-                    <input type="button" class="button pi-add-item-link" ng-click="esc.add_option()" value="Add Option" />
+                    <!-- <input type="button" class="button pi-add-item-link create-action create-setting" ng-click="esc.add_option()" value="Add Option" /> -->
+                    <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add</a>
                 </li>
             
                 <li class="field comp-setting-entry is-set">
