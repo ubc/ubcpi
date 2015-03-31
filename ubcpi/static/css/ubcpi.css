@@ -139,7 +139,7 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   cursor: pointer;
 }
 
-.pi-add-item-link:hover {
-  color: white;
-  background: #66c5f0;
-}
+  .pi-add-item-link:hover {
+    color: white;
+    background: #66c5f0;
+  }
