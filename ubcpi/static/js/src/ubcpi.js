@@ -16,7 +16,7 @@ function PeerInstructionXBlock(runtime, element, data) {
     var notify;
 
     // The workbench doesn't support notifications.
-    notify = runtime.notify || function(){};
+    notify = $.proxy(runtime.notify, runtime) || function(){};
 
     $(function ($) {
         var appId = generatePIXBlockId();
