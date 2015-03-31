@@ -143,3 +143,7 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
     color: white;
     background: #66c5f0;
   }
+
+.wrapper-comp-settings .list-input.settings-list .action.setting-clear.pi-remove-item-link {
+  padding: 3px 6px;
+}

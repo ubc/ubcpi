@@ -18,7 +18,7 @@
                     <div class="wrapper-comp-setting" ng-repeat="option in esc.data.options track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
 		<input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index]" type="text" required />
-		<a href="" ng-click="esc.delete_option($index)">X</a>
+		<a class="pi-remove-item-link action setting-clear" href="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-minus"></i></a>
                     </div>
                     <!-- <input type="button" class="button pi-add-item-link create-action create-setting" ng-click="esc.add_option()" value="Add Option" /> -->
                     <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add</a>
