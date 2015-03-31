@@ -169,8 +169,31 @@ textarea.pi-options {
   border-radius: 3px;
   border: 1px solid #b2b2b2;
   text-overflow: ellipsis;
+  min-height: 80px;
 }
 
 .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.seeded-answer {
   margin-bottom: 20px;
+}
+
+.seed_error {
+  color: #b20610;
+  background: #edf1f5;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+#pi-submit-options[disabled="disabled"] {
+  box-shadow: none;
+  border: 1px solid #99d8f5 !important;
+  background: #99d8f5 !important;
+}
+
+.modal-window .xblock-actions .action-item.validation-tip {
+  min-width: 20px;
+  margin-right: 0;
+}
+
+.save-disabled-tooltip {
+  color: #7f7f7f;
 }

@@ -42,7 +42,9 @@
 
                 <li class="field comp-setting-entry is-set">
                     <div ng-messages='piForm.$errors'>
-                        <div ng-message="seed_error">{{piForm.$errors.seed_error}}</div>
+                        <div class="seed_error" ng-message="seed_error">
+                            <p><i class="icon fa fa-remove"></i> {{piForm.$errors.seed_error}}</p>
+                        </div>
                     </div>
                 
                     <div class="wrapper-comp-setting seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
@@ -59,8 +61,9 @@
             <div class="xblock-actions">
         
                 <ul>
+                    <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="You are unable to save this form as there are errors: {{piForm.$errors.seed_error}}"><i class="icon fa fa-question-circle"></i></a></li>
                     <li class="action-item">
-                        <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
+                        <a href="" id="pi-submit-options" class="button action-primary action-save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending">Save</a>
                     </li>
             
                     <li class="action-item">
