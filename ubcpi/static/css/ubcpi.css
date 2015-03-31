@@ -149,6 +149,28 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
     margin-top: 5px;
   }
 
-.wrapper-comp-settings .list-input.settings-list .action.setting-clear.pi-remove-item-link {
-  padding: 3px 6px;
+.remove-action.remove-setting .fa.fa-times-circle {
+  color: rgb(153, 216, 245);
+  -webkit-transition: color 0.25s ease-in-out;
+  -moz-transition: color 0.25s ease-in-out;
+  transition: color 0.25s ease-in-out;
+}
+
+.remove-action.remove-setting .fa.fa-times-circle:hover {
+  color: rgb(0, 159, 230);
+}
+
+textarea.pi-options {
+  clear: left;
+  margin: 5px 0 0 26.5%;
+  width: 42.5%;
+  min-width: 100px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #b2b2b2;
+  text-overflow: ellipsis;
+}
+
+.wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.seeded-answer {
+  margin-bottom: 20px;
 }
