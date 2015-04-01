@@ -63,7 +63,7 @@
                 <ul>
                     <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="You are unable to save this form as there are errors: {{piForm.$errors.seed_error}}"><i class="icon fa fa-question-circle"></i></a></li>
                     <li class="action-item">
-                        <a href="" id="pi-submit-options" class="button action-primary action-save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending">Save</a>
+                        <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
                     </li>
             
                     <li class="action-item">
