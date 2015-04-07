@@ -1,4 +1,5 @@
 import random
+import persistence as sas_api
 
 
 class UnknownChooseAnswerAlgorithm(Exception):
@@ -66,3 +67,49 @@ def validate_seeded_answers(answers, options, algo):
         return validate_seeded_answers_simple(answers, options)
     else:
         raise UnknownChooseAnswerAlgorithm()
+
+
+def get_other_answers(answers, seeded_answers, get_student_item_dict, algo):
+    if algo == 'simple':
+        return get_other_answers_simple(answers, seeded_answers, get_student_item_dict)
+    else:
+        raise UnknownChooseAnswerAlgorithm()
+
+
+def get_other_answers_simple(answers, seeded_answers, get_student_item_dict):
+    ret = []
+    pool = convert_seeded_answers(seeded_answers)
+    pool.update(answers.items())
+    student_id = get_student_item_dict()['student_id']
+    for option, students in pool.items():
+        student = random.choice(students.keys())
+        # exclude own answer from display
+        if student == student_id:
+            # retry once cause lazy
+            student = random.choice(students.keys())
+            if student == student_id:
+                continue
+        if student.startswith('seeded'):
+            # seeded answer, get the rationale from local
+            rationale = students[student]
+        else:
+            student_item = get_student_item_dict(student)
+            submission = sas_api.get_answers_for_student(student_item)
+            rationale = submission.get_rationale(0)
+        ret.append({'option': option, 'rationale': rationale})
+
+    return {"answers": ret}
+
+
+def convert_seeded_answers(answers):
+    """
+    convert seeded answers into the format that can be merged into student answers
+    :param answers: seeded answers
+    :return: seeded answers with student answers format
+    """
+    converted = {}
+    for index, answer in enumerate(answers):
+        converted.setdefault(answer['answer'], {})
+        converted[answer['answer']]['seeded' + str(index)] = answer['rationale']
+
+    return converted

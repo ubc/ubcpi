@@ -9,7 +9,7 @@ from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, Integer, String, List, Dict
 from xblock.fragment import Fragment
-from answer_pool import offer_answer, validate_seeded_answers
+from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
 
 STATUS_NEW = 0
@@ -183,7 +183,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'options': self.options,
         }
         if answers.has_revision(0):
-            js_vals['other_answers'] = self.get_other_answers()
+            js_vals['other_answers'] = get_other_answers(
+                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock',js_vals)
 
@@ -204,23 +205,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         else:
             raise PermissionDenied
 
-    def get_other_answers(self):
-        answers = []
-        for option,students in self.sys_selected_answers.items():
-            student_item = self.get_student_item_dict()
-            student = random.choice(students.keys())
-            # exclude own answer from display
-            if student == student_item['student_id']:
-                # retry once cause lazy
-                student = random.choice(students.keys())
-                if student == student_item['student_id']:
-                    continue
-            student_item = self.get_student_item_dict(student)
-            submission = sas_api.get_answers_for_student(student_item)
-            answers.append({'option': option, 'rationale': submission.get_rationale(0)})
-
-        return {"answers": answers}
-
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
         return self.stats
@@ -236,7 +220,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0):
-            ret['other_answers'] = self.get_other_answers()
+            ret['other_answers'] = get_other_answers(
+                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
         return ret
 
     def get_answers_for_student(self):
