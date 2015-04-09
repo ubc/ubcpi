@@ -90,6 +90,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
 
+    # the display name that used on the interface
+    display_name = String(default="Peer Instruction Tool")
+
     question_text = String(
         default="What is 1+1?", scope=Scope.content,
         help="Stored question text for the students",
@@ -132,6 +135,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
         frag.initialize_js('PIEdit', {
+                    'display_name': self.display_name,
                     'correct_answer': self.correct_answer,
                     'question_text': self.question_text,
                     'options': self.options,
@@ -145,6 +149,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @XBlock.json_handler
     def studio_submit(self, data, suffix=''):
+        self.display_name = data['display_name']
         self.question_text = data['question_text']
         self.options = data['options']
         self.correct_answer = data['correct_answer']
@@ -179,6 +184,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'rationale_original': answers.get_rationale(0),
             'answer_revised': answers.get_vote(1),
             'rationale_revised': answers.get_rationale(1),
+            'display_name': self.display_name,
             'question_text': self.question_text,
             'options': self.options,
         }

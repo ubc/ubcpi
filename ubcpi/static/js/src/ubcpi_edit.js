@@ -36,7 +36,8 @@ function PIEdit(runtime, element, data) {
             var self = this;
             self.algos = data.algos;
 			self.data = {};
-			self.data.question_text = data.question_text;
+			self.data.display_name = data.display_name;
+            self.data.question_text = data.question_text;
 			self.data.options = data.options;
 			self.data.correct_answer = data.options[0];
 			if (data.correct_answer)
