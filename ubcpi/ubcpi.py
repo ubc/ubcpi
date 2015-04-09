@@ -228,6 +228,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         if answers.has_revision(0):
             ret['other_answers'] = get_other_answers(
                 self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
+
+        # reveal the correct answer in the end
+        if answers.has_revision(1):
+            ret['correct_answer'] = self.correct_answer
+
         return ret
 
     def get_answers_for_student(self):

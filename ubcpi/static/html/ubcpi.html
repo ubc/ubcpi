@@ -30,13 +30,15 @@
             </form>
         </div>
         <div ng-if="rc.status() == rc.STATUS_REVISED" ng-init="rc.getStats()">
+            <h3>Correct Answer</h3>
+            <div>{{rc.correct_answer}}</div>
             <h3>Original Answers</h3>
             <div ng-repeat="(option,numResp) in rc.stats.original">
-                {{option}} - {{numResp}}
+                {{options[option]}} - {{numResp}}
             </div>
             <h3>Revised Answers</h3>
             <div ng-repeat="(option,numResp) in rc.stats.revised">
-                {{option}} - {{numResp}}
+                {{options[option]}} - {{numResp}}
             </div>
         </div>
     </div>
