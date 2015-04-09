@@ -1,13 +1,11 @@
 """TO-DO: Write a description of what this XBlock is."""
-import random
-
 from django.core.exceptions import PermissionDenied
 
 import pkg_resources
 
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, Integer, String, List, Dict
+from xblock.fields import Scope, String, List, Dict
 from xblock.fragment import Fragment
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
@@ -81,6 +79,7 @@ class MissingDataFetcherMixin:
         else:
             return unicode(key)
 
+
 @XBlock.needs('user')
 class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     """
@@ -94,12 +93,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     display_name = String(default="Peer Instruction Tool")
 
     question_text = String(
-        default="What is 1+1?", scope=Scope.content,
+        default="What is your question?", scope=Scope.content,
         help="Stored question text for the students",
     )
 
     options = List(
-        default=['A', 'B', 'C'], scope=Scope.content,
+        default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
         help="Stored question options",
     )
 
@@ -109,7 +108,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     stats = Dict(
-        default={'original': {}, 'revised':{}}, scope=Scope.user_state_summary,
+        default={'original': {}, 'revised': {}}, scope=Scope.user_state_summary,
         help="Overall stats for the instructor",
     )
     seeded_answers = List(
@@ -140,8 +139,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'question_text': self.question_text,
                     'options': self.options,
                     'algo': self.algo,
-                    'algos': {'simple': 'one of each option',
-                              'random': 'completely random section'},
+                    'algos': {'simple': 'System will select one of each option to present to the students.',
+                              'random': 'Completely random selection from the response pool.'},
                     'seeds': self.seeded_answers,
         })
 
@@ -158,7 +157,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         return {'success': 'true'}
 
-    def resource_string(self, path):
+    @staticmethod
+    def resource_string(path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
@@ -192,7 +192,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             js_vals['other_answers'] = get_other_answers(
                 self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
         # Pass the answer to out Javascript
-        frag.initialize_js('PeerInstructionXBlock',js_vals)
+        frag.initialize_js('PeerInstructionXBlock', js_vals)
 
         return frag
 

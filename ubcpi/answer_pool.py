@@ -7,7 +7,7 @@ class UnknownChooseAnswerAlgorithm(Exception):
 
 
 def offer_answer(pool, answer, rationale, student_id, algo):
-    '''
+    """
     Answers format:
     {
         'option1': {
@@ -16,7 +16,7 @@ def offer_answer(pool, answer, rationale, student_id, algo):
         }
         'option2': ...
     }
-    '''
+    """
     if algo == 'simple':
         offer_simple(pool, answer, rationale, student_id)
     else:
@@ -51,7 +51,7 @@ def validate_seeded_answers_simple(answers, options):
             missing_options.append(option)
 
     if missing_options:
-        return {'seed_error': 'Missing option(s) ' + ', '.join(missing_options)}
+        return {'seed_error': 'Missing option seed(s): ' + ', '.join(missing_options)}
 
     return None
 
