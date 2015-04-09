@@ -175,9 +175,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
+        frag.add_css(self.resource_string("static/css/nv.d3.css"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
-        frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
-        frag.add_javascript_url("http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
+        frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
+        frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
+        # frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
+        # frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js")
+        frag.add_javascript(self.resource_string("static/js/src/d3.js"))
+        frag.add_javascript(self.resource_string("static/js/src/nv.d3.js"))
+        frag.add_javascript(self.resource_string("static/js/src/angularjs-nvd3-directives.min.js"))
 
         js_vals = {
             'answer_original': answers.get_vote(0),
@@ -191,6 +197,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(
                 self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
+
+        # reveal the correct answer in the end
+        if answers.has_revision(1):
+            js_vals['correct_answer'] = self.correct_answer
+
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', js_vals)
 

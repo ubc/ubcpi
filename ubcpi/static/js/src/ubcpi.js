@@ -20,7 +20,7 @@ function PeerInstructionXBlock(runtime, element, data) {
 
     $(function ($) {
         var appId = generatePIXBlockId();
-        var app = angular.module(appId, []);
+        var app = angular.module(appId, ['nvd3ChartDirectives']);
         app.run(function($http) {
             // set up CSRF Token from cookie. This is needed by all post requests
             $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
@@ -31,6 +31,18 @@ function PeerInstructionXBlock(runtime, element, data) {
             $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
+            $scope.chartData = [
+                {
+                    'key': 'Original',
+                    'color': '#d62728',
+                    'values': []
+                },
+                {
+                    'key': 'Revised',
+                    'color': '#1f77b4',
+                    'values': []
+                }
+            ];
 
             self.STATUS_NEW      = 0;
             self.STATUS_ANSWERED = 1;
@@ -103,6 +115,22 @@ function PeerInstructionXBlock(runtime, element, data) {
                         console.log("Getting stats");
                         console.log(data);
                         self.stats = data;
+                        $scope.chartData[0].values = [];
+                        $scope.chartData[1].values = [];
+                        for (var i = 0; i < $scope.options.length; i++) {
+                            var count = 0;
+                            if (i in data.original) {
+                                count = data.original[i];
+                            }
+                            $scope.chartData[0]['values'].push([$scope.options[i], count]);
+
+                            count = 0;
+                            if (i in data.revised) {
+                                count = data.revised[i];
+                            }
+                            $scope.chartData[1]['values'].push([$scope.options[i], count]);
+                        }
+                        console.log($scope.chartData);
                     }).
                     error(function(data, status, header, config) {
                         notify('error', {
