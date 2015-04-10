@@ -198,7 +198,7 @@ textarea.pi-options {
   color: #7f7f7f;
 }
 
-#pi-question-text {
+#pi-question-text, #pi-correct-rationale {
   width: 43%;
   height: 100px;
   padding: 10px;

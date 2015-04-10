@@ -57,6 +57,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.submitting = false;
 			self.other_answers = data.other_answers;
             self.correct_answer = data.correct_answer;
+            self.correct_rationale = data.correct_rationale;
 
             function getStatus(answer_original, answer_revised) {
                 if (typeof answer_original === 'undefined' || answer_original === null) {
@@ -98,6 +99,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.rationale_revised = data.rationale_revised;
 						self.other_answers = data.other_answers;
                         self.correct_answer = data.correct_answer;
+                        self.correct_rationale = data.correct_rationale;
                         notify('save', {state: 'end'})
                     }).
                     error(function(data, status, header, config) {

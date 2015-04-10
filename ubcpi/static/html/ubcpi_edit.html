@@ -37,6 +37,11 @@
                         <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="option for option in esc.data.options" required></select>
                     </div>
                     <span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span>
+                    <div class="wrapper-comp-setting">
+                        <label class="label setting-label pi-setting-label" for="pi-correct-rationale">Rationale</label>
+                        <textarea name="pi-correct-rationale" id="pi-correct-rationale" ng-model="esc.data.correct_rationale" required></textarea>
+                    </div>
+                    <span class="tip setting-help">Explain to students why this is the correct option.</span>
                 </li>
             
                 <li class="field comp-setting-entry is-set">

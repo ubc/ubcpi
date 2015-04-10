@@ -107,6 +107,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The correct option for the question",
     )
 
+    correct_rationale = String(
+        default=None, scope=Scope.content,
+        help="The feedback for student for the correct answer",
+    )
+
     stats = Dict(
         default={'original': {}, 'revised': {}}, scope=Scope.user_state_summary,
         help="Overall stats for the instructor",
@@ -136,6 +141,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.initialize_js('PIEdit', {
                     'display_name': self.display_name,
                     'correct_answer': self.correct_answer,
+                    'correct_rationale': self.correct_rationale,
                     'question_text': self.question_text,
                     'options': self.options,
                     'algo': self.algo,
@@ -152,6 +158,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         self.question_text = data['question_text']
         self.options = data['options']
         self.correct_answer = data['correct_answer']
+        self.correct_rationale = data['correct_rationale']
         self.algo = data['algo']
         self.seeded_answers = data['seeds']
 
@@ -201,6 +208,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # reveal the correct answer in the end
         if answers.has_revision(1):
             js_vals['correct_answer'] = self.correct_answer
+            js_vals['correct_rationale'] = self.correct_rationale
 
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', js_vals)
@@ -243,6 +251,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # reveal the correct answer in the end
         if answers.has_revision(1):
             ret['correct_answer'] = self.correct_answer
+            ret['correct_rationale'] = self.correct_rationale
 
         return ret
 
