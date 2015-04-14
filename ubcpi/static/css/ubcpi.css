@@ -57,7 +57,7 @@ textarea.ubcpi-field{
   -webkit-font-smoothing: antialiased;
 }
 
-.choicegroup .ubcpi_submit{
+/*.choicegroup .ubcpi_submit{
   border: 1px solid #cacaca;
   border-radius: 3px;
   box-shadow: inset 0 1px 0 0 #fff;
@@ -92,6 +92,40 @@ textarea.ubcpi-field{
 .choicegroup input[type="button"]:disabled{
   opacity: 0.5;
   cursor: not-allowed;
+}*/
+
+.choicegroup .ubcpi_submit {
+  padding: 10px 40px;
+  background: #33a6dc;
+  border: 1px solid #2b8dbb;
+  color: #eaf6fb;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
+  -webkit-transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
+  -moz-transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
+  box-sizing: border-box;
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 600;
+}
+
+.choicegroup .ubcpi_submit:hover,
+.choicegroup .ubcpi_submit:active,
+.choicegroup .ubcpi_submit:focus {
+  background: #00a7f6;
+  border-color: #00a7f6;
+  color: #fcfefe;
+}
+
+.choicegroup input[type="button"]:disabled {
+  background-color: rgb(135,135,135);
+  border-color: rgb(135,135,135);
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* Other Answers */
