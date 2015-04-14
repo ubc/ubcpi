@@ -231,7 +231,8 @@ textarea.pi-options {
   border: 1px solid #b2b2b2;
 }
 
-.others-responses {
+.others-responses,
+.ubcpi_block .detailed-solution {
   position: relative;
   margin-bottom: 20px;
   border: 1px solid #d7dbdf;
@@ -242,12 +243,30 @@ textarea.pi-options {
   background: #fdfdfd;
 }
 
-.others-responses h3 {
+.others-responses h3,
+.ubcpi_block .detailed-solution h2,
+.your-answer-and-rationale h3 {
   color: #aaa;
   text-transform: uppercase;
   font-weight: bold;
   font-style: normal;
   font-size: 0.9em;
+  margin: 0;
 }
 
-.
+.your-answer-and-rationale h3 {
+  margin-bottom: 10px;
+}
+
+.your-answer-and-rationale {
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 2px;
+}
+
+.your-answer-and-rationale textarea {
+  min-height: 200px;
+  border: 1px solid #b9c1c8;
+  color: #3c3c3c;
+  overflow-y: scroll;
+}

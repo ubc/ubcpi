@@ -22,8 +22,8 @@
 
             </div><!-- .others-responses -->
 
-            <form class="choicegroup">
-
+            <form class="choicegroup your-answer-and-rationale">
+                <h3>Your Response</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
@@ -46,7 +46,7 @@
                 
                 <span>
                     <div class="detailed-solution">
-                        <p>Correct Answer: {{rc.correct_answer}}</p>
+                        <h2>Correct Answer: {{rc.correct_answer}}</h2>
                         <div>{{rc.correct_rationale}}</div>
                     </div><!-- .detailed-solution -->
                 </span>
