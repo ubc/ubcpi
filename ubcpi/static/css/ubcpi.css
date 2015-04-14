@@ -188,7 +188,7 @@ textarea.pi-options {
   color: #b20610;
   background: #edf1f5;
   padding: 15px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 #pi-submit-options[disabled="disabled"] {
