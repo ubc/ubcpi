@@ -1,10 +1,10 @@
-<div class="ubcpi_block">
+<div class="ubcpi_block problem">
 
     <div class="revise" data-ng-controller="ReviseController as rc">
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
             
-            <h2>Question: {{question_text}}</h2>
+            <h2 class="question-text">Question: {{question_text}}</h2>
 
             <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
 
@@ -44,11 +44,13 @@
 
             <section class="solution-span correct-answer-and-rationale">
                 
-                <div class="detailed-solution">
-                    <p>Correct Answer: {{rc.correct_answer}}</p>
-                    <div>{{rc.correct_rationale}}</div>
-                </div><!-- .detailed-solution -->
-                
+                <span>
+                    <div class="detailed-solution">
+                        <p>Correct Answer: {{rc.correct_answer}}</p>
+                        <div>{{rc.correct_rationale}}</div>
+                    </div><!-- .detailed-solution -->
+                </span>
+
             </section><!-- .correct-answer-and-rationale -->
 
             <div class="original-answers choicegroup">

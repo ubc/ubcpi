@@ -1,4 +1,7 @@
 /* CSS for PeerInstructionXBlock */
+h2.question-text {
+  margin-top: 0;
+}
 
 .ubcpi_block .count {
   font-weight: bold;
