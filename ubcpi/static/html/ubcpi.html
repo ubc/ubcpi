@@ -42,8 +42,10 @@
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.STATUS_REVISED" data-ng-init="rc.getStats()">
 
-            <h3>Correct Answer: {{rc.correct_answer}}</h3>
-            <div>{{rc.correct_rationale}}</div>
+            <div class="correct-answer-and-rationale">
+                <h3>Correct Answer: {{rc.correct_answer}}</h3>
+                <div>{{rc.correct_rationale}}</div>
+            </div><!-- .correct-answer-and-rationale -->
 
             <div class="original-answers choicegroup">
                 
