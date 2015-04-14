@@ -31,15 +31,17 @@ function PeerInstructionXBlock(runtime, element, data) {
             $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
-            $scope.chartData = [
+            $scope.chartDataOriginal = [
                 {
                     'key': 'Original',
-                    'color': '#d62728',
+                    'color': '#33A6DC',
                     'values': []
-                },
+                }
+            ];
+            $scope.chartDataRevised = [
                 {
                     'key': 'Revised',
-                    'color': '#1f77b4',
+                    'color': '#50C67B',
                     'values': []
                 }
             ];
@@ -114,25 +116,26 @@ function PeerInstructionXBlock(runtime, element, data) {
                 var statsUrl = runtime.handlerUrl(element, 'get_stats');
                 $http.post(statsUrl, '""').
                     success(function(data, status, header, config) {
-                        console.log("Getting stats");
-                        console.log(data);
+                        // console.log("Getting stats");
+                        // console.log(data);
                         self.stats = data;
-                        $scope.chartData[0].values = [];
-                        $scope.chartData[1].values = [];
+                        $scope.chartDataOriginal[0].values = [];
+                        $scope.chartDataRevised[0].values = [];
                         for (var i = 0; i < $scope.options.length; i++) {
                             var count = 0;
                             if (i in data.original) {
                                 count = data.original[i];
                             }
-                            $scope.chartData[0]['values'].push([$scope.options[i], count]);
+                            $scope.chartDataOriginal[0]['values'].push([$scope.options[i], count]);
 
                             count = 0;
                             if (i in data.revised) {
                                 count = data.revised[i];
                             }
-                            $scope.chartData[1]['values'].push([$scope.options[i], count]);
+                            $scope.chartDataRevised[0]['values'].push([$scope.options[i], count]);
                         }
-                        console.log($scope.chartData);
+                        // console.log($scope.chartDataOriginal);
+                        // console.log($scope.chartDataRevised);
                     }).
                     error(function(data, status, header, config) {
                         notify('error', {
