@@ -1,21 +1,29 @@
 <div class="ubcpi_block">
+
     <div class="revise" data-ng-controller="ReviseController as rc">
-        <div data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
+
+        <div class="question-other-explain" data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
+            
             <h2>Question: {{question_text}}</h2>
 
-            <div data-ng-if="rc.status() == rc.STATUS_ANSWERED">
+            <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
+
                 <h3>Others' responses</h3>
                 <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
+                
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
                     <h4>Answer: {{answer.option}}</h4>
                     <p>{{answer.rationale}}</p>
                     </li>
                 </ul>
+
                 <p>If you wish, you may now revise your answer.</p>
-            </div>
+
+            </div><!-- .others-responses -->
 
             <form class="choicegroup">
+
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
@@ -27,12 +35,18 @@
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
 
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
+            
             </form>
-        </div>
-        <div data-ng-if="rc.status() == rc.STATUS_REVISED" data-ng-init="rc.getStats()">
+
+        </div><!-- .question-other-explain -->
+
+        <div class="correct-revised-chart" data-ng-if="rc.status() == rc.STATUS_REVISED" data-ng-init="rc.getStats()">
+
             <h3>Correct Answer: {{rc.correct_answer}}</h3>
             <div>{{rc.correct_rationale}}</div>
-            <div class="choicegroup">
+
+            <div class="original-answers choicegroup">
+                
                 <h3>Original Answers</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartData[0]['values'] track by $index">
@@ -40,8 +54,11 @@
                         {{d[0]}} - {{d[1]}}
                     </label>
                 </fieldset>
-            </div>
-            <div class="choicegroup">
+
+            </div><!-- .original-answers -->
+
+            <div class="revised-answers choicegroup">
+
                 <h3>Revised Answers</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartData[1]['values'] track by $index">
@@ -49,7 +66,9 @@
                         {{d[0]}} - {{d[1]}}
                     </label>
                 </fieldset>
-            </div>
+
+            </div><!-- .revised-answers -->
+
             <nvd3-multi-bar-chart
                     data="chartData"
                     id="ubcpi-chart"
@@ -63,6 +82,9 @@
                     >
                 <svg></svg>
             </nvd3-multi-bar-chart>
-        </div>
-    </div>
-</div>
+
+        </div><!-- .correct-revised-chart -->
+
+    </div><!-- .revise -->
+
+</div><!-- .ubcpi_block -->
