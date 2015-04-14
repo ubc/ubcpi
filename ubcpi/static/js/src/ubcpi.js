@@ -55,7 +55,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.answer = self.answer_revised || self.answer_original;
             self.rationale = self.rationale_revised || self.rationale_original;
             self.submitting = false;
-			self.other_answers = data.other_answers;
+            self.other_answers = data.other_answers;
             self.correct_answer = data.correct_answer;
             self.correct_rationale = data.correct_rationale;
 
@@ -97,7 +97,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.rationale_original = data.rationale_original;
                         self.answer_revised = data.answer_revised;
                         self.rationale_revised = data.rationale_revised;
-						self.other_answers = data.other_answers;
+                        self.other_answers = data.other_answers;
                         self.correct_answer = data.correct_answer;
                         self.correct_rationale = data.correct_rationale;
                         notify('save', {state: 'end'})
