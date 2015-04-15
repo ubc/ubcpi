@@ -53,7 +53,7 @@
 
             </section><!-- .correct-answer-and-rationale -->
 
-            <div class="original-answers choicegroup">
+            <div class="original-answers results-container choicegroup">
                 
                 <h3>Original Answers</h3>
                 <fieldset role="radiogroup" aria-label>
@@ -63,9 +63,25 @@
                     </label>
                 </fieldset>
 
+                <nvd3-multi-bar-chart
+                    data="chartDataOriginal"
+                    id="ubcpi-chart-original"
+                    tooltips="true"
+                    showValues="true"
+                    height="300"
+                    width="600"
+                    showXAxis="true"
+                    showYAxis="true"
+                    objectequality="true"
+                    rotateLabels="90"
+                    noData="There is no data yet"
+                    >
+                <svg></svg>
+            </nvd3-multi-bar-chart>
+
             </div><!-- .original-answers -->
 
-            <div class="revised-answers choicegroup">
+            <div class="revised-answers results-container choicegroup">
 
                 <h3>Revised Answers</h3>
                 <fieldset role="radiogroup" aria-label>
@@ -75,34 +91,22 @@
                     </label>
                 </fieldset>
 
-            </div><!-- .revised-answers -->
-
-            <nvd3-multi-bar-chart
-                    data="chartDataOriginal"
-                    id="ubcpi-chart-original"
-                    tooltips="true"
-                    showValues="true"
-                    height="300"
-                    width="550"
-                    showXAxis="true"
-                    showYAxis="true"
-                    objectequality="true"
-                    >
-                <svg></svg>
-            </nvd3-multi-bar-chart>
-
-            <nvd3-multi-bar-chart
+                 <nvd3-multi-bar-chart
                     data="chartDataRevised"
                     id="ubcpi-chart-revised"
                     tooltips="true"
                     height="300"
-                    width="550"
+                    width="600"
                     showXAxis="true"
                     showYAxis="true"
                     objectequality="true"
+                    rotateLabels="90"
+                    noData="There is no data yet"
                     >
                 <svg></svg>
             </nvd3-multi-bar-chart>
+
+            </div><!-- .revised-answers -->
 
         </div><!-- .correct-revised-chart -->
 
