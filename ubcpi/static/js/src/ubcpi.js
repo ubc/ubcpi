@@ -25,6 +25,18 @@ function PeerInstructionXBlock(runtime, element, data) {
             // set up CSRF Token from cookie. This is needed by all post requests
             $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
         });
+
+        app.directive('integer', function(){
+            return {
+                require: 'ngModel',
+                link: function(scope, ele, attr, ctrl){
+                    ctrl.$parsers.unshift(function(viewValue){
+                        return parseInt(viewValue, 10);
+                    });
+                }
+            };
+        });
+
         app.controller('ReviseController', function ($scope, $http) {
             var self = this;
 

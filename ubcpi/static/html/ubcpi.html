@@ -3,17 +3,17 @@
     <div class="revise" data-ng-controller="ReviseController as rc">
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
-            
+
             <h2 class="question-text">Question: {{question_text}}</h2>
 
             <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
 
                 <h3>Others' responses</h3>
                 <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
-                
+
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
-                        <h4 class="other-answer">Answer: {{answer.option}}</h4>
+                        <h4 class="other-answer">Answer: {{options[answer.option]}}</h4>
                         <p class="other-rationale">{{answer.rationale}}</p>
                     </li>
                 </ul>
@@ -26,7 +26,7 @@
                 <h3>Your Response</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
-                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}">
+                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
                         {{option}}
                     </label>
                 </fieldset>
@@ -35,7 +35,7 @@
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
 
                 <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
-            
+
             </form>
 
         </div><!-- .question-other-explain -->
@@ -43,10 +43,10 @@
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.STATUS_REVISED" data-ng-init="rc.getStats()">
 
             <section class="solution-span correct-answer-and-rationale">
-                
+
                 <span>
                     <div class="detailed-solution">
-                        <h2>Correct Answer: {{rc.correct_answer}}</h2>
+                        <h2>Correct Answer: {{options[rc.correct_answer]}}</h2>
                         <div>{{rc.correct_rationale}}</div>
                     </div><!-- .detailed-solution -->
                 </span>
@@ -54,7 +54,6 @@
             </section><!-- .correct-answer-and-rationale -->
 
             <div class="original-answers results-container choicegroup">
-                
                 <h3>Original Answers</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">

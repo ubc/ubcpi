@@ -10,11 +10,11 @@ def offer_answer(pool, answer, rationale, student_id, algo):
     """
     Answers format:
     {
-        'option1': {
+        option1_index: {
             'student_id': { can store algorithm specific info here },
             ...
         }
-        'option2': ...
+        option2_index: ...
     }
     """
     if algo == 'simple':
@@ -42,8 +42,8 @@ def validate_seeded_answers_simple(answers, options):
     seen_options = {}
     for answer in answers:
         if answer:
-            seen_options.setdefault(answer['answer'], 0)
-            seen_options[answer['answer']] += 1
+            seen_options.setdefault(options[answer['answer']], 0)
+            seen_options[options[answer['answer']]] += 1
 
     missing_options = []
     for option in options:
@@ -79,16 +79,23 @@ def get_other_answers(answers, seeded_answers, get_student_item_dict, algo):
 def get_other_answers_simple(answers, seeded_answers, get_student_item_dict):
     ret = []
     pool = convert_seeded_answers(seeded_answers)
-    pool.update(answers.items())
+    # merge the dictionaries in the answer dictionary
+    for key in answers:
+        if key in pool:
+            pool[key].update(answers[key].items())
+        else:
+            pool[key] = answers[key]
     student_id = get_student_item_dict()['student_id']
     for option, students in pool.items():
-        student = random.choice(students.keys())
-        # exclude own answer from display
-        if student == student_id:
-            # retry once cause lazy
+        student = student_id
+        i = 0
+        while student == student_id or i > 100:
+            # retry until we got a different one or after 100 retries
+            # we are suppose to get a different student answer or a seeded one in a few tries
+            # as we have at least one seeded answer for each option in the algo. And it is not
+            # suppose to overflow i order to break the loop
             student = random.choice(students.keys())
-            if student == student_id:
-                continue
+            i += 1
         if student.startswith('seeded'):
             # seeded answer, get the rationale from local
             rationale = students[student]

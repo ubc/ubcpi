@@ -34,7 +34,7 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option</label>
-                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="option for option in esc.data.options" required></select>
+                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="esc.data.options.indexOf(option) as option for option in esc.data.options" required></select>
                     </div>
                     <span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span>
                     <div class="wrapper-comp-setting">
@@ -55,7 +55,7 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Seeded Answer {{$index + 1}}</label>
-                        <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="option for option in esc.data.options" required></select>
+                        <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as option for option in esc.data.options" required></select>
                         <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.deleteSeed($index)" data-tooltip="Remove seed"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
                         <textarea class="input setting-input pi-options" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" required></textarea>
                     </div>

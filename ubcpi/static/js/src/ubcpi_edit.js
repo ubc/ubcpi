@@ -39,9 +39,7 @@ function PIEdit(runtime, element, data) {
             self.data.display_name = data.display_name;
             self.data.question_text = data.question_text;
             self.data.options = data.options;
-            self.data.correct_answer = data.options[0];
-            if (data.correct_answer)
-                self.data.correct_answer = data.correct_answer;
+            self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
                 self.data.correct_rationale = data.correct_rationale;
             self.data.algo = data.algo;
@@ -68,7 +66,7 @@ function PIEdit(runtime, element, data) {
                 var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
 
                 runtime.notify('save', {state: 'start', message: "Saving"});
-                
+
                 $http.post(handlerUrl, self.data).
                     success(function(data, status, header, config) {
                         runtime.notify('save', {state: 'end'})

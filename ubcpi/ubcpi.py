@@ -5,7 +5,7 @@ import pkg_resources
 
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, String, List, Dict
+from xblock.fields import Scope, String, List, Dict, Integer
 from xblock.fragment import Fragment
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
@@ -83,7 +83,15 @@ class MissingDataFetcherMixin:
 @XBlock.needs('user')
 class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     """
-    TO-DO: document what your XBlock does.
+    Notes:
+    storing index vs option text: when storing index, it is immune to the
+    option text changes. But when the order changes, the results will be
+    skewed. When storing option text, it is impossible (at least for now) to
+    update the existing students responses when option text changed.
+
+    a warning may be shown to the instructor that they may only do the minor
+    changes to the question options and may not change the order of the options,
+    add or delete options
     """
 
     # Fields are defined on the class.  You can access them in your code as
@@ -102,8 +110,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="Stored question options",
     )
 
-    correct_answer = String(
-        default=None, scope=Scope.content,
+    correct_answer = Integer(
+        default=0, scope=Scope.content,
         help="The correct option for the question",
     )
 
@@ -176,6 +184,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         The primary view of the PeerInstructionXBlock, shown to students
         when viewing courses.
         """
+        # convert key into integers as json.dump and json.load convert integer dictionary key into string
+        self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
         answers = self.get_answers_for_student()
         html = ""
         html += self.resource_string("static/html/ubcpi.html")
@@ -236,6 +246,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
+        # convert key into integers as json.dump and json.load convert integer dictionary key into string
+        self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
         self.record_response(data['q'], data['rationale'], data['status'])
         answers = self.get_answers_for_student()
         ret = {
