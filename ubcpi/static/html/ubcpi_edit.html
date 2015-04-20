@@ -47,9 +47,14 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-algo">Selection Algorithm</label>
-                        <select name="pi-algo" id="pi-algo" ng-model="esc.data.algo" ng-options="algo as algo for (algo, desc) in esc.algos" required></select>
+                        <select name="pi-algo" id="pi-algo" ng-model="esc.data.algo.name" ng-options="algo as algo for (algo, desc) in esc.algos" required></select>
                     </div>
                     <span class="tip setting-help">{{ esc.algos[esc.data.algo] }}</span>
+                    <div class="wrapper-comp-setting">
+                        <label class="label setting-label pi-setting-label" for="pi-algo-num-responses">Number of Responses</label>
+                        <input class="input setting-input pi-options" name="pi-algo-num-responses" id="pi-algo-num-responses" ng-model="esc.data.algo.num_responses" type="text" required />
+                    </div>
+                    <span class="tip setting-help">The number of responses presenting to the students. Enter # for the same number as options.</span>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
