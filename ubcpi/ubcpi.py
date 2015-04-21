@@ -1,4 +1,5 @@
 """TO-DO: Write a description of what this XBlock is."""
+import random
 from django.core.exceptions import PermissionDenied
 
 import pkg_resources
@@ -186,6 +187,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
+
+        # generate a random seed for student
+        student_item = self.get_student_item_dict()
+        random.seed(student_item['student_id'])
+
         answers = self.get_answers_for_student()
         html = ""
         html += self.resource_string("static/html/ubcpi.html")
