@@ -132,6 +132,8 @@ function PeerInstructionXBlock(runtime, element, data) {
                         // console.log(data);
                         self.stats = data;
                         $scope.chartDataOriginal[0].values = [];
+                        $scope.chartDataOriginal[0].data = [];
+                        $scope.chartDataOriginal[0].test = [];
                         $scope.chartDataRevised[0].values = [];
                         for (var i = 0; i < $scope.options.length; i++) {
                             var count = 0;
@@ -139,6 +141,8 @@ function PeerInstructionXBlock(runtime, element, data) {
                                 count = data.original[i];
                             }
                             $scope.chartDataOriginal[0]['values'].push([$scope.options[i], count]);
+                            $scope.chartDataOriginal[0]['data'].push( { name: $scope.options[i], value: count } );
+                            $scope.chartDataOriginal[0]['test'].push( [i,count] );
 
                             count = 0;
                             if (i in data.revised) {
@@ -146,8 +150,113 @@ function PeerInstructionXBlock(runtime, element, data) {
                             }
                             $scope.chartDataRevised[0]['values'].push([$scope.options[i], count]);
                         }
+
                         // console.log($scope.chartDataOriginal);
                         // console.log($scope.chartDataRevised);
+
+                        var data = $scope.chartDataOriginal[0]['test'];
+                        // console.log( data );
+                        // var dummyData = [4, 8, 15, 16, 23, 42];
+
+                        // var width = 420;
+                        // var barHeight = 20;
+                        var margin = {top: 10, right: 10, bottom: 30, left: 30},
+                            width = 900 - margin.left - margin.right,
+                            height = 300 - margin.top - margin.bottom;
+
+                        var x = d3.scale.ordinal()
+                            .domain(data.map(function (d) {return d[0]; }))
+                            .rangeRoundBands([margin.left, width], 0.05);
+
+                        var y = d3.scale.linear()
+                             .domain([0, d3.max(data, function(d) { return d[1]; })])
+                             .range([height, 0]);
+
+                        var xAxis = d3.svg.axis()
+                            .scale(x)
+                            .orient("bottom");
+
+                        var yAxis = d3.svg.axis()
+                            .scale(y)
+                            .orient("left");
+
+                        var svg = d3.select("#original-bar-char").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        svg.append("g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(-30," + height + ")")
+                            .call(xAxis)
+                            .append("text")
+                            .attr("x", width)
+                            .attr("dy", 20)
+                            .attr("text-anchor", "end")
+                            .text("Foo");
+
+                        svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis)
+                            .append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 6)
+                            .attr("dy", ".71em")
+                            .style("text-anchor", "end")
+                            .text("Log(Number Sts)");
+
+                                
+                        var bars = svg.selectAll("rect")
+                            .data(data)
+                            .enter()
+                            .append("rect")
+                            .attr("x", function(d) {return x(d[0]) + x.rangeBand()/2 - 40;})
+                            .attr("y", function(d) {return y(d[1]);})
+                            .attr("width", 20)
+                            .attr("height", function(d) {return height - y(d[1]);})
+                            .style("fill","blue");
+                        
+                        var yTextPadding = 20;
+
+                        bars
+                            .append("text")
+                            .attr("class", "bartext")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", "white")
+                            .attr("x", function(d,i) {
+                                return x(i)+x.rangeBand()/2 - 40;
+                            })
+                            .attr("y", function(d,i) {
+                                return height-y(d[1])-yTextPadding;
+                            })
+                            .text('testwesty');
+
+                        // var x = d3.scale.linear()
+                        //     .domain([0, dataMax ])
+                        //     .range([0, width]);
+
+                        // var chart = d3.select("#original-bar-char")
+                        //     .attr("width", width)
+                        //     .attr("height", barHeight * dataMax );
+
+                        // var bar = chart.selectAll("g")
+                        //     .data( data )
+                        //     .enter().append("g")
+                        //     .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; })
+                        //     .attr("class", "ubcpi-chart-result");
+
+                        // // console.log()
+                        // bar.append("rect")
+                        //     .attr("width", x)
+                        //     .attr("height", barHeight - 1);
+
+                        // bar.append("text")
+                        //     .attr("x", function(d) { return x(d) - 3; })
+                        //     .attr("y", barHeight / 2)
+                        //     .attr("dy", ".35em")
+                        //     .text(function(d) { console.log(d);return d; });
+
                     }).
                     error(function(data, status, header, config) {
                         notify('error', {
