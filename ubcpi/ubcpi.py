@@ -1,4 +1,5 @@
 """TO-DO: Write a description of what this XBlock is."""
+import random
 from django.core.exceptions import PermissionDenied
 
 import pkg_resources
@@ -134,8 +135,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="System selected answers to give to students during the revise stage.",
     )
 
-    algo = String(
-        default="simple", scope=Scope.content,
+    algo = Dict(
+        default={'name': 'simple', 'num_responses': '#'}, scope=Scope.content,
         help="The algorithm for selecting which answers to be presented to students",
     )
 
@@ -186,6 +187,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
+
+        # generate a random seed for student
+        student_item = self.get_student_item_dict()
+        random.seed(student_item['student_id'])
+
         answers = self.get_answers_for_student()
         html = ""
         html += self.resource_string("static/html/ubcpi.html")
@@ -213,7 +219,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         }
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
+                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -258,7 +264,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         }
         if answers.has_revision(0):
             ret['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo)
+                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
