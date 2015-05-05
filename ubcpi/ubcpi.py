@@ -4,6 +4,10 @@ from django.core.exceptions import PermissionDenied
 
 import pkg_resources
 
+from xmodule.contentstore.content import StaticContent
+import os
+from copy import deepcopy
+
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer
@@ -60,6 +64,21 @@ class MissingDataFetcherMixin:
         )
         return student_item_dict
 
+    def get_asset_url(self, static_url):
+        """Returns the asset url for imported files (eg. images)
+
+        Args:
+            static_url(str): The static url for the file
+        Returns:
+            (str): The path to the file
+        """
+
+        file = os.path.split(static_url)[-1]
+        if hasattr(self, "xmodule_runtime"):
+            return StaticContent.get_base_url_path_for_course_assets(self.course_id) + file
+        else:
+            return static_url
+
     def _serialize_opaque_key(self, key):
         """
         Gracefully handle opaque keys, both before and after the transition.
@@ -107,7 +126,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     options = List(
-        default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
+        default=[{'name': 'Default Option 1', 'type': 'text'}, {'name': 'Default Option 2', 'type': 'text'}], scope=Scope.content,
         help="Stored question options",
     )
 
@@ -153,6 +172,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'correct_rationale': self.correct_rationale,
                     'question_text': self.question_text,
                     'options': self.options,
+                    'option_types': {'text': 'Text', 'image': 'Image'},
                     'algo': self.algo,
                     'algos': {'simple': 'System will select one of each option to present to the students.',
                               'random': 'Completely random selection from the response pool.'},
@@ -208,6 +228,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript(self.resource_string("static/js/src/nv.d3.js"))
         frag.add_javascript(self.resource_string("static/js/src/angularjs-nvd3-directives.min.js"))
 
+        options = deepcopy(self.options)
+        for option in options:
+            if option.get('type') in ['image']:
+                option.update({'name': self.get_asset_url(option.get('name'))})
+
         js_vals = {
             'answer_original': answers.get_vote(0),
             'rationale_original': answers.get_rationale(0),
@@ -215,7 +240,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'rationale_revised': answers.get_rationale(1),
             'display_name': self.display_name,
             'question_text': self.question_text,
-            'options': self.options,
+            'options': options,
         }
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(

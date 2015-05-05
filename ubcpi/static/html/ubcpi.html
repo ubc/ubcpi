@@ -13,7 +13,12 @@
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
-                        <h4 class="other-answer">Answer: {{options[answer.option]}}</h4>
+                        <h4 class="other-answer">Answer:
+                            <span ng-switch="options[answer.option].type">
+                                <img ng-switch-when="image" alt="image" ng-src="{{options[answer.option].name}}" />
+                                <span ng-switch-default>{{options[answer.option].name}}</span>
+                            </span>
+                        </h4>
                         <p class="other-rationale">{{answer.rationale}}</p>
                     </li>
                 </ul>
@@ -27,7 +32,10 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
-                        {{option}}
+                        <span ng-switch="option.type">
+                            <img ng-switch-when="image" alt="image" ng-src="{{option.name}}" />
+                            <span ng-switch-default>{{option.name}}</span>
+                        </span>
                     </label>
                 </fieldset>
 
@@ -46,7 +54,12 @@
 
                 <span>
                     <div class="detailed-solution">
-                        <h2>Correct Answer: {{options[rc.correct_answer]}}</h2>
+                        <h2>Correct Answer:
+                            <span ng-switch="options[rc.correct_answer].type">
+                                <img ng-switch-when="image" alt="image" ng-src="{{options[rc.correct_answer].name}}" />
+                                <span ng-switch-default>{{options[rc.correct_answer].name}}</span>
+                            </span>
+                        </h2>
                         <div>{{rc.correct_rationale}}</div>
                     </div><!-- .detailed-solution -->
                 </span>
@@ -58,7 +71,11 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
-                        {{d[0]}} - {{d[1]}}
+                        <span ng-switch="d[0].type">
+                            <img ng-switch-when="image" alt="image" ng-src="{{d[0].name}}" />
+                            <span ng-switch-default>{{d[0].name}} </span>
+                        </span>
+                        - {{d[1]}}
                     </label>
                 </fieldset>
 
@@ -72,7 +89,11 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
-                        {{d[0]}} - {{d[1]}}
+                        <span ng-switch="d[0].type">
+                            <img ng-switch-when="image" alt="image" ng-src="{{d[0].name}}" />
+                            <span ng-switch-default>{{d[0].name}} </span>
+                        </span>
+                        - {{d[1]}}
                     </label>
                 </fieldset>
 

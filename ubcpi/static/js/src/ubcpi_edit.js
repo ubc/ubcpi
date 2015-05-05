@@ -39,6 +39,7 @@ function PIEdit(runtime, element, data) {
             self.data.display_name = data.display_name;
             self.data.question_text = data.question_text;
             self.data.options = data.options;
+            self.option_types = data.option_types;
             self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
                 self.data.correct_rationale = data.correct_rationale;
@@ -49,7 +50,7 @@ function PIEdit(runtime, element, data) {
                 runtime.notify('cancel', {});
             };
             self.add_option = function() {
-                self.data.options.push('');
+                self.data.options.push({'name': ''});
             };
             self.delete_option = function(index) {
                 self.data.options.splice(index, 1);

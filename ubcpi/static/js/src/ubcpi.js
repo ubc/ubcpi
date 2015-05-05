@@ -241,15 +241,15 @@ function PeerInstructionXBlock(runtime, element, data) {
                                 count = data.original[i];
                             }
                             $scope.chartDataOriginal[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataOriginal[0]['data'].push( { name: $scope.options[i], value: count } );
-                            $scope.chartDataOriginal[0]['originalData'].push( [$scope.options[i],count] );
+                            $scope.chartDataOriginal[0]['data'].push( { name: $scope.options[i].name, value: count } );
+                            $scope.chartDataOriginal[0]['originalData'].push( [$scope.options[i].name,count] );
 
                             count = 0;
                             if (i in data.revised) {
                                 count = data.revised[i];
                             }
                             $scope.chartDataRevised[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataRevised[0]['revisedData'].push( [$scope.options[i],count] );
+                            $scope.chartDataRevised[0]['revisedData'].push( [$scope.options[i].name,count] );
                         }
 
                         self.createChart( $scope.chartDataOriginal[0]['originalData'], '#original-bar-chart' );
