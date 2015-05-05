@@ -175,6 +175,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                     .data(data)
                     .enter()
                     .append("rect")
+                    .attr("class", "ubcpidatabar")
                     .attr("x", function(d, i) { return x( d[0] ); })
                     .attr("y", function(d, i) { return y( d[1] ); })
                     .attr("width", barWidth)
