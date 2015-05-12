@@ -63,11 +63,25 @@ function PIEdit(runtime, element, data) {
                 self.data.seeds.splice(index, 1);
             };
             self.show_image_fields = function( index ) {
+
             	if ( index === false ) {
+                    // This is just for the 'quetion', i.e. not an array of possibles
             		self.data.question_text.show_image_fields = !self.data.question_text.show_image_fields;
+
+                    if ( !self.data.question_text.show_image_fields ) {
+                        self.data.question_text.image_url = '';
+                    }
+
             	} else {
+                    // This is for the options
             		self.data.options[index].show_image_fields = !self.data.options[index].show_image_fields;
+
+                    if ( !self.data.options[index].show_image_fields ) {
+                        self.data.options[index].image_url = '';
+                    }
+
             	}
+
             }
             self.submit = function() {
                 // Take all of the fields, serialize them, and pass them to the
@@ -91,4 +105,3 @@ function PIEdit(runtime, element, data) {
         angular.bootstrap(element, ["ubcpi_edit"]);
     });
 }
-
