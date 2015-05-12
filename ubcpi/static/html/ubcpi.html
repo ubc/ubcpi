@@ -19,8 +19,14 @@
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
-                        <h4 class="other-answer">Answer: {{options[answer.option]}}</h4>
+                        <!-- <h4 class="other-answer">Answer: {{options[answer.option]}}</h4> -->
+                        <img ng-src="{{options[answer.option].image_url}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
+
+                        <h4 class="other-answer" ng-if="options[answer.option].text">{{options[answer.option].text}}</h4>
+
+                        <img ng-src="{{options[answer.option].image_url}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
                         <p class="other-rationale">{{answer.rationale}}</p>
+
                     </li>
                 </ul>
 
@@ -33,7 +39,12 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
-                        {{option}}
+                        <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'above' && option.image_url" />
+
+                        <h3 ng-if="option.text">{{option.text}}</h3>
+
+                        <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'below' && option.image_url" />
+
                     </label>
                 </fieldset>
 
@@ -52,7 +63,14 @@
 
                 <span>
                     <div class="detailed-solution">
-                        <h2>Correct Answer: {{options[rc.correct_answer]}}</h2>
+                        <h2>Correct Answer:</h2>
+
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
+
+                        <h3 ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</h3>
+
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
+
                         <div>{{rc.correct_rationale}}</div>
                     </div><!-- .detailed-solution -->
                 </span>
@@ -64,7 +82,13 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
-                        {{d[0]}} - {{d[1]}}
+
+                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
+
+                        <span ng-if="d[0].text">{{d[0].text}}</span>
+
+                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
+                        - {{d[1]}}
                     </label>
                 </fieldset>
 
@@ -78,7 +102,12 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
-                        {{d[0]}} - {{d[1]}}
+                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
+
+                        <span ng-if="d[0].text">{{d[0].text}}</span>
+
+                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
+                        - {{d[1]}}
                     </label>
                 </fieldset>
 

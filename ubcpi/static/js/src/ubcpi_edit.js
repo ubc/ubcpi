@@ -51,7 +51,7 @@ function PIEdit(runtime, element, data) {
                 runtime.notify('cancel', {});
             };
             self.add_option = function() {
-                self.data.options.push('');
+                self.data.options.push({'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0});
             };
             self.delete_option = function(index) {
                 self.data.options.splice(index, 1);
@@ -73,6 +73,7 @@ function PIEdit(runtime, element, data) {
                     }
 
             	} else {
+
                     // This is for the options
             		self.data.options[index].show_image_fields = !self.data.options[index].show_image_fields;
 

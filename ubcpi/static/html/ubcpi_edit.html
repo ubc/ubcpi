@@ -36,8 +36,20 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting" ng-repeat="option in esc.data.options track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
-                        <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index]" type="text" required />
+                        <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
                         <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
+
+                        <div class="add-image-inputs" ng-show="esc.data.options[$index].show_image_fields">
+                        	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL</label>
+                        	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" /> <br />
+                        	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position</label>
+                        	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select>
+
+                        	<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above. Finally, choose if you want the image to appear above or below the question text.</span>
+                        </div>
+
+                        <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image'}}" ng-click="esc.show_image_fields($index)" />
+
                     </div>
                     <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add</a>
                     <span class="tip setting-help">These are the possible options from which a student may select.</span>
@@ -46,7 +58,8 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option</label>
-                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="esc.data.options.indexOf(option) as option for option in esc.data.options" required></select>
+
+                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                     </div>
                     <span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span>
                     <div class="wrapper-comp-setting">
@@ -72,7 +85,7 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Seeded Answer {{$index + 1}}</label>
-                        <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as option for option in esc.data.options" required></select>
+                        <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                         <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.deleteSeed($index)" data-tooltip="Remove seed"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
                         <textarea class="input setting-input pi-options" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" required></textarea>
                     </div>

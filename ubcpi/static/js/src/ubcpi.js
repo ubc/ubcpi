@@ -126,6 +126,14 @@ function PeerInstructionXBlock(runtime, element, data) {
 
             self.createChart = function( data, containerSelector ) {
 
+                data = [
+                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 1"}, 20],
+                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 2"}, 10],
+                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 3"}, 100],
+                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 3"}, 50]
+                ];
+
+                var numOfBars = data.length;
                 var yMax = d3.max( data, function( array ) {
                     return d3.max( array.slice( 1 ) );
                 } );
@@ -143,7 +151,7 @@ function PeerInstructionXBlock(runtime, element, data) {
 
                 // Create the x boundaries
                 var x = d3.scale.ordinal()
-                    .domain(data.map(function (d) {return d[0]; }))
+                    .domain(data.map(function (d, index) {return d[0]; }))
                     .rangeRoundBands([margin.left, width], 1);
 
                 // Create the y boundaries
@@ -166,7 +174,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
-                
+
                 // Bar chart width
                 var barWidth = 40;
 
@@ -176,12 +184,15 @@ function PeerInstructionXBlock(runtime, element, data) {
                     .enter()
                     .append("rect")
                     .attr("class", "ubcpidatabar")
-                    .attr("x", function(d, i) { return x( d[0] ); })
+                    .attr("x", function(d, i) {
+                        var gapBetween = (width / numOfBars) - ( numOfBars * barWidth );
+                        return ( margin.left + (barWidth*(i+1)) + (gapBetween*(i+1)) );
+                    })
                     .attr("y", function(d, i) { return y( d[1] ); })
                     .attr("width", barWidth)
                     .attr("height", function(d) {return height - y(d[1]);})
                     .style("fill","rgb(51, 166, 220)");
-                
+
                 var yTextPadding = 20;
 
                 // Add text labels and position them

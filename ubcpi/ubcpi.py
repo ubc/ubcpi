@@ -112,7 +112,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     options = List(
-        default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
+        # default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
+        default=[
+            {'text': 'Default Option 1', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
+            {'text': 'Default Option 2', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}
+        ],
+        scope=Scope.content,
         help="Stored question options",
     )
 

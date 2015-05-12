@@ -42,13 +42,17 @@ def validate_seeded_answers_simple(answers, options, algo):
     seen_options = {}
     for answer in answers:
         if answer:
-            seen_options.setdefault(options[answer['answer']], 0)
-            seen_options[options[answer['answer']]] += 1
+            key = options[answer['answer']].get('text') + options[answer['answer']].get('image_url')
+            seen_options.setdefault(key, 0)
+            seen_options[key] += 1
 
     missing_options = []
+    index = 1
     for option in options:
-        if seen_options.get(option, 0) == 0:
-            missing_options.append(option)
+        key = option.get('text') + option.get('image_url')
+        if seen_options.get(key, 0) == 0:
+            missing_options.append('Option ' + str(index))
+        index += 1
 
     if missing_options:
         return {'seed_error': 'Missing option seed(s): ' + ', '.join(missing_options)}
