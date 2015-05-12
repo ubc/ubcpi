@@ -83,12 +83,13 @@
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
 
+                        <div>Option {{$index + 1}}</div>
+
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
-                        <span ng-if="d[0].text">{{d[0].text}}</span>
+                        <div ng-if="d[0].text">{{d[0].text}}</div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
-                        - {{d[1]}}
                     </label>
                 </fieldset>
 
@@ -102,12 +103,14 @@
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
+
+                        <div>Option {{$index + 1}}</div>
+
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
                         <span ng-if="d[0].text">{{d[0].text}}</span>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
-                        - {{d[1]}}
                     </label>
                 </fieldset>
 
