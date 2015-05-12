@@ -101,9 +101,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     # the display name that used on the interface
     display_name = String(default="Peer Instruction Tool")
 
-    question_text = String(
-        default="What is your question?", scope=Scope.content,
-        help="Stored question text for the students",
+    #question_text = String(
+     #   default="What is your question?", scope=Scope.content,
+      #  help="Stored question text for the students",
+   # )
+
+    question_text = Dict(
+    	default={'text': 'What is your question?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}, scope=Scope.content,
+    	help="Some help text here change this"
     )
 
     options = List(
@@ -156,6 +161,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'algo': self.algo,
                     'algos': {'simple': 'System will select one of each option to present to the students.',
                               'random': 'Completely random selection from the response pool.'},
+                    'image_position_locations': {
+                    	'above': 'Appears above question',
+                    	'below': 'Appears below question'
+                    },
                     'seeds': self.seeded_answers,
         })
 

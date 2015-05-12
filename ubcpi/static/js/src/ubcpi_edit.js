@@ -38,6 +38,8 @@ function PIEdit(runtime, element, data) {
             self.data = {};
             self.data.display_name = data.display_name;
             self.data.question_text = data.question_text;
+            self.image_position_locations = data.image_position_locations;
+
             self.data.options = data.options;
             self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
@@ -60,6 +62,13 @@ function PIEdit(runtime, element, data) {
             self.deleteSeed = function(index) {
                 self.data.seeds.splice(index, 1);
             };
+            self.show_image_fields = function( index ) {
+            	if ( index === false ) {
+            		self.data.question_text.show_image_fields = !self.data.question_text.show_image_fields;
+            	} else {
+            		self.data.options[index].show_image_fields = !self.data.options[index].show_image_fields;
+            	}
+            }
             self.submit = function() {
                 // Take all of the fields, serialize them, and pass them to the
                 // server for saving.

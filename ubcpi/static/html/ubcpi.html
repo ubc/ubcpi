@@ -4,7 +4,13 @@
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
 
-            <h2 class="question-text">Question: {{question_text}}</h2>
+            <h2 class="question-text">Question:</h2>
+
+            <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
+
+            <h3 ng-if="question_text.text">{{question_text.text}}</h3>
+
+            <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
             <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
 
