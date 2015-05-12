@@ -337,6 +337,11 @@ textarea.pi-options {
   font-size: 18px;
 }
 
-.add-image-inputs {
-	
+/* Graph Styling */
+.ubcpibar {
+    fill: #33b2eb;
+}
+
+#revised-bar-chart .ubcpibar {
+    fill: #50c67b;
 }

@@ -126,17 +126,20 @@ function PeerInstructionXBlock(runtime, element, data) {
 
             self.createChart = function( data, containerSelector ) {
 
-                data = [
-                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 1"}, 20],
-                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 2"}, 10],
-                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 3"}, 100],
-                    [{image_position: "above", image_url: "/c4x/edX/DemoX/asset/option1-above.png", show_image_fields: true, text: "Default Option 3"}, 50]
-                ];
+                var i;
+                var modifiedData = [];
 
-                var numOfBars = data.length;
-                var yMax = d3.max( data, function( array ) {
-                    return d3.max( array.slice( 1 ) );
-                } );
+                for (i = 0; i < data.length; ++i) {
+                    var thisFreq = data[i][1];
+                    var thisLabel = 'Option ' + (i+1);
+
+                    var thisObject = {};
+                    thisObject.label = thisLabel;
+                    thisObject.frequency = thisFreq;
+                    modifiedData.push(thisObject);
+                }
+
+                data = modifiedData;
 
                 // Layout
                 var margin = {
@@ -149,89 +152,54 @@ function PeerInstructionXBlock(runtime, element, data) {
                 var width = 900 - margin.left - margin.right;
                 var height = 300 - margin.top - margin.bottom;
 
-                // Create the x boundaries
-                var x = d3.scale.ordinal()
-                    .domain(data.map(function (d, index) {return d[0]; }))
-                    .rangeRoundBands([margin.left, width], 1);
-
-                // Create the y boundaries
-                var y = d3.scale.linear()
-                     .domain([0, yMax])
-                     .range([height, 0]);
-
-                // Create the x-axis
-                var xAxis = d3.svg.axis()
-                    .scale(x)
-                    .orient("bottom");
-
-                // Create the y-axis
-                var yAxis = d3.svg.axis()
-                    .scale(y)
-                    .orient("left");
-
-                // Create the actual SVG element
                 var svg = d3.select(containerSelector)
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
+                //
+                var x = d3.scale.ordinal()
+                    .rangeRoundBands([0, width], .1);
 
-                // Bar chart width
-                var barWidth = 40;
+                var y = d3.scale.linear()
+                    .range([height, 0]);
 
-                // add the bars to the chart
-                var bars = svg.selectAll("rect")
-                    .data(data)
-                    .enter()
-                    .append("rect")
-                    .attr("class", "ubcpidatabar")
-                    .attr("x", function(d, i) {
-                        var gapBetween = (width / numOfBars) - ( numOfBars * barWidth );
-                        return ( margin.left + (barWidth*(i+1)) + (gapBetween*(i+1)) );
-                    })
-                    .attr("y", function(d, i) { return y( d[1] ); })
-                    .attr("width", barWidth)
-                    .attr("height", function(d) {return height - y(d[1]);})
-                    .style("fill","rgb(51, 166, 220)");
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom");
+
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient("left")
+                    .ticks(10, "%");
+
+                x.domain(data.map(function(d) { return d.label; }));
+                y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+                svg.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(xAxis);
+
+              svg.append("g")
+                  .attr("class", "y axis")
+                  .call(yAxis)
+                .append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 6)
+                  .attr("dy", ".71em")
+                  .style("text-anchor", "end")
+                  .text("Frequency");
+
+                svg.selectAll(".ubcpibar")
+                  .data(data)
+                .enter().append("rect")
+                  .attr("class", "ubcpibar")
+                  .attr("x", function(d) { return x(d.label); })
+                  .attr("width", x.rangeBand())
+                  .attr("y", function(d) { return y(d.frequency); })
+                  .attr("height", function(d) { return height - y(d.frequency); });
 
                 var yTextPadding = 20;
-
-                // Add text labels and position them
-                svg.selectAll( "text" )
-                    .data(data)
-                    .enter()
-                    .append("text")
-                   .text(function(d) {
-                        return d[1];
-                   })
-                   .attr("text-anchor", "middle")
-                   .attr("x", function(d, i) { return x( d[0] ) + barWidth/2; })
-                   .attr("y", function(d) {return y(d[1]) + 15;})
-                   .attr("font-family", "sans-serif")
-                   .attr("font-size", "11px")
-                   .attr("fill", "white");
-
-                // Implement the x axis
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis)
-                    .append("text")
-                    .attr("x", width)
-                    .attr("dx", "0.71em")
-                    .attr("text-anchor", "middle")
-                    .text("Option");
-
-                // Implement the y-axis
-                svg.append("g")
-                    .attr("class", "y axis")
-                    .attr("transform", "translate(0,0)")
-                    .call(yAxis)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Number of answers");
 
             }
 
