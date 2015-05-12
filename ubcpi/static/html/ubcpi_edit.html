@@ -1,9 +1,9 @@
 <div class="wrapper-comp-settings is-active editor-with-buttons" id="settings-tab">
 
     <div ng-controller="EditSettingsController as esc">
-        
+
         <form id="pi-form" name="piForm" ng-submit="esc.submit()" ng-model="esc.data" ng-model-options="{allowInvalid: true}" validate-form>
-        
+
             <ul class="list-input settings-list" id="pi-line-items">
 
                 <li class="field comp-setting-entry is-set">
@@ -42,7 +42,7 @@
                     <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add</a>
                     <span class="tip setting-help">These are the possible options from which a student may select.</span>
                 </li>
-            
+
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option</label>
@@ -55,7 +55,7 @@
                     </div>
                     <span class="tip setting-help">Explain to students why this is the correct option.</span>
                 </li>
-            
+
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-algo">Selection Algorithm</label>
@@ -83,22 +83,22 @@
                         </div>
                     </div>
                 </li>
-        
+
             </ul>
-            
+
             <div class="xblock-actions">
-        
+
                 <ul>
                     <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="You are unable to save this form as there are errors: {{piForm.$errors.seed_error}}"><i class="icon fa fa-question-circle"></i></a></li>
                     <li class="action-item">
                         <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
                     </li>
-            
+
                     <li class="action-item">
                         <a href="" class="button cancel-button" ng-click="esc.cancel()">Cancel</a>
                     </li>
                 </ul>
-        
+
             </div><!-- .xblock-actions -->
 
         </form>
