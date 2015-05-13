@@ -29,6 +29,10 @@ h2.question-text {
   display: block;
 }
 
+.ubcpi-label.ubcpi-answer {
+    float: none;
+}
+
 .ubcpi-field{
   display: block;
 }
@@ -374,6 +378,11 @@ textarea.pi-options {
 /* Graph Styling */
 .ubcpibar {
     fill: #33b2eb;
+    opacity: 0.8;
+}
+
+.ubcpibar:hover {
+    opacity: 1.0;
 }
 
 #revised-bar-chart .ubcpibar {

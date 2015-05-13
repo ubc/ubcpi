@@ -41,7 +41,7 @@
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
                         <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <h3 ng-if="option.text">{{option.text}}</h3>
+                        <p ng-if="option.text">{{option.text}}</p>
 
                         <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'below' && option.image_url" />
 
