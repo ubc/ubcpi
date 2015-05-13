@@ -186,8 +186,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'algos': {'simple': 'System will select one of each option to present to the students.',
                               'random': 'Completely random selection from the response pool.'},
                     'image_position_locations': {
-                    	'above': 'Appears above question',
-                    	'below': 'Appears below question'
+                    	'above': 'Appears above',
+                    	'below': 'Appears below'
                     },
                     'seeds': self.seeded_answers,
         })
