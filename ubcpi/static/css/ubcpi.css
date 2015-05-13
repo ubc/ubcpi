@@ -169,9 +169,11 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
     margin-bottom: 0;
   }
 
-.pi-add-item-link {
+.pi-add-item-link,
+.wrapper-comp-settings .list-input.settings-list .add-image-button {
   display: inline-block;
   margin-left: 26.5%;
+  margin-bottom: 10px;
   padding: 10px 50px;
   font-size: 12px;
   font-size: 1.2rem;
@@ -190,12 +192,27 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   cursor: pointer;
 }
 
-  .pi-add-item-link:hover {
+  .pi-add-item-link:hover,
+  .wrapper-comp-settings .list-input.settings-list .add-image-button:hover {
     color: white;
     background: #66c5f0;
   }
 
-  .wrapper-comp-settings .list-input.settings-list .pi-add-item-link+.setting-help {
+  .wrapper-comp-settings .list-input.settings-list .add-image-button {
+      margin: 20px 0 20px 26.5%;
+      max-width: 190px;
+      display: block;
+  }
+
+  .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.ubcpi-options-list {
+      background: rgb(252,252,252);
+      padding: 10px;
+      border: 1px solid rgb(245,245,245);
+      margin-bottom: 10px;
+  }
+
+  .wrapper-comp-settings .list-input.settings-list .pi-add-item-link+.setting-help,
+  .wrapper-comp-settings .list-input.settings-list .add-image-button+.settings-help {
     display: block;
     margin-top: 5px;
   }
@@ -206,6 +223,15 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
 
     .field.comp-setting-entry .setting-help:last-of-type {
       margin-bottom: 0;
+    }
+
+.add-image-inputs {
+    padding: 20px 0;
+}
+
+    .add-image-inputs input,
+    .add-image-inputs select {
+        margin-bottom: 20px;
     }
 
 .remove-action.remove-setting .fa.fa-times-circle {
@@ -335,6 +361,14 @@ textarea.pi-options {
   padding-bottom: 10px;
   margin-bottom: 20px;
   font-size: 18px;
+}
+
+.wrapper-comp-settings .list-input.settings-list .add-image-button {
+
+}
+
+.wrapper-comp-settings .list-input.settings-list .add-image-button:disabled {
+
 }
 
 /* Graph Styling */

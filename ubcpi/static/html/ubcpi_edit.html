@@ -17,7 +17,6 @@
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text</label>
                         <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text"></textarea>
-                        <span class="tip setting-help">The question the students see. This question appears above the possible answers which you set below.</span>
 
                         <div class="add-image-inputs" ng-show="esc.data.question_text.show_image_fields">
                         	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image URL</label>
@@ -30,11 +29,13 @@
 
                         <input type="button" class="button action-primary add-image-button" value="{{esc.data.question_text.show_image_fields ? 'Remove Image' : 'Add Image'}}" ng-click="esc.show_image_fields(false)" />
 
+                        <span class="tip setting-help">The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button.</span>
+
                     </div>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
-                    <div class="wrapper-comp-setting" ng-repeat="option in esc.data.options track by $index">
+                    <div class="wrapper-comp-setting ubcpi-options-list" ng-repeat="option in esc.data.options track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
                         <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
                         <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
@@ -51,8 +52,8 @@
                         <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image'}}" ng-click="esc.show_image_fields($index)" />
 
                     </div>
-                    <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add</a>
-                    <span class="tip setting-help">These are the possible options from which a student may select.</span>
+                    <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add Option</a>
+                    <span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below the set of options. To remove an option press the blue cross to the side of the option you wish to remove.</span>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
