@@ -388,3 +388,8 @@ textarea.pi-options {
 #revised-bar-chart .ubcpibar {
     fill: #50c67b;
 }
+
+.correct-answer-option{
+    margin-bottom: 20px;
+    color: #50c67b;
+}

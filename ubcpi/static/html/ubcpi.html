@@ -67,7 +67,7 @@
 
                         <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
-                        <h3 ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</h3>
+                        <h3 class="correct-answer-option" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</h3>
 
                         <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
