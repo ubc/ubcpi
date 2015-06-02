@@ -2,7 +2,7 @@ function PIEdit(runtime, element, data) {
     var self = this;
 
     $(function ($) {
-        var app = angular.module("ubcpi_edit", ['ngMessages']);
+        var app = angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize']);
         app.run(function($http) {
             // set up CSRF Token from cookie. This is needed by all post requests
             $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');

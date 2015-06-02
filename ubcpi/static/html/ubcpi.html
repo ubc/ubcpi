@@ -8,7 +8,7 @@
 
             <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
-            <pre ng-if="question_text.text">{{question_text.text}}</pre>
+            <pre ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
 
             <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 

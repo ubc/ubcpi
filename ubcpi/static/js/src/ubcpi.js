@@ -20,7 +20,7 @@ function PeerInstructionXBlock(runtime, element, data) {
 
     $(function ($) {
         var appId = generatePIXBlockId();
-        var app = angular.module(appId, ['nvd3ChartDirectives']);
+        var app = angular.module(appId, ['nvd3ChartDirectives', 'ngSanitize']);
         app.run(function($http) {
             // set up CSRF Token from cookie. This is needed by all post requests
             $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
