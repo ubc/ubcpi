@@ -1,4 +1,4 @@
-"""TO-DO: Write a description of what this XBlock is."""
+"""A Peer Instruction tool for edX by the University of British Columbia."""
 import random
 from xmodule.contentstore.content import StaticContent
 import os
