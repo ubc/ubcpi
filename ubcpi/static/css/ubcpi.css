@@ -29,6 +29,11 @@ h2.question-text {
   display: block;
 }
 
+    .ubcpi-label img {
+        max-width: 100%;
+        height: auto;
+    }
+
 .ubcpi-label.ubcpi-answer {
     float: none;
 }
