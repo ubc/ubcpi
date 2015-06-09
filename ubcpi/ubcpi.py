@@ -127,7 +127,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     question_text = Dict(
     	default={'text': 'What is your question?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}, scope=Scope.content,
-    	help="Some help text here change this"
+    	help="The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button."
     )
 
     options = List(
