@@ -91,7 +91,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.disableSubmit = function () {
                 var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
                 var size = self.rationale.length;
-                var haveRationale = size > $scope.rationale_size.min &&
+                var haveRationale = size >= $scope.rationale_size.min &&
                     ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
                 var enable = haveAnswer && haveRationale && !self.submitting;
                 return !enable;
