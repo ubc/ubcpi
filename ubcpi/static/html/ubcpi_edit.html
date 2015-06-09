@@ -88,6 +88,7 @@
                 </li>
 
                 <li class="field comp-setting-entry is-set">
+                    <h3>Seeded Answers</h3>
                     <div class="wrapper-comp-setting seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Seeded Answer {{$index + 1}}</label>
                         <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
