@@ -35,6 +35,18 @@
                 </li>
 
                 <li class="field comp-setting-entry is-set">
+                    <div class="wrapper-comp-setting">
+                        <label class="label setting-label pi-setting-label" for="pi-rationale-min">Minimum Characters</label>
+                        <input class="input setting-input" name="pi-rationale-min" id="pi-rationale-min" ng-model="esc.data.rationale_size.min" type="text" required />
+                    </div>
+                    <div class="wrapper-comp-setting">
+                        <label class="label setting-label pi-setting-label" for="pi_rationale_max">Maximum Characters</label>
+                        <input class="input setting-input" name="pi-rationale-max" id="pi_rationale_max" ng-model="esc.data.rationale_size.max" type="text" required />
+                    </div>
+                    <span class="tip setting-help">The minimum and maximum number of characters the rationale is allowed to contain.</span>
+                </li>
+
+                <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting ubcpi-options-list" ng-repeat="option in esc.data.options track by $index">
                         <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
                         <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />

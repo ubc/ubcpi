@@ -140,6 +140,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="Stored question options",
     )
 
+    rationale_size = Dict(
+        default={'min': 1, 'max': '#'}, scope=Scope.content,
+        help="The minimum and maximum number of characters a student is allowed for their rationale.",
+    )
+
     correct_answer = Integer(
         default=0, scope=Scope.content,
         help="The correct option for the question",
@@ -180,6 +185,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'display_name': self.display_name,
                     'correct_answer': self.correct_answer,
                     'correct_rationale': self.correct_rationale,
+                    'rationale_size': self.rationale_size,
                     'question_text': self.question_text,
                     'options': self.options,
                     'algo': self.algo,
@@ -198,6 +204,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def studio_submit(self, data, suffix=''):
         self.display_name = data['display_name']
         self.question_text = data['question_text']
+        self.rationale_size = data['rationale_size']
         self.options = data['options']
         self.correct_answer = data['correct_answer']
         self.correct_rationale = data['correct_rationale']
