@@ -126,27 +126,28 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
    # )
 
     question_text = Dict(
-    	default={'text': 'What is your question?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}, scope=Scope.content,
+    	default={'text': 'What is the answer to life, the universe and everything?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}, scope=Scope.content,
     	help="The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button."
     )
 
     options = List(
         # default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
         default=[
-            {'text': 'Default Option 1', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
-            {'text': 'Default Option 2', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}
+            {'text': '21', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
+            {'text': '42', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
+            {'text': '63', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}
         ],
         scope=Scope.content,
-        help="Stored question options",
+        help="The possible options from which the student may select",
     )
 
     correct_answer = Integer(
-        default=0, scope=Scope.content,
+        default=1, scope=Scope.content,
         help="The correct option for the question",
     )
 
     correct_rationale = String(
-        default=None, scope=Scope.content,
+        default={ 'text' : "In the radio series and the first novel, a group of hyper-intelligent pan-dimensional beings demand to learn the Answer to the Ultimate Question of Life, The Universe, and Everything from the supercomputer, Deep Thought, specially built for this purpose. It takes Deep Thought 7.5 million years to compute and check the answer, which turns out to be 42. Deep Thought points out that the answer seems meaningless because the beings who instructed it never actually knew what the Question was." }, scope=Scope.content,
         help="The feedback for student for the correct answer",
     )
 
