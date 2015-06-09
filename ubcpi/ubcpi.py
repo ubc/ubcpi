@@ -118,7 +118,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     # self.<fieldname>.
 
     # the display name that used on the interface
-    display_name = String(default="Peer Instruction Tool")
+    display_name = String(default="Peer Instruction")
 
     #question_text = String(
      #   default="What is your question?", scope=Scope.content,
