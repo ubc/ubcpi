@@ -36,53 +36,55 @@
                 </li>
 
                 <li class="field comp-setting-entry is-set">
-                    <h3>Possible Options</h3>
-                    <div class="wrapper-comp-setting ubcpi-options-list" ng-repeat="option in esc.data.options track by $index">
-                        <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
-                        <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
-                        <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
+                    <div class="wrapper-comp-setting">
+                        <h3>Possible Options</h3>
+                        <div class="wrapper-comp-setting ubcpi-options-list" ng-repeat="option in esc.data.options track by $index">
+                            <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}</label>
+                            <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
+                            <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
 
-                        <div class="add-image-inputs" ng-show="esc.data.options[$index].show_image_fields">
-                        	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL</label>
-                        	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" /> <br />
-                        	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position</label>
-                        	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select>
+                            <div class="add-image-inputs" ng-show="esc.data.options[$index].show_image_fields">
+                            	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL</label>
+                            	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" /> <br />
+                            	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position</label>
+                            	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select>
 
-                        	<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above. Finally, choose if you want the image to appear above or below the question text.</span>
+                            	<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above. Finally, choose if you want the image to appear above or below the question text.</span>
+                            </div>
+
+                            <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image'}}" ng-click="esc.show_image_fields($index)" />
+
                         </div>
-
-                        <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image'}}" ng-click="esc.show_image_fields($index)" />
-
+                        <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add Option</a>
+                        <span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below the set of options. To remove an option press the blue cross to the side of the option you wish to remove.</span>
                     </div>
-                    <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add Option</a>
-                    <span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below the set of options. To remove an option press the blue cross to the side of the option you wish to remove.</span>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option</label>
-
                         <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
+                        <span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span>
                     </div>
-                    <span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span>
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-correct-rationale">Rationale</label>
                         <textarea name="pi-correct-rationale" id="pi-correct-rationale" ng-model="esc.data.correct_rationale.text" required></textarea>
+                        <span class="tip setting-help">Explain to students why this is the correct option.</span>
                     </div>
-                    <span class="tip setting-help">Explain to students why this is the correct option.</span>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-algo">Selection Algorithm</label>
                         <select name="pi-algo" id="pi-algo" ng-model="esc.data.algo.name" ng-options="algo as algo for (algo, desc) in esc.algos" required></select>
+                        <span class="tip setting-help">The algorithm for determining which other answers the student answering this question sees after they submit their answer and rationale.</span>
                     </div>
                     <span class="tip setting-help">{{ esc.algos[esc.data.algo] }}</span>
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-algo-num-responses">Number of Responses</label>
                         <input class="input setting-input pi-options" name="pi-algo-num-responses" id="pi-algo-num-responses" ng-model="esc.data.algo.num_responses" type="text" required />
+                        <span class="tip setting-help">The number of responses presented to the students. Enter # for the same number as options.</span>
                     </div>
-                    <span class="tip setting-help">The number of responses presenting to the students. Enter # for the same number as options.</span>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
