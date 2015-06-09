@@ -43,6 +43,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
+            $scope.rationale_size = data.rationale_size;
             $scope.chartDataOriginal = [
                 {
                     'key': 'Original',
@@ -89,7 +90,9 @@ function PeerInstructionXBlock(runtime, element, data) {
 
             self.disableSubmit = function () {
                 var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
-                var haveRationale = typeof self.rationale !== "undefined" && self.rationale !== null;
+                var size = self.rationale.length;
+                var haveRationale = size > $scope.rationale_size.min &&
+                    ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
                 var enable = haveAnswer && haveRationale && !self.submitting;
                 return !enable;
             };
