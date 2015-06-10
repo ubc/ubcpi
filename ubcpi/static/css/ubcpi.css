@@ -55,7 +55,7 @@ textarea.ubcpi-field{
   margin: 1em 0;
   background: #fff;
   border: 1px solid #c8c8c8;
-  border-radius: 0;
+  border-radius: 3px;
   box-shadow: 0 1px 0 0 rgba(255,255,255,0.6),inset 0 0 3px 0 rgba(0,0,0,0.1);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -282,10 +282,11 @@ textarea.pi-options {
 
 #pi-question-text, #pi-correct-rationale {
   width: 43%;
-  height: 100px;
+  height: 150px;
   padding: 10px;
   border-radius: 3px;
   border: 1px solid #b2b2b2;
+  color: #33b2eb;
 }
 
 .others-responses,
