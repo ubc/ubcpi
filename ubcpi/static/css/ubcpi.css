@@ -181,9 +181,9 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
 .pi-add-item-link,
 .wrapper-comp-settings .list-input.settings-list .add-image-button {
   display: inline-block;
-  margin-left: 26.5%;
-  margin-bottom: 10px;
-  padding: 10px 50px;
+  margin: 10px 0 0 0;
+  padding: 10px 30px;
+  width: auto;
   font-size: 12px;
   font-size: 1.2rem;
   line-height: 17.76px;
@@ -199,6 +199,7 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   color: #66c5f0;
   box-sizing: border-box;
   cursor: pointer;
+  font-style: normal;
 }
 
   .pi-add-item-link:hover,
@@ -208,9 +209,10 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   }
 
   .wrapper-comp-settings .list-input.settings-list .add-image-button {
-      margin: 20px 0 20px 26.5%;
-      max-width: 190px;
+      margin: 10px 0 0 0;
+      width: auto;
       display: block;
+      padding: 10px 30px;
   }
 
   .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.ubcpi-options-list {
@@ -219,20 +221,6 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
       border: 1px solid rgb(245,245,245);
       margin-bottom: 10px;
   }
-
-  .wrapper-comp-settings .list-input.settings-list .pi-add-item-link+.setting-help,
-  .wrapper-comp-settings .list-input.settings-list .add-image-button+.settings-help {
-    display: block;
-    margin-top: 5px;
-  }
-
-  .field.comp-setting-entry .setting-help {
-    margin-bottom: 30px;
-  }
-
-    .field.comp-setting-entry .setting-help:last-of-type {
-      margin-bottom: 0;
-    }
 
 .add-image-inputs {
     padding: 20px 0;
@@ -398,4 +386,41 @@ textarea.pi-options {
 .correct-answer-option{
     margin-bottom: 20px;
     color: #50c67b;
+}
+
+#pi-form .list-input.settings-list .setting-label {
+    vertical-align: top;
+    margin-bottom: 20px;
+}
+
+#pi-form .list-input.settings-list .ubcpi-options-list-container .setting-label {
+    width: 47%;
+}
+
+#pi-form .list-input.settings-list .ubcpi-options-list-container .ubcpi-field {
+    width: 45%;
+    display: inline-block;
+}
+
+#pi-form .list-input.settings-list .setting-label + input,
+#pi-form .list-input.settings-list .setting-label + textarea,
+#pi-form .list-input.settings-list .setting-label + select {
+    margin-top: 20px;
+}
+
+.wrapper-comp-settings .list-input.settings-list .setting-help {
+    min-width: 100px;
+    margin-right: 10px;
+    color: rgb(140,140,140);
+    font-style: italic;
+    font-weight: normal;
+}
+
+.ubcpi-options-list-container {
+    width: 73%;
+    display: inline-block;
+}
+
+#pi-form .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting {
+    margin-bottom: 15px;
 }
