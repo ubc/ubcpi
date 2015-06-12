@@ -270,7 +270,7 @@ textarea.pi-options {
   margin-bottom: 20px;
 }
 
-.seed_error {
+.seed_error, .options_error {
   color: #b20610;
   background: #edf1f5;
   padding: 15px;

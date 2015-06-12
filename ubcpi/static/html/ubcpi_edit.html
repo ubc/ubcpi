@@ -106,9 +106,12 @@
                         <textarea class="input setting-input pi-options" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" required></textarea>
                     </div>
                     <a class="pi-add-item-link create-action create-setting" ng-click="esc.addSeed()"><i class="icon fa fa-plus"></i> Add Seed</a>
-                    <div ng-messages='piForm.$errors'>
+                    <div ng-messages='piForm.$errors' ng-messages-multiple>
                         <div class="seed_error" ng-message="seed_error">
                             <p><i class="icon fa fa-remove"></i> {{piForm.$errors.seed_error}}</p>
+                        </div>
+                        <div class="options_error" ng-message="options_error">
+                            <p class="icon fa fa-remove">{{piForm.$errors.options_error}}</p>
                         </div>
                     </div>
                 </li>
