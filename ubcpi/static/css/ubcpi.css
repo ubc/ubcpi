@@ -38,6 +38,10 @@ h2.question-text {
     float: none;
 }
 
+.results-container .ubcpi-label {
+    margin-bottom: 15px;
+}
+
 .ubcpi-field{
   display: block;
 }
@@ -376,12 +380,12 @@ textarea.pi-options {
     opacity: 0.8;
 }
 
-.ubcpibar:hover {
-    opacity: 1.0;
+.ubcpibar.correct-answer {
+    fill: #50c67b;
 }
 
-#revised-bar-chart .ubcpibar {
-    fill: #50c67b;
+.ubcpibar:hover {
+    opacity: 1.0;
 }
 
 .correct-answer-option{
@@ -434,4 +438,12 @@ textarea.pi-options {
 
 .correct-option {
     color: #50c67b;
+}
+
+.possible-option {
+    font-style: italic;
+}
+
+.response-text {
+    padding-left: 22px;
 }

@@ -135,17 +135,30 @@ function PeerInstructionXBlock(runtime, element, data) {
 
                     var thisObject = {};
 
+                    thisObject.class = 'ubcpibar';
+                    thisObject.frequency = thisFreq;
+
                     // If this is the 'correct' answer, then add that to the label
                     if ( self.correct_answer == (i) ) {
                         thisLabel += ' (correct option)';
+                        thisObject.class = 'ubcpibar correct-answer';
                     }
 
                     thisObject.label = thisLabel;
-                    thisObject.frequency = thisFreq;
                     modifiedData.push(thisObject);
                 }
 
                 data = modifiedData;
+
+                // var dummyData = [
+                //     {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
+                //     {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
+                //     {frequency: 5, label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
+                //     {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
+                //     {frequency: 0, label: 'Option 5', class: 'ubcpibar'},
+                // ];
+                //
+                // data = dummyData;
 
                 // Layout
                 var margin = {
@@ -199,7 +212,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                 svg.selectAll(".ubcpibar")
                   .data(data)
                 .enter().append("rect")
-                  .attr("class", "ubcpibar")
+                  .attr("class", function(d,i){ console.log( d.class ); return d.class; } )
                   .attr("x", function(d) { return x(d.label); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.frequency); })
