@@ -141,6 +141,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The possible options from which the student may select",
     )
 
+    rationale_size = Dict(
+        default={'min': 1, 'max': '#'}, scope=Scope.content,
+        help="The minimum and maximum number of characters a student is allowed for their rationale.",
+    )
+
     correct_answer = Integer(
         default=1, scope=Scope.content,
         help="The correct option for the question",
@@ -181,6 +186,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     'display_name': self.display_name,
                     'correct_answer': self.correct_answer,
                     'correct_rationale': self.correct_rationale,
+                    'rationale_size': self.rationale_size,
                     'question_text': self.question_text,
                     'options': self.options,
                     'algo': self.algo,
@@ -199,6 +205,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def studio_submit(self, data, suffix=''):
         self.display_name = data['display_name']
         self.question_text = data['question_text']
+        self.rationale_size = data['rationale_size']
         self.options = data['options']
         self.correct_answer = data['correct_answer']
         self.correct_rationale = data['correct_rationale']
@@ -256,6 +263,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'display_name': self.display_name,
             'question_text': self.question_text,
             'options': options,
+            'rationale_size': self.rationale_size,
         }
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(
@@ -319,10 +327,33 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     @XBlock.json_handler
     def validate_form(self, data, suffix=''):
         msg = validate_seeded_answers(data['seeds'], data['options'], data['algo'])
-        if msg is None:
+        options_msg = self.validate_options(data)
+        if msg is None and options_msg is None:
             return {'success': 'true'}
         else:
+            msg = msg if msg else {}
+            options_msg = options_msg if options_msg else {}
+            msg.update(options_msg)
             raise JsonHandlerError(400, msg)
+
+    def validate_options(self, options):
+        errors = []
+
+        if int(options['rationale_size']['min']) < 0:
+            errors.append('Minimum Characters')
+        if options['rationale_size']['max'] != '#' and int(options['rationale_size']['max']) < 0:
+            errors.append('Maximum Characters')
+        if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
+                and options['rationale_size']['max'] != '#' \
+                and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
+            errors += ['Minimum Characters', 'Maximum Characters']
+        if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
+            errors.append('Number of Responses')
+
+        if not errors:
+            return None
+        else:
+            return {'options_error': 'Invalid Option(s): ' + ', '.join(errors)}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

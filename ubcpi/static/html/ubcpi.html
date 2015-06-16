@@ -34,7 +34,7 @@
 
             </div><!-- .others-responses -->
 
-            <form class="choicegroup your-answer-and-rationale">
+            <form name="answerForm" class="choicegroup your-answer-and-rationale">
                 <h3>Your Response</h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
@@ -49,9 +49,9 @@
                 </fieldset>
 
                 <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection:</label>
-                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale"></textarea>
+                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
 
-                <input data-ng-disabled="rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
+                <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
 
             </form>
 
