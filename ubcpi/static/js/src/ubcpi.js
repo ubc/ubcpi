@@ -164,7 +164,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                     .attr("height", height + margin.top + margin.bottom);
                 //
                 var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], .1);
+                    .rangeRoundBands([0, width], 0.1);
 
                 var y = d3.scale.linear()
                     .range([height, 0]);
@@ -223,20 +223,20 @@ function PeerInstructionXBlock(runtime, element, data) {
                             if (i in data.original) {
                                 count = data.original[i];
                             }
-                            $scope.chartDataOriginal[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataOriginal[0]['data'].push( { name: $scope.options[i], value: count } );
-                            $scope.chartDataOriginal[0]['originalData'].push( [$scope.options[i],count] );
+                            $scope.chartDataOriginal[0].values.push([$scope.options[i], count]);
+                            $scope.chartDataOriginal[0].data.push( { name: $scope.options[i], value: count } );
+                            $scope.chartDataOriginal[0].originalData.push( [$scope.options[i],count] );
 
                             count = 0;
                             if (i in data.revised) {
                                 count = data.revised[i];
                             }
-                            $scope.chartDataRevised[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataRevised[0]['revisedData'].push( [$scope.options[i],count] );
+                            $scope.chartDataRevised[0].values.push([$scope.options[i], count]);
+                            $scope.chartDataRevised[0].revisedData.push( [$scope.options[i],count] );
                         }
 
-                        self.createChart( $scope.chartDataOriginal[0]['originalData'], '#original-bar-chart' );
-                        self.createChart( $scope.chartDataRevised[0]['revisedData'], '#revised-bar-chart' );
+                        self.createChart( $scope.chartDataOriginal[0].originalData, '#original-bar-chart' );
+                        self.createChart( $scope.chartDataRevised[0].revisedData, '#revised-bar-chart' );
 
                     }).
                     error(function(data, status, header, config) {
