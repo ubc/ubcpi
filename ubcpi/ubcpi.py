@@ -151,7 +151,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The correct option for the question",
     )
 
-    correct_rationale = String(
+    correct_rationale = Dict(
         default={ 'text' : "In the radio series and the first novel, a group of hyper-intelligent pan-dimensional beings demand to learn the Answer to the Ultimate Question of Life, The Universe, and Everything from the supercomputer, Deep Thought, specially built for this purpose. It takes Deep Thought 7.5 million years to compute and check the answer, which turns out to be 42. Deep Thought points out that the answer seems meaningless because the beings who instructed it never actually knew what the Question was." }, scope=Scope.content,
         help="The feedback for student for the correct answer",
     )
