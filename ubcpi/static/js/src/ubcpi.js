@@ -7,7 +7,7 @@ if (typeof generatePIXBlockId !== "function") {
         var id = 0;
         return function () {
             return "ubcpi_" + (id += 1);
-        }
+        };
     }());
 }
 
@@ -117,7 +117,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.other_answers = data.other_answers;
                         self.correct_answer = data.correct_answer;
                         self.correct_rationale = data.correct_rationale;
-                        notify('save', {state: 'end'})
+                        notify('save', {state: 'end'});
                     }).
                     error(function(data, status, header, config) {
                         notify('error', {
@@ -137,12 +137,31 @@ function PeerInstructionXBlock(runtime, element, data) {
                     var thisLabel = 'Option ' + (i+1);
 
                     var thisObject = {};
-                    thisObject.label = thisLabel;
+
+                    thisObject.class = 'ubcpibar';
                     thisObject.frequency = thisFreq;
+
+                    // If this is the 'correct' answer, then add that to the label
+                    if ( self.correct_answer == (i) ) {
+                        thisLabel += ' (correct option)';
+                        thisObject.class = 'ubcpibar correct-answer';
+                    }
+
+                    thisObject.label = thisLabel;
                     modifiedData.push(thisObject);
                 }
 
                 data = modifiedData;
+
+                // var dummyData = [
+                //     {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
+                //     {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
+                //     {frequency: 5, label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
+                //     {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
+                //     {frequency: 0, label: 'Option 5', class: 'ubcpibar'},
+                // ];
+                //
+                // data = dummyData;
 
                 // Layout
                 var margin = {
@@ -158,10 +177,10 @@ function PeerInstructionXBlock(runtime, element, data) {
                 var svg = d3.select(containerSelector)
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("height", height + margin.top + margin.bottom);
                 //
                 var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], .1);
+                    .rangeRoundBands([0, width], 0.1);
 
                 var y = d3.scale.linear()
                     .range([height, 0]);
@@ -196,15 +215,13 @@ function PeerInstructionXBlock(runtime, element, data) {
                 svg.selectAll(".ubcpibar")
                   .data(data)
                 .enter().append("rect")
-                  .attr("class", "ubcpibar")
+                  .attr("class", function(d,i){ console.log( d.class ); return d.class; } )
                   .attr("x", function(d) { return x(d.label); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.frequency); })
                   .attr("height", function(d) { return height - y(d.frequency); });
 
-                var yTextPadding = 20;
-
-            }
+            };
 
             self.getStats = function() {
                 var statsUrl = runtime.handlerUrl(element, 'get_stats');
@@ -222,20 +239,20 @@ function PeerInstructionXBlock(runtime, element, data) {
                             if (i in data.original) {
                                 count = data.original[i];
                             }
-                            $scope.chartDataOriginal[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataOriginal[0]['data'].push( { name: $scope.options[i], value: count } );
-                            $scope.chartDataOriginal[0]['originalData'].push( [$scope.options[i],count] );
+                            $scope.chartDataOriginal[0].values.push([$scope.options[i], count]);
+                            $scope.chartDataOriginal[0].data.push( { name: $scope.options[i], value: count } );
+                            $scope.chartDataOriginal[0].originalData.push( [$scope.options[i],count] );
 
                             count = 0;
                             if (i in data.revised) {
                                 count = data.revised[i];
                             }
-                            $scope.chartDataRevised[0]['values'].push([$scope.options[i], count]);
-                            $scope.chartDataRevised[0]['revisedData'].push( [$scope.options[i],count] );
+                            $scope.chartDataRevised[0].values.push([$scope.options[i], count]);
+                            $scope.chartDataRevised[0].revisedData.push( [$scope.options[i],count] );
                         }
 
-                        self.createChart( $scope.chartDataOriginal[0]['originalData'], '#original-bar-chart' );
-                        self.createChart( $scope.chartDataRevised[0]['revisedData'], '#revised-bar-chart' );
+                        self.createChart( $scope.chartDataOriginal[0].originalData, '#original-bar-chart' );
+                        self.createChart( $scope.chartDataRevised[0].revisedData, '#revised-bar-chart' );
 
                     }).
                     error(function(data, status, header, config) {

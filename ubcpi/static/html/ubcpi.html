@@ -63,7 +63,7 @@
 
                 <span>
                     <div class="detailed-solution">
-                        <h2>Correct Answer:</h2>
+                        <h2>Correct Option: <span class="correct-option">Option {{rc.correct_answer + 1}}</span></h2>
 
                         <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
@@ -71,7 +71,8 @@
 
                         <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
-                        <pre>{{rc.correct_rationale}}</pre>
+                        <h2>Correct Option Rationale:</h2>
+                        <pre>{{rc.correct_rationale.text}}</pre>
                     </div><!-- .detailed-solution -->
                 </span>
 
@@ -83,11 +84,11 @@
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
 
-                        <div>Option {{$index + 1}}</div>
+                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index">(You chose this option initially)</span></div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
-                        <div ng-if="d[0].text">{{d[0].text}}</div>
+                        <div ng-if="d[0].text" class="original-response response-text">{{d[0].text}}</div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
                     </label>
@@ -104,11 +105,11 @@
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
 
-                        <div>Option {{$index + 1}}</div>
+                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index">(You chose this option after seeing others)</span></div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
-                        <span ng-if="d[0].text">{{d[0].text}}</span>
+                        <div ng-if="d[0].text" class="revised-response response-text">{{d[0].text}}</div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
                     </label>
