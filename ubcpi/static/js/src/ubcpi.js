@@ -134,6 +134,12 @@ function PeerInstructionXBlock(runtime, element, data) {
                     var thisLabel = 'Option ' + (i+1);
 
                     var thisObject = {};
+
+                    // If this is the 'correct' answer, then add that to the label
+                    if ( self.correct_answer == (i) ) {
+                        thisLabel += ' (correct option)';
+                    }
+
                     thisObject.label = thisLabel;
                     thisObject.frequency = thisFreq;
                     modifiedData.push(thisObject);
