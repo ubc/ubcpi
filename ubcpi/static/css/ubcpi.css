@@ -425,3 +425,13 @@ textarea.pi-options {
 #pi-form .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting {
     margin-bottom: 15px;
 }
+
+.option-details-text {
+    font-style: italic;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.correct-option {
+    color: #50c67b;
+}
