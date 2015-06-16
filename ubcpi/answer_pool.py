@@ -89,7 +89,7 @@ def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num
     pool = convert_seeded_answers(seeded_answers)
     # merge the dictionaries in the answer dictionary
     for key in answers:
-        total_in_pool += len(answers)
+        total_in_pool += len(answers[key])
         if key in pool:
             pool[key].update(answers[key].items())
         else:
