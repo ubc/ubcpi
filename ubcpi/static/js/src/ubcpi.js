@@ -7,7 +7,7 @@ if (typeof generatePIXBlockId !== "function") {
         var id = 0;
         return function () {
             return "ubcpi_" + (id += 1);
-        }
+        };
     }());
 }
 
@@ -114,7 +114,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                         self.other_answers = data.other_answers;
                         self.correct_answer = data.correct_answer;
                         self.correct_rationale = data.correct_rationale;
-                        notify('save', {state: 'end'})
+                        notify('save', {state: 'end'});
                     }).
                     error(function(data, status, header, config) {
                         notify('error', {
@@ -161,7 +161,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                 var svg = d3.select(containerSelector)
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("height", height + margin.top + margin.bottom);
                 //
                 var x = d3.scale.ordinal()
                     .rangeRoundBands([0, width], .1);
@@ -205,9 +205,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                   .attr("y", function(d) { return y(d.frequency); })
                   .attr("height", function(d) { return height - y(d.frequency); });
 
-                var yTextPadding = 20;
-
-            }
+            };
 
             self.getStats = function() {
                 var statsUrl = runtime.handlerUrl(element, 'get_stats');
