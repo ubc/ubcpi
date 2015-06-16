@@ -105,7 +105,7 @@
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
 
-                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index">(You chose this option after seeing others)</span></div>
+                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_revised == $index">(You chose this option after seeing others)</span></div>
 
                         <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
