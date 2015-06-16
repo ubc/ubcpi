@@ -152,6 +152,7 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li{
     margin: 0.75em;
     border-bottom: 1px solid #cfc6c6;
+    border-bottom: 0 !important; /* Why so specific edX? */
   }
 
   div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li:last-of-type{
@@ -166,6 +167,7 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
 .ubcpi-other-answers h4 {
   text-align: left;
   font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+  font-size: 1em;
 }
 
   .ubcpi-other-answers h4{
