@@ -8,7 +8,7 @@
 
             <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
-            <pre ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
+            <pre class="ubcpipre" ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
 
             <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
@@ -25,7 +25,7 @@
                         <h4 class="other-answer" ng-if="options[answer.option].text">{{options[answer.option].text}}</h4>
 
                         <img ng-src="{{options[answer.option].image_url}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
-                        <pre class="other-rationale">{{answer.rationale}}</pre>
+                        <pre class="ubcpipre other-rationale">{{answer.rationale}}</pre>
 
                     </li>
                 </ul>
@@ -72,7 +72,7 @@
                         <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
                         <h2>Correct Option Rationale:</h2>
-                        <pre>{{rc.correct_rationale.text}}</pre>
+                        <pre class="ubcpipre">{{rc.correct_rationale.text}}</pre>
                     </div><!-- .detailed-solution -->
                 </span>
 

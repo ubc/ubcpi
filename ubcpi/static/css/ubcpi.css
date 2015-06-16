@@ -447,3 +447,8 @@ textarea.pi-options {
 .response-text {
     padding-left: 22px;
 }
+
+/* The LMS view has different styling for pre tags */
+.ubcpipre {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
