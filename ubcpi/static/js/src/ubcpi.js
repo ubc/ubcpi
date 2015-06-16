@@ -171,8 +171,8 @@ function PeerInstructionXBlock(runtime, element, data) {
                     left: 0
                 };
 
-                var width = 900 - margin.left - margin.right;
-                var height = 300 - margin.top - margin.bottom;
+                var width = 750 - margin.left - margin.right;
+                var height = 250 - margin.top - margin.bottom;
 
                 var svg = d3.select(containerSelector)
                     .append("svg")
