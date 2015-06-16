@@ -454,3 +454,11 @@ textarea.pi-options {
 .ubcpipre {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
+.your-answer-and-rationale .inline-hint {
+    color: rgb(140,140,140);
+    font-weight: normal;
+    text-transform: lowercase;
+    font-style: italic;
+    font-size: 0.85em;
+}
