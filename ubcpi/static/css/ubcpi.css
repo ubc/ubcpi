@@ -438,6 +438,14 @@ textarea.pi-options {
     opacity: 0.7;
 }
 
+.warning-notice {
+    display: block;
+    background: orangered;
+    padding: 10px;
+    color: white;
+    margin: 10px 0;
+}
+
 .correct-option {
     color: #50c67b;
 }
