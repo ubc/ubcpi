@@ -163,6 +163,15 @@ function PeerInstructionXBlock(runtime, element, data) {
                 //
                 // data = dummyData;
 
+                var totalFreq = 0;
+                var loopIndex = 0;
+
+                // Calculate the total number of submissions
+                for ( loopIndex = 0; loopIndex < data.length; ++loopIndex ) {
+                    var thisFreq = data[loopIndex].frequency;
+                    totalFreq += thisFreq;
+                }
+
                 // Layout
                 var margin = {
                     top: 10,
@@ -198,28 +207,46 @@ function PeerInstructionXBlock(runtime, element, data) {
                 y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
 
                 svg.append("g")
-                  .attr("class", "x axis")
-                  .attr("transform", "translate(0," + height + ")")
-                  .call(xAxis);
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
 
-              svg.append("g")
-                  .attr("class", "y axis")
-                  .call(yAxis)
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
                 .append("text")
-                  .attr("transform", "rotate(-90)")
-                  .attr("y", 6)
-                  .attr("dy", ".71em")
-                  .style("text-anchor", "end")
-                  .text("Frequency");
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Frequency");
 
-                svg.selectAll(".ubcpibar")
-                  .data(data)
-                .enter().append("rect")
-                  .attr("class", function(d,i){ return d.class; } )
-                  .attr("x", function(d) { return x(d.label); })
-                  .attr("width", x.rangeBand())
-                  .attr("y", function(d) { return y(d.frequency); })
-                  .attr("height", function(d) { return height - y(d.frequency); });
+                var bars = svg.selectAll(".ubcpibar")
+                    .data(data)
+                    .enter()
+                .append("g");
+
+                bars.append("rect").attr("class", function(d,i){ return d.class; } )
+                    .attr("x", function(d) { return x(d.label); })
+                    .attr("width", x.rangeBand())
+                    .attr("y", function(d) { return y(d.frequency); })
+                    .attr("height", function(d) { return height - y(d.frequency); });
+
+                bars.append("text")
+                    .attr("x", function(d) { return x(d.label); })
+                    .attr("y", function(d) { return y(d.frequency); })
+                    .attr("dy", "1.5em")
+                    .attr("dx", (x.rangeBand()/2)-15 + "px" )
+                    .text( function(d){
+
+                        if ( d.frequency == 0 ) {
+                            return '';
+                        }
+
+                        var percentage = (d.frequency/totalFreq) * 100;
+                        var rounded = Math.round( percentage*10 )/10;
+                        return rounded.toFixed(1) + '%';
+                    } );
 
             };
 
