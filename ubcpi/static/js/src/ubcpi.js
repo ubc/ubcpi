@@ -215,7 +215,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                 svg.selectAll(".ubcpibar")
                   .data(data)
                 .enter().append("rect")
-                  .attr("class", function(d,i){ console.log( d.class ); return d.class; } )
+                  .attr("class", function(d,i){ return d.class; } )
                   .attr("x", function(d) { return x(d.label); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.frequency); })
