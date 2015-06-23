@@ -19,6 +19,8 @@ def offer_answer(pool, answer, rationale, student_id, algo):
     """
     if algo['name'] == 'simple':
         offer_simple(pool, answer, rationale, student_id)
+    elif algo['name'] == 'random':
+        offer_random(pool, answer, rationale, student_id)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
@@ -30,6 +32,10 @@ def offer_simple(pool, answer, rationale, student_id):
         del existing[student_id_to_remove]
     existing[student_id] = {}
     pool[answer] = existing
+
+
+def offer_random(pool, answer, rationale, student_id):
+    offer_simple(pool, answer, rationale, student_id)
 
 
 def validate_seeded_answers_simple(answers, options, algo):
@@ -60,6 +66,18 @@ def validate_seeded_answers_simple(answers, options, algo):
     return None
 
 
+def validate_seeded_answers_random(answers):
+    """
+    This validator checks if there are a minimum of one answer
+    :param answers: the answers to be checked
+    :return: None if everything is good. Otherwise, the missing option error messag.
+    """
+    if len(answers) < 1:
+        return {'seed_error': 'Missing 1 option seed'}
+
+    return None
+
+
 def validate_seeded_answers(answers, options, algo):
     """
 
@@ -69,6 +87,8 @@ def validate_seeded_answers(answers, options, algo):
     """
     if algo['name'] == 'simple':
         return validate_seeded_answers_simple(answers, options, algo)
+    elif algo['name'] == 'random':
+        return validate_seeded_answers_random(answers)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
@@ -79,6 +99,8 @@ def get_other_answers(answers, seeded_answers, get_student_item_dict, algo, opti
 
     if algo['name'] == 'simple':
         return get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num_responses)
+    elif algo['name'] == 'random':
+        return get_other_answers_random(answers, seeded_answers, get_student_item_dict, num_responses)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
@@ -127,6 +149,40 @@ def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num
             # check if we have enough answers
             if len(ret) >= min(num_responses, total_in_pool):
                 break
+
+    return {"answers": ret}
+
+
+def get_other_answers_random(answers, seeded_answers, get_student_item_dict, num_responses):
+    ret = []
+    seeded = {'seeded'+str(index): answer for index, answer in enumerate(seeded_answers)}
+    pool = seeded.keys()
+
+    for key in answers:
+        pool += answers[key].keys()
+
+    # shuffle
+    random.shuffle(pool)
+    # get student identifier
+    student_id = get_student_item_dict()['student_id']
+
+    for student in pool:
+        if len(ret) >= num_responses:
+            # have enough answers
+            break
+        elif student == student_id:
+            # this is the student's answer so don't return
+            continue
+
+        if student.startswith('seeded'):
+            option = seeded[student]['answer']
+            rationale = seeded[student]['rationale']
+        else:
+            student_item = get_student_item_dict(student)
+            submission = sas_api.get_answers_for_student(student_item)
+            rationale = submission.get_rationale(0)
+            option = submission.get_vote(0)
+        ret.append({'option': option, 'rationale': rationale})
 
     return {"answers": ret}
 
