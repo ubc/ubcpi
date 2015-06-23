@@ -36,21 +36,21 @@
             </div><!-- .others-responses -->
 
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
-                <h3>Your Response <span class="inline-hint">(You may change this response if you wish)</span></h3>
+                <h3>Your Response <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">(You may change this response if you wish in the next step)</span></h3>
                 <fieldset role="radiogroup" aria-label>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
 
                         <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index">(You chose this option initially)</span></p>
+                        <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.STATUS_ANSWERED">(You chose this option initially)</span></p>
 
                         <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'below' && option.image_url" />
 
                     </label>
                 </fieldset>
 
-                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.STATUS_ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
 
                 <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
