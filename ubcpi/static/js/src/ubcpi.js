@@ -235,13 +235,18 @@ function PeerInstructionXBlock(runtime, element, data) {
                 bars.append("text")
                     .attr("x", function(d) { return x(d.label); })
                     .attr("y", function(d) { return y(d.frequency); })
-                    .attr("dy", "1.5em")
+                    .attr("dy", function(d) {
+
+                        // If the frequency is 0, we don't want a dy
+                        if ( d.frequency == 0 ) {
+                            return "-0.5em";
+                        }
+
+                        return "1.25em";
+
+                    } )
                     .attr("dx", (x.rangeBand()/2)-15 + "px" )
                     .text( function(d){
-
-                        if ( d.frequency == 0 ) {
-                            return '';
-                        }
 
                         var percentage = (d.frequency/totalFreq) * 100;
                         var rounded = Math.round( percentage*10 )/10;
