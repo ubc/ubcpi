@@ -10,7 +10,7 @@ import pkg_resources
 
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, String, List, Dict, Integer
+from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
@@ -45,6 +45,7 @@ class MissingDataFetcherMixin:
         # temporary expediency for LMS integration
         if hasattr(self, "xmodule_runtime"):
             course_id = self.course_id  # pylint:disable=E1101
+
             if anonymous_user_id:
                 student_id = anonymous_user_id
             else:
@@ -175,6 +176,42 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The algorithm for selecting which answers to be presented to students",
     )
 
+    # Declare that we are part of the grading System
+    has_score = True
+
+    ## Everything below is stolen from https://github.com/edx/edx-ora2/blob/master/apps/openassessment/xblock/lms_mixin.py
+    ## It's needed to keep the LMS+Studio happy.
+    ## It should be included as a mixin.
+
+    start = DateTime(
+        default=None, scope=Scope.settings,
+        help="ISO-8601 formatted string representing the start date of this assignment. We ignore this."
+    )
+
+    due = DateTime(
+        default=None, scope=Scope.settings,
+        help="ISO-8601 formatted string representing the due date of this assignment. We ignore this."
+    )
+
+    weight = Float(
+        display_name="Problem Weight",
+        help=("Defines the number of points each problem is worth. "
+              "If the value is not set, the problem is worth the sum of the "
+              "option point values."),
+        values={"min": 0, "step": .1},
+        scope=Scope.settings
+    )
+
+    def has_dynamic_children(self):
+        """Do we dynamically determine our children? No, we don't have any.
+        """
+        return False
+
+    def max_score(self):
+        """The maximum raw score of our problem.
+        """
+        return 1
+
     def studio_view(self, context=None):
         """
         """
@@ -291,6 +328,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)
             self.stats['revised'][answer] = num_resp + 1
+
+            # Send the grade
+            student_item = self.get_student_item_dict()
+            grade = 1
+
+            self.runtime.publish( self, 'grade', {'value': grade, 'max_value': 1, 'user_id': student_item['student_id']} )
         else:
             raise PermissionDenied
 
