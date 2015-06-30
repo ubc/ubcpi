@@ -329,12 +329,19 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             num_resp = self.stats['revised'].setdefault(answer, 0)
             self.stats['revised'][answer] = num_resp + 1
 
-            # Send the grade
-            grade = 1
+            # Fetch the grade
+            grade = self.get_grade()
 
+            # Send the grade
             self.runtime.publish( self, 'grade', {'value': grade, 'max_value': 1} )
         else:
             raise PermissionDenied
+
+    # Abstracted method to allow us to have some flexibility
+    # with the grade system.
+    def get_grade(self):
+        return 1
+
 
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
