@@ -330,10 +330,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             self.stats['revised'][answer] = num_resp + 1
 
             # Send the grade
-            student_item = self.get_student_item_dict()
             grade = 1
 
-            self.runtime.publish( self, 'grade', {'value': grade, 'max_value': 1, 'user_id': student_item['student_id']} )
+            self.runtime.publish( self, 'grade', {'value': grade, 'max_value': 1} )
         else:
             raise PermissionDenied
 
