@@ -32,3 +32,10 @@ One of the key features in the success of peer instruction in enhancing student 
 3. Tidied up the bar charts display for the LMS view and made the correct answer show more prominantly
 4. Default content is now somewhat more useful
 5. Rationales now can have a minimum an/or maximum character count
+
+### 0.3.0 https://github.com/ubc/ubcpi/issues?q=milestone%3A0.3+is%3Aclosed
+
+1. Added the 'random' algorithm which allows a student to see a completely random selection of others' answers
+2. Added and edited front-end help documentation so that it's more clear what each step is and what will happen at the next step and, if appropriate, why you can't progress to the next step
+3. Added a first-pass at hooking up UBCPI to the edX grading system. This is more of a 'completion' mark as a student is always given the grade after they submit their revised answer regardless of the responses being correct or not
+4. Tidying up of the statistics graphs that are shown on the last step
