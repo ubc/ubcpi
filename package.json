@@ -1,0 +1,19 @@
+{
+  "name": "ubcpi",
+  "version": "0.0.1",
+  "repository": "https://github.com/ubc/ubcpi.git",
+  "devDependencies": {
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.12.37",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.4.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "phantomjs": "^1.9.17",
+    "uglify-js": "2.3.6"
+  },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --reporters progress,coverage"
+  }
+}
