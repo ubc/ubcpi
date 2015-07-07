@@ -17,7 +17,18 @@ describe( 'UBCPI XBlock', function() {
 
         fixture = loadFixtures( 'question-form.html' );
         var question_heading = $( '.question-text' ).text();
+
         expect( question_heading ).toEqual( 'Question:' );
+
+    } );
+
+    // Test the unique XBlock ID
+    it( 'Ensures XBlock IDs are unique', function() {
+
+        var idOne = generatePIXBlockID();
+        var idTwo = generatePIXBlockID();
+
+        expect( idOne ).not.toEqual( idTwo );
 
     } );
 

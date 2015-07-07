@@ -1,15 +1,31 @@
 /* Javascript for PeerInstructionXBlock. */
 
-var generatePIXBlockId;
-if (typeof generatePIXBlockId !== "function") {
-    generatePIXBlockId = (function () {
-        "use strict";
-        var id = 0;
-        return function () {
-            return "ubcpi_" + (id += 1);
-        };
-    }());
-}
+// A unique XBlockID allowing us to have multiple instances of this XBlock on a page
+var PIXBlockID = 0;
+
+/**
+ * Generate a unique ID. Uses the global PIXBlockID and adds on each time it is called
+ *
+ * @since 0.4.0
+ *
+ * @param null
+ * @return (string) A unique XBlock ID of the form 'ubcpi_#'
+ */
+
+function generatePIXBlockID() {
+
+    // Cache the global internally
+    var internalID = PIXBlockID;
+
+    // A prefix for the string
+    var IDPrefix = 'ubcpi_';
+
+    internalID += 1;
+    PIXBlockID = internalID;
+
+    return IDPrefix + internalID;
+
+}/* generatePIXBlockID() */
 
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
@@ -19,7 +35,8 @@ function PeerInstructionXBlock(runtime, element, data) {
     notify = $.proxy(runtime.notify, runtime) || function(){};
 
     $(function ($) {
-        var appId = generatePIXBlockId();
+        var appId = generatePIXBlockID();
+        console.log( appId );
         var app = angular.module(appId, ['nvd3ChartDirectives', 'ngSanitize']);
         app.run(function($http) {
             // set up CSRF Token from cookie. This is needed by all post requests
