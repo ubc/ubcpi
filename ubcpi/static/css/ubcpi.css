@@ -474,3 +474,12 @@ textarea.pi-options {
     font-style: italic;
     font-size: 0.85em;
 }
+
+.your-answer-and-rationale legend {
+    display: block;
+    margin-bottom: 10px;
+    position: relative;
+    top: -10px;
+    left: -20px;
+    font-weight: bold;
+}
