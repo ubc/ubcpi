@@ -15,7 +15,7 @@
 
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
-                        <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text <span class="tip setting-help">The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.question_text.show_image_fields ? 'Remove Image' : 'Add Image to Question'}}" ng-click="esc.show_image_fields(false)" /></label>
+                        <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text <span class="tip setting-help">The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.question_text.show_image_fields ? 'Remove Image' : 'Add Image to Question'}}" ng-click="esc.show_image_fields(false)" name="add-image-button" /></label>
                         <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text"></textarea>
 
                         <div class="add-image-inputs" ng-show="esc.data.question_text.show_image_fields">
@@ -46,12 +46,12 @@
                 <li class="field comp-setting-entry is-set">
 
                     <div class="wrapper-comp-setting">
-                        <label class="label setting-label pi-setting-label" for="pi-display-name">Possible Options<span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below this help text. To remove an option press the blue cross to the side of the option you wish to remove.</span> <a class="pi-add-item-link create-action create-setting" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add Option</a></label>
+                        <label class="label setting-label pi-setting-label" for="pi-display-name">Possible Options<span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below this help text. To remove an option press the blue cross to the side of the option you wish to remove.</span> <a class="pi-add-item-link create-action create-setting" name="pi-add-item-link" ng-click="esc.add_option()"><i class="icon fa fa-plus"></i> Add Option</a></label>
                         <div class="ubcpi-options-list-container">
                             <div class="wrapper-comp-setting ubcpi-options-list" ng-repeat="option in esc.data.options track by $index">
-                                <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}<span class="tip setting-help">Specify the value for this option. If you wish to add an image to this option click the Add Image button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image to Option ' + ($index+1) }}" ng-click="esc.show_image_fields($index)" /></label>
+                                <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}<span class="tip setting-help">Specify the value for this option. If you wish to add an image to this option click the Add Image button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image to Option ' + ($index+1) }}" ng-click="esc.show_image_fields($index)" name="pi-option-{{$index}}" /></label>
                                 <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
-                                <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
+                                <a href="" class="remove-action remove-setting" name="pi-option-remove" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
 
                                 <div class="add-image-inputs" ng-show="esc.data.options[$index].show_image_fields">
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
@@ -93,7 +93,7 @@
 
                 <li class="field comp-setting-entry is-set">
 
-                    <label class="label setting-label" for="">Seeded Answers<span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. <a class="pi-add-item-link create-action create-setting" ng-click="esc.addSeed()"><i class="icon fa fa-plus"></i> Add Seed</a></span></label>
+                    <label class="label setting-label" for="">Seeded Answers<span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. <a class="pi-add-item-link create-action create-setting" name="pi-add-item-link" ng-click="esc.addSeed()"><i class="icon fa fa-plus"></i> Add Seed</a></span></label>
 
                     <div class="ubcpi-options-list-container">
                         <div class="wrapper-comp-setting ubcpi-options-list seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
@@ -123,11 +123,11 @@
                 <ul>
                     <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="You are unable to save this form as there are errors: {{piForm.$errors.seed_error}}"><i class="icon fa fa-question-circle"></i></a></li>
                     <li class="action-item">
-                        <input id="pi-submit-options" type="submit" class="button action-primary save-button" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
+                        <input id="pi-submit-options" type="submit" class="button action-primary save-button" name="pi-submit-options" value="Save" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
                     </li>
 
                     <li class="action-item">
-                        <a href="" class="button cancel-button" ng-click="esc.cancel()">Cancel</a>
+                        <a href="" class="button cancel-button" name="pi-cancel-options" ng-click="esc.cancel()">Cancel</a>
                     </li>
                 </ul>
 
