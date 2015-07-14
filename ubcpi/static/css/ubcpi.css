@@ -111,7 +111,7 @@ textarea.ubcpi-field{
   padding: 10px 40px;
   background: #33a6dc;
   border: 1px solid #2b8dbb;
-  color: #eaf6fb;
+  color: #fff;
   border-radius: 4px;
   display: inline-block;
   background-image: none !important;
@@ -135,7 +135,7 @@ textarea.ubcpi-field{
   background-color: #00a7f6 !important;
   border-color: #00a7f6;
   background-image: none !important; /* Needed because edX is very specific here, sadly */
-  color: #fcfefe;
+  color: #fff;
 }
 
 .choicegroup input[type="button"]:disabled {
