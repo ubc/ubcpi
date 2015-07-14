@@ -127,16 +127,16 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
    # )
 
     question_text = Dict(
-    	default={'text': 'What is the answer to life, the universe and everything?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}, scope=Scope.content,
+    	default={'text': 'What is the answer to life, the universe and everything?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}, scope=Scope.content,
     	help="The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button."
     )
 
     options = List(
         # default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
         default=[
-            {'text': '21', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
-            {'text': '42', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0},
-            {'text': '63', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0}
+            {'text': '21', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+            {'text': '42', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+            {'text': '63', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
         help="The possible options from which the student may select",
