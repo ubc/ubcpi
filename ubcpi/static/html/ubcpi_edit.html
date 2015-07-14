@@ -93,7 +93,8 @@
 
                 <li class="field comp-setting-entry is-set">
 
-                    <label class="label setting-label" for="">Seeded Answers<span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. <a class="pi-add-item-link create-action create-setting" name="pi-add-item-link" ng-click="esc.addSeed()"><i class="icon fa fa-plus"></i> Add Seed</a></span></label>
+                    <label class="label setting-label" for="">Seeded Answers<span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. </span><input type="button" class="button action-primary add-image-button" value="Add Seed" ng-click="esc.addSeed()" name="pi-option-add-seed" /></label>
+
 
                     <div class="ubcpi-options-list-container">
                         <div class="wrapper-comp-setting ubcpi-options-list seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
