@@ -22,7 +22,9 @@
                         	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image URL<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
                         	<input type="text" name="question-text-image-url" id="question-text-image-url" class="input setting-input pi-options image-input-url" ng-model="esc.data.question_text.image_url" /> <br />
                         	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image Position<span class="tip setting-help">hoose if you want the image to appear above or below the question text.</span></label>
-                        	<select name="question-text-image-position" id="question-text-image-position" ng-model="esc.data.question_text.image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select>
+                        	<select name="question-text-image-position" id="question-text-image-position" ng-model="esc.data.question_text.image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
+                            <label class="label setting-label pi-setting-label" for="question-text-image-alt">Image Description<span class="tip setting-help">Provide some alternative text - as a description for this image shown when people hover over it with their cursor or verbalised by assitive technologies.</span></label>
+                            <input type="text" name="question-text-image-alt" id="question-text-image-alt" class="input setting-input pi-options image-input-alt" ng-model="esc.data.question_text.image_alt" />
                         </div>
 
                     </div>
@@ -57,7 +59,9 @@
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
                                 	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" /> <br />
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position<span class="tip setting-help">Choose if you want the image to appear above or below the question text.</span></label>
-                                	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select>
+                                	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
+                                    <label class="label setting-label pi-setting-label" for="question-text-image-alt-{{$index}}">Image Description<span class="tip setting-help">Please provide alternative text for this image.</span></label>
+                                	<input type="text" name="question-text-image-alt" id="question-text-image-alt-{{$index}}" class="input setting-input pi-options image-input-alt" ng-model="esc.data.options[$index].image_alt" /> <br />
                                 </div>
 
                             </div>

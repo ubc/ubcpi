@@ -6,11 +6,11 @@
 
             <h2 id="pi-question-h" class="question-text">Question:</h2>
 
-            <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
+            <img ng-src="{{question_text.image_url}}" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
             <pre aria-labelledby="pi-question-h" class="ubcpipre" ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
 
-            <img ng-src="{{question_text.image_url}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
+            <img ng-src="{{question_text.image_url}}" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
             <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
 
@@ -20,11 +20,11 @@
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
                         <!-- <h4 class="other-answer">Answer: {{options[answer.option]}}</h4> -->
-                        <img ng-src="{{options[answer.option].image_url}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
+                        <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
 
                         <h4 class="other-answer" ng-if="options[answer.option].text">Answer: {{options[answer.option].text}}</h4>
 
-                        <img ng-src="{{options[answer.option].image_url}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
+                        <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
                         <pre class="ubcpipre other-rationale">{{answer.rationale}}</pre>
 
                     </li>
@@ -42,11 +42,11 @@
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
 
-                        <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'above' && option.image_url" />
+                        <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
                         <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.STATUS_ANSWERED">(You chose this option initially)</span></p>
 
-                        <img ng-src="{{option.image_url}}" ng-if="option.image_position == 'below' && option.image_url" />
+                        <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
                     </label>
                 </fieldset>
@@ -72,11 +72,11 @@
                     <div class="detailed-solution">
                         <h2>Correct Option: <span class="correct-option">Option {{rc.correct_answer + 1}}</span></h2>
 
-                        <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
                         <h3 class="correct-answer-option" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</h3>
 
-                        <img ng-src="{{options[rc.correct_answer].image_url}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
                         <h2>Correct Option Rationale:</h2>
                         <pre class="ubcpipre">{{rc.correct_rationale.text}}</pre>
@@ -94,11 +94,11 @@
 
                         <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index">(You chose this option initially)</span></div>
 
-                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
+                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
                         <div ng-if="d[0].text" class="original-response response-text">{{d[0].text}}</div>
 
-                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
+                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
                     </label>
                 </fieldset>
 
@@ -115,11 +115,11 @@
 
                         <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_revised == $index">(You chose this option after seeing others)</span></div>
 
-                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
+                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
 
                         <div ng-if="d[0].text" class="revised-response response-text">{{d[0].text}}</div>
 
-                        <img ng-src="{{d[0].image_url}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
+                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
                     </label>
                 </fieldset>
 
