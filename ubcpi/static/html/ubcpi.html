@@ -55,10 +55,16 @@
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
 
                 <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
+                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
+                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.STATUS_ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
                 <br />
-                <span role="alert" data-ng-if="answerForm.$invalid || rc.disableSubmit()" class="warning-notice option-details-text">(In order to move to the next step please choose an answer and explain your decision)</span>
-                <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                <span class="inline-hint" ng-if="rc.status() == rc.STATUS_ANSWERED">The next - and final - step is where you will be shown the correct answer and rationale.</span>
+
+                <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid || rc.disableSubmit()">
+                    <p role="alert" class="warning">
+                        <i class="icon fa fa-warning"></i>
+                        Note: In order to move to the next step please choose an answer and explain your decision.
+                    </p>
+                </div
 
             </form>
 

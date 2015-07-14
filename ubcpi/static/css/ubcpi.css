@@ -126,6 +126,7 @@ textarea.ubcpi-field{
   font-size: 14px;
   line-height: 21px;
   font-weight: 600;
+  text-shadow: none;
 }
 
 .choicegroup .ubcpi_submit:hover,
@@ -143,6 +144,10 @@ textarea.ubcpi-field{
   border-color: rgb(135,135,135);
   cursor: not-allowed;
   opacity: 0.4;
+}
+
+.your-answer-and-rationale .ubcpi_submit {
+    float: left;
 }
 
 /* Other Answers */
@@ -440,15 +445,21 @@ textarea.pi-options {
     font-style: italic;
     font-size: 0.8em;
     opacity: 0.7;
+    clear: both;
 }
 
 .warning-notice {
     display: block;
-    background: orangered;
+    background: #edbd3c;
     padding: 10px;
-    color: white;
-    margin: 10px 0;
+    color: black;
+    margin: 40px 0 10px;
 }
+
+    div.course-wrapper section.course-content .warning-notice p {
+        margin-bottom: 0;
+        color: black;
+    }
 
 .correct-option {
     color: #50c67b;
@@ -473,6 +484,10 @@ textarea.pi-options {
     text-transform: lowercase;
     font-style: italic;
     font-size: 0.85em;
+    float: left;
+    max-width: 60%;
+    display: block;
+    margin-left: 2%;
 }
 
 .your-answer-and-rationale legend {
