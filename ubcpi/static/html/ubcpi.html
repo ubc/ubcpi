@@ -36,8 +36,8 @@
             </div><!-- .others-responses -->
 
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
-                <h3>Your Response <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">(You may change this response if you wish in the next step)</span></h3>
-                <fieldset role="radiogroup" aria-label>
+                <h3 id="your-response-h">Your Response <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">(You may change this response if you wish in the next step)</span></h3>
+                <fieldset aria-labelledby="your-response-h" role="radiogroup">
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
 
@@ -85,8 +85,8 @@
             </section><!-- .correct-answer-and-rationale -->
 
             <div class="original-answers results-container choicegroup">
-                <h3>Original Answers</h3>
-                <fieldset role="radiogroup" aria-label>
+                <h3 id="original-answers-h">Original Answers</h3>
+                <fieldset aria-labelledby="original-answers-h" role="radiogroup">
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
 
@@ -106,8 +106,8 @@
 
             <div class="revised-answers results-container choicegroup">
 
-                <h3>Revised Answers</h3>
-                <fieldset role="radiogroup" aria-label>
+                <h3 id="revised-answers-h">Revised Answers</h3>
+                <fieldset aria-labelledby="revised-answers-h" role="radiogroup">
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
                         <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
 
