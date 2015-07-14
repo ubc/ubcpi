@@ -114,6 +114,8 @@ textarea.ubcpi-field{
   color: #eaf6fb;
   border-radius: 4px;
   display: inline-block;
+  background-image: none !important;
+  box-shadow: none !important;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
@@ -130,7 +132,9 @@ textarea.ubcpi-field{
 .choicegroup .ubcpi_submit:active,
 .choicegroup .ubcpi_submit:focus {
   background: #00a7f6;
+  background-color: #00a7f6 !important;
   border-color: #00a7f6;
+  background-image: none !important; /* Needed because edX is very specific here, sadly */
   color: #fcfefe;
 }
 
