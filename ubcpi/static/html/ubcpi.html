@@ -53,7 +53,7 @@
                 <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.STATUS_ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
 
-                <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' data-ng-click="rc.clickSubmit($event)" />
+                <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
                 <br />
                 <span data-ng-if="answerForm.$invalid || rc.disableSubmit()" class="warning-notice option-details-text">(In order to move to the next step please choose an answer and explain your decision)</span>
                 <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
