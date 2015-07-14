@@ -97,7 +97,7 @@
 
                     <div class="ubcpi-options-list-container">
                         <div class="wrapper-comp-setting ubcpi-options-list seeded-answer" ng-repeat="option in esc.data.seeds track by $index">
-                            <label class="label setting-label pi-setting-label" for="pi-seed-seeded-{{$index}}">Seeded Answer {{$index + 1}} <span class="tip setting-help">Choose which option this seeded answer is for</span></label>
+                            <label class="label setting-label pi-setting-label" for="pi-option-seeded-{{$index}}">Seeded Answer {{$index + 1}} <span class="tip setting-help">Choose which option this seeded answer is for</span></label>
                             <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                             <a href="" class="remove-action remove-setting" data-lang="af" data-value="" ng-click="esc.deleteSeed($index)" data-tooltip="Remove seed"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
                             <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Rationale for Seeded Answer {{$index + 1}}<span class="tip setting-help">Provide the rationale for this seeded answer</span></label>
