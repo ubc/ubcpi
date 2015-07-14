@@ -126,6 +126,7 @@ textarea.ubcpi-field{
   font-size: 14px;
   line-height: 21px;
   font-weight: 600;
+  text-shadow: none;
 }
 
 .choicegroup .ubcpi_submit:hover,
@@ -444,11 +445,16 @@ textarea.pi-options {
 
 .warning-notice {
     display: block;
-    background: orangered;
+    background: #edbd3c;
     padding: 10px;
-    color: white;
+    color: black;
     margin: 10px 0;
 }
+
+    div.course-wrapper section.course-content .warning-notice p {
+        margin-bottom: 0;
+        color: black;
+    }
 
 .correct-option {
     color: #50c67b;
