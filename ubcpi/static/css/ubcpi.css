@@ -146,6 +146,10 @@ textarea.ubcpi-field{
   opacity: 0.4;
 }
 
+.your-answer-and-rationale .ubcpi_submit {
+    float: left;
+}
+
 /* Other Answers */
 div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   list-style-type: none;
@@ -441,6 +445,7 @@ textarea.pi-options {
     font-style: italic;
     font-size: 0.8em;
     opacity: 0.7;
+    clear: both;
 }
 
 .warning-notice {
@@ -448,7 +453,7 @@ textarea.pi-options {
     background: #edbd3c;
     padding: 10px;
     color: black;
-    margin: 10px 0;
+    margin: 40px 0 10px;
 }
 
     div.course-wrapper section.course-content .warning-notice p {
@@ -479,6 +484,10 @@ textarea.pi-options {
     text-transform: lowercase;
     font-style: italic;
     font-size: 0.85em;
+    float: left;
+    max-width: 60%;
+    display: block;
+    margin-left: 2%;
 }
 
 .your-answer-and-rationale legend {
