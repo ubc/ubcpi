@@ -117,3 +117,82 @@ describe( 'UBCPI XBlock Statuses', function() {
     } );
 
 } );
+
+
+describe( 'UBCPI XBlock Submissions Enabled', function() {
+
+    var mockSelf;
+    var mockScope;
+    var disabledButton;
+
+    beforeEach( function() {
+
+        mockSelf = {
+            answer: null,
+            rationale: undefined,
+            submitting: false,
+        };
+
+        mockScope = {
+            rationale_size: {
+                min: 1,
+                max: '#'
+            }
+        };
+
+    } );
+
+    // Test that the submit button should be disabled when no answer is given
+    it( 'Ensures the submit button is disabled when no answer', function() {
+
+        disabledButton = disableSubmit( mockSelf, mockScope );
+
+        expect( disabledButton ).toEqual( true );
+
+    } );
+
+    // Test that the submit button should be disabled when an answer is given, but no rationale
+    it( 'Ensures the submit button is disabled when no rationale', function() {
+
+        mockSelf.answer = 1;
+        disabledButton = disableSubmit( mockSelf, mockScope );
+
+        expect( disabledButton ).toEqual( true );
+
+    } );
+
+    // Test that if we have an answer and a rationale (with default min/max) that the submit button is enabled
+    it( 'Ensures the submit button is ENABLED when answer and rationale provided', function() {
+
+        mockSelf.answer = 1;
+        mockSelf.rationale = 'Mock rationale';
+        disabledButton = disableSubmit( mockSelf, mockScope );
+
+        expect( disabledButton ).toEqual( false );
+
+    } );
+
+    // Now test that the max/min stuff works as expected
+    it( 'Ensures that when the rationale is not long enough the submit button is disabled', function() {
+
+        mockScope.rationale_size.min = 20;
+        mockSelf.answer = 1;
+        mockSelf.rationale = 'Answer too short'; // 16 chars
+        disabledButton = disableSubmit( mockSelf, mockScope );
+
+        expect( disabledButton ).toEqual( true );
+
+    } );
+
+    it( 'Ensures that when the rationale is too long the submit button is disabled', function() {
+
+        mockScope.rationale_size.max = 10;
+        mockSelf.answer = 1;
+        mockSelf.rationale = 'Answer too long'; // 16 chars
+        disabledButton = disableSubmit( mockSelf, mockScope );
+
+        expect( disabledButton ).toEqual( true );
+
+    } );
+
+} );
