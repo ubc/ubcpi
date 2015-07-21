@@ -61,6 +61,8 @@ function setDefaultMaxRationaleSize( self ) {
 
     self.MAX_RATIONALE_SIZE = 32000;
 
+    return self;
+
 }/* setDefaultMaxRationaleSize */
 
 
@@ -178,10 +180,10 @@ function PeerInstructionXBlock(runtime, element, data) {
             ];
 
             // Set statuses. Makes it testable.
-            setDefaultStatuses( self );
+            self = setDefaultStatuses( self );
 
             // Set default max rationale size
-            setDefaultMaxRationaleSize( self );
+            self = setDefaultMaxRationaleSize( self );
 
             self.answer_original = data.answer_original;
             self.rationale_original = data.rationale_original;
