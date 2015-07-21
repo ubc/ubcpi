@@ -74,6 +74,44 @@ function getStatus( answer_original, answer_revised, self ) {
 }/* getStatus() */
 
 
+/**
+ * Determine if the submit button should be disabled
+ * If we have an answer selected, a rationale that is large enough and we are not already submitting, we ENable
+ * the submit button. For all other scenarios, we disable it.
+ *
+ * @since 1.0.0
+ *
+ * @param (obect) self - The entire 'this' object
+ * @param (object) $scope - the scope context
+ * @return (bool) true if the button should be disabled, false otherwise
+ */
+
+function disableSubmit( self, $scope ) {
+
+    // Do we have an answer selected?
+    var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
+
+    // If we don't have a rationale, it's disabled
+    if ( typeof self.rationale === "undefined" || self.rationale === null ) {
+        return true;
+    }
+
+    // How long is the rationale?
+    var size = self.rationale.length;
+
+    // Do we have a rationale and is it longer the the minimum length and shorter than the maximum length
+    var haveRationale = size >= $scope.rationale_size.min &&
+        ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
+
+    // Should the button be ENabled?
+    var enable = haveAnswer && haveRationale && !self.submitting;
+
+    // We're determining if it should be disabled, so reverse of logic above
+    return !enable;
+
+}/* disableSubmit() */
+
+
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
     var notify;
@@ -141,13 +179,8 @@ function PeerInstructionXBlock(runtime, element, data) {
                 return getStatus( self.answer_original, self.answer_revised, self );
             };
 
-            self.disableSubmit = function () {
-                var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
-                var size = self.rationale.length;
-                var haveRationale = size >= $scope.rationale_size.min &&
-                    ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
-                var enable = haveAnswer && haveRationale && !self.submitting;
-                return !enable;
+            self.disableSubmit = function() {
+                return disableSubmit( self, $scope );
             };
 
             self.clickSubmit = function () {
