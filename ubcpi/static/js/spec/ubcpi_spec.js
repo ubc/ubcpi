@@ -136,7 +136,7 @@ describe( 'UBCPI XBlock Submissions Enabled', function() {
         mockScope = {
             rationale_size: {
                 min: 1,
-                max: '#'
+                max: 32000
             }
         };
 
