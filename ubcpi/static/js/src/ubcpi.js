@@ -47,6 +47,23 @@ function setDefaultStatuses( self ) {
 
 }
 
+
+/**
+ * Set the default Maximum rationale size
+ *
+ * @since 1.0.0
+ *
+ * @param (object) self - The whole 'this' object
+ * @return (object) Modified self object
+ */
+
+function setDefaultMaxRationaleSize( self ) {
+
+    self.MAX_RATIONALE_SIZE = 32000;
+
+}/* setDefaultMaxRationaleSize */
+
+
 /**
  * Based on the answers provided, return which status the problem is currently in
  * If the original answer is null/undef then we're at the start
@@ -100,8 +117,7 @@ function disableSubmit( self, $scope ) {
     var size = self.rationale.length;
 
     // Do we have a rationale and is it longer the the minimum length and shorter than the maximum length
-    var haveRationale = size >= $scope.rationale_size.min &&
-        ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
+    var haveRationale = ( ( size >= $scope.rationale_size.min ) && ( size <= $scope.rationale_size.max ) );
 
     // Should the button be ENabled?
     var enable = haveAnswer && haveRationale && !self.submitting;
@@ -163,6 +179,9 @@ function PeerInstructionXBlock(runtime, element, data) {
 
             // Set statuses. Makes it testable.
             setDefaultStatuses( self );
+
+            // Set default max rationale size
+            setDefaultMaxRationaleSize( self );
 
             self.answer_original = data.answer_original;
             self.rationale_original = data.rationale_original;
