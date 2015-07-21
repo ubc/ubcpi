@@ -27,6 +27,53 @@ function generatePIXBlockID() {
 
 }/* generatePIXBlockID() */
 
+
+/**
+ * Set the statuses for new, answered and revised
+ *
+ * @since 1.0.0
+ *
+ * @param (object) self - The whole 'this' object
+ * @return (object) Modified self object
+ */
+
+function setDefaultStatuses( self ) {
+
+    self.STATUS_NEW      = 0;
+    self.STATUS_ANSWERED = 1;
+    self.STATUS_REVISED  = 2;
+
+    return self;
+
+}
+
+/**
+ * Based on the answers provided, return which status the problem is currently in
+ * If the original answer is null/undef then we're at the start
+ * If the original answer is not null/undef but the revised answer is, we're at step 2
+ * If both the original answer and revised answer is not null/undef then we're at step 3
+ *
+ * @since 1.0.0
+ *
+ * @param (string) answer_original - What, if anything, the student has answered initially
+ * @param (string) answer_revised - What, if anything, the student has answered after revision
+ * @param (object) self - The whole 'this' object
+ * @return (int) the status as set by setDefaultStatuses based on the passed answers
+ */
+
+function getStatus( answer_original, answer_revised, self ) {
+
+    if ( typeof answer_original === 'undefined' || answer_original === null ) {
+        return self.STATUS_NEW;
+    } else if ( typeof answer_revised === 'undefined' || answer_revised === null ) {
+        return self.STATUS_ANSWERED;
+    } else {
+        return self.STATUS_REVISED;
+    }
+
+}/* getStatus() */
+
+
 function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
     var notify;
@@ -76,9 +123,8 @@ function PeerInstructionXBlock(runtime, element, data) {
                 }
             ];
 
-            self.STATUS_NEW      = 0;
-            self.STATUS_ANSWERED = 1;
-            self.STATUS_REVISED  = 2;
+            // Set statuses. Makes it testable.
+            setDefaultStatuses( self );
 
             self.answer_original = data.answer_original;
             self.rationale_original = data.rationale_original;
@@ -91,18 +137,8 @@ function PeerInstructionXBlock(runtime, element, data) {
             self.correct_answer = data.correct_answer;
             self.correct_rationale = data.correct_rationale;
 
-            function getStatus(answer_original, answer_revised) {
-                if (typeof answer_original === 'undefined' || answer_original === null) {
-                    return self.STATUS_NEW;
-                } else if (typeof answer_revised === 'undefined' || answer_revised === null) {
-                    return self.STATUS_ANSWERED;
-                } else {
-                    return self.STATUS_REVISED;
-                }
-            }
-
             self.status = function() {
-                return getStatus(self.answer_original, self.answer_revised);
+                return getStatus( self.answer_original, self.answer_revised, self );
             };
 
             self.disableSubmit = function () {
@@ -254,7 +290,7 @@ function PeerInstructionXBlock(runtime, element, data) {
                     .attr("y", function(d) { return y(d.frequency); })
                     .attr("dy", function(d) {
 
-                        // If the frequency is 0, we don't want a dy
+                        // If the frequency is 0, we have to adjust style slightly
                         if ( d.frequency == 0 ) {
                             return "-0.5em";
                         }
