@@ -17,6 +17,10 @@ One of the key features in the success of peer instruction in enhancing student 
 5. Students are presented feedback including their own answer, the model instructor answer and class distribution statistics across both stages.
 6. The Instructor is able to see class statistics on demand at any given time in process.
 
+## Running in WorkBench
+
+    scripts/workbench.sh
+    
 ## Changelog
 
 ### 0.1.0

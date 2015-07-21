@@ -1,7 +1,5 @@
 """A Peer Instruction tool for edX by the University of British Columbia."""
 import random
-from xmodule.contentstore.content import StaticContent
-import os
 from copy import deepcopy
 
 from django.core.exceptions import PermissionDenied
@@ -18,6 +16,17 @@ import persistence as sas_api
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
 STATUS_REVISED = 2
+
+# this is a limitation in the database submissions_submission.raw_answer field, which is a TEXT and has limit
+# of 64k in size. Because we are storing rationale and revised rationale both in the the field, the max size
+# for the rationale is half
+MAX_RATIONALE_SIZE = 32000
+
+
+def load(path):
+    """Handy helper for getting resources from our kit."""
+    data = pkg_resources.resource_string(__name__, path)
+    return data.decode("utf8")
 
 
 # noinspection all
@@ -64,21 +73,6 @@ class MissingDataFetcherMixin:
             item_type='ubcpi'
         )
         return student_item_dict
-
-    def get_asset_url(self, static_url):
-        """Returns the asset url for imported files (eg. images)
-
-        Args:
-            static_url(str): The static url for the file
-        Returns:
-            (str): The path to the file
-        """
-
-        file = os.path.split(static_url)[-1]
-        if hasattr(self, "xmodule_runtime"):
-            return StaticContent.get_base_url_path_for_course_assets(self.course_id) + file
-        else:
-            return static_url
 
     def _serialize_opaque_key(self, key):
         """
@@ -143,7 +137,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     rationale_size = Dict(
-        default={'min': 1, 'max': '#'}, scope=Scope.content,
+        default={'min': 1, 'max': MAX_RATIONALE_SIZE}, scope=Scope.content,
         help="The minimum and maximum number of characters a student is allowed for their rationale.",
     )
 
@@ -153,7 +147,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     correct_rationale = Dict(
-        default={ 'text' : "In the radio series and the first novel, a group of hyper-intelligent pan-dimensional beings demand to learn the Answer to the Ultimate Question of Life, The Universe, and Everything from the supercomputer, Deep Thought, specially built for this purpose. It takes Deep Thought 7.5 million years to compute and check the answer, which turns out to be 42. Deep Thought points out that the answer seems meaningless because the beings who instructed it never actually knew what the Question was." }, scope=Scope.content,
+        default={'text': "In the radio series and the first novel, a group of hyper-intelligent pan-dimensional beings demand to learn the Answer to the Ultimate Question of Life, The Universe, and Everything from the supercomputer, Deep Thought, specially built for this purpose. It takes Deep Thought 7.5 million years to compute and check the answer, which turns out to be 42. Deep Thought points out that the answer seems meaningless because the beings who instructed it never actually knew what the Question was." }, scope=Scope.content,
         help="The feedback for student for the correct answer",
     )
 
@@ -290,7 +284,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         options = deepcopy(self.options)
         for option in options:
             if option.get('image_url'):
-                option.update({'image_url': self.get_asset_url(option.get('image_url'))})
+                option.update({'image_url': self.static_asset_path + option.get('image_url')})
 
         js_vals = {
             'answer_original': answers.get_vote(0),
@@ -390,10 +384,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         if int(options['rationale_size']['min']) < 0:
             errors.append('Minimum Characters')
-        if options['rationale_size']['max'] != '#' and int(options['rationale_size']['max']) < 0:
+        if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
             errors.append('Maximum Characters')
         if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
-                and options['rationale_size']['max'] != '#' \
                 and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
             errors += ['Minimum Characters', 'Maximum Characters']
         if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
