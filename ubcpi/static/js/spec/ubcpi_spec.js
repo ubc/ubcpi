@@ -54,3 +54,66 @@ describe( 'UBCPI XBlock', function() {
     // } );
 
 } );
+
+describe( 'UBCPI XBlock Statuses', function() {
+
+    var mockSelf;
+
+    beforeEach( function() {
+        mockSelf = {};
+    } );
+
+    // Test the default statuses are as we expect
+    it( 'Ensures the default statuses are as we expect', function() {
+
+        var statuses = setDefaultStatuses( mockSelf );
+
+        expect( mockSelf.STATUS_NEW ).toEqual( 0 );
+        expect( mockSelf.STATUS_ANSWERED ).toEqual( 1 );
+        expect( mockSelf.STATUS_REVISED ).toEqual( 2 );
+
+    } );
+
+    // Test what status is set when on the first step
+    it( 'Ensures status 0 when on first step', function() {
+
+        mockSelf = setDefaultStatuses( mockSelf );
+
+        var answer_original = null;
+        var answer_revised = null;
+
+        var status = getStatus( answer_original, answer_revised, mockSelf );
+
+        expect( status ).toEqual( 0 );
+
+    } );
+
+    // Test what status is set when on the second step
+    it( 'Ensures status 1 when on second step', function() {
+
+        mockSelf = setDefaultStatuses( mockSelf );
+
+        var answer_original = 'Test answer';
+        var answer_revised = null;
+
+        var status = getStatus( answer_original, answer_revised, mockSelf );
+
+        expect( status ).toEqual( 1 );
+
+    } );
+
+    // Test what status is set when on the third step
+    it( 'Ensures status 2 when on third step', function() {
+
+        mockSelf = setDefaultStatuses( mockSelf );
+
+        var answer_original = 'Test answer';
+        var answer_revised = 'Revised answer';
+
+        var status = getStatus( answer_original, answer_revised, mockSelf );
+
+        expect( status ).toEqual( 2 );
+
+    } );
+
+} );
