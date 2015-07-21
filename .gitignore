@@ -10,3 +10,5 @@
 
 # vim
 *.swp
+ubcpi.db
+logs/*
