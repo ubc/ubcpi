@@ -1,7 +1,5 @@
 """A Peer Instruction tool for edX by the University of British Columbia."""
 import random
-from xmodule.contentstore.content import StaticContent
-import os
 from copy import deepcopy
 
 from django.core.exceptions import PermissionDenied
@@ -64,21 +62,6 @@ class MissingDataFetcherMixin:
             item_type='ubcpi'
         )
         return student_item_dict
-
-    def get_asset_url(self, static_url):
-        """Returns the asset url for imported files (eg. images)
-
-        Args:
-            static_url(str): The static url for the file
-        Returns:
-            (str): The path to the file
-        """
-
-        file = os.path.split(static_url)[-1]
-        if hasattr(self, "xmodule_runtime"):
-            return StaticContent.get_base_url_path_for_course_assets(self.course_id) + file
-        else:
-            return static_url
 
     def _serialize_opaque_key(self, key):
         """
@@ -290,7 +273,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         options = deepcopy(self.options)
         for option in options:
             if option.get('image_url'):
-                option.update({'image_url': self.get_asset_url(option.get('image_url'))})
+                option.update({'image_url': self.static_asset_path + option.get('image_url')})
 
         js_vals = {
             'answer_original': answers.get_vote(0),
