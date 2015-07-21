@@ -111,9 +111,11 @@ textarea.ubcpi-field{
   padding: 10px 40px;
   background: #33a6dc;
   border: 1px solid #2b8dbb;
-  color: #eaf6fb;
+  color: #fff;
   border-radius: 4px;
   display: inline-block;
+  background-image: none !important;
+  box-shadow: none !important;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
@@ -124,14 +126,17 @@ textarea.ubcpi-field{
   font-size: 14px;
   line-height: 21px;
   font-weight: 600;
+  text-shadow: none;
 }
 
 .choicegroup .ubcpi_submit:hover,
 .choicegroup .ubcpi_submit:active,
 .choicegroup .ubcpi_submit:focus {
   background: #00a7f6;
+  background-color: #00a7f6 !important;
   border-color: #00a7f6;
-  color: #fcfefe;
+  background-image: none !important; /* Needed because edX is very specific here, sadly */
+  color: #fff;
 }
 
 .choicegroup input[type="button"]:disabled {
@@ -139,6 +144,10 @@ textarea.ubcpi-field{
   border-color: rgb(135,135,135);
   cursor: not-allowed;
   opacity: 0.4;
+}
+
+.your-answer-and-rationale .ubcpi_submit {
+    float: left;
 }
 
 /* Other Answers */
@@ -436,15 +445,21 @@ textarea.pi-options {
     font-style: italic;
     font-size: 0.8em;
     opacity: 0.7;
+    clear: both;
 }
 
 .warning-notice {
     display: block;
-    background: orangered;
+    background: #edbd3c;
     padding: 10px;
-    color: white;
-    margin: 10px 0;
+    color: black;
+    margin: 40px 0 10px;
 }
+
+    div.course-wrapper section.course-content .warning-notice p {
+        margin-bottom: 0;
+        color: black;
+    }
 
 .correct-option {
     color: #50c67b;
@@ -469,4 +484,17 @@ textarea.pi-options {
     text-transform: lowercase;
     font-style: italic;
     font-size: 0.85em;
+    float: left;
+    max-width: 60%;
+    display: block;
+    margin-left: 2%;
+}
+
+.your-answer-and-rationale legend {
+    display: block;
+    margin-bottom: 10px;
+    position: relative;
+    top: -10px;
+    left: -20px;
+    font-weight: bold;
 }
