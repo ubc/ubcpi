@@ -1,5 +1,4 @@
 import unittest
-from ubcpi import PeerInstructionXBlock
 
 class PITest(unittest.TestCase):
 
