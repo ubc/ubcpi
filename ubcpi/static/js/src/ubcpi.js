@@ -1,33 +1,5 @@
 /* Javascript for PeerInstructionXBlock. */
 
-// A unique XBlockID allowing us to have multiple instances of this XBlock on a page
-var PIXBlockID = 0;
-
-/**
- * Generate a unique ID. Uses the global PIXBlockID and adds on each time it is called
- *
- * @since 0.4.0
- *
- * @param null
- * @return (string) A unique XBlock ID of the form 'ubcpi_#'
- */
-
-function generatePIXBlockID() {
-
-    // Cache the global internally
-    var internalID = PIXBlockID;
-
-    // A prefix for the string
-    var IDPrefix = 'ubcpi_';
-
-    internalID += 1;
-    PIXBlockID = internalID;
-
-    return IDPrefix + internalID;
-
-}/* generatePIXBlockID() */
-
-
 /**
  * Set the statuses for new, answered and revised
  *
@@ -130,7 +102,32 @@ function disableSubmit( self, $scope ) {
 }/* disableSubmit() */
 
 
+/**
+ * Assign the data to be accessible within our XBlock
+ *
+ * @since 1.0.0
+ *
+ * @param   -
+ * @return
+ */
+
+function assignData( self, data ) {
+
+    self.answer_original    = data.answer_original;
+    self.rationale_original = data.rationale_original;
+    self.answer_revised     = data.answer_revised;
+    self.rationale_revised  = data.rationale_revised;
+    self.other_answers      = data.other_answers;
+    self.correct_answer     = data.correct_answer;
+    self.correct_rationale  = data.correct_rationale;
+
+    return self;
+
+}/* assignData() */
+
+
 function PeerInstructionXBlock(runtime, element, data) {
+
     "use strict";
     var notify;
 
@@ -138,7 +135,8 @@ function PeerInstructionXBlock(runtime, element, data) {
     notify = $.proxy(runtime.notify, runtime) || function(){};
 
     $(function ($) {
-        var appId = generatePIXBlockID();
+
+        var appId = data.xblock_usage_id;
 
         var app = angular.module(appId, ['nvd3ChartDirectives', 'ngSanitize']);
         app.run(function($http) {
@@ -185,16 +183,14 @@ function PeerInstructionXBlock(runtime, element, data) {
             // Set default max rationale size
             self = setDefaultMaxRationaleSize( self );
 
-            self.answer_original = data.answer_original;
-            self.rationale_original = data.rationale_original;
-            self.answer_revised = data.answer_revised;
-            self.rationale_revised = data.rationale_revised;
             self.answer = self.answer_revised || self.answer_original;
             self.rationale = self.rationale_revised || self.rationale_original;
+
+            // Assign data based on what is submitted
+            self = assignData( self, data );
+
+            // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
-            self.other_answers = data.other_answers;
-            self.correct_answer = data.correct_answer;
-            self.correct_rationale = data.correct_rationale;
 
             self.status = function() {
                 return getStatus( self.answer_original, self.answer_revised, self );

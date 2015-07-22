@@ -26,6 +26,7 @@ module.exports = function(config) {
       'lib/angular.js',
       'lib/angular-messages.js',
       'lib/angular-sanitize.js',
+      'https://code.angularjs.org/1.3.13/angular-mocks.js',
 	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine.js',
 	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine-html.js',
       'lib/*.js',

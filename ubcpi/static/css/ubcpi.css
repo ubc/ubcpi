@@ -487,6 +487,7 @@ textarea.pi-options {
     float: right;
     max-width: 80%;
     display: block;
+    margin-left: 5px;
 }
 
 .your-answer-and-rationale legend {

@@ -5,6 +5,7 @@ describe( 'UBCPI XBlock', function() {
     var mockRuntime = {};
     var element;
     var fixture;
+    var data;
 
     jasmine.getFixtures().fixturesPath = 'base/fixtures';
 
@@ -49,7 +50,19 @@ describe( 'UBCPI XBlock', function() {
     //
     //     element = $( 'fieldset' ).get();
     //
-    //     var pixb = PeerInstructionXBlock( mockRuntime, element );
+    //     // select first answer
+    //     // var answer = $( element ).find( 'input[type="radio"]:first' );
+    //     // console.log( answer.eq(0) );
+    //     // $( answer ).eq(0).click();
+    //     //
+    //     // // Mock a rationale
+    //     // var textarea = $( element ).find( 'textarea' );
+    //     // $( textarea ).val( 'Mock rationale' );
+    //     //
+    //     // var button = $( element ).find( 'input[type="button"]' );
+    //     // $( button ).click();
+    //
+    //     // var pixb = PeerInstructionXBlock( mockRuntime, element, data );
     //
     // } );
 
@@ -192,6 +205,31 @@ describe( 'UBCPI XBlock Submissions Enabled', function() {
         disabledButton = disableSubmit( mockSelf, mockScope );
 
         expect( disabledButton ).toEqual( true );
+
+    } );
+
+} );
+
+describe( 'angular app', function() {
+
+    var mockData = {
+        xblock_usage_id: 'i4x://edX/DemoX/ubcpi/03e18731c6e74896a780737da1a7a3aa'
+    };
+
+    beforeEach( module( appId, ['nvd3ChartDirectives', 'ngSanitize', 'ngMock'] ) );
+
+    var $controller;
+
+    beforeEach( inject( function( _$controller_ ) {
+        // The injector unwraps the underscores (_) from around the parameter names when matching
+        $controller = _$controller_;
+    } ) );
+
+    describe( 'app directive', function() {
+
+        it( 'is an integer for a html radio button value', function() {
+            console.log( 'here?' );
+        } )
 
     } );
 
