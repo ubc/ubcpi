@@ -8,6 +8,7 @@ env:
 
 deps:
 	pip install -r requirements/dev.txt
+	pip install -r requirements/test.txt
 	npm install
 
 clean:
