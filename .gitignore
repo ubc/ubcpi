@@ -12,3 +12,7 @@
 *.swp
 ubcpi.db
 logs/*
+
+# coverage
+htmlcov
+.coverage

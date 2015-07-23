@@ -25,3 +25,7 @@ workbench:
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py syncdb --migrate -v 0
 	@echo "Starting server..."
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py runserver_plus
+
+coverage:
+	coverage run -m unittest discover
+	coverage report -m
