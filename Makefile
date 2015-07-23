@@ -27,5 +27,5 @@ workbench:
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py runserver_plus
 
 coverage:
-	coverage run -m unittest discover
+	DJANGO_SETTINGS_MODULE=settings.test coverage run -m unittest discover
 	coverage report -m
