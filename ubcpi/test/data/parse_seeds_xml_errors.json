@@ -1,0 +1,10 @@
+{
+  "missing_option_attribute": {
+    "xml": [
+      "<seeds>",
+        "<seed>This is seed1</seed>",
+        "<seed option=\"2\">This is seed2</seed>",
+      "</seeds>"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+<ubcpi rationale_size_min="1" rationale_size_max="32000" algorithom="simple" num_responses="#">
+    <display_name>Sample Peer Instruction</display_name>
+    <question>
+        <text>This is the question text</text>
+    </question>
+    <options>
+        <option correct="True">
+            <text>Option1</text>
+            <rationale>This is correct.</rationale>
+        </option>
+        <option>
+            <text>Option2</text>
+        </option>
+        <option>
+            <text>Option3</text>
+        </option>
+    </options>
+    <seeds>
+        <seed option="1">This is seed1</seed>
+        <seed option="2">This is seed2</seed>
+        <seed option="3">This is seed3</seed>
+        <seed option="1">This is seed4</seed>
+    </seeds>
+</ubcpi>

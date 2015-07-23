@@ -12,6 +12,7 @@ from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
+from serialize import parse_from_xml
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
@@ -403,11 +404,25 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def workbench_scenarios():
         """A canned scenario for display in the workbench."""
         return [
-            ("PeerInstructionXBlock",
-             """<vertical_demo>
-                <ubcpi/>
-                <ubcpi/>
-                <ubcpi/>
-                </vertical_demo>
-             """),
+            (
+                "UBC Peer Instruction: Basic",
+                load('static/xml/basic_scenario.xml')
+            ),
         ]
+
+    @classmethod
+    def parse_xml(cls, node, runtime, keys, id_generator):
+        """Instantiate XBlock object from runtime XML definition.
+
+        Inherited by XBlock core.
+
+        """
+        config = parse_from_xml(node)
+        block = runtime.construct_xblock_from_class(cls, keys)
+
+        # TODO: more validation
+
+        for key, value in config.iteritems():
+            setattr(block, key, value)
+
+        return block

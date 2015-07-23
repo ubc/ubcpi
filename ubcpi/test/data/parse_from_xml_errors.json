@@ -1,0 +1,96 @@
+{
+  "invalid_ubcpi_element": {
+    "xml": [
+      "<ubcpi_invalid>",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<question>",
+            "<text>This is the question text</text>",
+        "</question>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<text>Option1</text>",
+                "<rationale>This is correct.</rationale>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+        "<seeds>",
+            "<seed option=\"2\">This is seed1</seed>",
+        "</seeds>",
+      "</ubcpi_invalid>"
+    ]
+  },
+  "missing_display_name_element": {
+    "xml": [
+      "<ubcpi>",
+        "<question>",
+            "<text>This is the question text</text>",
+        "</question>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<text>Option1</text>",
+                "<rationale>This is correct.</rationale>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+        "<seeds>",
+            "<seed option=\"2\">This is seed1</seed>",
+        "</seeds>",
+      "</ubcpi>"
+    ]
+  },
+  "missing_question_element": {
+    "xml": [
+      "<ubcpi>",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<text>Option1</text>",
+                "<rationale>This is correct.</rationale>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+        "<seeds>",
+            "<seed option=\"2\">This is seed1</seed>",
+        "</seeds>",
+      "</ubcpi>"
+    ]
+  },
+  "missing_options_element": {
+    "xml": [
+      "<ubcpi>",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<question>",
+            "<text>This is the question text</text>",
+        "</question>",
+        "<seeds>",
+            "<seed option=\"2\">This is seed1</seed>",
+        "</seeds>",
+      "</ubcpi>"
+    ]
+  },
+  "missing_seeds_element": {
+    "xml": [
+      "<ubcpi>",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<question>",
+            "<text>This is the question text</text>",
+        "</question>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<text>Option1</text>",
+                "<rationale>This is correct.</rationale>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+      "</ubcpi>"
+    ]
+  }
+}
