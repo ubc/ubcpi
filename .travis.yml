@@ -7,7 +7,7 @@ install:
   - "pip install coveralls"
 
 script:
-  - "make coverage"
+  - "make test"
 
 after_success:
   coveralls

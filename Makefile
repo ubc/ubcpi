@@ -18,14 +18,10 @@ clean:
 	rm -rf bower_components node_modules
 
 test:
-	DJANGO_SETTINGS_MODULE=settings.test python -m unittest discover
+	DJANGO_SETTINGS_MODULE=settings.test python manage.py test
 
 workbench:
 	@echo "Updating the database..."
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py syncdb --migrate -v 0
 	@echo "Starting server..."
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py runserver_plus
-
-coverage:
-	DJANGO_SETTINGS_MODULE=settings.test coverage run -m unittest discover
-	coverage report -m
