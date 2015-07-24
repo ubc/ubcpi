@@ -4,6 +4,7 @@ python:
 
 install:
   - "make deps"
+  - "pip install -e ."
   - "pip install coveralls"
 
 script:
