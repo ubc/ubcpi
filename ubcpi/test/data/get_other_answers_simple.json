@@ -1,0 +1,96 @@
+{
+  "basic": {
+    "pool": {
+      "0": {
+        "student_1": {},
+        "student_2": {}
+      },
+      "2": {
+        "student_3": {}
+      }
+    },
+    "seeds": [
+      {
+        "answer": 0,
+        "rationale": "rationale A"
+      },
+      {
+        "answer": 1,
+        "rationale": "rationale B"
+      }
+    ],
+    "user_id": "student_2",
+    "num_responses": 2,
+    "choice_result": ["student_1", "seeded1"],
+    "expect": {
+      "answers": [
+        {
+          "option": 0,
+          "rationale": "my rationale"
+        },
+        {
+          "option": 1,
+          "rationale": "rationale B"
+        }
+      ]
+    }
+  },
+  "empty_pool": {
+    "pool": {
+    },
+    "seeds": [
+      {
+        "answer": 0,
+        "rationale": "rationale A"
+      },
+      {
+        "answer": 1,
+        "rationale": "rationale B"
+      }
+    ],
+    "user_id": "bob",
+    "num_responses": 2,
+    "choice_result": ["seeded0", "seeded1"],
+    "expect": {
+      "answers": [
+        {
+          "option": 0,
+          "rationale": "rationale A"
+        },
+        {
+          "option": 1,
+          "rationale": "rationale B"
+        }
+      ]
+    }
+  },
+  "not_enough_in_pool_to_return": {
+    "pool": {
+    },
+    "seeds": [
+      {
+        "answer": 0,
+        "rationale": "rationale A"
+      },
+      {
+        "answer": 1,
+        "rationale": "rationale B"
+      }
+    ],
+    "user_id": "bob",
+    "num_responses": 3,
+    "choice_result": ["seeded0", "seeded1"],
+    "expect": {
+      "answers": [
+        {
+          "option": 0,
+          "rationale": "rationale A"
+        },
+        {
+          "option": 1,
+          "rationale": "rationale B"
+        }
+      ]
+    }
+  }
+}

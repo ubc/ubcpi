@@ -46,7 +46,7 @@
       "rationale_size": {"min": 1, "max": 32000},
       "correct_answer": 0,
       "correct_rationale": {"text": "This is correct."},
-      "seeded_answers": [
+      "seeds": [
         {
           "answer": 0,
           "rationale": "This is seed1"
@@ -96,7 +96,7 @@
       "rationale_size": {"min": null, "max": null},
       "correct_answer": 0,
       "correct_rationale": {"text": "This is correct."},
-      "seeded_answers": [
+      "seeds": [
         {
           "answer": 1,
           "rationale": "This is seed1"

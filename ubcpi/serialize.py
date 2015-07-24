@@ -243,6 +243,6 @@ def parse_from_xml(root):
         'rationale_size': {'min': rationale_size_min, 'max': rationale_size_max},
         'correct_answer': correct_answer,
         'correct_rationale': {'text': correct_rationale},
-        'seeded_answers': seeds,
+        'seeds': seeds,
         'algo': {"name": algo, 'num_responses': num_responses}
     }

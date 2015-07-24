@@ -126,7 +126,7 @@ INSTALLED_APPS = (
 
     # XBlock
     'workbench',
-    'sample_xblocks.basic',  # Needs to be an app for template lookup
+    # 'sample_xblocks.basic',  # Needs to be an app for template lookup
 
     # UBCPI
     'submissions',

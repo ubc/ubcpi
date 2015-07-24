@@ -24,18 +24,9 @@ STATUS_REVISED = 2
 MAX_RATIONALE_SIZE = 32000
 
 
-def load(path):
-    """Handy helper for getting resources from our kit."""
-    data = pkg_resources.resource_string(__name__, path)
-    return data.decode("utf8")
-
-
 # noinspection all
 class MissingDataFetcherMixin:
     """ Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py """
-
-    def __init__(self):
-        pass
 
     def get_student_item_dict(self, anonymous_user_id=None):
         """Create a student_item_dict from our surrounding context.
@@ -156,7 +147,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         default={'original': {}, 'revised': {}}, scope=Scope.user_state_summary,
         help="Overall stats for the instructor",
     )
-    seeded_answers = List(
+    seeds = List(
         default=[], scope=Scope.content,
         help="Instructor configured examples to give to students during the revise stage.",
     )
@@ -228,7 +219,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     	'above': 'Appears above',
                     	'below': 'Appears below'
                     },
-                    'seeds': self.seeded_answers,
+                    'seeds': self.seeds,
         })
 
         return frag
@@ -242,7 +233,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         self.correct_answer = data['correct_answer']
         self.correct_rationale = data['correct_rationale']
         self.algo = data['algo']
-        self.seeded_answers = data['seeds']
+        self.seeds = data['seeds']
 
         return {'success': 'true'}
 
@@ -297,9 +288,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'options': options,
             'rationale_size': self.rationale_size,
         }
-        if answers.has_revision(0):
+        if answers.has_revision(0) and not answers.has_revision(1):
             js_vals['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo, self.options)
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -319,7 +310,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             num_resp = self.stats['original'].setdefault(answer, 0)
             self.stats['original'][answer] = num_resp + 1
             offer_answer(self.sys_selected_answers, answer, rationale, student_item['student_id'], self.algo)
-        elif not answers.has_revision(1) and status == STATUS_ANSWERED:
+        elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)
             self.stats['revised'][answer] = num_resp + 1
@@ -337,7 +328,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def get_grade(self):
         return 1
 
-
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
         return self.stats
@@ -354,9 +344,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             "answer_revised": answers.get_vote(1),
             "rationale_revised": answers.get_rationale(1),
         }
-        if answers.has_revision(0):
+        if answers.has_revision(0) and not answers.has_revision(1):
             ret['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeded_answers, self.get_student_item_dict, self.algo, self.options)
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -398,15 +388,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         else:
             return {'options_error': 'Invalid Option(s): ' + ', '.join(errors)}
 
-    # TO-DO: change this to create the scenarios you'd like to see in the
-    # workbench while developing your XBlock.
-    @staticmethod
-    def workbench_scenarios():
+    @classmethod
+    def workbench_scenarios(cls):  # pragma: no cover
         """A canned scenario for display in the workbench."""
         return [
             (
                 "UBC Peer Instruction: Basic",
-                load('static/xml/basic_scenario.xml')
+                cls.resource_string('static/xml/basic_scenario.xml')
             ),
         ]
 

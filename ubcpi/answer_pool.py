@@ -97,7 +97,9 @@ def validate_seeded_answers(answers, options, algo):
 
 def get_other_answers(answers, seeded_answers, get_student_item_dict, algo, options):
     # "#" means the number of responses returned should be the same as the number of options.
-    num_responses = len(options) if algo['num_responses'] == "#" else int(algo['num_responses'])
+    num_responses = len(options) \
+        if 'num_responses' not in algo or algo['num_responses'] == "#" \
+        else int(algo['num_responses'])
 
     if algo['name'] == 'simple':
         return get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num_responses)
@@ -108,21 +110,46 @@ def get_other_answers(answers, seeded_answers, get_student_item_dict, algo, opti
 
 
 def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num_responses):
+    """
+    get answers from others with simple algorithm
+
+    :param answers: pool of answers, format
+        {
+            0: {
+                student_id: { ... }
+            },
+            1: {
+                student_id: { ... }
+            }
+        }
+    :param seeded_answers: seeded answers from instructor. format:
+        [
+            {'answer': 0, 'rationale': 'rationale A'},
+            {'answer': 1, 'rationale': 'rationale B'},
+        ]
+    :param get_student_item_dict: get student item dict function to return student item dict
+    :param num_responses: the number of responses to be returned. This value may not be
+                          respected if there is not enough answers to return
+    :return: a dict of answers
+    """
     ret = []
+    # clean up answers so that all keys are int
+    answers = {int(k): v for k, v in answers.items()}
     total_in_pool = len(seeded_answers)
     pool = convert_seeded_answers(seeded_answers)
+    student_id = get_student_item_dict()['student_id']
     # merge the dictionaries in the answer dictionary
     for key in answers:
         total_in_pool += len(answers[key])
+        # if student_id has value, we assume the student just submitted an answer. So removing it
+        # from total number in the pool
+        if student_id in answers[key].keys():
+            total_in_pool -= 1
         if key in pool:
             pool[key].update(answers[key].items())
         else:
             pool[key] = answers[key]
-    student_id = get_student_item_dict()['student_id']
-    # if student_id has value, we assume the student just submitted an answer. So removing it
-    # from total number in the pool
-    if student_id:
-        total_in_pool -= 1
+
     # remember which option+student_id is selected, so that we don't have duplicates in the result
     selected = []
 
@@ -157,6 +184,8 @@ def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num
 
 def get_other_answers_random(answers, seeded_answers, get_student_item_dict, num_responses):
     ret = []
+    # clean up answers so that all keys are int
+    answers = {int(k): v for k, v in answers.items()}
     seeded = {'seeded'+str(index): answer for index, answer in enumerate(seeded_answers)}
     pool = seeded.keys()
 
@@ -193,7 +222,15 @@ def convert_seeded_answers(answers):
     """
     convert seeded answers into the format that can be merged into student answers
     :param answers: seeded answers
-    :return: seeded answers with student answers format
+    :return: seeded answers with student answers format:
+        {
+            0: {
+                'seeded0': 'rationaleA'
+            }
+            1: {
+                'seeded1': 'rationaleB'
+            }
+        }
     """
     converted = {}
     for index, answer in enumerate(answers):
