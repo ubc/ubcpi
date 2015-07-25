@@ -23,16 +23,6 @@ describe( 'UBCPI XBlock', function() {
 
     } );
 
-    // Test the unique XBlock ID
-    it( 'Ensures XBlock IDs are unique', function() {
-
-        var idOne = generatePIXBlockID();
-        var idTwo = generatePIXBlockID();
-
-        expect( idOne ).not.toEqual( idTwo );
-
-    } );
-
     // it( 'has no idea what it is doing', function() {
     //
     //     fixture = loadFixtures( 'question-form.html' );
@@ -143,7 +133,7 @@ describe( 'UBCPI XBlock Submissions Enabled', function() {
         mockSelf = {
             answer: null,
             rationale: undefined,
-            submitting: false,
+            submitting: false
         };
 
         mockScope = {
@@ -216,7 +206,7 @@ describe( 'angular app', function() {
         xblock_usage_id: 'i4x://edX/DemoX/ubcpi/03e18731c6e74896a780737da1a7a3aa'
     };
 
-    beforeEach( module( appId, ['nvd3ChartDirectives', 'ngSanitize', 'ngMock'] ) );
+    beforeEach( module( 'UBCPI', ['nvd3ChartDirectives', 'ngSanitize', 'ngMock'] ) );
 
     var $controller;
 

@@ -228,7 +228,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                     	'below': 'Appears below'
                     },
                     'seeds': self.seeded_answers,
-                    'xblock_usage_id': self.scope_ids.usage_id,
         })
 
         return frag
@@ -296,7 +295,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'question_text': self.question_text,
             'options': options,
             'rationale_size': self.rationale_size,
-            'xblock_usage_id': str(self.scope_ids.usage_id),
         }
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(

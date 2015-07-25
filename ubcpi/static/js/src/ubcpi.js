@@ -125,7 +125,14 @@ function assignData( self, data ) {
 
 }/* assignData() */
 
-
+/**
+ * Then entry point function for XBlock
+ *
+ * @param runtime xblock runtime
+ * @param element root element of the xblock
+ * @param data data passed from backend
+ * @constructor
+ */
 function PeerInstructionXBlock(runtime, element, data) {
 
     "use strict";
@@ -135,10 +142,7 @@ function PeerInstructionXBlock(runtime, element, data) {
     notify = $.proxy(runtime.notify, runtime) || function(){};
 
     $(function ($) {
-
-        var appId = data.xblock_usage_id;
-
-        var app = angular.module(appId, ['nvd3ChartDirectives', 'ngSanitize']);
+        var app = angular.module('UBCPI', ['nvd3ChartDirectives', 'ngSanitize']);
         app.run(function($http) {
             // set up CSRF Token from cookie. This is needed by all post requests
             $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
@@ -158,7 +162,6 @@ function PeerInstructionXBlock(runtime, element, data) {
         app.controller('ReviseController', function ($scope, $http) {
             var self = this;
 
-            $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
             $scope.rationale_size = data.rationale_size;
@@ -399,6 +402,7 @@ function PeerInstructionXBlock(runtime, element, data) {
             };
 
         });
-        angular.bootstrap(element, [appId]);
+        angular.bootstrap(element, ['UBCPI'], {
+        });
     });
 }
