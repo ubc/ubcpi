@@ -266,7 +266,7 @@ function PeerInstructionXBlock(runtime, element, data) {
     "use strict";
     // The workbench doesn't support notifications.
     var notify = $.proxy(runtime.notify, runtime) || function () {
-        };
+    };
 
     var urls = {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
