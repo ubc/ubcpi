@@ -148,10 +148,6 @@ angular.module('UBCPI', ['constants', 'nvd3ChartDirectives', 'ngSanitize'])
                 }
             };
 
-            self.disableSubmit = function () {
-                return disableSubmit(self, $scope);
-            };
-
             self.clickSubmit = function () {
                 notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
@@ -218,39 +214,6 @@ angular.module('UBCPI', ['constants', 'nvd3ChartDirectives', 'ngSanitize'])
                 return self;
             }
 
-            /**
-             * Determine if the submit button should be disabled
-             * If we have an answer selected, a rationale that is large enough and we are not already submitting, we ENable
-             * the submit button. For all other scenarios, we disable it.
-             *
-             * @since 1.0.0
-             *
-             * @param self - The entire 'this' object
-             * @param $scope - the scope context
-             * @return (bool) true if the button should be disabled, false otherwise
-             */
-            function disableSubmit(self, $scope) {
-
-                // Do we have an answer selected?
-                var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
-
-                // If we don't have a rationale, it's disabled
-                if (typeof self.rationale === "undefined" || self.rationale === null) {
-                    return true;
-                }
-
-                // How long is the rationale?
-                var size = self.rationale.length;
-
-                // Do we have a rationale and is it longer the the minimum length and shorter than the maximum length
-                var haveRationale = ( ( size >= $scope.rationale_size.min ) && ( size <= $scope.rationale_size.max ) );
-
-                // Should the button be ENabled?
-                var enable = haveAnswer && haveRationale && !self.submitting;
-
-                // We're determining if it should be disabled, so reverse of logic above
-                return !enable;
-            }
         }]);
 
 /**

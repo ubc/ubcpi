@@ -54,15 +54,19 @@
                 <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
-                <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
                 <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
                 <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
                 <br />
 
-                <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid || rc.disableSubmit()">
+                <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
                     <p role="alert" class="warning">
                         <i class="icon fa fa-warning"></i>
-                        Note: In order to move to the next step please choose an answer and explain your decision.
+                        <span ng-if="answerForm.rationale.$error.minlength">Note: Your rationale must be at least {{rationale_size.min}} characters.</span>
+                        <span ng-if="answerForm.rationale.$error.maxlength">Note: Your rationale must be at most {{rationale_size.max}} characters.</span>
+                        <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">Note: In order to move to the next step please explain your selection.</span>
+                        <span ng-if="answerForm.rationale.$valid && answerForm.q.$invalid">Note: In order to move to the next step please choose an answer.</span>
+                        <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">Note: In order to move to the next step please choose an answer and explain your decision.</span>
                     </p>
                 </div
 
