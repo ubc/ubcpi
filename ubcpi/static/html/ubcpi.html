@@ -40,7 +40,7 @@
                 <fieldset role="radiogroup">
                     <legend>Your Response <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW">(You may change this response if you wish in the next step)</span></legend>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
-                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
+                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
                         <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
