@@ -5,6 +5,7 @@ from copy import deepcopy
 from django.core.exceptions import PermissionDenied
 
 import pkg_resources
+from webob import Response
 
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
@@ -251,6 +252,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
+    @XBlock.handler
+    def get_asset(self, request, suffix=''):
+        filename = request.GET.get('f')
+        return Response(self.resource_string('static/js/partials/' + filename), content_type='text/html')
+
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
@@ -271,15 +277,16 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/ubcpi.css"))
         frag.add_css(self.resource_string("static/css/nv.d3.css"))
-        frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-sanitize.js")
+        frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js")
         # frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
         # frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js")
-        frag.add_javascript(self.resource_string("static/js/src/d3.js"))
         frag.add_javascript(self.resource_string("static/js/src/nv.d3.js"))
         frag.add_javascript(self.resource_string("static/js/src/angularjs-nvd3-directives.min.js"))
+        frag.add_javascript(self.resource_string("static/js/src/d3-pibar.js"))
+        frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
 
         options = deepcopy(self.options)
         for option in options:
@@ -295,6 +302,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'question_text': self.question_text,
             'options': options,
             'rationale_size': self.rationale_size,
+            'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
         }
         if answers.has_revision(0):
             js_vals['other_answers'] = get_other_answers(
