@@ -52,7 +52,7 @@
                 </fieldset>
 
                 <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
-                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
+                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
                 <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
                 <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
