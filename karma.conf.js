@@ -13,6 +13,7 @@ module.exports = function(config) {
 	  'karma-jasmine-jquery',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // frameworks to use
@@ -26,19 +27,23 @@ module.exports = function(config) {
       'lib/angular.js',
       'lib/angular-messages.js',
       'lib/angular-sanitize.js',
+      'lib/jquery.cookie.js',
+      'lib/d3.js',
       'https://code.angularjs.org/1.3.13/angular-mocks.js',
 	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine.js',
 	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine-html.js',
-      'lib/*.js',
+      'src/ubcpi.js',
       'src/*.js',
       'spec/*.js',
+      // templates
+      'partials/*.html',
 
       // fixtures
       {
         pattern: 'fixtures/*.html',
         served: true,
 		included: false
-      },
+      }
     ],
 
 
@@ -51,14 +56,20 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-    //   'src/*.js': 'coverage',
+      'src/*.js': 'coverage',
+      'partials/*.html': ['ng-html2js']
     },
 
+    ngHtml2JsPreprocessor: {
+      // custom transform function to reverse the $httpProvider.interceptor
+      stripPrefix: 'partials/',
+      prependPrefix: 'cache?f='
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     coverageReporter: {
         type : 'text'

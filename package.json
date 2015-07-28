@@ -10,6 +10,7 @@
     "karma-jasmine": "^0.3.6",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-phantomjs-launcher": "^0.2.0",
+    "karma-ng-html2js-preprocessor": "~0.1",
     "phantomjs": "^1.9.17",
     "uglify-js": "2.3.6"
   },
