@@ -287,6 +287,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript(self.resource_string("static/js/src/angularjs-nvd3-directives.min.js"))
         frag.add_javascript(self.resource_string("static/js/src/d3-pibar.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
+        frag.add_javascript(self.resource_string("static/js/src/ubcpi-answer-result-directive.js"))
 
         options = deepcopy(self.options)
         for option in options:

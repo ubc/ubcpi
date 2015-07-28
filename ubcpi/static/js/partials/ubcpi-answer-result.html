@@ -1,0 +1,10 @@
+<fieldset role="radiogroup">
+    <legend>{{ legend }}</legend>
+    <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in data track by $index">
+        <input class="ubcpi-field" type="radio" data-ng-model="answer" value="{{$index}}" disabled />
+        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="correct == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="answer == $index">(You chose this option initially)</span></div>
+        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
+        <div ng-if="d[0].text" class="original-response response-text">{{d[0].text}}</div>
+        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
+    </label>
+</fieldset>

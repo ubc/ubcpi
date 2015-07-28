@@ -2,7 +2,7 @@
 
     <div class="revise" data-ng-controller="ReviseController as rc">
 
-        <div class="question-other-explain" data-ng-if="rc.status() == rc.STATUS_NEW || rc.status() == rc.STATUS_ANSWERED">
+        <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
             <h2 id="pi-question-h" class="question-text">Question:</h2>
 
@@ -12,7 +12,7 @@
 
             <img ng-src="{{question_text.image_url}}" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
-            <div class="others-responses" data-ng-if="rc.status() == rc.STATUS_ANSWERED">
+            <div class="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
 
                 <h3>Others' responses</h3>
                 <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
@@ -38,25 +38,25 @@
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
                 <fieldset role="radiogroup">
-                    <legend>Your Response <span class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW">(You may change this response if you wish in the next step)</span></legend>
+                    <legend>Your Response <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW">(You may change this response if you wish in the next step)</span></legend>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
                         <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" integer>
 
                         <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.STATUS_ANSWERED">(You chose this option initially)</span></p>
+                        <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option initially)</span></p>
 
                         <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
                     </label>
                 </fieldset>
 
-                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.STATUS_ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required></textarea>
 
                 <input data-ng-disabled="answerForm.$invalid || rc.disableSubmit()" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
-                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.STATUS_NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.STATUS_ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
+                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
+                <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
                 <br />
 
                 <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid || rc.disableSubmit()">
@@ -70,7 +70,7 @@
 
         </div><!-- .question-other-explain -->
 
-        <div class="correct-revised-chart" data-ng-if="rc.status() == rc.STATUS_REVISED" data-ng-init="rc.getStats()">
+        <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 
             <section class="solution-span correct-answer-and-rationale">
 
@@ -92,45 +92,13 @@
             </section><!-- .correct-answer-and-rationale -->
 
             <div class="original-answers results-container choicegroup">
-
-                <fieldset role="radiogroup">
-                    <legend>Original Answers</legend>
-                    <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataOriginal[0]['values'] track by $index">
-                        <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_original" value="{{$index}}" disabled>
-
-                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index">(You chose this option initially)</span></div>
-
-                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
-
-                        <div ng-if="d[0].text" class="original-response response-text">{{d[0].text}}</div>
-
-                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
-                    </label>
-                </fieldset>
-
+                <pi-answer-result legend="Original Answers" data="chartDataOriginal[0]['values']" answer="rc.answer_original" correct="rc.correct_answer"></pi-answer-result>
                 <div id="original-bar-chart"></div>
-
             </div><!-- .original-answers -->
 
             <div class="revised-answers results-container choicegroup">
-
-                <fieldset role="radiogroup">
-                    <legend>Revised Answers</legend>
-                    <label class="ubcpi-label ubcpi-answer" data-ng-repeat="d in chartDataRevised[0]['values'] track by $index">
-                        <input class="ubcpi-field" type="radio" data-ng-model="rc.answer_revised" value="{{$index}}" disabled>
-
-                        <div><span class="possible-option">Option {{$index + 1}}</span> <span ng-if="rc.correct_answer == $index" class="correct-option option-details-text">Correct Option</span> <span class="chosen-option option-details-text" ng-if="rc.answer_revised == $index">(You chose this option after seeing others)</span></div>
-
-                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'above' && d[0].image_url" />
-
-                        <div ng-if="d[0].text" class="revised-response response-text">{{d[0].text}}</div>
-
-                        <img ng-src="{{d[0].image_url}}" alt="{{d[0].image_alt}}" ng-if="d[0].image_position == 'below' && d[0].image_url" />
-                    </label>
-                </fieldset>
-
+                <pi-answer-result legend="Revised Answers" data="chartDataRevised[0]['values']" answer="rc.answer_revised" correct="rc.correct_answer"></pi-answer-result>
                 <div id="revised-bar-chart"></div>
-
             </div><!-- .revised-answers -->
 
         </div><!-- .correct-revised-chart -->
