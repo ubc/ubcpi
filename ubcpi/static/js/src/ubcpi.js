@@ -280,8 +280,6 @@ function PeerInstructionXBlock(runtime, element, data) {
 
     // bootstrap our app manually
     $(function () {
-        console.log('bbb');
         angular.bootstrap(element, ['UBCPI'], {});
-        console.log('ccc');
     });
 }
