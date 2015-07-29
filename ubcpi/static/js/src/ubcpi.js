@@ -1,7 +1,7 @@
 angular.module('constants', []);
 
 angular.module('UBCPI', ['constants', 'ngSanitize', 'ngCookies'])
-    .config(function($httpProvider, urls) {
+    .config(['$httpProvider', 'urls', function($httpProvider, urls) {
         //register an http interceptor to transform your template urls
         $httpProvider.interceptors.push(function () {
             return {
@@ -15,7 +15,7 @@ angular.module('UBCPI', ['constants', 'ngSanitize', 'ngCookies'])
                 }
             };
         });
-    })
+    }])
 
     .run(['$http', '$cookies', function ($http, $cookies) {
         // set up CSRF Token from cookie. This is needed by all post requests
@@ -203,6 +203,6 @@ function PeerInstructionXBlock(runtime, element, data) {
 
     // bootstrap our app manually
     $(function () {
-        angular.bootstrap(element, ['UBCPI'], {});
+        angular.bootstrap(element, ['UBCPI'], {strictDi: true});
     });
 }

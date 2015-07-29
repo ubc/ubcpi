@@ -1,6 +1,6 @@
 'use strict';
 
-describe('UBCPI', function () {
+describe('UBCPI module', function () {
     var mockUrls, mockNotify;
 
     beforeEach(function() {
@@ -145,40 +145,12 @@ describe('UBCPI', function () {
         })
     });
 
-    //describe('chartFactory', function() {
-    //    var chartFactory;
-    //    var dummyData = [
-    //        {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
-    //        {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
-    //        {frequency: 5, label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
-    //        {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
-    //        {frequency: 0, label: 'Option 5', class: 'ubcpibar'},
-    //    ];
-    //
-    //    beforeEach(inject(function(_chart_) {
-    //        chartFactory = _chart_;
-    //    }));
-    //
-    //    it('should pass data to d3', function() {
-    //        var spy = jasmine.createSpyObj('selection', ['append', 'attr', 'call', 'datum']);
-    //        spyOn(d3, 'select').and.returnValue(spy);
-    //        spy.call.and.returnValue(spy);
-    //        spy.datum.and.returnValue(spy);
-    //
-    //        chartFactory.createChart(dummyData, 'body');
-    //
-    //        expect(d3.select).toHaveBeenCalledWith('body');
-    //        expect(spy.datum).toHaveBeenCalledWith(dummyData);
-    //    })
-    //});
-
     describe('ReviseController', function() {
         var $rootScope, createController;
-        var mockNotify, mockChart, mockData;
+        var mockNotify, mockData;
 
         beforeEach(function() {
             mockNotify = jasmine.createSpy('notify');
-            mockChart = jasmine.createSpyObj('chart', ['createChart']);
             var mockUrls = jasmine.createSpy('urls');
             mockData = {
                 'question_text': {'text': 'question text'},
@@ -196,7 +168,6 @@ describe('UBCPI', function () {
             module(function ($provide) {
                 $provide.constant('urls', mockUrls);
                 $provide.value('notify', mockNotify);
-                $provide.value('chart', mockChart);
                 $provide.value('data', mockData);
             });
         });
@@ -336,14 +307,6 @@ describe('UBCPI', function () {
             });
         });
 
-        //describe('createChart', function() {
-        //    it('should call chart service with correct parameters', function() {
-        //        var controller = createController();
-        //        controller.createChart('testdata', 'body');
-        //        expect(mockChart.createChart).toHaveBeenCalledWith('testdata', 'body');
-        //    })
-        //});
-
         describe('getState', function() {
             var backendService, controller, backendDeferred;
 
@@ -394,7 +357,7 @@ describe('UBCPI', function () {
     })
 });
 
-describe('PeerInstructionXBlock', function() {
+describe('PeerInstructionXBlock function', function() {
     var mockRuntime, mockElement, mockData, mockModule;
 
     beforeEach(function() {
@@ -425,7 +388,7 @@ describe('PeerInstructionXBlock', function() {
     });
 
     it('should bootstrap angular app', function() {
-        expect(angular.bootstrap).toHaveBeenCalledWith(mockElement, ['UBCPI'], {})
+        expect(angular.bootstrap).toHaveBeenCalledWith(mockElement, ['UBCPI'], {strictDi: true})
     });
 
     it('should generate URLs using runtime', function() {

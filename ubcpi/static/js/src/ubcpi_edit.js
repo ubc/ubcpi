@@ -1,38 +1,61 @@
-function PIEdit(runtime, element, data) {
-    var self = this;
+angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookies'])
 
-    $(function ($) {
-        var app = angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies']);
-        app.run(['$http', '$cookies', function ($http, $cookies) {
-            // set up CSRF Token from cookie. This is needed by all post requests
-            $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
-        }]);
+    .run(['$http', '$cookies', function ($http, $cookies) {
+        // set up CSRF Token from cookie. This is needed by all post requests
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    }])
 
-        app.directive('validateForm', function($q, $http) {
-            return {
-                require: 'ngModel',
-                link: function(scope, elm, attrs, ctrl) {
-                    scope.$watch(attrs.ngModel, function(model) {
-                        if (model != null) {
-                            ctrl.$validate();
-                        }
-                    }, true);
-                    ctrl.$asyncValidators.validate_form = function (modelValue, viewValue) {
-                        scope.piForm.$errors = {};
-                        var handlerUrl = runtime.handlerUrl(element, 'validate_form');
-                        return $http.post(handlerUrl, modelValue).
-                            then(function resolved() {
-                                return true;
-                            }, function rejected(response) {
-                                scope.piForm.$errors = response.data.error;
-                                return $q.reject('error');
-                            });
-                    };
+    .directive('validateForm', ['$q', 'studioBackendService', function($q, studioBackendService) {
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+                scope.$watch(attrs.ngModel, function(model) {
+                    if (model != null) {
+                        ctrl.$validate();
+                    }
+                }, true);
+                ctrl.$asyncValidators.validate_form = function (modelValue, viewValue) {
+                    scope.piForm.$errors = {};
+                    return studioBackendService.validateForm(modelValue).then(function () {
+                        return true;
+                    }, function (error) {
+                        scope.piForm.$errors = error.error;
+                        return $q.reject(error.error);
+                    });
+                };
+            }
+        };
+    }])
+
+    .factory('studioBackendService', ['$http', '$q', 'urls', function ($http, $q, urls) {
+        return {
+            validateForm: validateForm,
+            submit: studioSubmit
+        };
+
+        function validateForm(values) {
+            return $http.post(urls.validate_form, values).
+                then(function () {
+                    return true;
+                }, function (response) {
+                    return $q.reject(response.data);
+                });
+        }
+
+        function studioSubmit(data) {
+            return $http.post(urls.studio_submit, data).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error.data);
                 }
-            };
-        });
+            );
+        }
+    }])
 
-        app.controller('EditSettingsController', function ($scope, $http) {
+    .controller('EditSettingsController', ['$scope', 'studioBackendService', 'notify', 'data',
+        function ($scope, studioBackendService, notify, data) {
             var self = this;
             self.algos = data.algos;
             self.data = {};
@@ -49,10 +72,12 @@ function PIEdit(runtime, element, data) {
             self.data.seeds = data.seeds;
 
             self.cancel = function() {
-                runtime.notify('cancel', {});
+                notify('cancel', {});
             };
             self.add_option = function() {
-                self.data.options.push({'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''});
+                self.data.options.push(
+                    {'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+                );
             };
             self.delete_option = function(index) {
                 self.data.options.splice(index, 1);
@@ -63,6 +88,7 @@ function PIEdit(runtime, element, data) {
             self.deleteSeed = function(index) {
                 self.data.seeds.splice(index, 1);
             };
+
             self.show_image_fields = function( index ) {
 
             	if ( index === false ) {
@@ -84,26 +110,38 @@ function PIEdit(runtime, element, data) {
 
             	}
 
-            }
-            self.submit = function() {
-                // Take all of the fields, serialize them, and pass them to the
-                // server for saving.
-                var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
-
-                runtime.notify('save', {state: 'start', message: "Saving"});
-
-                $http.post(handlerUrl, self.data).
-                    success(function(data, status, header, config) {
-                        runtime.notify('save', {state: 'end'})
-                    }).
-                    error(function(data, status, header, config) {
-                        runtime.notify('error', {
-                            'title': 'Error saving question',
-                            'message': self.format_errors(result['errors'])
-                        });
-                    });
             };
-        });
-        angular.bootstrap(element, ["ubcpi_edit"]);
+
+            self.submit = function() {
+                notify('save', {state: 'start', message: "Saving"});
+
+                return studioBackendService.submit(self.data).catch(function(errors) {
+                    notify('error', {
+                        'title': 'Error saving question',
+                        'message': errors.errors
+                    });
+                }).finally(function() {
+                    notify('save', {state: 'end'})
+                });
+            };
+        }]);
+
+function PIEdit(runtime, element, data) {
+
+    "use strict";
+    // The workbench doesn't support notifications.
+    var notify = $.proxy(runtime.notify, runtime) || function () {};
+
+    var urls = {
+        'studio_submit': runtime.handlerUrl(element, 'studio_submit'),
+        'validate_form': runtime.handlerUrl(element, 'validate_form')
+    };
+
+    angular.module('constants').constant('urls', urls);
+    // inject xblock runtime, notification and data
+    angular.module('ubcpi_edit').value('notify', notify).value('data', data);
+
+    $(function () {
+        angular.bootstrap(element, ["ubcpi_edit"], {strictDi: true});
     });
 }
