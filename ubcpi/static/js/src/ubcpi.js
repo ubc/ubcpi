@@ -152,7 +152,6 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
                 notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
                 return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
-                    self.submitting = false;
                     self.answer_original = data.answer_original;
                     self.rationale_original = data.rationale_original;
                     self.answer_revised = data.answer_revised;
@@ -160,8 +159,10 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
                     self.other_answers = data.other_answers;
                     self.correct_answer = data.correct_answer;
                     self.correct_rationale = data.correct_rationale;
+                }).finally(function() {
+                    self.submitting = false;
                     notify('save', {state: 'end'});
-                })
+                });
             };
 
             self.createChart = function (data, containerSelector) {

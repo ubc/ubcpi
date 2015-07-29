@@ -161,7 +161,7 @@ describe('UBCPI', function () {
     });
 
     describe('ReviseController', function() {
-        var $scope, createController;
+        var $rootScope, createController;
         var mockNotify, mockChart, mockData;
 
         beforeEach(function() {
@@ -189,12 +189,12 @@ describe('UBCPI', function () {
             });
         });
 
-        beforeEach(inject(function($controller) {
-            $scope = {};
+        beforeEach(inject(function($controller, _$rootScope_) {
+            $rootScope = _$rootScope_;
             createController = function(params) {
                 return $controller(
                     'ReviseController', {
-                        $scope: $scope,
+                        $scope: $rootScope,
                         $stateParams: params || {}
                     });
             }
@@ -202,17 +202,17 @@ describe('UBCPI', function () {
 
         it('should have correct initial states', function() {
             var controller = createController();
-            expect($scope.question_text).toEqual(mockData.question_text);
-            expect($scope.options).toEqual(mockData.options);
-            expect($scope.rationale_size).toEqual(mockData.rationale_size);
-            expect($scope.chartDataOriginal).toEqual([
+            expect($rootScope.question_text).toEqual(mockData.question_text);
+            expect($rootScope.options).toEqual(mockData.options);
+            expect($rootScope.rationale_size).toEqual(mockData.rationale_size);
+            expect($rootScope.chartDataOriginal).toEqual([
                 {
                     'key': 'Original',
                     'color': '#33A6DC',
                     'values': []
                 }
             ]);
-            expect($scope.chartDataRevised).toEqual([
+            expect($rootScope.chartDataRevised).toEqual([
                 {
                     'key': 'Revised',
                     'color': '#50C67B',
@@ -241,31 +241,34 @@ describe('UBCPI', function () {
         });
 
         describe('clickSubmit', function() {
-            var backendDeferred, backendService;
+            var backendDeferred, backendService, controller;
 
             beforeEach(inject(function($q, _backendService_) {
-                backendDeferred= $q.defer();
+                backendDeferred = $q.defer();
                 backendService = _backendService_;
+                controller = createController();
             }));
 
             it('should set the submitting status and show the notification', function() {
                 spyOn(backendService, 'submit').and.callFake(function() {
                     return backendDeferred.promise;
                 });
-                var controller = createController();
+
                 expect(controller.submitting).toBe(false);
-                controller.clickSubmit().then(function() {
-                    expect(mockNotify.calls.count()).toBe(2);
-                    expect(mockNotify.calls.argsFor(1)).toBe(['save', {state: 'end'}]);
-                    expect(controller.submitting).toBe(false);
-                });
+
+                controller.clickSubmit();
                 expect(controller.submitting).toBe(true);
                 expect(mockNotify).toHaveBeenCalledWith('save', {state: 'start', message: "Submitting"});
+
                 backendDeferred.resolve({'answer_original': 'original'});
+                $rootScope.$apply();
+
+                expect(mockNotify.calls.count()).toBe(2);
+                expect(mockNotify.calls.argsFor(1)).toEqual(['save', {state: 'end'}]);
+                expect(controller.submitting).toBe(false);
             });
 
             it('should call backendService with correct parameters', function() {
-                var controller = createController();
                 var submit = {
                     'answer': 1,
                     'rationale': 'my rationale',
@@ -275,7 +278,7 @@ describe('UBCPI', function () {
                 controller.rationale = submit.rationale;
                 spyOn(backendService, 'submit').and.callFake(function() {
                     return {
-                        then: function() {}
+                        then: function() { return { finally: function() {} }; }
                     }
                 });
                 controller.clickSubmit();
@@ -283,7 +286,6 @@ describe('UBCPI', function () {
             });
 
             it('should process the response from backend', function() {
-                var controller = createController();
                 var response = {
                     'answer_original': 1,
                     'rationale_original': 'rationale',
@@ -295,7 +297,9 @@ describe('UBCPI', function () {
                 };
                 spyOn(backendService, 'submit').and.callFake(function() {
                     return {
-                        then: function(callback) { return callback(response);}
+                        then: function(callback) { callback(response);
+                            return { finally: function() {}}
+                        }
                     }
                 });
                 controller.clickSubmit();
@@ -303,7 +307,21 @@ describe('UBCPI', function () {
                     expect(controller.hasOwnProperty(key)).toBe(true);
                     expect(controller[key]).toEqual(response[key]);
                 }
-            })
+            });
+
+            it('should clear the submitting status when failed', function() {
+                spyOn(backendService, 'submit').and.callFake(function() {
+                    return backendDeferred.promise;
+                });
+
+                controller.clickSubmit();
+
+                backendDeferred.reject('backend error');
+                $rootScope.$apply();
+
+                expect(controller.submitting).toBe(false);
+                expect(mockNotify.calls.count()).toBe(2);
+            });
         });
 
         describe('createChart', function() {
