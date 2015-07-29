@@ -20,7 +20,7 @@ describe('UBCPI', function () {
             scope = $rootScope;
 
             element = angular.element(
-                '<pi-answer-result legend="Answers" data="data" answer="answer" correct="correct"></pi-answer-result>'
+                '<pi-answer-result legend="Answers" options="options" answer="answer" correct="correct"></pi-answer-result>'
             );
             $compile(element)(scope);
             scope.$digest();
@@ -33,39 +33,39 @@ describe('UBCPI', function () {
         });
 
         describe('directive', function () {
-            var data = [[{
+            var options = [{
                 "text": "21",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
                 "show_image_fields": 0
-            }, 0], [{
+            }, {
                 "text": "42",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
                 "show_image_fields": 0
-            }, 0], [{
+            }, {
                 "text": "63",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
                 "show_image_fields": 0
-            }, 0]];
+            }];
             var answer = 1;
             var correct = 0;
 
             beforeEach(function() {
                 scope.$apply(function () {
-                    scope.data = data;
+                    scope.options = options;
                     scope.answer = answer;
                     scope.correct = correct;
                 });
             });
 
             it('should bind the data', function() {
-                expect(element.find('label').length).toBe(data.length);
-                expect(element.find('input').length).toBe(data.length);
+                expect(element.find('label').length).toBe(options.length);
+                expect(element.find('input').length).toBe(options.length);
             });
 
             it('should mark the correct answer and selected answer', function () {

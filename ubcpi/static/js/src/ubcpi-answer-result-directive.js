@@ -4,7 +4,7 @@ angular.module('UBCPI').
             restrict: 'E',
             scope: {
                 legend: '@',
-                data: '=',
+                options: '=',
                 correct: '=',
                 answer: '='
             },
