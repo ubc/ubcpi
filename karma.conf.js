@@ -23,11 +23,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'lib/jquery.min.js',
+      '../../../node_modules/jquery/tmp/jquery.js',
       '../../../node_modules/angular/angular.js',
       '../../../node_modules/angular-messages/angular-messages.js',
       '../../../node_modules/angular-sanitize/angular-sanitize.js',
-      'lib/jquery.cookie.js',
+      '../../../node_modules/angular-cookies/angular-cookies.js',
       '../../../node_modules/d3/d3.js',
       '../../../node_modules/angular-mocks/angular-mocks.js',
       '../../../node_modules/jasmine-core/lib/jasmine-core/jasmine.js',

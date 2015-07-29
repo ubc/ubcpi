@@ -279,6 +279,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-sanitize.js")
+        frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-cookies.js")
         frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js")
         frag.add_javascript(self.resource_string("static/js/src/d3-pibar.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))

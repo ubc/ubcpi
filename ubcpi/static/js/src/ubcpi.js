@@ -1,6 +1,6 @@
 angular.module('constants', []);
 
-angular.module('UBCPI', ['constants', 'ngSanitize'])
+angular.module('UBCPI', ['constants', 'ngSanitize', 'ngCookies'])
     .config(function($httpProvider, urls) {
         //register an http interceptor to transform your template urls
         $httpProvider.interceptors.push(function () {
@@ -17,9 +17,9 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
         });
     })
 
-    .run(['$http', function ($http) {
+    .run(['$http', '$cookies', function ($http, $cookies) {
         // set up CSRF Token from cookie. This is needed by all post requests
-        $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     }])
 
     .directive('integer', function () {
