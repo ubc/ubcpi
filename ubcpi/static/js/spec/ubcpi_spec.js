@@ -39,17 +39,17 @@ describe('UBCPI', function () {
     });
 
     describe('backendService', function() {
-        var backendService, httpBackend;
+        var backendService, $httpBackend;
 
 
-        beforeEach(inject(function(_backendService_, $httpBackend) {
+        beforeEach(inject(function(_backendService_, _$httpBackend_) {
             backendService = _backendService_;
-            httpBackend = $httpBackend;
+            $httpBackend = _$httpBackend_;
         }));
 
         afterEach(function() {
-            httpBackend.verifyNoOutstandingExpectation();
-            httpBackend.verifyNoOutstandingRequest();
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
         });
 
         describe('get_stats', function() {
@@ -64,24 +64,24 @@ describe('UBCPI', function () {
                     "revised": {"1": 1}, "original": {"0": 1}
                 };
                 var data = undefined;
-                httpBackend.expectPOST('/handler/get_stats', '""').respond(200, exp);
+                $httpBackend.expectPOST('/handler/get_stats', '""').respond(200, exp);
 
                 backendService.getStats().then(function(d) {
                     data = d;
                 });
-                httpBackend.flush();
+                $httpBackend.flush();
 
                 expect(data).toEqual(exp);
             });
 
             it('should reject promise with error returned from backend when backend error', function() {
-                httpBackend.expectPOST('/handler/get_stats', '""').respond(500, 'error');
+                $httpBackend.expectPOST('/handler/get_stats', '""').respond(500, 'error');
 
                 var error = undefined;
                 backendService.getStats().catch(function(e) {
                    error = e.data;
                 });
-                httpBackend.flush();
+                $httpBackend.flush();
 
                 expect(error).toBe('error');
             });
@@ -119,25 +119,25 @@ describe('UBCPI', function () {
                     "answer_revised": null,
                     "rationale_revised": null
                 };
-                httpBackend.expectPOST('/handler/submit', post).respond(200, exp);
+                $httpBackend.expectPOST('/handler/submit', post).respond(200, exp);
 
                 var data = undefined;
                 backendService.submit(post.q, post.rationale, post.status).then(function(d) {
                     data = d;
                 });
-                httpBackend.flush();
+                $httpBackend.flush();
 
                 expect(data).toEqual(exp);
             });
 
             it('should reject promise with error returned from backend when backend error', function() {
-                httpBackend.expectPOST('/handler/submit', post).respond(500, 'error');
+                $httpBackend.expectPOST('/handler/submit', post).respond(500, 'error');
 
                 var error = undefined;
                 backendService.submit(post.q, post.rationale, post.status).catch(function(e) {
                     error = e.data;
                 });
-                httpBackend.flush();
+                $httpBackend.flush();
 
                 expect(error).toBe('error');
             })

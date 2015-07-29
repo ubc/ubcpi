@@ -33,7 +33,7 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
         };
     })
 
-    .factory('backendService', ['$http', '$q', 'urls', function backendService($http, $q, urls) {
+    .factory('backendService', ['$http', '$q', 'urls', function ($http, $q, urls) {
         return {
             getStats: getStats,
             submit: submit
