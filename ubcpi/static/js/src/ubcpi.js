@@ -33,7 +33,7 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
         };
     })
 
-    .factory('backendService', ['$http', '$q', 'urls', 'notify', function backendService($http, $q, urls, notify) {
+    .factory('backendService', ['$http', '$q', 'urls', function backendService($http, $q, urls) {
         return {
             getStats: getStats,
             submit: submit
@@ -46,12 +46,7 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
                     return response.data;
                 },
                 function(error) {
-                    notify('error', {
-                        'title': 'Error retrieving statistics!',
-                        'message': 'Please refresh the page and try again!'
-                    });
-                    // TODO: add more details about the error
-                    return $q.reject('error');
+                    return $q.reject(error);
                 });
         }
 
@@ -67,12 +62,7 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
                     return response.data;
                 },
                 function(error) {
-                    notify('error', {
-                        'title': 'Error submitting answer!',
-                        'message': 'Please refresh the page and try again!'
-                    });
-                    // TODO: add more details about the error
-                    return $q.reject('error');
+                    return $q.reject(error);
                 }
             );
         }
@@ -93,8 +83,8 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
     })
 
     .controller('ReviseController', [
-        '$scope', 'notify', 'data', 'backendService', 'chart', 'urls',
-        function ($scope, notify, data, backendService, chart, urls) {
+        '$scope', 'notify', 'data', 'backendService', 'chart', 'urls', '$q',
+        function ($scope, notify, data, backendService, chart, urls, $q) {
             var self = this;
 
             $scope.question_text = data.question_text;
@@ -159,6 +149,12 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
                     self.other_answers = data.other_answers;
                     self.correct_answer = data.correct_answer;
                     self.correct_rationale = data.correct_rationale;
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error submitting answer!',
+                        'message': 'Please refresh the page and try again!'
+                    });
+                    return $q.reject(error);
                 }).finally(function() {
                     self.submitting = false;
                     notify('save', {state: 'end'});
@@ -196,6 +192,12 @@ angular.module('UBCPI', ['constants', 'ngSanitize'])
 
                     self.createChart($scope.chartDataOriginal[0].originalData, '#original-bar-chart');
                     self.createChart($scope.chartDataRevised[0].revisedData, '#revised-bar-chart');
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error retrieving statistics!',
+                        'message': 'Please refresh the page and try again!'
+                    });
+                    return $q.reject(error);
                 });
             };
 

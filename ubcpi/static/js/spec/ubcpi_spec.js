@@ -63,21 +63,27 @@ describe('UBCPI', function () {
                 var exp = {
                     "revised": {"1": 1}, "original": {"0": 1}
                 };
+                var data = undefined;
                 httpBackend.expectPOST('/handler/get_stats', '""').respond(200, exp);
 
-                backendService.getStats().then(function(data) {
-                    expect(data).toEqual(exp);
+                backendService.getStats().then(function(d) {
+                    data = d;
                 });
                 httpBackend.flush();
+
+                expect(data).toEqual(exp);
             });
 
-            it('should call notify when backend returns an error', function() {
-                httpBackend.expectPOST('/handler/get_stats', '""').respond(500);
+            it('should reject promise with error returned from backend when backend error', function() {
+                httpBackend.expectPOST('/handler/get_stats', '""').respond(500, 'error');
 
-                backendService.getStats().then(function() {
-                    expect(mockNotify).toHaveBeenCalled();
+                var error = undefined;
+                backendService.getStats().catch(function(e) {
+                   error = e.data;
                 });
                 httpBackend.flush();
+
+                expect(error).toBe('error');
             });
         });
 
@@ -115,19 +121,25 @@ describe('UBCPI', function () {
                 };
                 httpBackend.expectPOST('/handler/submit', post).respond(200, exp);
 
-                backendService.submit(post.q, post.rationale, post.status).then(function(data) {
-                    expect(data).toEqual(exp);
+                var data = undefined;
+                backendService.submit(post.q, post.rationale, post.status).then(function(d) {
+                    data = d;
                 });
                 httpBackend.flush();
+
+                expect(data).toEqual(exp);
             });
 
-            it('should call notify when backend returns an error', function() {
-                httpBackend.expectPOST('/handler/submit', post).respond(500);
+            it('should reject promise with error returned from backend when backend error', function() {
+                httpBackend.expectPOST('/handler/submit', post).respond(500, 'error');
 
-                backendService.submit(post.q, post.rationale, post.status).then(function() {
-                    expect(mockNotify).toHaveBeenCalled();
+                var error = undefined;
+                backendService.submit(post.q, post.rationale, post.status).catch(function(e) {
+                    error = e.data;
                 });
                 httpBackend.flush();
+
+                expect(error).toBe('error');
             })
 
         })
@@ -320,7 +332,7 @@ describe('UBCPI', function () {
                 $rootScope.$apply();
 
                 expect(controller.submitting).toBe(false);
-                expect(mockNotify.calls.count()).toBe(2);
+                expect(mockNotify.calls.count()).toBe(3);
             });
         });
 
@@ -333,14 +345,15 @@ describe('UBCPI', function () {
         });
 
         describe('getState', function() {
-            var backendService;
+            var backendService, controller, backendDeferred;
 
-            beforeEach(inject(function(_backendService_) {
+            beforeEach(inject(function(_backendService_, $q) {
+                backendDeferred = $q.defer();
                 backendService = _backendService_;
+                controller = createController();
             }));
 
             it('should call backendService', function() {
-                var controller = createController();
                 spyOn(backendService, 'getStats').and.callFake(function() {
                     return {
                         then: function() {}
@@ -351,7 +364,6 @@ describe('UBCPI', function () {
             });
 
             it('should process data from backend', function() {
-                var controller = createController();
                 var response = {
                     "revised": {"1": 1}, "original": {"0": 1}
                 };
@@ -362,6 +374,21 @@ describe('UBCPI', function () {
                 });
                 controller.getStats();
                 expect(controller.stats).toEqual(response);
+            });
+
+            it('should call notify with error when backend errors', function() {
+                spyOn(backendService, 'getStats').and.callFake(function() {
+                    return backendDeferred.promise;
+                });
+
+                controller.getStats();
+                backendDeferred.reject('error');
+                $rootScope.$apply();
+
+                expect(mockNotify).toHaveBeenCalledWith('error', {
+                        'title': 'Error retrieving statistics!',
+                        'message': 'Please refresh the page and try again!'
+                });
             })
         })
     })
