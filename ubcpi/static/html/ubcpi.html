@@ -97,12 +97,12 @@
 
             <div class="original-answers results-container choicegroup">
                 <pi-answer-result legend="Original Answers" options="options" answer="rc.answer_original" correct="rc.correct_answer"></pi-answer-result>
-                <div id="original-bar-chart"></div>
+                <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
             </div><!-- .original-answers -->
 
             <div class="revised-answers results-container choicegroup">
                 <pi-answer-result legend="Revised Answers" options="options" answer="rc.answer_revised" correct="rc.correct_answer"></pi-answer-result>
-                <div id="revised-bar-chart"></div>
+                <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
             </div><!-- .revised-answers -->
 
         </div><!-- .correct-revised-chart -->

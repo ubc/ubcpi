@@ -68,23 +68,9 @@ angular.module('UBCPI', ['constants', 'ngSanitize', 'ngCookies'])
         }
     }])
 
-    .factory('chart', function chart() {
-        return {
-            createChart: createChart
-        };
-
-        function createChart(data, containerSelector) {
-            var chartLayout = d3.custom.barChart();
-
-            d3.select(containerSelector)
-                .datum(data)
-                .call(chartLayout)
-        }
-    })
-
     .controller('ReviseController', [
-        '$scope', 'notify', 'data', 'backendService', 'chart', 'urls', '$q',
-        function ($scope, notify, data, backendService, chart, urls, $q) {
+        '$scope', 'notify', 'data', 'backendService', 'urls', '$q',
+        function ($scope, notify, data, backendService, urls, $q) {
             var self = this;
 
             $scope.question_text = data.question_text;
@@ -161,37 +147,9 @@ angular.module('UBCPI', ['constants', 'ngSanitize', 'ngCookies'])
                 });
             };
 
-            self.createChart = function (data, containerSelector) {
-                chart.createChart(data, containerSelector);
-            };
-
             self.getStats = function () {
                 return backendService.getStats().then(function(data) {
                     self.stats = data;
-                    $scope.chartDataOriginal[0].values = [];
-                    $scope.chartDataOriginal[0].data = [];
-                    $scope.chartDataOriginal[0].originalData = [];
-                    $scope.chartDataRevised[0].values = [];
-                    $scope.chartDataRevised[0].revisedData = [];
-                    for (var i = 0; i < $scope.options.length; i++) {
-                        var count = 0;
-                        if (i in data.original) {
-                            count = data.original[i];
-                        }
-                        $scope.chartDataOriginal[0].values.push([$scope.options[i], count]);
-                        $scope.chartDataOriginal[0].data.push({name: $scope.options[i], value: count});
-                        $scope.chartDataOriginal[0].originalData.push([$scope.options[i], count]);
-
-                        count = 0;
-                        if (i in data.revised) {
-                            count = data.revised[i];
-                        }
-                        $scope.chartDataRevised[0].values.push([$scope.options[i], count]);
-                        $scope.chartDataRevised[0].revisedData.push([$scope.options[i], count]);
-                    }
-
-                    self.createChart($scope.chartDataOriginal[0].originalData, '#original-bar-chart');
-                    self.createChart($scope.chartDataRevised[0].revisedData, '#revised-bar-chart');
                 }, function(error) {
                     notify('error', {
                         'title': 'Error retrieving statistics!',

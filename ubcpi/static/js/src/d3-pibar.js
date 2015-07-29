@@ -5,7 +5,7 @@ d3.custom = (d3.custom || {});
  * [
  *     {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
  *     {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
- *     {frequency: 5,  label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
+ *     {frequency: 5,  label: 'Option 3 (correct)', class: 'ubcpibar correct-answer'},
  *     {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
  *     {frequency: 0,  label: 'Option 5', class: 'ubcpibar'},
  * ]
@@ -17,46 +17,35 @@ d3.custom.barChart = function() {
 
     function chart(selection) {
         selection.each(function(data) {
-            var i;
-            var modifiedData = [];
-            var thisFreq;
-            for (i = 0; i < data.length; ++i) {
-                thisFreq = data[i][1];
-                var thisLabel = 'Option ' + (i + 1);
-
-                var thisObject = {};
-
-                thisObject.class = 'ubcpibar';
-                thisObject.frequency = thisFreq;
-
-                // If this is the 'correct' answer, then add that to the label
-                if (self.correct_answer == (i)) {
-                    thisLabel += ' (correct option)';
-                    thisObject.class = 'ubcpibar correct-answer';
-                }
-
-                thisObject.label = thisLabel;
-                modifiedData.push(thisObject);
-            }
-
-            data = modifiedData;
-
-            // var dummyData = [
-            //     {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
-            //     {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
-            //     {frequency: 5, label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
-            //     {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
-            //     {frequency: 0, label: 'Option 5', class: 'ubcpibar'},
-            // ];
+            //var i;
+            //var modifiedData = [];
+            //var thisFreq;
+            //for (i = 0; i < data.length; ++i) {
+            //    thisFreq = data[i][1];
+            //    var thisLabel = 'Option ' + (i + 1);
             //
-            // data = dummyData;
+            //    var thisObject = {};
+            //
+            //    thisObject.class = 'ubcpibar';
+            //    thisObject.frequency = thisFreq;
+            //
+            //    // If this is the 'correct' answer, then add that to the label
+            //    if (self.correct_answer == (i)) {
+            //        thisLabel += ' (correct option)';
+            //        thisObject.class = 'ubcpibar correct-answer';
+            //    }
+            //
+            //    thisObject.label = thisLabel;
+            //    modifiedData.push(thisObject);
+            //}
+            //
+            //data = modifiedData;
 
             var totalFreq = 0;
-            var loopIndex = 0;
 
             // Calculate the total number of submissions
-            for (loopIndex = 0; loopIndex < data.length; ++loopIndex) {
-                thisFreq = data[loopIndex].frequency;
+            for (var i = 0; i < data.length; i++) {
+                thisFreq = data[i].frequency;
                 totalFreq += thisFreq;
             }
 
@@ -73,8 +62,8 @@ d3.custom.barChart = function() {
 
             var svg = d3.select(this)
                 .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom);
+                .attr("width", chartWidth)
+                .attr("height", chartHeight);
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], 0.1);
