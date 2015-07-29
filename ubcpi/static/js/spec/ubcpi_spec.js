@@ -349,66 +349,49 @@ describe('UBCPI', function () {
     })
 });
 
-xdescribe('UBCPI XBlock', function () {
+describe('PeerInstructionXBlock', function() {
+    var mockRuntime, mockElement, mockData, mockModule;
 
-    var mockRuntime = {};
-    var element;
-    var fixture;
-    var data;
-
-    jasmine.getFixtures().fixturesPath = 'base/fixtures';
-
-    var $compile,
-        $rootScope;
-    beforeEach(module('UBCPI'));
-
-    beforeEach(inject(function (_$compile_, _$rootScope_) {
-        // The injector unwraps the underscores (_) from around the parameter names when matching
-        $compile = _$compile_;
-        $rootScope = _$rootScope_;
-    }));
-
-    // Testing fixtures
-    it('Outputs the question title', function () {
-
-        fixture = loadFixtures('question-form.html');
-        var question_heading = $('.question-text').text();
-
-        expect(question_heading).toEqual('Question:');
-
+    beforeEach(function() {
+        mockRuntime = jasmine.createSpyObj('runtime', ['notify', 'handlerUrl']);
+        mockRuntime.notify = undefined;
+        mockRuntime.handlerUrl.and.callFake(function(element, handler) {
+            return handler;
+        });
+        mockElement = jasmine.createSpy('element');
+        mockData = jasmine.createSpy('data');
+        mockModule = jasmine.createSpyObj('module', ['value', 'constant']);
+        mockModule.value.and.returnValue(mockModule);
+        mockModule.constant.and.returnValue(mockModule);
+        spyOn(angular, 'module').and.returnValue(mockModule);
+        spyOn(angular, 'bootstrap');
+        PeerInstructionXBlock(mockRuntime, mockElement, mockData);
     });
 
-    // it( 'has no idea what it is doing', function() {
-    //
-    //     fixture = loadFixtures( 'question-form.html' );
-    //
-    //     mockRuntime = jasmine.createSpyObj( 'runtime', ['handlerUrl'] );
-    //     mockRuntime.handlerUrl.and.callFake( function() {
-    //         return 'test url';
-    //     } );
-    //
-    //     // Intercept POST requests through JQuery
-    //     spyOn( $, 'ajax' ).and.callFake( function( params ) {
-    //         // Call through to the success handler
-    //         params.success( {up:'test up', down:'test down'} );
-    //     });
-    //
-    //     element = $( 'fieldset' ).get();
-    //
-    //     // select first answer
-    //     // var answer = $( element ).find( 'input[type="radio"]:first' );
-    //     // console.log( answer.eq(0) );
-    //     // $( answer ).eq(0).click();
-    //     //
-    //     // // Mock a rationale
-    //     // var textarea = $( element ).find( 'textarea' );
-    //     // $( textarea ).val( 'Mock rationale' );
-    //     //
-    //     // var button = $( element ).find( 'input[type="button"]' );
-    //     // $( button ).click();
-    //
-    //     // var pixb = PeerInstructionXBlock( mockRuntime, element, data );
-    //
-    // } );
+    it('should setup angular module dependencies', function() {
+        expect(angular.module.calls.count()).toBe(2);
+        expect(angular.module.calls.argsFor(0)).toEqual(['constants']);
+        expect(angular.module.calls.argsFor(1)).toEqual(['UBCPI']);
+        expect(mockModule.value.calls.count()).toBe(2);
+        expect(mockModule.value.calls.argsFor(0)).toContain('notify');
+        expect(mockModule.value.calls.argsFor(1)).toEqual(['data', mockData]);
+        expect(mockModule.constant.calls.count()).toBe(1);
+        expect(mockModule.constant.calls.argsFor(0)).toContain('urls');
+    });
 
+    it('should bootstrap angular app', function() {
+        expect(angular.bootstrap).toHaveBeenCalledWith(mockElement, ['UBCPI'], {})
+    });
+
+    it('should generate URLs using runtime', function() {
+        expect(mockRuntime.handlerUrl.calls.count()).toBe(3);
+        expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
+            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset']]);
+        expect(mockModule.constant.calls.allArgs()).toEqual([['urls', {
+            'get_stats': 'get_stats',
+            'submit_answer': 'submit_answer',
+            'get_asset': 'get_asset'
+        }]])
+    });
 });
+
