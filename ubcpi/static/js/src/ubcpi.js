@@ -1,6 +1,6 @@
 angular.module('constants', []);
 
-angular.module('UBCPI', ['constants', 'nvd3ChartDirectives', 'ngSanitize'])
+angular.module('UBCPI', ['constants', 'ngSanitize'])
     .config(function($httpProvider, urls) {
         //register an http interceptor to transform your template urls
         $httpProvider.interceptors.push(function () {
