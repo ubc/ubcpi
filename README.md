@@ -19,23 +19,34 @@ One of the key features in the success of peer instruction in enhancing student 
 5. Students are presented feedback including their own answer, the model instructor answer and class distribution statistics across both stages.
 6. The Instructor is able to see class statistics on demand at any given time in process.
 
-## Installing Dependencies
+## Installing Dependencies and this XBlock
 
+    cd PATH/TO/SOURCE
     make deps
+    pip install -e .
     
 ## Running in WorkBench
 
     make workbench 
     
+## Running Tests
+
+    make test
+or
+    
+    make test-py
+    make test-js
+    
 ## Changelog
 
-### 0.1.0
-1. Incredibly basic proof of concept working
-2. Can add questions and possible responses
-3. Students can answer, view others' responses (with seeds if necessary)
-4. Analytics in the form of charts of initial and final responses
+### [0.3.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.3+is%3Aclosed)
 
-### 0.2.0 https://github.com/ubc/ubcpi/issues?q=milestone%3A0.2+is%3Aclosed
+1. Added the 'random' algorithm which allows a student to see a completely random selection of others' answers
+2. Added and edited front-end help documentation so that it's more clear what each step is and what will happen at the next step and, if appropriate, why you can't progress to the next step
+3. Added a first-pass at hooking up UBCPI to the edX grading system. This is more of a 'completion' mark as a student is always given the grade after they submit their revised answer regardless of the responses being correct or not
+4. Tidying up of the statistics graphs that are shown on the last step
+
+### [0.2.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.2+is%3Aclosed)
 
 1. The edit window in studio is now much tidier and contains much more useful hints
 2. Fixed the bug where a rationale wasn't required
@@ -43,9 +54,8 @@ One of the key features in the success of peer instruction in enhancing student 
 4. Default content is now somewhat more useful
 5. Rationales now can have a minimum an/or maximum character count
 
-### 0.3.0 https://github.com/ubc/ubcpi/issues?q=milestone%3A0.3+is%3Aclosed
-
-1. Added the 'random' algorithm which allows a student to see a completely random selection of others' answers
-2. Added and edited front-end help documentation so that it's more clear what each step is and what will happen at the next step and, if appropriate, why you can't progress to the next step
-3. Added a first-pass at hooking up UBCPI to the edX grading system. This is more of a 'completion' mark as a student is always given the grade after they submit their revised answer regardless of the responses being correct or not
-4. Tidying up of the statistics graphs that are shown on the last step
+### 0.1.0
+1. Incredibly basic proof of concept working
+2. Can add questions and possible responses
+3. Students can answer, view others' responses (with seeds if necessary)
+4. Analytics in the form of charts of initial and final responses
