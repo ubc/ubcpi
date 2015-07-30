@@ -5,15 +5,14 @@ describe('UBCPI_Edit module', function () {
 
     beforeEach(function () {
         mockNotify = jasmine.createSpy('notify');
-        mockUrls = jasmine.createSpy('urls');
         module(function ($provide) {
-            $provide.constant('urls', mockUrls);
             $provide.value('notify', mockNotify);
         });
     });
 
     beforeEach(module('constants', function ($provide) {
-        $provide.constant('urls', mockUrls);
+        mockUrls = jasmine.createSpy('urls');
+        $provide.constant('urls_edit', mockUrls);
     }, 'ubcpi_edit'));
 
     describe('validateForm directive', function () {
@@ -353,7 +352,7 @@ describe('UBCPI_Edit module', function () {
                 backendDeferred.reject('backend error');
                 $rootScope.$apply();
 
-                expect(mockNotify.calls.count()).toBe(2);
+                expect(mockNotify.calls.count()).toBe(3);
             });
         });
     })
@@ -386,7 +385,7 @@ describe('PIEdit function', function () {
         expect(mockModule.value.calls.argsFor(0)).toContain('notify');
         expect(mockModule.value.calls.argsFor(1)).toEqual(['data', mockData]);
         expect(mockModule.constant.calls.count()).toBe(1);
-        expect(mockModule.constant.calls.argsFor(0)).toContain('urls');
+        expect(mockModule.constant.calls.argsFor(0)).toContain('urls_edit');
     });
 
     it('should bootstrap angular app', function () {
@@ -397,7 +396,7 @@ describe('PIEdit function', function () {
         expect(mockRuntime.handlerUrl.calls.count()).toBe(2);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
             [[mockElement, 'studio_submit'], [mockElement, 'validate_form']]);
-        expect(mockModule.constant.calls.allArgs()).toEqual([['urls', {
+        expect(mockModule.constant.calls.allArgs()).toEqual([['urls_edit', {
             'validate_form': 'validate_form',
             'studio_submit': 'studio_submit'
         }]])

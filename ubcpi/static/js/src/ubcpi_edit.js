@@ -27,7 +27,7 @@ angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookie
         };
     }])
 
-    .factory('studioBackendService', ['$http', '$q', 'urls', function ($http, $q, urls) {
+    .factory('studioBackendService', ['$http', '$q', 'urls_edit', function ($http, $q, urls) {
         return {
             validateForm: validateForm,
             submit: studioSubmit
@@ -137,7 +137,7 @@ function PIEdit(runtime, element, data) {
         'validate_form': runtime.handlerUrl(element, 'validate_form')
     };
 
-    angular.module('constants').constant('urls', urls);
+    angular.module('constants').constant('urls_edit', urls);
     // inject xblock runtime, notification and data
     angular.module('ubcpi_edit').value('notify', notify).value('data', data);
 

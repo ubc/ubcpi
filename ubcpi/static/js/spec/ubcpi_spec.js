@@ -5,14 +5,13 @@ describe('UBCPI module', function () {
 
     beforeEach(function() {
         mockNotify = jasmine.createSpy('notify');
-        mockUrls = jasmine.createSpy('urls');
         module(function ($provide) {
-            $provide.constant('urls', mockUrls);
             $provide.value('notify', mockNotify);
         });
     });
 
     beforeEach(module('constants', function($provide) {
+        mockUrls = jasmine.createSpy('urls');
         $provide.constant('urls', mockUrls);
     }, 'UBCPI'));
 
