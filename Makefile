@@ -22,6 +22,9 @@ test: test-py
 test-py:
 	DJANGO_SETTINGS_MODULE=settings.test python manage.py test
 
+test-py-debug:
+	DJANGO_SETTINGS_MODULE=settings.test python manage.py test -s
+
 test-js:
 	node_modules/karma/bin/karma start karma.conf.js --single-run
 

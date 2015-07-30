@@ -246,7 +246,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @XBlock.handler
     def get_asset(self, request, suffix=''):
-        filename = request.GET.get('f')
+        filename = request.params.get('f')
         return Response(self.resource_string('static/js/partials/' + filename), content_type='text/html')
 
     # TO-DO: change this view to display your data your own way.

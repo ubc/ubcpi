@@ -94,12 +94,19 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         resp = self.request(xblock, 'get_stats', '{}', response_format='json')
         self.assertEqual(resp, stats)
 
+    @patch('ubcpi.ubcpi.PeerInstructionXBlock.resource_string')
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_get_asset(self, xblock, mock):
+        mock.return_value = 'test'
+        resp = self.request(xblock, 'get_asset', 'f=test.html', request_method='POST')
+        self.assertEqual(resp, 'test')
+
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_student_item_dict(self, xblock):
         student_item = xblock.get_student_item_dict()
         self.assertEqual(student_item, {
             'student_id': 'Bob',
-            'item_id': '.ubcpi.d1.u0',
+            'item_id': '.ubcpi.d2.u0',
             'course_id': 'edX/Enchantment_101/April_1',
             'item_type': 'ubcpi'
         })
