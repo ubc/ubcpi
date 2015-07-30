@@ -12,6 +12,7 @@ module.exports = function(config) {
       'karma-jasmine',
 	  'karma-jasmine-jquery',
       'karma-chrome-launcher',
+      'karma-firefox-launcher',
       'karma-phantomjs-launcher',
       'karma-ng-html2js-preprocessor'
     ],
@@ -35,14 +36,14 @@ module.exports = function(config) {
       'src/*.js',
       'spec/*.js',
       // templates
-      'partials/*.html',
+      'partials/*.html'
 
       // fixtures
-      {
-        pattern: 'fixtures/*.html',
-        served: true,
-		included: false
-      }
+      //{
+      //  pattern: 'fixtures/*.html',
+      //  served: true,
+		//included: false
+      //}
     ],
 
 
@@ -71,7 +72,11 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {
-        type : 'text'
+      dir: '../../../build/coverage',
+      reporters: [
+        {type: 'text'},
+        {type: 'lcov', subdir: 'report-lcov'}
+      ]
     },
 
     // web server port
@@ -92,8 +97,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // browsers: ['PhantomJS'],
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

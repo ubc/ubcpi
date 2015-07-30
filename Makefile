@@ -17,7 +17,7 @@ clean:
 	find . -name '*~' -exec rm -f {} \;
 	rm -rf bower_components node_modules
 
-test: test-py
+test: test-py test-js
 
 test-py:
 	DJANGO_SETTINGS_MODULE=settings.test python manage.py test

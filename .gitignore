@@ -16,3 +16,4 @@ logs/*
 # coverage
 htmlcov
 .coverage
+build
