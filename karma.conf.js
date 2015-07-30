@@ -13,6 +13,7 @@ module.exports = function(config) {
 	  'karma-jasmine-jquery',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // frameworks to use
@@ -22,22 +23,26 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'lib/jquery.min.js',
-      'lib/angular.js',
-      'lib/angular-messages.js',
-      'lib/angular-sanitize.js',
-	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine.js',
-	  'https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.4/jasmine-html.js',
-      'lib/*.js',
+      '../../../node_modules/jquery/tmp/jquery.js',
+      '../../../node_modules/angular/angular.js',
+      '../../../node_modules/angular-messages/angular-messages.js',
+      '../../../node_modules/angular-sanitize/angular-sanitize.js',
+      '../../../node_modules/angular-cookies/angular-cookies.js',
+      '../../../node_modules/d3/d3.js',
+      '../../../node_modules/angular-mocks/angular-mocks.js',
+      '../../../node_modules/jasmine-core/lib/jasmine-core/jasmine.js',
+      'src/ubcpi.js',
       'src/*.js',
       'spec/*.js',
+      // templates
+      'partials/*.html',
 
       // fixtures
       {
         pattern: 'fixtures/*.html',
         served: true,
 		included: false
-      },
+      }
     ],
 
 
@@ -50,14 +55,20 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-    //   'src/*.js': 'coverage',
+      'src/*.js': 'coverage',
+      'partials/*.html': ['ng-html2js']
     },
 
+    ngHtml2JsPreprocessor: {
+      // custom transform function to reverse the $httpProvider.interceptor
+      stripPrefix: 'partials/',
+      prependPrefix: 'cache?f='
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     coverageReporter: {
         type : 'text'

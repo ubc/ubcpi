@@ -17,8 +17,16 @@ clean:
 	find . -name '*~' -exec rm -f {} \;
 	rm -rf bower_components node_modules
 
-test:
+test: test-py
+
+test-py:
 	DJANGO_SETTINGS_MODULE=settings.test python manage.py test
+
+test-js:
+	node_modules/karma/bin/karma start karma.conf.js --single-run
+
+tdd:
+	node_modules/karma/bin/karma start karma.conf.js
 
 workbench:
 	@echo "Updating the database..."

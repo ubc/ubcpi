@@ -1,301 +1,200 @@
-/* Javascript for PeerInstructionXBlock. */
-
-var generatePIXBlockId;
-if (typeof generatePIXBlockId !== "function") {
-    generatePIXBlockId = (function () {
-        "use strict";
-        var id = 0;
-        return function () {
-            return "ubcpi_" + (id += 1);
-        };
-    }());
-}
-
-function PeerInstructionXBlock(runtime, element, data) {
-    "use strict";
-    var notify;
-
-    // The workbench doesn't support notifications.
-    notify = $.proxy(runtime.notify, runtime) || function(){};
-
-    $(function ($) {
-        var appId = generatePIXBlockId();
-        var app = angular.module(appId, ['nvd3ChartDirectives', 'ngSanitize']);
-        app.run(function($http) {
-            // set up CSRF Token from cookie. This is needed by all post requests
-            $http.defaults.headers.post['X-CSRFToken'] = $.cookie('csrftoken');
-        });
-
-        app.directive('integer', function(){
+angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
+    .config(['$httpProvider', function($httpProvider) {
+        // register an http interceptor to transform template urls. Because $rootScope
+        // is not available in config phase, it can't be injected to config function. But
+        // interceptors are evaluated at later stage. So we can use it as a dependency for
+        // our interceptor.
+        $httpProvider.interceptors.push(['$rootScope', function ($rootScope) {
             return {
-                require: 'ngModel',
-                link: function(scope, ele, attr, ctrl){
-                    ctrl.$parsers.unshift(function(viewValue){
-                        return parseInt(viewValue, 10);
-                    });
+                'request': function (config) {
+                    var url = config.url;
+                    // if requesting a html, we assume it's a partial
+                    if (url != undefined && url.match(/\.html$/)) {
+                        config.url = $rootScope.config.urls.get_asset + '?f=' + config.url;
+                    }
+                    return config;
                 }
             };
-        });
+        }]);
+    }])
 
-        app.controller('ReviseController', function ($scope, $http) {
+    .run(['$http', '$cookies', '$rootScope', '$rootElement', function ($http, $cookies, $rootScope, $rootElement) {
+        // set up CSRF Token from cookie. This is needed by all post requests
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+        // assign config to rootScope for easier access. All scopes inherit
+        // rootScope and will have access to config as well.
+        $rootScope.config = $rootElement[0].config;
+    }])
+
+    /**
+    *  convert choice value (string) to integer for radio buttons
+    */
+    .directive('integer', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, ele, attr, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue) {
+                    return parseInt(viewValue, 10);
+                });
+            }
+        };
+    })
+
+    .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+        return {
+            getStats: getStats,
+            submit: submit
+        };
+
+        function getStats() {
+            var statsUrl = $rootScope.config.urls.get_stats;
+            return $http.post(statsUrl, '""').then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                });
+        }
+
+        function submit(answer, rationale, status) {
+            var submitUrl = $rootScope.config.urls.submit_answer;
+            var submitData = JSON.stringify({
+                "q": answer,
+                "rationale": rationale,
+                "status": status
+            });
+            return $http.post(submitUrl, submitData).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
+    }])
+
+    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q',
+        function ($scope, notify, backendService, $q) {
             var self = this;
+            var data = $scope.config.data;
 
-            $scope.appId = appId;
             $scope.question_text = data.question_text;
             $scope.options = data.options;
             $scope.rationale_size = data.rationale_size;
-            $scope.chartDataOriginal = [
-                {
-                    'key': 'Original',
-                    'color': '#33A6DC',
-                    'values': []
-                }
-            ];
-            $scope.chartDataRevised = [
-                {
-                    'key': 'Revised',
-                    'color': '#50C67B',
-                    'values': []
-                }
-            ];
 
-            self.STATUS_NEW      = 0;
-            self.STATUS_ANSWERED = 1;
-            self.STATUS_REVISED  = 2;
+            // all status of the app. Passed it from backend so we have a synced status codes
+            self.ALL_STATUS = data.all_status;
 
-            self.answer_original = data.answer_original;
-            self.rationale_original = data.rationale_original;
-            self.answer_revised = data.answer_revised;
-            self.rationale_revised = data.rationale_revised;
             self.answer = self.answer_revised || self.answer_original;
             self.rationale = self.rationale_revised || self.rationale_original;
+
+            // Assign data based on what is submitted
+            assignData(self, data);
+
+            // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
-            self.other_answers = data.other_answers;
-            self.correct_answer = data.correct_answer;
-            self.correct_rationale = data.correct_rationale;
 
-            function getStatus(answer_original, answer_revised) {
-                if (typeof answer_original === 'undefined' || answer_original === null) {
-                    return self.STATUS_NEW;
-                } else if (typeof answer_revised === 'undefined' || answer_revised === null) {
-                    return self.STATUS_ANSWERED;
+            /**
+             * Determine if the submit button should be disabled
+             * If we have an answer selected, a rationale that is large enough and we are not already submitting, we ENable
+             * the submit button. For all other scenarios, we disable it.
+             *
+             * @since 1.0.0
+             *
+             * @return (int) the status as set by setDefaultStatuses based on the passed answers
+             **/
+            self.status = function () {
+                if (typeof self.answer_original === 'undefined' || self.answer_original === null) {
+                    return self.ALL_STATUS.NEW;
+                } else if (typeof self.answer_revised === 'undefined' || self.answer_revised === null) {
+                    return self.ALL_STATUS.ANSWERED;
                 } else {
-                    return self.STATUS_REVISED;
+                    return self.ALL_STATUS.REVISED;
                 }
-            }
-
-            self.status = function() {
-                return getStatus(self.answer_original, self.answer_revised);
-            };
-
-            self.disableSubmit = function () {
-                var haveAnswer = typeof self.answer !== "undefined" && self.answer !== null;
-                var size = self.rationale.length;
-                var haveRationale = size >= $scope.rationale_size.min &&
-                    ($scope.rationale_size.max == '#' || size <= $scope.rationale_size.max);
-                var enable = haveAnswer && haveRationale && !self.submitting;
-                return !enable;
             };
 
             self.clickSubmit = function () {
                 notify('save', {state: 'start', message: "Submitting"});
                 self.submitting = true;
-
-                var submitUrl = runtime.handlerUrl(element, 'submit_answer');
-                var submitData = JSON.stringify({
-                    "q": self.answer,
-                    "rationale": self.rationale,
-                    "status": self.status()
+                return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
+                    assignData(self, data);
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error submitting answer!',
+                        'message': 'Please refresh the page and try again!'
+                    });
+                    return $q.reject(error);
+                }).finally(function() {
+                    self.submitting = false;
+                    notify('save', {state: 'end'});
                 });
-                $http.post(submitUrl, submitData).
-                    success(function(data, status, header, config) {
-                        self.submitting = false;
-                        self.answer_original = data.answer_original;
-                        self.rationale_original = data.rationale_original;
-                        self.answer_revised = data.answer_revised;
-                        self.rationale_revised = data.rationale_revised;
-                        self.other_answers = data.other_answers;
-                        self.correct_answer = data.correct_answer;
-                        self.correct_rationale = data.correct_rationale;
-                        notify('save', {state: 'end'});
-                    }).
-                    error(function(data, status, header, config) {
-                        notify('error', {
-                            'title': 'Error submitting answer!',
-                            'message': 'Please refresh the page and try again!'
-                        });
+            };
+
+            self.getStats = function () {
+                return backendService.getStats().then(function(data) {
+                    self.stats = data;
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error retrieving statistics!',
+                        'message': 'Please refresh the page and try again!'
                     });
+                    return $q.reject(error);
+                });
             };
 
-            self.createChart = function( data, containerSelector ) {
+            /**
+             * Assign the data to be accessible within our XBlock
+             */
+            function assignData(self, data) {
+                self.answer_original = data.answer_original;
+                self.rationale_original = data.rationale_original;
+                self.answer_revised = data.answer_revised;
+                self.rationale_revised = data.rationale_revised;
+                self.other_answers = data.other_answers;
+                self.correct_answer = data.correct_answer;
+                self.correct_rationale = data.correct_rationale;
+            }
 
-                var i;
-                var modifiedData = [];
+        }]);
 
-                for (i = 0; i < data.length; ++i) {
-                    var thisFreq = data[i][1];
-                    var thisLabel = 'Option ' + (i+1);
+/**
+ * Then entry point function for XBlock
+ *
+ * @param runtime xblock runtime
+ * @param element root element of the xblock
+ * @param data data passed from backend
+ * @constructor
+ */
+function PeerInstructionXBlock(runtime, element, data) {
 
-                    var thisObject = {};
+    "use strict";
+    // The workbench doesn't support notifications.
+    var notify = $.proxy(runtime.notify, runtime) || function () {};
 
-                    thisObject.class = 'ubcpibar';
-                    thisObject.frequency = thisFreq;
+    var urls = {
+        'get_stats': runtime.handlerUrl(element, 'get_stats'),
+        'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
+        'get_asset': runtime.handlerUrl(element, 'get_asset')
+    };
 
-                    // If this is the 'correct' answer, then add that to the label
-                    if ( self.correct_answer == (i) ) {
-                        thisLabel += ' (correct option)';
-                        thisObject.class = 'ubcpibar correct-answer';
-                    }
+    // in order to support multiple same apps on the same page but
+    // under different elements, e.g. multiple xblocks on the same
+    // page, the data and URLs have to be passed into scope. We can
+    // not use angular constant or value because they are global and
+    // can be override by the second app. They can be passed with element,
+    // which is converted to a angular value as $rootElement and can
+    // be injected as dependencies, through angular.bootstrap. Element
+    // is unique for each app.
+    element.config = {
+        'data': data,
+        'urls': urls
+    };
 
-                    thisObject.label = thisLabel;
-                    modifiedData.push(thisObject);
-                }
+    // inject xblock notification
+    angular.module('UBCPI').value('notify', notify);
 
-                data = modifiedData;
-
-                // var dummyData = [
-                //     {frequency: 20, label: 'Option 1', class: 'ubcpibar'},
-                //     {frequency: 50, label: 'Option 2', class: 'ubcpibar'},
-                //     {frequency: 5, label: 'Option 3 (correct option)', class: 'ubcpibar correct-answer'},
-                //     {frequency: 45, label: 'Option 4', class: 'ubcpibar'},
-                //     {frequency: 0, label: 'Option 5', class: 'ubcpibar'},
-                // ];
-                //
-                // data = dummyData;
-
-                var totalFreq = 0;
-                var loopIndex = 0;
-
-                // Calculate the total number of submissions
-                for ( loopIndex = 0; loopIndex < data.length; ++loopIndex ) {
-                    var thisFreq = data[loopIndex].frequency;
-                    totalFreq += thisFreq;
-                }
-
-                // Layout
-                var margin = {
-                    top: 10,
-                    right: 0,
-                    bottom: 30,
-                    left: 0
-                };
-
-                var width = 750 - margin.left - margin.right;
-                var height = 250 - margin.top - margin.bottom;
-
-                var svg = d3.select(containerSelector)
-                    .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom);
-                //
-                var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], 0.1);
-
-                var y = d3.scale.linear()
-                    .range([height, 0]);
-
-                var xAxis = d3.svg.axis()
-                    .scale(x)
-                    .orient("bottom");
-
-                var yAxis = d3.svg.axis()
-                    .scale(y)
-                    .orient("left")
-                    .ticks(10, "%");
-
-                x.domain(data.map(function(d) { return d.label; }));
-                y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
-
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
-
-                svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis)
-                .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Frequency");
-
-                var bars = svg.selectAll(".ubcpibar")
-                    .data(data)
-                    .enter()
-                .append("g");
-
-                bars.append("rect").attr("class", function(d,i){ return d.class; } )
-                    .attr("x", function(d) { return x(d.label); })
-                    .attr("width", x.rangeBand())
-                    .attr("y", function(d) { return y(d.frequency); })
-                    .attr("height", function(d) { return height - y(d.frequency); });
-
-                bars.append("text")
-                    .attr("x", function(d) { return x(d.label); })
-                    .attr("y", function(d) { return y(d.frequency); })
-                    .attr("dy", function(d) {
-
-                        // If the frequency is 0, we don't want a dy
-                        if ( d.frequency == 0 ) {
-                            return "-0.5em";
-                        }
-
-                        return "1.25em";
-
-                    } )
-                    .attr("dx", (x.rangeBand()/2)-15 + "px" )
-                    .text( function(d){
-
-                        var percentage = (d.frequency/totalFreq) * 100;
-                        var rounded = Math.round( percentage*10 )/10;
-                        return rounded.toFixed(1) + '%';
-                    } );
-
-            };
-
-            self.getStats = function() {
-                var statsUrl = runtime.handlerUrl(element, 'get_stats');
-                $http.post(statsUrl, '""').
-                    success(function(data, status, header, config) {
-
-                        self.stats = data;
-                        $scope.chartDataOriginal[0].values = [];
-                        $scope.chartDataOriginal[0].data = [];
-                        $scope.chartDataOriginal[0].originalData = [];
-                        $scope.chartDataRevised[0].values = [];
-                        $scope.chartDataRevised[0].revisedData = [];
-                        for (var i = 0; i < $scope.options.length; i++) {
-                            var count = 0;
-                            if (i in data.original) {
-                                count = data.original[i];
-                            }
-                            $scope.chartDataOriginal[0].values.push([$scope.options[i], count]);
-                            $scope.chartDataOriginal[0].data.push( { name: $scope.options[i], value: count } );
-                            $scope.chartDataOriginal[0].originalData.push( [$scope.options[i],count] );
-
-                            count = 0;
-                            if (i in data.revised) {
-                                count = data.revised[i];
-                            }
-                            $scope.chartDataRevised[0].values.push([$scope.options[i], count]);
-                            $scope.chartDataRevised[0].revisedData.push( [$scope.options[i],count] );
-                        }
-
-                        self.createChart( $scope.chartDataOriginal[0].originalData, '#original-bar-chart' );
-                        self.createChart( $scope.chartDataRevised[0].revisedData, '#revised-bar-chart' );
-
-                    }).
-                    error(function(data, status, header, config) {
-                        notify('error', {
-                            'title': 'Error retrieving statistics!',
-                            'message': 'Please refresh the page and try again!'
-                        });
-                    });
-            };
-
-        });
-        angular.bootstrap(element, [appId]);
-    });
+    // bootstrap our app manually
+    angular.bootstrap(element, ['UBCPI'], {strictDi: true});
 }

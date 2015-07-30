@@ -484,17 +484,12 @@ textarea.pi-options {
     text-transform: lowercase;
     font-style: italic;
     font-size: 0.85em;
-    float: left;
-    max-width: 60%;
+    float: right;
+    max-width: 80%;
     display: block;
-    margin-left: 2%;
+    margin-left: 5px;
 }
 
 .your-answer-and-rationale legend {
-    display: block;
-    margin-bottom: 10px;
-    position: relative;
-    top: -10px;
-    left: -20px;
     font-weight: bold;
 }
