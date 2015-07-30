@@ -12,5 +12,5 @@ script:
   - "make test"
 
 after_success:
-  coveralls-lcov -v -n build/coverage/report-lcov/lcov.info > js-coverage.json
-  coveralls --merge=js-coverage.json
+  - "coveralls-lcov -v -n build/coverage/report-lcov/lcov.info > js-coverage.json"
+  - "coveralls --merge=js-coverage.json"
