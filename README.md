@@ -1,5 +1,7 @@
 ## UBC Peer Instruction Tool for EdX
 
+[![Build Status](https://travis-ci.org/ubc/ubcpi.svg)](https://travis-ci.org/ubc/ubcpi) [![Coverage Status](https://coveralls.io/repos/ubc/ubcpi/badge.svg?branch=master&service=github)](https://coveralls.io/github/ubc/ubcpi?branch=master)
+
 __Note: This is a work in progress__
 
 Over the last 20 years, Peer Instruction has become a widely-adopted instructional technique across higher education. It is the cornerstone of a range of approaches that collectively aim to use classroom time (usually lectures) more productively than simply as a vehicle for didactic presentation of content. Such approaches often broadly classified as  ‘interactive engagement’ strategies, or — more recently — ‘flipped classroom’ approaches.
