@@ -1,18 +1,22 @@
 'use strict';
 
 describe('UBCPI module', function () {
-    var mockUrls, mockNotify;
+    var mockNotify, mockConfig;
 
-    beforeEach(function() {
+    beforeEach(module(function($provide) {
+        mockConfig = {
+            data: {},
+            urls: {get_asset: 'cache'}
+        };
         mockNotify = jasmine.createSpy('notify');
-        module(function ($provide) {
-            $provide.value('notify', mockNotify);
+        $provide.provider('$rootElement', function() {
+            this.$get = function() {
+                var elem = angular.element('<div ng-app></div>');
+                elem[0].config = mockConfig;
+                return elem;
+            };
         });
-    });
-
-    beforeEach(module('constants', function($provide) {
-        mockUrls = jasmine.createSpy('urls');
-        $provide.constant('urls', mockUrls);
+        $provide.value('notify', mockNotify);
     }, 'UBCPI'));
 
     describe('Integer directive', function () {
@@ -54,7 +58,7 @@ describe('UBCPI module', function () {
         describe('get_stats', function() {
 
             beforeEach(function() {
-                mockUrls.get_stats = '/handler/get_stats';
+                mockConfig.urls.get_stats = '/handler/get_stats';
             });
 
             it('should get stats', function() {
@@ -94,7 +98,7 @@ describe('UBCPI module', function () {
             };
 
             beforeEach(function() {
-                mockUrls.submit_answer = '/handler/submit';
+                mockConfig.urls.submit_answer = '/handler/submit';
             });
 
             it('should submit answers', function() {
@@ -146,12 +150,18 @@ describe('UBCPI module', function () {
 
     describe('ReviseController', function() {
         var $rootScope, createController;
-        var mockNotify, mockData;
+        var mockNotify;
 
         beforeEach(function() {
             mockNotify = jasmine.createSpy('notify');
-            var mockUrls = jasmine.createSpy('urls');
-            mockData = {
+            module(function ($provide) {
+                $provide.value('notify', mockNotify);
+            });
+        });
+
+        beforeEach(inject(function($controller, _$rootScope_) {
+            $rootScope = _$rootScope_;
+            mockConfig.data = {
                 'question_text': {'text': 'question text'},
                 'options': [
                     {'text': 'option1'}
@@ -164,15 +174,6 @@ describe('UBCPI module', function () {
                 'rationale_size': {'max': 32000, 'min': 1},
                 'all_status': {'NEW': 0, 'ANSWERED': 1, 'REVISED': 2}
             };
-            module(function ($provide) {
-                $provide.constant('urls', mockUrls);
-                $provide.value('notify', mockNotify);
-                $provide.value('data', mockData);
-            });
-        });
-
-        beforeEach(inject(function($controller, _$rootScope_) {
-            $rootScope = _$rootScope_;
             createController = function(params) {
                 return $controller(
                     'ReviseController', {
@@ -184,24 +185,10 @@ describe('UBCPI module', function () {
 
         it('should have correct initial states', function() {
             var controller = createController();
-            expect($rootScope.question_text).toEqual(mockData.question_text);
-            expect($rootScope.options).toEqual(mockData.options);
-            expect($rootScope.rationale_size).toEqual(mockData.rationale_size);
-            expect($rootScope.chartDataOriginal).toEqual([
-                {
-                    'key': 'Original',
-                    'color': '#33A6DC',
-                    'values': []
-                }
-            ]);
-            expect($rootScope.chartDataRevised).toEqual([
-                {
-                    'key': 'Revised',
-                    'color': '#50C67B',
-                    'values': []
-                }
-            ]);
-            expect(controller.ALL_STATUS).toBe(mockData.all_status);
+            expect($rootScope.question_text).toEqual(mockConfig.data.question_text);
+            expect($rootScope.options).toEqual(mockConfig.data.options);
+            expect($rootScope.rationale_size).toEqual(mockConfig.data.rationale_size);
+            expect(controller.ALL_STATUS).toBe(mockConfig.data.all_status);
             expect(controller.answer).toBe(undefined);
             expect(controller.rationale).toBe(undefined);
             expect(controller.submitting).toBe(false);
@@ -367,23 +354,18 @@ describe('PeerInstructionXBlock function', function() {
         });
         mockElement = jasmine.createSpy('element');
         mockData = jasmine.createSpy('data');
-        mockModule = jasmine.createSpyObj('module', ['value', 'constant']);
+        mockModule = jasmine.createSpyObj('module', ['value']);
         mockModule.value.and.returnValue(mockModule);
-        mockModule.constant.and.returnValue(mockModule);
         spyOn(angular, 'module').and.returnValue(mockModule);
         spyOn(angular, 'bootstrap');
         PeerInstructionXBlock(mockRuntime, mockElement, mockData);
     });
 
     it('should setup angular module dependencies', function() {
-        expect(angular.module.calls.count()).toBe(2);
-        expect(angular.module.calls.argsFor(0)).toEqual(['constants']);
-        expect(angular.module.calls.argsFor(1)).toEqual(['UBCPI']);
-        expect(mockModule.value.calls.count()).toBe(2);
+        expect(angular.module.calls.count()).toBe(1);
+        expect(angular.module.calls.argsFor(0)).toEqual(['UBCPI']);
+        expect(mockModule.value.calls.count()).toBe(1);
         expect(mockModule.value.calls.argsFor(0)).toContain('notify');
-        expect(mockModule.value.calls.argsFor(1)).toEqual(['data', mockData]);
-        expect(mockModule.constant.calls.count()).toBe(1);
-        expect(mockModule.constant.calls.argsFor(0)).toContain('urls');
     });
 
     it('should bootstrap angular app', function() {
@@ -394,11 +376,6 @@ describe('PeerInstructionXBlock function', function() {
         expect(mockRuntime.handlerUrl.calls.count()).toBe(3);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
             [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset']]);
-        expect(mockModule.constant.calls.allArgs()).toEqual([['urls', {
-            'get_stats': 'get_stats',
-            'submit_answer': 'submit_answer',
-            'get_asset': 'get_asset'
-        }]])
     });
 });
 

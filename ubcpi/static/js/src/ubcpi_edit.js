@@ -1,8 +1,9 @@
-angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookies'])
+angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
-    .run(['$http', '$cookies', function ($http, $cookies) {
+    .run(['$http', '$cookies', '$rootScope', '$rootElement', function ($http, $cookies, $rootScope, $rootElement) {
         // set up CSRF Token from cookie. This is needed by all post requests
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+        $rootScope.config = $rootElement[0].config;
     }])
 
     .directive('validateForm', ['$q', 'studioBackendService', function($q, studioBackendService) {
@@ -27,14 +28,14 @@ angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookie
         };
     }])
 
-    .factory('studioBackendService', ['$http', '$q', 'urls_edit', function ($http, $q, urls) {
+    .factory('studioBackendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             validateForm: validateForm,
             submit: studioSubmit
         };
 
         function validateForm(values) {
-            return $http.post(urls.validate_form, values).
+            return $http.post($rootScope.config.urls.validate_form, values).
                 then(function () {
                     return true;
                 }, function (response) {
@@ -43,7 +44,7 @@ angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookie
         }
 
         function studioSubmit(data) {
-            return $http.post(urls.studio_submit, data).then(
+            return $http.post($rootScope.config.urls.studio_submit, data).then(
                 function(response) {
                     return response.data;
                 },
@@ -54,9 +55,10 @@ angular.module("ubcpi_edit", ['constants', 'ngMessages', 'ngSanitize', 'ngCookie
         }
     }])
 
-    .controller('EditSettingsController', ['$scope', 'studioBackendService', 'notify', 'data',
-        function ($scope, studioBackendService, notify, data) {
+    .controller('EditSettingsController', ['$scope', 'studioBackendService', 'notify', '$rootScope',
+        function ($scope, studioBackendService, notify, $rootScope) {
             var self = this;
+            var data = $scope.config.data;
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
@@ -137,11 +139,15 @@ function PIEdit(runtime, element, data) {
         'validate_form': runtime.handlerUrl(element, 'validate_form')
     };
 
-    angular.module('constants').constant('urls_edit', urls);
-    // inject xblock runtime, notification and data
-    angular.module('ubcpi_edit').value('notify', notify).value('data', data);
+    // not sure why studio edit passes in array of elements,
+    // where student view passes in only the element
+    element[0].config = {
+        'data': data,
+        'urls': urls
+    };
 
-    $(function () {
-        angular.bootstrap(element, ["ubcpi_edit"], {strictDi: true});
-    });
+    // inject xblock notification
+    angular.module('ubcpi_edit').value('notify', notify);
+
+    angular.bootstrap(element, ["ubcpi_edit"], {strictDi: true});
 }

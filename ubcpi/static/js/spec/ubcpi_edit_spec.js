@@ -1,7 +1,7 @@
 'use strict';
 
 describe('UBCPI_Edit module', function () {
-    var mockUrls, mockNotify;
+    var mockConfig, mockNotify;
 
     beforeEach(function () {
         mockNotify = jasmine.createSpy('notify');
@@ -10,9 +10,18 @@ describe('UBCPI_Edit module', function () {
         });
     });
 
-    beforeEach(module('constants', function ($provide) {
-        mockUrls = jasmine.createSpy('urls');
-        $provide.constant('urls_edit', mockUrls);
+    beforeEach(module(function($provide) {
+        mockConfig = {
+            data: {},
+            urls: {}
+        };
+        $provide.provider('$rootElement', function() {
+            this.$get = function() {
+                var elem = angular.element('<div ng-app></div>');
+                elem[0].config = mockConfig;
+                return elem;
+            };
+        });
     }, 'ubcpi_edit'));
 
     describe('validateForm directive', function () {
@@ -80,7 +89,7 @@ describe('UBCPI_Edit module', function () {
         describe('validate_form', function () {
 
             beforeEach(function () {
-                mockUrls.validate_form = '/handler/validate_form';
+                mockConfig.urls.validate_form = '/handler/validate_form';
             });
 
             it('should call backend validate form', function () {
@@ -110,7 +119,7 @@ describe('UBCPI_Edit module', function () {
 
         describe('studio_submit', function () {
             beforeEach(function () {
-                mockUrls.studio_submit = '/handler/studio_submit';
+                mockConfig.urls.studio_submit = '/handler/studio_submit';
             });
 
             it('should submit form', function () {
@@ -143,12 +152,9 @@ describe('UBCPI_Edit module', function () {
 
     describe('EditSettingsController', function () {
         var $rootScope, createController, controller;
-        var mockNotify, mockData;
 
-        beforeEach(function () {
-            mockNotify = jasmine.createSpy('notify');
-            var mockUrls = jasmine.createSpy('urls');
-            mockData = {
+        beforeEach(inject(function ($controller, _$rootScope_) {
+            mockConfig.data = {
                 "correct_rationale": {"text": "correct rationale"},
                 "image_position_locations": {"below": "Appears below", "above": "Appears above"},
                 "rationale_size": {"max": 32000, "min": 1},
@@ -193,14 +199,6 @@ describe('UBCPI_Edit module', function () {
                     }
                 ]
             };
-            module(function ($provide) {
-                $provide.constant('urls', mockUrls);
-                $provide.value('notify', mockNotify);
-                $provide.value('data', mockData);
-            });
-        });
-
-        beforeEach(inject(function ($controller, _$rootScope_) {
             $rootScope = _$rootScope_;
             createController = function (params) {
                 return $controller(
@@ -216,16 +214,16 @@ describe('UBCPI_Edit module', function () {
         });
 
         it('should have correct initial states', function () {
-            expect(controller.algos).toBe(mockData.algos);
-            expect(controller.data.display_name).toBe(mockData.display_name);
-            expect(controller.data.question_text).toBe(mockData.question_text);
-            expect(controller.data.rationale_size).toBe(mockData.rationale_size);
-            expect(controller.image_position_locations).toBe(mockData.image_position_locations);
-            expect(controller.data.options).toBe(mockData.options);
-            expect(controller.data.correct_answer).toBe(mockData.correct_answer);
-            expect(controller.data.correct_rationale).toBe(mockData.correct_rationale);
-            expect(controller.data.algo).toBe(mockData.algo);
-            expect(controller.data.seeds).toBe(mockData.seeds);
+            expect(controller.algos).toBe(mockConfig.data.algos);
+            expect(controller.data.display_name).toBe(mockConfig.data.display_name);
+            expect(controller.data.question_text).toBe(mockConfig.data.question_text);
+            expect(controller.data.rationale_size).toBe(mockConfig.data.rationale_size);
+            expect(controller.image_position_locations).toBe(mockConfig.data.image_position_locations);
+            expect(controller.data.options).toBe(mockConfig.data.options);
+            expect(controller.data.correct_answer).toBe(mockConfig.data.correct_answer);
+            expect(controller.data.correct_rationale).toBe(mockConfig.data.correct_rationale);
+            expect(controller.data.algo).toBe(mockConfig.data.algo);
+            expect(controller.data.seeds).toBe(mockConfig.data.seeds);
         });
 
         it('should call notify when cancel is called', function() {
@@ -234,7 +232,7 @@ describe('UBCPI_Edit module', function () {
         });
 
         it('should add option to the data when add_option is called', function() {
-            var num_options = mockData.options.length;
+            var num_options = mockConfig.data.options.length;
             expect(controller.data.options.length).toBe(num_options);
             controller.add_option();
             expect(controller.data.options.length).toBe(num_options + 1);
@@ -244,7 +242,7 @@ describe('UBCPI_Edit module', function () {
         });
 
         it('should delete option to the data when delete_option is called', function() {
-            var num_options = mockData.options.length;
+            var num_options = mockConfig.data.options.length;
             expect(controller.data.options.length).toBe(num_options);
             controller.delete_option(1);
             expect(controller.data.options.length).toBe(num_options - 1);
@@ -271,7 +269,7 @@ describe('UBCPI_Edit module', function () {
         });
 
         it('should add seed when addSeed is called', function() {
-            var num_seeds = mockData.seeds.length;
+            var num_seeds = mockConfig.data.seeds.length;
             expect(controller.data.seeds.length).toBe(num_seeds);
             controller.addSeed();
             expect(controller.data.seeds.length).toBe(num_seeds + 1);
@@ -279,7 +277,7 @@ describe('UBCPI_Edit module', function () {
         });
 
         it('should delete seed to the data when deleteSeed is called', function() {
-            var num_seeds = mockData.seeds.length;
+            var num_seeds = mockConfig.data.seeds.length;
             expect(controller.data.seeds.length).toBe(num_seeds);
             controller.deleteSeed(1);
             expect(controller.data.seeds.length).toBe(num_seeds - 1);
@@ -367,7 +365,7 @@ describe('PIEdit function', function () {
         mockRuntime.handlerUrl.and.callFake(function (element, handler) {
             return handler;
         });
-        mockElement = jasmine.createSpy('element');
+        mockElement = [jasmine.createSpy('element')];
         mockData = jasmine.createSpy('data');
         mockModule = jasmine.createSpyObj('module', ['value', 'constant']);
         mockModule.value.and.returnValue(mockModule);
@@ -378,14 +376,10 @@ describe('PIEdit function', function () {
     });
 
     it('should setup angular module dependencies', function () {
-        expect(angular.module.calls.count()).toBe(2);
-        expect(angular.module.calls.argsFor(0)).toEqual(['constants']);
-        expect(angular.module.calls.argsFor(1)).toEqual(['ubcpi_edit']);
-        expect(mockModule.value.calls.count()).toBe(2);
+        expect(angular.module.calls.count()).toBe(1);
+        expect(angular.module.calls.argsFor(0)).toEqual(['ubcpi_edit']);
+        expect(mockModule.value.calls.count()).toBe(1);
         expect(mockModule.value.calls.argsFor(0)).toContain('notify');
-        expect(mockModule.value.calls.argsFor(1)).toEqual(['data', mockData]);
-        expect(mockModule.constant.calls.count()).toBe(1);
-        expect(mockModule.constant.calls.argsFor(0)).toContain('urls_edit');
     });
 
     it('should bootstrap angular app', function () {
@@ -396,10 +390,6 @@ describe('PIEdit function', function () {
         expect(mockRuntime.handlerUrl.calls.count()).toBe(2);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
             [[mockElement, 'studio_submit'], [mockElement, 'validate_form']]);
-        expect(mockModule.constant.calls.allArgs()).toEqual([['urls_edit', {
-            'validate_form': 'validate_form',
-            'studio_submit': 'studio_submit'
-        }]])
     });
 });
 

@@ -1,13 +1,16 @@
 describe('UBCPI', function () {
-    var mockUrls;
-
-    beforeEach(function() {
-        mockUrls = jasmine.createSpy('urls');
-        mockUrls.get_asset = 'cache';
-    });
-
-    beforeEach(module('constants', function($provide) {
-        $provide.constant('urls', mockUrls);
+    beforeEach(module(function($provide) {
+        var mockConfig = {
+            data: {},
+            urls: {get_asset: 'cache'}
+        };
+        $provide.provider('$rootElement', function() {
+            this.$get = function() {
+                var elem = angular.element('<div ng-app></div>');
+                elem[0].config = mockConfig;
+                return elem;
+            };
+        });
     }, 'UBCPI'));
 
 
