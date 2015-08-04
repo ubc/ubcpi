@@ -383,7 +383,7 @@ describe('PIEdit function', function () {
     });
 
     it('should bootstrap angular app', function () {
-        expect(angular.bootstrap).toHaveBeenCalledWith(mockElement, ['ubcpi_edit'], {strictDi: true})
+        expect(angular.bootstrap).toHaveBeenCalledWith($(mockElement), ['ubcpi_edit'], {strictDi: true})
     });
 
     it('should generate URLs using runtime', function () {

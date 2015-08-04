@@ -131,6 +131,8 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 function PIEdit(runtime, element, data) {
 
     "use strict";
+    // wrap element as core.js may pass a raw element or an wrapped one
+    var $element = $(element);
     // The workbench doesn't support notifications.
     var notify = $.proxy(runtime.notify, runtime) || function () {};
 
@@ -141,7 +143,7 @@ function PIEdit(runtime, element, data) {
 
     // not sure why studio edit passes in array of elements,
     // where student view passes in only the element
-    element[0].config = {
+    $element[0].config = {
         'data': data,
         'urls': urls
     };
@@ -149,5 +151,5 @@ function PIEdit(runtime, element, data) {
     // inject xblock notification
     angular.module('ubcpi_edit').value('notify', notify);
 
-    angular.bootstrap(element, ["ubcpi_edit"], {strictDi: true});
+    angular.bootstrap($element, ["ubcpi_edit"], {strictDi: true});
 }

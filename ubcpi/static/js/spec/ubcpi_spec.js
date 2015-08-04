@@ -369,7 +369,7 @@ describe('PeerInstructionXBlock function', function() {
     });
 
     it('should bootstrap angular app', function() {
-        expect(angular.bootstrap).toHaveBeenCalledWith(mockElement, ['UBCPI'], {strictDi: true})
+        expect(angular.bootstrap).toHaveBeenCalledWith($(mockElement), ['UBCPI'], {strictDi: true})
     });
 
     it('should generate URLs using runtime', function() {

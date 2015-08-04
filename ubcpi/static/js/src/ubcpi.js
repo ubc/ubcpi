@@ -170,6 +170,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
 function PeerInstructionXBlock(runtime, element, data) {
 
     "use strict";
+    // wrap element as core.js may pass a raw element or an wrapped one
+    var $element = $(element);
     // The workbench doesn't support notifications.
     var notify = $.proxy(runtime.notify, runtime) || function () {};
 
@@ -187,7 +189,7 @@ function PeerInstructionXBlock(runtime, element, data) {
     // which is converted to a angular value as $rootElement and can
     // be injected as dependencies, through angular.bootstrap. Element
     // is unique for each app.
-    element.config = {
+    $element[0].config = {
         'data': data,
         'urls': urls
     };
@@ -196,5 +198,5 @@ function PeerInstructionXBlock(runtime, element, data) {
     angular.module('UBCPI').value('notify', notify);
 
     // bootstrap our app manually
-    angular.bootstrap(element, ['UBCPI'], {strictDi: true});
+    angular.bootstrap($element, ['UBCPI'], {strictDi: true});
 }
