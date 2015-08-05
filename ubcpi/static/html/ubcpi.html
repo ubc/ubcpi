@@ -6,11 +6,11 @@
 
             <h2 id="pi-question-h" class="question-text">Question:</h2>
 
-            <img ng-src="{{question_text.image_url}}" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
+            <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
-            <pre aria-labelledby="pi-question-h" class="ubcpipre" ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
+            <pre aria-labelledby="pi-question-h" id="question-text" class="ubcpipre" ng-bind-html="question_text.text" ng-if="question_text.text"></pre>
 
-            <img ng-src="{{question_text.image_url}}" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
+            <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
             <div class="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
 
@@ -40,13 +40,13 @@
                 <fieldset role="radiogroup">
                     <legend>Your Response <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW">(You may change this response if you wish in the next step)</span></legend>
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
-                        <input class="ubcpi-field" type="radio"  name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
+                        <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
-                        <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <p ng-if="option.text">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option initially)</span></p>
+                        <p ng-if="option.text" id="original-option-text-{{ $index }}">{{option.text}} <span class="chosen-option option-details-text" ng-if="rc.answer == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option initially)</span></p>
 
-                        <img ng-src="{{option.image_url}}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
                     </label>
                 </fieldset>

@@ -278,6 +278,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-answer-result-directive.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-barchart-directive.js"))
 
+        print "********************"
+        print self.static_asset_path
+        print "********************"
         options = deepcopy(self.options)
         for option in options:
             if option.get('image_url'):

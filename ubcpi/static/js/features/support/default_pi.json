@@ -1,0 +1,59 @@
+{
+  "display_name": "Peer Instruction",
+  "question_text": {
+    "text": "What is the answer to life, the universe and everything?",
+    "show_image_fields": 0,
+    "image_url": "",
+    "image_position": "below",
+    "image_alt": ""
+  },
+  "rationale_size": {
+    "max": 32000,
+    "min": 1
+  },
+  "options": [
+    {
+      "text": "21",
+      "show_image_fields": 0,
+      "image_url": "",
+      "image_position": "below",
+      "image_alt": ""
+    },
+    {
+      "text": "42",
+      "show_image_fields": 0,
+      "image_url": "",
+      "image_position": "below",
+      "image_alt": ""
+    },
+    {
+      "text": "63",
+      "show_image_fields": 0,
+      "image_url": "",
+      "image_position": "below",
+      "image_alt": ""
+    }
+  ],
+  "correct_answer": 1,
+  "correct_rationale": {
+    "text": "In the radio series and the first novel, a group of hyper-intelligent pan-dimensional beings demand to learn the Answer to the Ultimate Question of Life, The Universe, and Everything from the supercomputer, Deep Thought, specially built for this purpose. It takes Deep Thought 7.5 million years to compute and check the answer, which turns out to be 42. Deep Thought points out that the answer seems meaningless because the beings who instructed it never actually knew what the Question was."
+  },
+  "algo": {
+    "num_responses": "#",
+    "name": "simple"
+  },
+  "seeds": [
+    {
+      "answer": 0,
+      "rationale": "Seed 1"
+    },
+    {
+      "answer": 1,
+      "rationale": "Seed 2"
+    },
+    {
+      "answer": 2,
+      "rationale": "Seed 3"
+    }
+  ]
+}

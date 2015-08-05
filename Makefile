@@ -28,6 +28,12 @@ test-py-debug:
 test-js:
 	node_modules/karma/bin/karma start karma.conf.js --single-run
 
+webdriver:
+	node_modules/protractor/bin/webdriver-manager start
+
+test-acceptance:
+	node_modules/protractor/bin/protractor protractor.conf.js
+
 tdd:
 	node_modules/karma/bin/karma start karma.conf.js
 

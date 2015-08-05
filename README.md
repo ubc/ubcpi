@@ -29,7 +29,7 @@ One of the key features in the success of peer instruction in enhancing student 
 
     make workbench 
     
-## Running Tests
+## Running Unit Tests
 
     make test
 or
@@ -37,6 +37,17 @@ or
     make test-py
     make test-js
     
+## Running Acceptance Tests
+To run acceptance test, the devstack has to be running at localhost:8000 and localhost:8001 with auth auth enabled. To enable auto auth in cms.env.json and lms.env.json from Edx platform:
+
+    AUTOMATIC_AUTH_FOR_TESTING: true
+
+(Optional) Disable Django debug toolbar and contracts for faster tests: https://github.com/edx/edx-platform/wiki/Developing-on-the-edX-Developer-Stack#making-the-local-servers-run-faster
+
+Run tests:
+
+    make test-acceptance
+
 ## Changelog
 
 ### [0.3.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.3+is%3Aclosed)
