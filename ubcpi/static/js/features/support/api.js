@@ -2,62 +2,85 @@ var req = require('request');
 var fs = require('fs');
 
 var Api = function () {
-    this.baseUrl = undefined;
-    this.username = undefined;
-    this.headers = undefined;
-    this.request = undefined;
+    this.baseUrls = {
+        'lms': undefined,
+        'cms': undefined
+    };
+    this.users = {
+        'lms': undefined,
+        'cms': undefined
+    };
+    this.headers = {
+        'lms': undefined,
+        'cms': undefined
+    };
+    this.requests = {
+        'lms': undefined,
+        'cms': undefined
+    };
+    this.jars = {
+        'lms': req.jar(),
+        'cms': req.jar()
+    };
 };
 
-Api.prototype.createUserOrLogin = function (username, callback) {
+Api.prototype.createUserOrLogin = function (username, target, callback) {
     var self = this;
+    var requestParams = '';
     if (username) {
-        username = '?username=' + username;
-    } else {
-        username = '';
+        requestParams = '?username=' + username;
     }
-    var j = req.jar();
-    req({url: this.baseUrl + '/auto_auth' + username, jar: j}, function (error, response, body) {
-        if (error) {
-            callback(error);
-        }
 
-        // set up headers to use CSRF token
-        self.headers = {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRFToken': getCookie(j, 'csrftoken').value
-        };
-        // set up default for subsequent calls
-        self.request = req.defaults({jar: j, baseUrl: self.baseUrl, headers: self.headers, json: true});
-        // parse the response
-        var userInfo = body.match(/Logged in user (.+) \((.+)\) with password (.+) and user_id (.+)/);
-        self.user = {
-            username: userInfo[1],
-            email: userInfo[2],
-            password: userInfo[3],
-            id: userInfo[4]
-        };
-        console.log(body);
-        callback(null, self.user);
-    });
+    req({url: this.baseUrls[target] + '/auto_auth' + requestParams, jar: this.jars[target]},
+        function (error, response, body) {
+            if (error) {
+                callback(error);
+            }
+
+            // set up headers to use CSRF token
+            self.headers[target] = {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRFToken': self.getCookie(target, 'csrftoken').value
+            };
+            // set up default for subsequent calls
+            self.requests[target] = req.defaults({
+                jar: self.jars[target],
+                baseUrl: self.baseUrls[target],
+                headers: self.headers[target],
+                json: true
+            });
+
+            // parse the response
+            var userInfo = body.match(/Logged in user (.+) \((.+)\) with password (.+) and user_id (.+)/);
+            self.users[target] = {
+                username: userInfo[1],
+                email: userInfo[2],
+                password: userInfo[3],
+                id: userInfo[4]
+            };
+            console.log(body + ' for ' + target);
+            callback(null, self.users[target]);
+        }
+    );
 };
 
 Api.prototype.createCourse = function (course, callback) {
     var self = this;
     course = (course || {
         'org': 'UBC',
-        'number': 'PI_TEST_' + self.user.username,
+        'number': 'PI_TEST_' + self.users['cms'].username,
         'run': 'NOW',
-        'display_name': 'PI Test for User ' + self.user.username
+        'display_name': 'PI Test for User ' + self.users['cms'].username
     });
 
-    this.request.post({url: '/course/', body: course}, function (err, response, body) {
+    this.requests['cms'].post({url: '/course/', body: course}, function (err, response, body) {
         handleResponse(err, response, body, callback);
     });
 };
 
 Api.prototype.updateAdvancedSettings = function (courseKey, settings, callback) {
-    this.request.post(
+    this.requests['cms'].post(
         {url: '/settings/advanced/' + courseKey, body: settings},
         function (err, response, body) {
             handleResponse(err, response, body, callback);
@@ -76,7 +99,7 @@ Api.prototype.createXblock = function (parentLoc, xblockDesc, callback) {
         createPayload['parent_locator'] = parentLoc;
     }
 
-    this.request.post({url: '/xblock/', body: createPayload}, function(err, response, body) {
+    this.requests['cms'].post({url: '/xblock/', body: createPayload}, function (err, response, body) {
         if (err) {
             callback(err)
         } else if (body.hasOwnProperty('ErrMsg')) {
@@ -86,26 +109,43 @@ Api.prototype.createXblock = function (parentLoc, xblockDesc, callback) {
         } else {
             var loc = body.locator;
             xblockDesc.locator = loc;
-            self.request.post({url: '/xblock/' + encodeURIComponent(loc), body: xblockDesc}, function (err, response, body) {
+            self.requests['cms'].post({
+                url: '/xblock/' + encodeURIComponent(loc),
+                body: xblockDesc
+            }, function (err, response, body) {
                 handleResponse(err, response, body, callback);
             })
         }
     });
 };
 
-Api.prototype.uploadAsset = function(asset, courseKey, callback) {
+Api.prototype.uploadAsset = function (asset, courseKey, callback) {
     var formData = {
         file: fs.createReadStream(asset)
     };
-    this.request.post({url: '/assets/' + courseKey + '/', formData: formData},  function (err, response, body) {
+    this.requests['cms'].post({url: '/assets/' + courseKey + '/', formData: formData}, function (err, response, body) {
         handleResponse(err, response, body, callback);
     })
 };
 
-Api.prototype.updatePI = function(xblockKey, data, callback) {
-    this.request.post({url: '/xblock/' + encodeURIComponent(xblockKey) + '/handler/studio_submit', body: data}, function(err, response, body) {
+Api.prototype.updatePI = function (xblockKey, data, callback) {
+    this.requests['cms'].post({
+        url: '/xblock/' + encodeURIComponent(xblockKey) + '/handler/studio_submit',
+        body: data
+    }, function (err, response, body) {
         handleResponse(err, response, body, callback);
     })
+};
+
+Api.prototype.getCookie = function (target, key) {
+    var cookies = this.jars[target].getCookies(this.baseUrls[target]);
+    for (var i = 0; i < cookies.length; i++) {
+        if (cookies[i].key == key) {
+            return cookies[i];
+        }
+    }
+
+    return undefined;
 };
 
 function handleResponse(error, response, body, callback) {
@@ -118,17 +158,6 @@ function handleResponse(error, response, body, callback) {
     } else {
         callback(null, body);
     }
-}
-
-function getCookie(jar, key) {
-    var cookies = jar.getCookies('http://127.0.0.1/');
-    for (var i = 0; i < cookies.length; i++) {
-        if (cookies[i].key == key) {
-            return cookies[i];
-        }
-    }
-
-    return undefined;
 }
 
 

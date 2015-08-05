@@ -16,7 +16,11 @@ var beforeFeatureCms = function () {
     var updatePIData = false;
 
     this.Before('@cms', function (callback) {
-        browser.baseUrl = api.baseUrl = browser.params.cmsUrl;
+        browser.baseUrl = browser.params.cmsUrl;
+        api.baseUrls = {
+            'cms': browser.params.cmsUrl,
+            'lms': browser.params.lmsUrl
+        };
         // mock context
         //world.context = {
         //    staff: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
@@ -72,9 +76,11 @@ var beforeFeatureCms = function () {
     });
 
     this.Before('@lms', function (callback) {
-        browser.baseUrl = browser.params.lmsUrl;
-        api.baseUrl = browser.params.cmsUrl;
-        browser.ignoreSynchronization = true;
+        browser.baseUrl = browser.params.cmsUrl;
+        api.baseUrls = {
+            'cms': browser.params.cmsUrl,
+            'lms': browser.params.lmsUrl
+        };
         callback();
     });
 
@@ -83,7 +89,7 @@ var beforeFeatureCms = function () {
         browser.ignoreSynchronization = true;
         if (updatePIData) {
             tasks.default_pi = default_pi;
-            tasks.update_pi = ['default_pi', function(cb, results) {
+            tasks.update_pi = ['default_pi', function (cb, results) {
                 api.updatePI(results.default_pi.id, data, cb);
             }]
         }
@@ -97,7 +103,7 @@ var beforeFeatureCms = function () {
         });
     });
 
-    this.After(function(callback) {
+    this.After(function (callback) {
         // clean up tasks and flags
         tasks = {};
         data = _.cloneDeep(defaultPiData);
@@ -107,7 +113,7 @@ var beforeFeatureCms = function () {
 
     function prepareCourse() {
         tasks.staff = function (cb) {
-            api.createUserOrLogin(null, cb);
+            api.createUserOrLogin(null, 'cms', cb);
         };
         tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);
