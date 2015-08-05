@@ -14,5 +14,9 @@ exports.config = {
     },
     cucumberOpts: {
         format: 'pretty'
+    },
+    params: {
+        'cmsUrl': 'http://127.0.0.1:8001',
+        'lmsUrl': 'http://127.0.0.1:8000'
     }
 };

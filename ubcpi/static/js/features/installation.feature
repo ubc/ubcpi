@@ -4,6 +4,9 @@ Feature: Installing PI XBlock
   I should be able to add PI XBlock
   to a unit page
 
+  Background:
+    Given a logged in "staff"
+
   Scenario: Checking PI tool installed
     Given I'm on "unit" page
     When I click on "Advanced" link

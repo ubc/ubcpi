@@ -38,7 +38,7 @@ or
     make test-js
     
 ## Running Acceptance Tests
-To run acceptance test, the devstack has to be running at localhost:8000 and localhost:8001 with auth auth enabled. To enable auto auth in cms.env.json and lms.env.json from Edx platform:
+ To run acceptance test, the devstack has to be running at localhost:8000 and localhost:8001 (configurable in protractor.conf) with auth auth enabled. To enable auto auth in cms.env.json and lms.env.json from Edx platform:
 
     AUTOMATIC_AUTH_FOR_TESTING: true
 

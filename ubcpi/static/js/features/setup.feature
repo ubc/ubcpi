@@ -7,6 +7,9 @@ Feature: Setting Up PI XBlock
   I should be able to add image to an option or remove image from an option
   I should be able to add or remove seeds
 
+  Background:
+    Given a logged in "staff"
+
   @with_default_pi
   Scenario: Update XBlock Config
     Given I'm on "unit" page

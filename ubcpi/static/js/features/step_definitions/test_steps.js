@@ -8,6 +8,8 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var EC = protractor.ExpectedConditions;
 
+var AutoAuthPage = require('../../page_objects/auto_auth.js');
+
 function locateElement(element) {
     var mapping = {
         'Image URL': by.css('#question-text-image-url'),
@@ -181,6 +183,20 @@ var myStepDefinitionsWrapper = function () {
     this.Given(/^a course with published PI tool$/, function (callback) {
         console.log('background step');
         callback();
+    });
+
+    function login(username, callback) {
+        var auto_auth = new AutoAuthPage(username);
+        auto_auth.get().getUser().then(function () {
+            callback();
+        });
+    }
+
+    this.Given(/^a logged in "([^"]*)"$/, function (user, callback) {
+        login(this.context[user].username, function () {
+            browser.get('/home');
+            callback();
+        });
     });
 };
 module.exports = myStepDefinitionsWrapper;

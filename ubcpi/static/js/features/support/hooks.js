@@ -3,10 +3,7 @@ var _ = require('lodash');
 var path = require('path');
 var api = require('./api.js');
 var defaultPiData = require('./default_pi.json');
-var AutoAuthPage = require('../../page_objects/auto_auth.js');
 
-var tasks = {};
-var data;
 
 var beforeFeatureCms = function () {
 
@@ -14,14 +11,15 @@ var beforeFeatureCms = function () {
         api.createXblock(results.unit.id, {category: 'ubcpi'}, cb);
     }];
 
+    var tasks = {};
+    var data = _.cloneDeep(defaultPiData);
     var updatePIData = false;
 
     this.Before('@cms', function (callback) {
-        browser.baseUrl = api.baseUrl = 'http://127.0.0.1:8001';
-        data = _.cloneDeep(defaultPiData);
+        browser.baseUrl = api.baseUrl = browser.params.cmsUrl;
         // mock context
         //world.context = {
-        //    login: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
+        //    staff: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
         //    course: {
         //        course_key: 'UBC/PI_Test_e23eeaa9f1fb4c099f750719b7adad/NOW',
         //        url: '/course/UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/NOW'
@@ -74,13 +72,10 @@ var beforeFeatureCms = function () {
     });
 
     this.Before('@lms', function (callback) {
-        var world = this;
-        browser.baseUrl = api.baseUrl = 'http://127.0.0.1:8000';
+        browser.baseUrl = browser.params.lmsUrl;
+        api.baseUrl = browser.params.cmsUrl;
         browser.ignoreSynchronization = true;
         callback();
-        //prepareCourse(this, function () {
-        //    login(world.context.login.username, callback);
-        //})
     });
 
     this.Before(function (callback) {
@@ -97,23 +92,24 @@ var beforeFeatureCms = function () {
                 callback(err, results);
             }
             // save all results to world so that we can refer to them later in the tests
-            world.context = results;
-            // clean up tasks and flags
-            tasks = {};
-            updatePIData = false;
-
-            login(results.login.username, function () {
-                browser.get('/home');
-                callback();
-            });
+            world.context = _.merge(results, {'tasks': tasks, 'data': data, 'updatePIData': updatePIData});
+            callback(null, results);
         });
     });
 
+    this.After(function(callback) {
+        // clean up tasks and flags
+        tasks = {};
+        data = _.cloneDeep(defaultPiData);
+        updatePIData = false;
+        callback();
+    });
+
     function prepareCourse() {
-        tasks.login = function (cb) {
+        tasks.staff = function (cb) {
             api.createUserOrLogin(null, cb);
         };
-        tasks.course = ['login', function (cb) {
+        tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);
         }];
         tasks.advanced_settings = ['course', function (cb, results) {
@@ -139,13 +135,6 @@ var beforeFeatureCms = function () {
 
     function getCourseLocation(courseKey) {
         return 'i4x://' + courseKey.replace('NOW', 'course/NOW');
-    }
-
-    function login(username, callback) {
-        var auto_auth = new AutoAuthPage(username);
-        auto_auth.get().getUser().then(function () {
-            callback();
-        });
     }
 };
 
