@@ -1,5 +1,6 @@
 var req = require('request');
 var fs = require('fs');
+var _ = require('lodash');
 
 var Api = function () {
     this.baseUrls = {
@@ -59,7 +60,7 @@ Api.prototype.createUserOrLogin = function (username, target, callback) {
                 password: userInfo[3],
                 id: userInfo[4]
             };
-            console.log(body + ' for ' + target);
+            console.log(target + ': ' + body);
             callback(null, self.users[target]);
         }
     );
@@ -77,6 +78,23 @@ Api.prototype.createCourse = function (course, callback) {
     this.requests['cms'].post({url: '/course/', body: course}, function (err, response, body) {
         handleResponse(err, response, body, callback);
     });
+};
+
+Api.prototype.configureCourse = function (courseKey, data, callback) {
+    var self = this;
+    var url = '/settings/details/' + courseKey;
+    this.requests['cms'].get(url, function (err, response, body) {
+        handleResponse(err, response, body, function (err, details) {
+            if (err) {
+                callback(err);
+            }
+
+            details = _.merge(details, data);
+            self.requests['cms'].post({url: url, body: details}, function (err, response, body) {
+                handleResponse(err, response, body, callback);
+            })
+        })
+    })
 };
 
 Api.prototype.updateAdvancedSettings = function (courseKey, settings, callback) {
@@ -119,6 +137,14 @@ Api.prototype.createXblock = function (parentLoc, xblockDesc, callback) {
     });
 };
 
+Api.prototype.updateXblock = function (locator, data, callback) {
+    this.requests['cms'].put({url: '/xblock/' + encodeURIComponent(locator), body: data},
+        function (err, response, body) {
+            handleResponse(err, response, body, callback);
+        }
+    )
+};
+
 Api.prototype.uploadAsset = function (asset, courseKey, callback) {
     var formData = {
         file: fs.createReadStream(asset)
@@ -135,6 +161,23 @@ Api.prototype.updatePI = function (xblockKey, data, callback) {
     }, function (err, response, body) {
         handleResponse(err, response, body, callback);
     })
+};
+
+Api.prototype.enrolUsers = function (courseKey, users, callback) {
+    var data = {
+        action: 'enroll',
+        identifiers: users.join(),
+        auto_enroll: true,
+        email_students: false
+    };
+    this.requests['lms'].post({
+        url: '/courses/' + courseKey + '/instructor/api/students_update_enrollment',
+        form: data,
+        jar: this.jars['cms'],
+        headers: this.headers['cms']
+    }, function (err, response, body) {
+        handleResponse(err, response, body, callback);
+    });
 };
 
 Api.prototype.getCookie = function (target, key) {

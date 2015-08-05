@@ -11,6 +11,10 @@ var beforeFeatureCms = function () {
         api.createXblock(results.unit.id, {category: 'ubcpi'}, cb);
     }];
 
+    var publish = function(cb, results) {
+        api.updateXblock(results.unit.id, {publish: 'make_public'}, cb);
+    };
+
     var tasks = {};
     var data = _.cloneDeep(defaultPiData);
     var updatePIData = false;
@@ -21,17 +25,6 @@ var beforeFeatureCms = function () {
             'cms': browser.params.cmsUrl,
             'lms': browser.params.lmsUrl
         };
-        // mock context
-        //world.context = {
-        //    staff: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
-        //    course: {
-        //        course_key: 'UBC/PI_Test_e23eeaa9f1fb4c099f750719b7adad/NOW',
-        //        url: '/course/UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/NOW'
-        //    },
-        //    unit: {
-        //        id: 'i4x://UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/vertical/273ec328681f47f7a3fd2e621be0d315'
-        //    }
-        //};
         prepareCourse();
         callback();
     });
@@ -75,28 +68,62 @@ var beforeFeatureCms = function () {
         callback();
     });
 
+    this.Before('@with_published', function(callback) {
+        tasks.publish = ['default_pi', publish];
+        callback();
+    });
+
     this.Before('@lms', function (callback) {
         browser.baseUrl = browser.params.cmsUrl;
         api.baseUrls = {
             'cms': browser.params.cmsUrl,
             'lms': browser.params.lmsUrl
         };
+        prepareCourse();
         callback();
     });
 
-    this.Before(function (callback) {
+    this.Before('@with_enrolled_student', function(callback) {
+        tasks.student = function (cb) {
+            api.createUserOrLogin(null, 'lms', cb);
+        };
+        tasks.enroll = ['student', 'course', function(cb, results) {
+            api.enrolUsers(results.course.course_key, [results.student.username], cb);
+        }];
+        callback();
+    });
+
+    this.Before(function (scenario, callback) {
         var world = this;
         browser.ignoreSynchronization = true;
         if (updatePIData) {
             tasks.default_pi = default_pi;
             tasks.update_pi = ['default_pi', function (cb, results) {
                 api.updatePI(results.default_pi.id, data, cb);
-            }]
+            }];
+            // if we have @with_published tag, we need to change publish dependency from default_pi to update_pi
+            // as after xblock is updated, it has to be published again.
+            scenario.getTags().forEach(function(tag) {
+                if (tag.getName() == '@with_published') {
+                    tasks.publish = ['update_pi', publish]
+                }
+            })
         }
         async.auto(tasks, function (err, results) {
             if (err) {
                 callback(err, results);
             }
+            // mock context
+            //world.context = {
+            //    staff: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
+            //    course: {
+            //        course_key: 'UBC/PI_Test_e23eeaa9f1fb4c099f750719b7adad/NOW',
+            //        url: '/course/UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/NOW'
+            //    },
+            //    unit: {
+            //        id: 'i4x://UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/vertical/273ec328681f47f7a3fd2e621be0d315'
+            //    }
+            //};
             // save all results to world so that we can refer to them later in the tests
             world.context = _.merge(results, {'tasks': tasks, 'data': data, 'updatePIData': updatePIData});
             callback(null, results);
@@ -117,6 +144,9 @@ var beforeFeatureCms = function () {
         };
         tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);
+        }];
+        tasks.course_config = ['course', function(cb, results) {
+            api.configureCourse(results.course.course_key, {start_date: '2015-01-01', end_date: '2099-01-01'}, cb);
         }];
         tasks.advanced_settings = ['course', function (cb, results) {
             api.updateAdvancedSettings(results.course.course_key, {advanced_modules: {value: ['ubcpi']}}, cb);

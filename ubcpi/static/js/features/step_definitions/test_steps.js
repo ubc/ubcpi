@@ -56,13 +56,7 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.Given(/^I'm on "([^"]*)" page$/, function (arg1, callback) {
-        var url = '/';
-        if (arg1 == 'unit') {
-            url += 'container/' + this.context.unit.id;
-        } else if (arg1 == 'subsection' || arg1 == 'section') {
-            url = this.context.course.url;
-        }
-        browser.get(url);
+        browser.get(getUrls(arg1, this.context));
         // loading the page can be very slow
         browser.wait(EC.visibilityOf($("div.new-component h5")), 20000);
         callback()
@@ -185,13 +179,6 @@ var myStepDefinitionsWrapper = function () {
         callback();
     });
 
-    function login(username, callback) {
-        var auto_auth = new AutoAuthPage(username);
-        auto_auth.get().getUser().then(function () {
-            callback();
-        });
-    }
-
     this.Given(/^a logged in "([^"]*)"$/, function (user, callback) {
         login(this.context[user].username, function () {
             browser.get('/home');
@@ -199,4 +186,24 @@ var myStepDefinitionsWrapper = function () {
         });
     });
 };
+
+function login(username, callback) {
+    var auto_auth = new AutoAuthPage(username);
+    auto_auth.get().getUser().then(function () {
+        callback();
+    });
+}
+
+
+function getUrls(key, context) {
+    var urls = {
+        'unit': '/container/' + context.unit.id,
+        'subsection': context.course.url,
+        'section': context.course.url,
+        'courseware': context.course.url + '/courseware/'
+    };
+
+    return urls[key];
+}
+
 module.exports = myStepDefinitionsWrapper;
