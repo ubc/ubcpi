@@ -177,5 +177,10 @@ var myStepDefinitionsWrapper = function () {
         });
         callback();
     });
+
+    this.Given(/^a course with published PI tool$/, function (callback) {
+        console.log('background step');
+        callback();
+    });
 };
 module.exports = myStepDefinitionsWrapper;

@@ -37,7 +37,7 @@ Feature: Setting Up PI XBlock
     And I click on "Save" button
     Then I should be able to see the "Question Image"
 
-  @with_default_pi_and_question_image
+  @with_question_image
   @with_asset
   Scenario: Remove Image from Question
     Given I'm on "unit" page
@@ -59,7 +59,7 @@ Feature: Setting Up PI XBlock
     And I click on "Save" button
     Then I should be able to see the "Option 1 Image"
 
-  @with_default_pi_and_option_image
+  @with_option1_image
   @with_asset
   Scenario: Remove Image from Option
     Given I'm on "unit" page
@@ -68,7 +68,7 @@ Feature: Setting Up PI XBlock
     And I click on "Save" button
     Then I should not be able to see the "Option 1 Image"
 
-  @with_default_pi_with_seeds
+  @with_seeds
   Scenario: Add Option
     Given I'm on "unit" page
     And I click on "EDIT" link in xblock action list
@@ -78,7 +78,7 @@ Feature: Setting Up PI XBlock
     And I click on "Save" button
     Then I should be able to see the "Option 4 Radio Button"
 
-  @with_default_pi_with_seeds
+  @with_seeds
   Scenario: Remove Option
     Given I'm on "unit" page
     And I click on "EDIT" link in xblock action list

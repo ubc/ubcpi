@@ -6,6 +6,7 @@ var defaultPiData = require('./default_pi.json');
 var AutoAuthPage = require('../../page_objects/auto_auth.js');
 
 var tasks = {};
+var data;
 
 var beforeFeatureCms = function () {
 
@@ -13,8 +14,11 @@ var beforeFeatureCms = function () {
         api.createXblock(results.unit.id, {category: 'ubcpi'}, cb);
     }];
 
+    var updatePIData = false;
+
     this.Before('@cms', function (callback) {
         browser.baseUrl = api.baseUrl = 'http://127.0.0.1:8001';
+        data = _.cloneDeep(defaultPiData);
         // mock context
         //world.context = {
         //    login: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
@@ -35,43 +39,30 @@ var beforeFeatureCms = function () {
         callback();
     });
 
-    this.Before('@with_default_pi_with_seeds', function (callback) {
-        tasks.default_pi = default_pi;
-        tasks.default_pi_with_seeds = ['default_pi', function (cb, results) {
-            api.updatePI(results.default_pi.id, defaultPiData, cb);
-        }];
+    this.Before('@with_seeds', function (callback) {
+        updatePIData = true;
         callback();
     });
 
-    this.Before('@with_default_pi_and_option_image', function (callback) {
-        tasks.default_pi = default_pi;
-        var data = _.cloneDeep(defaultPiData);
-        data.options[0] = {
-            "text": "21",
+    this.Before('@with_option1_image', function (callback) {
+        data.options[0] = _.merge(data.options[0], {
             "show_image_fields": 1,
             "image_url": "/static/cat.jpg",
             "image_position": "below",
             "image_alt": ""
-        };
-        tasks.option_image = ['default_pi', function (cb, results) {
-            api.updatePI(results.default_pi.id, data, cb);
-        }];
+        });
+        updatePIData = true;
         callback();
     });
 
-    this.Before('@with_default_pi_and_question_image', function (callback) {
-        tasks.default_pi = default_pi;
-        var data = _.cloneDeep(defaultPiData);
-        data.question_text = {
-            "text": 'Question',
+    this.Before('@with_question_image', function (callback) {
+        data.question_text = _.merge(data.question_text, {
             "show_image_fields": 1,
             "image_url": "/static/cat.jpg",
             "image_position": "below",
             "image_alt": ""
-        };
-        tasks.question_image = ['default_pi', function (cb, results) {
-            api.updatePI(results.default_pi.id, data, cb);
-        }];
+        });
+        updatePIData = true;
         callback();
     });
 
@@ -82,29 +73,40 @@ var beforeFeatureCms = function () {
         callback();
     });
 
+    this.Before('@lms', function (callback) {
+        var world = this;
+        browser.baseUrl = api.baseUrl = 'http://127.0.0.1:8000';
+        browser.ignoreSynchronization = true;
+        callback();
+        //prepareCourse(this, function () {
+        //    login(world.context.login.username, callback);
+        //})
+    });
+
     this.Before(function (callback) {
         var world = this;
         browser.ignoreSynchronization = true;
+        if (updatePIData) {
+            tasks.default_pi = default_pi;
+            tasks.update_pi = ['default_pi', function(cb, results) {
+                api.updatePI(results.default_pi.id, data, cb);
+            }]
+        }
         async.auto(tasks, function (err, results) {
             if (err) {
                 callback(err, results);
             }
             // save all results to world so that we can refer to them later in the tests
             world.context = results;
+            // clean up tasks and flags
+            tasks = {};
+            updatePIData = false;
+
             login(results.login.username, function () {
                 browser.get('/home');
                 callback();
             });
         });
-    });
-
-    this.Before('@lms', function (event, callback) {
-        var world = this;
-        browser.baseUrl = api.baseUrl = 'http://127.0.0.1:8000';
-        browser.ignoreSynchronization = true;
-        prepareCourse(this, function () {
-            login(world.context.login.username, callback);
-        })
     });
 
     function prepareCourse() {
@@ -145,12 +147,6 @@ var beforeFeatureCms = function () {
             callback();
         });
     }
-
-    //this.After(function (callback) {
-    //    // Release control:
-    //    callback();
-    //});
-
 };
 
 module.exports = beforeFeatureCms;
