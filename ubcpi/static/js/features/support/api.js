@@ -180,6 +180,15 @@ Api.prototype.enrolUsers = function (courseKey, users, callback) {
     });
 };
 
+Api.prototype.piSubmitAnswer = function (courseKey, xblockKey, data, callback) {
+    this.requests['lms'].post({
+        url: '/courses/' + courseKey + '/xblock/' + xblockKey.replace(/\//g, ';_') + '/handler/submit_answer',
+        body: data
+    }, function (err, response, body) {
+        handleResponse(err, response, body, callback);
+    });
+};
+
 Api.prototype.getCookie = function (target, key) {
     var cookies = this.jars[target].getCookies(this.baseUrls[target]);
     for (var i = 0; i < cookies.length; i++) {

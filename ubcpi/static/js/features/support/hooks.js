@@ -11,7 +11,7 @@ var beforeFeatureCms = function () {
         api.createXblock(results.unit.id, {category: 'ubcpi'}, cb);
     }];
 
-    var publish = function(cb, results) {
+    var publish = function (cb, results) {
         api.updateXblock(results.unit.id, {publish: 'make_public'}, cb);
     };
 
@@ -68,13 +68,13 @@ var beforeFeatureCms = function () {
         callback();
     });
 
-    this.Before('@with_published', function(callback) {
+    this.Before('@with_published', function (callback) {
         tasks.publish = ['default_pi', publish];
         callback();
     });
 
     this.Before('@lms', function (callback) {
-        browser.baseUrl = browser.params.cmsUrl;
+        browser.baseUrl = browser.params.lmsUrl;
         api.baseUrls = {
             'cms': browser.params.cmsUrl,
             'lms': browser.params.lmsUrl
@@ -83,14 +83,23 @@ var beforeFeatureCms = function () {
         callback();
     });
 
-    this.Before('@with_enrolled_student', function(callback) {
+    this.Before('@with_enrolled_student', function (callback) {
         tasks.student = function (cb) {
             api.createUserOrLogin(null, 'lms', cb);
         };
-        tasks.enroll = ['student', 'course', function(cb, results) {
+        tasks.enroll = ['student', 'course', function (cb, results) {
             api.enrolUsers(results.course.course_key, [results.student.username], cb);
         }];
         callback();
+    });
+
+    this.Before('@with_original_answer', function (callback) {
+        tasks.original_answer = ['publish', 'enroll', function (cb, results) {
+            api.piSubmitAnswer(
+                results.course.course_key, results.default_pi.id, {"q":0,"rationale":"test","status":0}, cb
+            );
+        }];
+        callback()
     });
 
     this.Before(function (scenario, callback) {
@@ -103,7 +112,7 @@ var beforeFeatureCms = function () {
             }];
             // if we have @with_published tag, we need to change publish dependency from default_pi to update_pi
             // as after xblock is updated, it has to be published again.
-            scenario.getTags().forEach(function(tag) {
+            scenario.getTags().forEach(function (tag) {
                 if (tag.getName() == '@with_published') {
                     tasks.publish = ['update_pi', publish]
                 }
@@ -145,7 +154,7 @@ var beforeFeatureCms = function () {
         tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);
         }];
-        tasks.course_config = ['course', function(cb, results) {
+        tasks.course_config = ['course', function (cb, results) {
             api.configureCourse(results.course.course_key, {start_date: '2015-01-01', end_date: '2099-01-01'}, cb);
         }];
         tasks.advanced_settings = ['course', function (cb, results) {

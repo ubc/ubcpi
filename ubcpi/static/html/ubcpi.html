@@ -12,7 +12,7 @@
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
-            <div class="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
+            <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
 
                 <h3>Others' responses</h3>
                 <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
@@ -51,8 +51,8 @@
                     </label>
                 </fieldset>
 
-                <label class="ubcpi-label" for="{{appId}}_rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
-                <textarea class="ubcpi-field ubcpi-rationale" id="{{appId}}_rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
+                <label class="ubcpi-label" for="rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
                 <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" />
                 <span role="alert" class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
@@ -79,7 +79,7 @@
             <section class="solution-span correct-answer-and-rationale">
 
                 <span>
-                    <div class="detailed-solution">
+                    <div class="detailed-solution" id="detailed-solution">
                         <h2>Correct Option: <span class="correct-option">Option {{rc.correct_answer + 1}}</span></h2>
 
                         <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
