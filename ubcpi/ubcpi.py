@@ -1,6 +1,8 @@
 """A Peer Instruction tool for edX by the University of British Columbia."""
+import os
 import random
 from copy import deepcopy
+import uuid
 
 from django.core.exceptions import PermissionDenied
 
@@ -107,11 +109,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     # the display name that used on the interface
     display_name = String(default="Peer Instruction")
-
-    #question_text = String(
-     #   default="What is your question?", scope=Scope.content,
-      #  help="Stored question text for the students",
-   # )
 
     question_text = Dict(
     	default={'text': 'What is the answer to life, the universe and everything?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}, scope=Scope.content,
@@ -249,6 +246,51 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         filename = request.params.get('f')
         return Response(self.resource_string('static/js/partials/' + filename), content_type='text/html')
 
+    @classmethod
+    def get_base_url_path_for_course_assets(cls, course_key):
+        """
+        Slightly modified version of StaticContent.get_base_url_path_for_course_assets.
+        Code is copied as we don't want to introduce the dependency of edx-platform
+        :param course_key: CourseKey
+        :return: course asset base URL string
+        """
+        if course_key is None:
+            return None
+
+        # assert isinstance(course_key, CourseKey)
+        placeholder_id = uuid.uuid4().hex
+        # create a dummy asset location with a fake but unique name. strip off the name, and return it
+        url_path = cls.serialize_asset_key_with_slash(
+            course_key.make_asset_key('asset', placeholder_id).for_branch(None)
+        )
+        return url_path.replace(placeholder_id, '')
+
+    @staticmethod
+    def serialize_asset_key_with_slash(asset_key):
+        """
+        Legacy code expects the serialized asset key to start w/ a slash; so, do that in one place
+        :param asset_key:
+        """
+        url = unicode(asset_key)
+        if not url.startswith('/'):
+            url = '/' + url  # TODO - re-address this once LMS-11198 is tackled.
+        return url
+
+    def get_asset_url(self, static_url):
+        """Returns the asset url for imported files (eg. images) that are uploaded in Files & Uploads
+        :param static_url(str): The static url for the file
+        :return (str) The URL for the file
+        """
+        # if static_url is not a "asset url", we will use it as it is
+        if not static_url.startswith('/static/'):
+            return static_url
+
+        if hasattr(self, "xmodule_runtime"):
+            file_name = os.path.split(static_url)[-1]
+            return self.get_base_url_path_for_course_assets(self.course_id) + file_name
+        else:
+            return static_url
+
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
@@ -278,13 +320,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-answer-result-directive.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-barchart-directive.js"))
 
-        print "********************"
-        print self.static_asset_path
-        print "********************"
+        # convert image URLs
+        question = deepcopy(self.question_text)
+        question.update({'image_url': self.get_asset_url(question.get('image_url'))})
+
         options = deepcopy(self.options)
         for option in options:
             if option.get('image_url'):
-                option.update({'image_url': self.static_asset_path + option.get('image_url')})
+                option.update({'image_url': self.get_asset_url(option.get('image_url'))})
 
         js_vals = {
             'answer_original': answers.get_vote(0),
@@ -292,7 +335,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'answer_revised': answers.get_vote(1),
             'rationale_revised': answers.get_rationale(1),
             'display_name': self.display_name,
-            'question_text': self.question_text,
+            'question_text': question,
             'options': options,
             'rationale_size': self.rationale_size,
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},

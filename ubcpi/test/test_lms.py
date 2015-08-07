@@ -15,7 +15,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_render_student_view(self, xblock):
         # mock static asset path because it is not set in workbench
-        xblock.static_asset_path = "/static"
         frag = self.runtime.render(xblock, 'student_view')
         self.assertNotEqual(frag.body_html().find('Question:'), -1)
 
@@ -26,7 +25,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_render_student_view_with_original_answer(self, xblock, mock):
         # mock static asset path because it is not set in workbench
-        xblock.static_asset_path = "/static"
         frag = self.runtime.render(xblock, 'student_view')
         self.assertNotEqual(frag.body_html().find('"other_answers":'), -1)
 
@@ -40,7 +38,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_render_student_view_with_revised_answer(self, xblock, mock):
         # mock static asset path because it is not set in workbench
-        xblock.static_asset_path = "/static"
         frag = self.runtime.render(xblock, 'student_view')
         # do not contain other_answers but correct_answer
         self.assertEqual(frag.body_html().find('"other_answers":'), -1)
@@ -52,7 +49,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_submit_answer(self, xblock, data, mock):
         # patch get_other_answers to avoid randomness
         mock.return_value = data['expect1']['other_answers']
-        xblock.static_asset_path = "/static"
         resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
         self.assertEqual(resp, data['expect1'])
 
@@ -83,7 +79,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @file_data('data/submit_answer_errors.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_submit_answer_errors(self, xblock, data):
-        xblock.static_asset_path = "/static"
         with self.assertRaises(PermissionDenied):
             self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
 
@@ -106,7 +101,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         student_item = xblock.get_student_item_dict()
         self.assertEqual(student_item, {
             'student_id': 'Bob',
-            'item_id': '.ubcpi.d2.u0',
+            'item_id': '.ubcpi.d3.u0',
             'course_id': 'edX/Enchantment_101/April_1',
             'item_type': 'ubcpi'
         })
@@ -142,6 +137,52 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
             'course_id': 'course 101',
             'item_type': 'ubcpi'
         })
+
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_has_dynamic_children(self, xblock):
+        self.assertFalse(xblock.has_dynamic_children())
+
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_max_score(self, xblock):
+        self.assertEqual(xblock.max_score(), 1)
+
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_get_asset_url(self, xblock):
+        # in
+        self.assertEqual(
+            xblock.get_asset_url('http://example.com/image'),
+            'http://example.com/image',
+            'non asset URL should return as it is')
+
+        self.assertEqual(
+            xblock.get_asset_url('/static/cat.jpg'),
+            '/static/cat.jpg',
+            'in workbench env, it should return as it it')
+
+        # mock the LMS environment
+        xblock.xmodule_runtime = Mock()
+        for_branch = Mock(return_value='/c4x://test/course/')
+        make_asset_key = Mock()
+        make_asset_key.for_branch = for_branch
+        xblock.course_id = Mock()
+        xblock.course_id.make_asset_key = Mock(return_value=make_asset_key)
+
+        self.assertEqual(
+            xblock.get_asset_url('/static/cat.jpg'),
+            '/c4x://test/course/cat.jpg',
+            'in edx env, it should return converted asset URL')
+
+        # test for legacy URLs
+        for_branch = Mock(return_value='c4x://test/course/')
+        make_asset_key = Mock()
+        make_asset_key.for_branch = for_branch
+        xblock.course_id = Mock()
+        xblock.course_id.make_asset_key = Mock(return_value=make_asset_key)
+
+        self.assertEqual(
+            xblock.get_asset_url('/static/cat.jpg'),
+            '/c4x://test/course/cat.jpg',
+            'in edx env, it should return converted asset URL')
 
     def check_fields(self, xblock, data):
         for key, value in data.iteritems():
