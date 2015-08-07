@@ -11,6 +11,8 @@ var EC = protractor.ExpectedConditions;
 
 var AutoAuthPage = require('../../page_objects/auto_auth.js');
 
+const TIMEOUT = 20000;
+
 var myStepDefinitionsWrapper = function () {
 
     this.Given(/^I'm on "([^"]*)" page$/, function (arg1, callback) {
@@ -26,21 +28,22 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.When(/^I click on "([^"]*)" link$/, function (text, callback) {
-        browser.wait(EC.visibilityOf(element(by.linkText(text))), 5000);
+
+        browser.wait(EC.visibilityOf(element(by.linkText(text))), TIMEOUT);
         element(by.linkText(text)).click();
         callback();
     });
 
     this.When(/^I click on "([^"]*)" link in xblock action list$/, function (text, callback) {
         var el = element(by.css('article.xblock-render ul.actions-list')).element(by.linkText(text));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         el.click();
         callback();
     });
 
     this.When(/^I update "([^"]*)" to "([^"]*)"$/, function (textField, text, callback) {
         var el = element(by.css('input[name=' + textField + ']'));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         el.clear();
         el.sendKeys(text);
         callback();
@@ -48,7 +51,7 @@ var myStepDefinitionsWrapper = function () {
 
     this.When(/^I click on "([^"]*)" button$/, function (arg1, callback) {
         var el = element(by.css('input[type=button][value="' + arg1 + '"], input[type=submit][value="' + arg1 + '"]'));
-        browser.wait(EC.elementToBeClickable(el), 20000);
+        browser.wait(EC.elementToBeClickable(el), TIMEOUT);
         el.click();
         callback();
     });
@@ -57,7 +60,7 @@ var myStepDefinitionsWrapper = function () {
         var data = table.hashes();
         for (var i = 0; i < data.length; i++) {
             var el = element(by.css('#' + data[i].field));
-            browser.wait(EC.visibilityOf(el), 10000);
+            browser.wait(EC.visibilityOf(el), TIMEOUT);
             el.clear();
             el.sendKeys(data[i].content);
         }
@@ -66,7 +69,7 @@ var myStepDefinitionsWrapper = function () {
 
     this.When(/^I fill in "([^"]*)" in "([^"]*)"$/, function (content, name, callback) {
         var el = element(locateElement(name));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         el.clear();
         el.sendKeys(content);
         callback();
@@ -74,7 +77,7 @@ var myStepDefinitionsWrapper = function () {
 
     this.When(/^I click on "([^"]*)" in "([^"]*)" dropdown$/, function (option, name, callback) {
         var el = element(locateElement(name));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         var optionElem = el.element(by.cssContainingText('option', option));
         optionElem.click();
         callback();
@@ -82,7 +85,7 @@ var myStepDefinitionsWrapper = function () {
 
     this.When(/^I click on "([^"]*)" link for "([^"]*)"$/, function (action, target, callback) {
         var el = element(locateElement(target));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         el.element(by.linkText(action)).click();
         callback();
     });
@@ -104,12 +107,12 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.Then(/^I should see "([^"]*)" link$/, function (arg1) {
-        browser.wait(EC.visibilityOf(element(by.linkText(arg1))), 5000);
+        browser.wait(EC.visibilityOf(element(by.linkText(arg1))), TIMEOUT);
         return expect(element(by.linkText(arg1)).isDisplayed()).to.eventually.equal(true);
     });
 
     this.Then(/^I should see "([^"]*)" XBlock installed$/, function (arg1) {
-        browser.wait(EC.visibilityOf(element(by.css("div[data-block-type=ubcpi]"))), 5000);
+        browser.wait(EC.visibilityOf(element(by.css("div[data-block-type=ubcpi]"))), TIMEOUT);
         return expect(element.all(by.css("div[data-block-type=ubcpi]")).count()).to.eventually.equal(1);
     });
 
@@ -119,31 +122,31 @@ var myStepDefinitionsWrapper = function () {
 
     this.Then(/^I should see xblock updated display name "([^"]*)"$/, function (text) {
         var el = element(by.css("article.xblock-render .xblock-display-name"));
-        browser.wait(EC.textToBePresentInElement(el, text), 10000);
+        browser.wait(EC.textToBePresentInElement(el, text), TIMEOUT);
         return expect(el.getText()).to.eventually.equal(text)
     });
 
     this.Then(/^I should see xblock updated question text "([^"]*)"$/, function (text) {
         var el = element(by.css('#question-text'));
-        browser.wait(EC.textToBePresentInElement(el, text), 10000);
+        browser.wait(EC.textToBePresentInElement(el, text), TIMEOUT);
         return expect(el.getText()).to.eventually.equal(text)
     });
 
     this.Then(/^I should be able to see the "([^"]*)"$/, function (name) {
         var el = element(locateElement(name));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         return expect(el.isDisplayed()).to.eventually.be.true;
     });
 
     this.Then(/^I should not be able to see the "([^"]*)"$/, function (name) {
         var el = element(locateElement(name));
-        browser.wait(EC.invisibilityOf(el), 10000);
+        browser.wait(EC.invisibilityOf(el), TIMEOUT);
         return expect(el.isPresent()).to.eventually.be.false;
     });
 
     this.Then(/^I should see "([^"]*)" in "([^"]*)" section$/, function (text, name) {
         var el = element(locateElement(name));
-        browser.wait(EC.visibilityOf(el), 10000);
+        browser.wait(EC.visibilityOf(el), TIMEOUT);
         return expect(el.getText()).to.eventually.contain(text);
     });
 };
@@ -161,7 +164,7 @@ function getUrls(key, context) {
         'subsection': context.course.url,
         'section': context.course.url,
         'courseware': '/courses/' + context.course.course_key + '/courseware/' +
-            _.last(context.section.id.split('/')) + '/' + _.last(context.subsection.id.split('/'))
+        _.last(context.section.id.split('/')) + '/' + _.last(context.subsection.id.split('/'))
     };
 
     return urls[key];
