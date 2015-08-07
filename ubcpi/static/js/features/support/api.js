@@ -60,7 +60,7 @@ Api.prototype.createUserOrLogin = function (username, target, callback) {
                 password: userInfo[3],
                 id: userInfo[4]
             };
-            console.log(target + ': ' + body);
+            //console.log(target + ': ' + body);
             callback(null, self.users[target]);
         }
     );
