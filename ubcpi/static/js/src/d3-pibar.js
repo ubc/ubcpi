@@ -14,40 +14,11 @@ d3.custom.barChart = function() {
     // Private Variables
     var chartWidth  = 750;
     var chartHeight = 250;
+    var minTotalFrequency = 10;
 
     function chart(selection) {
         selection.each(function(data) {
-            //var i;
-            //var modifiedData = [];
-            //var thisFreq;
-            //for (i = 0; i < data.length; ++i) {
-            //    thisFreq = data[i][1];
-            //    var thisLabel = 'Option ' + (i + 1);
-            //
-            //    var thisObject = {};
-            //
-            //    thisObject.class = 'ubcpibar';
-            //    thisObject.frequency = thisFreq;
-            //
-            //    // If this is the 'correct' answer, then add that to the label
-            //    if (self.correct_answer == (i)) {
-            //        thisLabel += ' (correct option)';
-            //        thisObject.class = 'ubcpibar correct-answer';
-            //    }
-            //
-            //    thisObject.label = thisLabel;
-            //    modifiedData.push(thisObject);
-            //}
-            //
-            //data = modifiedData;
-
-            var totalFreq = 0;
-
-            // Calculate the total number of submissions
-            for (var i = 0; i < data.length; i++) {
-                thisFreq = data[i].frequency;
-                totalFreq += thisFreq;
-            }
+            var totalFreq = d3.sum(data, function(d) { return d.frequency; });
 
             // Layout
             var margin = {
@@ -56,6 +27,13 @@ d3.custom.barChart = function() {
                 bottom: 30,
                 left: 0
             };
+
+            if (totalFreq < minTotalFrequency) {
+                d3.select(this)
+                    .append("span")
+                    .text("Not enough data to generate the chart. Please check back later.");
+                return;
+            }
 
             var width = chartWidth - margin.left - margin.right;
             var height = chartHeight - margin.top - margin.bottom;
@@ -159,6 +137,13 @@ d3.custom.barChart = function() {
     chart.height = function(height) {
         if (!arguments.length) return chartHeight;
         chartHeight = height;
+
+        return this;
+    };
+
+    chart.minTotalFrequency = function(min) {
+        if (!arguments.length) return minTotalFrequency;
+        minTotalFrequency = min;
 
         return this;
     };
