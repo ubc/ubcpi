@@ -73,9 +73,6 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
             self.data.algo = data.algo;
             self.data.seeds = data.seeds;
 
-            self.cancel = function() {
-                notify('cancel', {});
-            };
             self.add_option = function() {
                 self.data.options.push(
                     {'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}

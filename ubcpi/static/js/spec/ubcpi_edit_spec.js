@@ -226,11 +226,6 @@ describe('UBCPI_Edit module', function () {
             expect(controller.data.seeds).toBe(mockConfig.data.seeds);
         });
 
-        it('should call notify when cancel is called', function() {
-            controller.cancel();
-            expect(mockNotify).toHaveBeenCalledWith('cancel', {});
-        });
-
         it('should add option to the data when add_option is called', function() {
             var num_options = mockConfig.data.options.length;
             expect(controller.data.options.length).toBe(num_options);
