@@ -6,6 +6,7 @@ var defaultPiData = require('./default_pi.json');
 
 
 var beforeFeatureCms = function () {
+    var world;
 
     var default_pi = ['unit', function (cb, results) {
         api.createXblock(results.unit.id, {category: 'ubcpi'}, cb);
@@ -96,14 +97,14 @@ var beforeFeatureCms = function () {
     this.Before('@with_original_answer', function (callback) {
         tasks.original_answer = ['publish', 'enroll', function (cb, results) {
             api.piSubmitAnswer(
-                results.course.course_key, results.default_pi.id, {"q":0,"rationale":"test","status":0}, cb
+                results.course.course_key, results.default_pi.id, {"q": 0, "rationale": "test", "status": 0}, cb
             );
         }];
         callback()
     });
 
     this.Before(function (scenario, callback) {
-        var world = this;
+        world = this;
         browser.ignoreSynchronization = true;
         if (updatePIData) {
             tasks.default_pi = default_pi;
@@ -122,19 +123,23 @@ var beforeFeatureCms = function () {
             if (err) {
                 callback(err, results);
             }
-            // mock context
-            //world.context = {
-            //    staff: {username: 'e23eeaa9f1fb4c099f750719b7adad'},
-            //    course: {
-            //        course_key: 'UBC/PI_Test_e23eeaa9f1fb4c099f750719b7adad/NOW',
-            //        url: '/course/UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/NOW'
-            //    },
-            //    unit: {
-            //        id: 'i4x://UBC/PI_TEST_e23eeaa9f1fb4c099f750719b7adad/vertical/273ec328681f47f7a3fd2e621be0d315'
-            //    }
-            //};
+            // find PI xblock element and modal dialog for edit element so that they can be used
+            // as root element in steps. This will help with tests that have more than one PI xblock
+            // or avoid naming conflict.
+            var piElement, piEditElement;
+            world.element = element;
+            if ('default_pi' in results) {
+                piElement = element(
+                    by.css('li[data-locator="{}"],[data-id="{}"]'.replace('{}', results.default_pi.id))
+                ).element;
+                piEditElement = element(by.css('div.modal-window')).element;
+                world.element = piElement.bind(element);
+            }
             // save all results to world so that we can refer to them later in the tests
-            world.context = _.merge(results, {'tasks': tasks, 'data': data, 'updatePIData': updatePIData});
+            world.context = _.merge(results,
+                {'tasks': tasks, 'data': data, 'updatePIData': updatePIData,
+                    piElement: piElement, piEditElement: piEditElement}
+            );
             callback(null, results);
         });
     });
@@ -144,6 +149,20 @@ var beforeFeatureCms = function () {
         tasks = {};
         data = _.cloneDeep(defaultPiData);
         updatePIData = false;
+        callback();
+    });
+
+    this.AfterStep(function(event, callback) {
+        // we are trying to make a context aware world.element
+        // when the edit modal dialog opens, we limit the search range within the modal dialog
+        // otherwise, we only search within our xblock
+        if (event.getPayloadItem('step').getName() == 'I click on "EDIT" link in xblock action list') {
+            // open edit modal dialog, so we switch to the dialog as root element
+            world.element = world.context.piEditElement.bind(element);
+        } else if (event.getPayloadItem('step').getName() == 'I click on "Save" button') {
+            // closed dialog, switch back
+            world.element = world.context.piElement.bind(element);
+        }
         callback();
     });
 
