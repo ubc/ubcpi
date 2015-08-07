@@ -9,22 +9,22 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-display-name">Display Name<span class="tip setting-help">This name appears in the horizontal navigation at the top of the page.</span></label>
-                        <input class="input setting-input" name="display_name" id="pi-display-name" ng-model="esc.data.display_name" type="text" required />
+                        <input class="input setting-input" name="display_name" id="pi-display-name" ng-model="esc.data.display_name" ng-model-options="{ debounce: 500 }" type="text" required />
                     </div>
                 </li>
 
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-question-text">Question Text <span class="tip setting-help">The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.question_text.show_image_fields ? 'Remove Image' : 'Add Image to Question'}}" ng-click="esc.show_image_fields(false)" name="add-image-button" /></label>
-                        <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text"></textarea>
+                        <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text" ng-model-options="{ debounce: 500 }"></textarea>
 
                         <div class="add-image-inputs" ng-show="esc.data.question_text.show_image_fields">
                         	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image URL<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
-                        	<input type="text" name="question-text-image-url" id="question-text-image-url" class="input setting-input pi-options image-input-url" ng-model="esc.data.question_text.image_url" /> <br />
+                        	<input type="text" name="question-text-image-url" id="question-text-image-url" class="input setting-input pi-options image-input-url" ng-model="esc.data.question_text.image_url" ng-model-options="{ debounce: 500 }" /> <br />
                         	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image Position<span class="tip setting-help">hoose if you want the image to appear above or below the question text.</span></label>
                         	<select name="question-text-image-position" id="question-text-image-position" ng-model="esc.data.question_text.image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
                             <label class="label setting-label pi-setting-label" for="question-text-image-alt">Image Description<span class="tip setting-help">Provide some alternative text - as a description for this image shown when people hover over it with their cursor or verbalised by assitive technologies.</span></label>
-                            <input type="text" name="question-text-image-alt" id="question-text-image-alt" class="input setting-input pi-options image-input-alt" ng-model="esc.data.question_text.image_alt" />
+                            <input type="text" name="question-text-image-alt" id="question-text-image-alt" class="input setting-input pi-options image-input-alt" ng-model="esc.data.question_text.image_alt"  ng-model-options="{ debounce: 500 }"/>
                         </div>
 
                     </div>
@@ -35,13 +35,13 @@
                         <label class="label setting-label pi-setting-label" for="pi-rationale-min">Minimum Characters
                             <span class="tip setting-help">The minimum number of characters the rationale is allowed to contain. You may wish to mention this in the question text if you add a limit above one character.</span>
                         </label>
-                        <input class="input setting-input" name="pi-rationale-min" id="pi-rationale-min" ng-model="esc.data.rationale_size.min" type="text" required />
+                        <input class="input setting-input" name="pi-rationale-min" id="pi-rationale-min" ng-model="esc.data.rationale_size.min" ng-model-options="{ debounce: 500 }" type="text" required />
                     </div>
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi_rationale_max">Maximum Characters
                             <span class="tip setting-help">The maximum number of characters the rationale is allowed to contain.</span>
                         </label>
-                        <input class="input setting-input" name="pi-rationale-max" id="pi_rationale_max" ng-model="esc.data.rationale_size.max" type="text" required />
+                        <input class="input setting-input" name="pi-rationale-max" id="pi_rationale_max" ng-model="esc.data.rationale_size.max" ng-model-options="{ debounce: 500 }" type="text" required />
                     </div>
                 </li>
 
@@ -52,16 +52,16 @@
                         <div class="ubcpi-options-list-container">
                             <div class="wrapper-comp-setting ubcpi-options-list" id="option-{{ $index + 1}}" ng-repeat="option in esc.data.options track by $index">
                                 <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}<span class="tip setting-help">Specify the value for this option. If you wish to add an image to this option click the Add Image button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image to Option ' + ($index+1) }}" ng-click="esc.show_image_fields($index)" name="pi-option-{{$index}}" /></label>
-                                <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" type="text" required />
+                                <input class="input setting-input pi-options" name="" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" ng-model-options="{ debounce: 500 }" type="text" required />
                                 <a href="" class="remove-action remove-setting" aria-label="Remove Option" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
 
                                 <div class="add-image-inputs" ng-show="esc.data.options[$index].show_image_fields">
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL<span class="tip setting-help">Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
-                                	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" /> <br />
+                                	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" ng-model-options="{ debounce: 500 }" /> <br />
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position<span class="tip setting-help">Choose if you want the image to appear above or below the question text.</span></label>
                                 	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
                                     <label class="label setting-label pi-setting-label" for="question-text-image-alt-{{$index}}">Image Description<span class="tip setting-help">Please provide alternative text for this image.</span></label>
-                                	<input type="text" name="question-text-image-alt" id="question-text-image-alt-{{$index}}" class="input setting-input pi-options image-input-alt" ng-model="esc.data.options[$index].image_alt" /> <br />
+                                	<input type="text" name="question-text-image-alt" id="question-text-image-alt-{{$index}}" class="input setting-input pi-options image-input-alt" ng-model="esc.data.options[$index].image_alt" ng-model-options="{ debounce: 500 }" /> <br />
                                 </div>
 
                             </div>
@@ -75,11 +75,11 @@
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-option-correct">Correct Option<span class="tip setting-help">This is the correct option. This enables you to know if a student answered the question correctly.</span></label>
-                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
+                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-model-options="{ debounce: 500 }" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                     </div>
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-correct-rationale">Rationale<span class="tip setting-help">Explain to students why this is the correct option.</span></label>
-                        <textarea name="pi-correct-rationale" id="pi-correct-rationale" ng-model="esc.data.correct_rationale.text" required></textarea>
+                        <textarea name="pi-correct-rationale" id="pi-correct-rationale" ng-model="esc.data.correct_rationale.text" ng-model-options="{ debounce: 500 }" required></textarea>
                     </div>
                 </li>
 
@@ -91,7 +91,7 @@
                     <span class="tip setting-help">{{ esc.algos[esc.data.algo] }}</span>
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-algo-num-responses">Number of Responses<span class="tip setting-help">The number of responses presented to the students. Enter # for the same number as options.</span></label>
-                        <input class="input setting-input pi-options" name="pi-algo-num-responses" id="pi-algo-num-responses" ng-model="esc.data.algo.num_responses" type="text" required />
+                        <input class="input setting-input pi-options" name="pi-algo-num-responses" id="pi-algo-num-responses" ng-model="esc.data.algo.num_responses" ng-model-options="{ debounce: 500 }" type="text" required />
                     </div>
                 </li>
 
@@ -106,7 +106,7 @@
                             <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                             <a href="" class="remove-action remove-setting" aria-label="Remove seed" data-lang="af" data-value="" ng-click="esc.deleteSeed($index)" data-tooltip="Remove seed"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
                             <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Rationale for Seeded Answer {{$index + 1}}<span class="tip setting-help">Provide the rationale for this seeded answer</span></label>
-                            <textarea class="input setting-input ubcpi-field" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" required></textarea>
+                            <textarea class="input setting-input ubcpi-field" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" ng-model-options="{ debounce: 500 }" required></textarea>
                         </div>
                     </div>
 
