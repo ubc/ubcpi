@@ -42,3 +42,7 @@ workbench:
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py syncdb --migrate -v 0
 	@echo "Starting server..."
 	DJANGO_SETTINGS_MODULE=settings.dev python manage.py runserver_plus
+
+release:
+	python setup.py bdist_egg upload
+	python setup.py sdist upload

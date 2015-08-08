@@ -50,6 +50,12 @@ Run tests:
 
 ## Changelog
 
+### [0.4.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.4+is%3Aclosed)
+1. Added unit and acceptance tests with 100% coverage
+2. Disabled chart generation when there is not enough response
+3. Improved accessibility
+4. A lot of code refactoring
+
 ### [0.3.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.3+is%3Aclosed)
 
 1. Added the 'random' algorithm which allows a student to see a completely random selection of others' answers
