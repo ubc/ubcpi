@@ -1,7 +1,7 @@
 """Setup for ubcpi XBlock."""
 
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def package_data(pkg, roots):
@@ -20,16 +20,23 @@ def package_data(pkg, roots):
     return {pkg: data}
 
 
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
+
 setup(
     name='ubcpi-xblock',
-    version='0.1',
-    description='ubcpi XBlock',   # TODO: write a better description.
-    packages=[
-        'ubcpi',
-    ],
+    version='0.4.1',
+    description='UBC Peer Instruction XBlock',
+    long_description=readme(),
+    license='Affero GNU General Public License v3 (GPLv3)',
+    url="https://github.com/ubc/ubcpi",
+    author="UBC CTLT",
+    author_email="pan.luo@ubc.ca",
+    packages=find_packages(),
     install_requires=[
         'XBlock',
-        'edx-submissions',
     ],
     entry_points={
         'xblock.v1': [
@@ -37,4 +44,15 @@ setup(
         ]
     },
     package_data=package_data("ubcpi", ["static", "public"]),
+    keywords=['edx', 'peer instruction', 'ubc'],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Plugins",
+        "Framework :: Django",
+        "Intended Audience :: Education",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: JavaScript",
+        "Topic :: Education",
+    ],
 )
