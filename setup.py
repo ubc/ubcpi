@@ -21,13 +21,17 @@ def package_data(pkg, roots):
 
 
 def readme():
-    with open('README.rst') as f:
-        return f.read()
+    if os.path.exists('README.rst'):
+        with open('README.rst') as f:
+            return f.read()
+    else:
+        # fallback to a default description
+        return 'UBC Peer Instruction Tool'
 
 
 setup(
     name='ubcpi-xblock',
-    version='0.4.1',
+    version='0.4.2',
     description='UBC Peer Instruction XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',
