@@ -70,43 +70,6 @@ textarea.ubcpi-field{
   -webkit-font-smoothing: antialiased;
 }
 
-/*.choicegroup .ubcpi_submit{
-  border: 1px solid #cacaca;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 0 0 #fff;
-  color: #333;
-  display: inline-block;
-  font-size: inherit;
-  font-weight: bold;
-  background-color: #eee;
-  background-image: -webkit-linear-gradient(#eee,#d2d2d2);
-  background-image: linear-gradient(#eee,#d2d2d2);
-  padding: 7px 18px;
-  text-decoration: none;
-  text-shadow: 0 1px 0 #f8f8f8;
-  background-clip: padding-box;
-  border: 1px solid #cfc6c6;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 0 0 #fff;
-  color: #333;
-  display: inline-block;
-  font-size: inherit;
-  font-weight: bold;
-  background-color: #eee;
-  background-image: -webkit-linear-gradient(#eee,#d6cece);
-  background-image: linear-gradient(#eee,#d6cece);
-  padding: 7px 18px;
-  text-decoration: none;
-  text-shadow: 0 1px 0 #f9f8f8;
-  background-clip: padding-box;
-  font-size: 0.8125em;
-}
-
-.choicegroup input[type="button"]:disabled{
-  opacity: 0.5;
-  cursor: not-allowed;
-}*/
-
 .choicegroup .ubcpi_submit {
   padding: 10px 40px;
   background: #33a6dc;
@@ -375,14 +338,6 @@ textarea.pi-options {
   padding-bottom: 10px;
   margin-bottom: 20px;
   font-size: 18px;
-}
-
-.wrapper-comp-settings .list-input.settings-list .add-image-button {
-
-}
-
-.wrapper-comp-settings .list-input.settings-list .add-image-button:disabled {
-
 }
 
 /* Graph Styling */

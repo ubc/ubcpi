@@ -1,5 +1,5 @@
 """
-Base settings for ORA2.
+Base settings for UBCPI.
 """
 
 import os
@@ -121,7 +121,6 @@ INSTALLED_APPS = (
 
     # Third party
     'django_extensions',
-#    'djcelery',
     'south',
 
     # XBlock
@@ -147,14 +146,3 @@ CACHES = {
 }
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
-# Celery configuration
-# Note: Version 3.1 of Celery includes Django support, but since we're using
-# version 3.0 (same as edx-platform), we need to use an external library.
-# import djcelery
-# djcelery.setup_loader()
-
-# We run Celery in "always eager" mode in the test suite and local dev,
-# which executes tasks synchronously instead of using the task queue.
-# CELERY_ALWAYS_EAGER = True
-# CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
