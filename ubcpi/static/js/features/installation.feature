@@ -9,11 +9,11 @@ Feature: Installing PI XBlock
 
   Scenario: Checking PI tool installed
     Given I'm on "unit" page
-    When I click on "Advanced" link
-    Then I should see "Peer Instruction" link
+    When I click on "Advanced" button on "Add New Component" section
+    Then I should see "Peer Instruction" button
 
   Scenario: Adding PI tool
     Given I'm on "unit" page
-    When I click on "Advanced" link
-    And I click on "Peer Instruction" link
+    When I click on "Advanced" button on "Add New Component" section
+    And I click on "Peer Instruction" button on "Add New XBlock" section
     Then I should see "Peer Instruction" XBlock installed

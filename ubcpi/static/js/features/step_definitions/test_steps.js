@@ -55,6 +55,15 @@ var myStepDefinitionsWrapper = function () {
         callback();
     });
 
+    this.When(/^I click on "([^"]*)" button on "([^"]*)" section$/, function (buttonText, section, callback) {
+        var sectionEl = this.element(locateElement(section));
+        browser.wait(EC.visibilityOf(sectionEl), TIMEOUT);
+        var el = sectionEl.element(by.partialButtonText(buttonText));
+        browser.wait(EC.elementToBeClickable(el), TIMEOUT);
+        el.click();
+        callback();
+    });
+
     this.When(/^I update the form with the following data:$/, function (table, callback) {
         var data = table.hashes();
         for (var i = 0; i < data.length; i++) {
@@ -108,6 +117,11 @@ var myStepDefinitionsWrapper = function () {
     this.Then(/^I should see "([^"]*)" link$/, function (arg1) {
         browser.wait(EC.visibilityOf(this.element(by.linkText(arg1))), TIMEOUT);
         return expect(this.element(by.linkText(arg1)).isDisplayed()).to.eventually.equal(true);
+    });
+
+    this.Then(/^I should see "([^"]*)" button$/, function (arg1) {
+        browser.wait(EC.visibilityOf(this.element(by.buttonText(arg1))), TIMEOUT);
+        return expect(this.element(by.buttonText(arg1)).isDisplayed()).to.eventually.equal(true);
     });
 
     this.Then(/^I should see "([^"]*)" XBlock installed$/, function (arg1) {
@@ -182,6 +196,8 @@ function locateElement(element) {
         'Option 3 Image': by.css('#original-option-image-2'),
         'Option 4 Text Input': by.css('#pi-option-3'),
         'Option 4 Radio Button': by.css('#original-option-input-3'),
+        'Add New Component': by.css('ul.new-component-type'),
+        'Add New XBlock': by.css('div.add-xblock-component')
     };
 
     if (element in mapping) {

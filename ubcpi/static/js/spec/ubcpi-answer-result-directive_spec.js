@@ -30,9 +30,9 @@ describe('UBCPI', function () {
         }));
 
         it('should render the template', function () {
+            expect(element.find('h3').length).toBe(1);
+            expect(element.find('h3').eq(0).text()).toBe('Answers');
             expect(element.find('fieldset').length).toBe(1);
-            expect(element.find('legend').length).toBe(1);
-            expect(element.find('legend').eq(0).text()).toBe('Answers');
         });
 
         describe('directive', function () {

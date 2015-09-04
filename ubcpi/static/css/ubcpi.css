@@ -7,10 +7,6 @@ h2.question-text {
   font-weight: bold;
 }
 
-.ubcpi_block p {
-  cursor: pointer;
-}
-
 .choicegroup fieldset{
   border: 0;
   padding: 0;
@@ -29,10 +25,10 @@ h2.question-text {
   display: block;
 }
 
-    .ubcpi-label img {
-        max-width: 100%;
-        height: auto;
-    }
+.ubcpi-label img {
+  max-width: 100%;
+  height: auto;
+}
 
 .ubcpi-label.ubcpi-answer {
     float: none;
@@ -77,8 +73,8 @@ textarea.ubcpi-field{
   color: #fff;
   border-radius: 4px;
   display: inline-block;
-  background-image: none !important;
-  box-shadow: none !important;
+  background-image: none;
+  box-shadow: none;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
@@ -90,16 +86,17 @@ textarea.ubcpi-field{
   line-height: 21px;
   font-weight: 600;
   text-shadow: none;
+  margin-bottom: 10px;
 }
 
-.choicegroup .ubcpi_submit:hover,
-.choicegroup .ubcpi_submit:active,
-.choicegroup .ubcpi_submit:focus {
-  background: #00a7f6;
-  background-color: #00a7f6 !important;
-  border-color: #00a7f6;
-  background-image: none !important; /* Needed because edX is very specific here, sadly */
-  color: #fff;
+.ubcpi_block .choicegroup .ubcpi_submit:hover,
+.ubcpi_block .choicegroup .ubcpi_submit:active,
+.ubcpi_block .choicegroup .ubcpi_submit:focus {
+    border-color: #00a7f6;
+    /* Needed because edX is very specific here, sadly */
+    box-shadow: none;
+    background: #00a7f6 none;
+    color: #fff;
 }
 
 .choicegroup input[type="button"]:disabled {
@@ -124,7 +121,6 @@ div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers{
   div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li{
     margin: 0.75em;
     border-bottom: 1px solid #cfc6c6;
-    border-bottom: 0 !important; /* Why so specific edX? */
   }
 
   div.course-wrapper section.course-content .vert-mod>div ul.ubcpi-other-answers li:last-of-type{
@@ -245,8 +241,8 @@ textarea.pi-options {
 
 #pi-submit-options[disabled="disabled"] {
   box-shadow: none;
-  border: 1px solid #99d8f5 !important;
-  background: #99d8f5 !important;
+  border: 1px solid #99d8f5;
+  background: #99d8f5;
 }
 
 .modal-window .xblock-actions .action-item.validation-tip {
@@ -300,6 +296,7 @@ textarea.pi-options {
   background: #f8f8f8;
   border-radius: 2px;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .your-answer-and-rationale textarea {
@@ -428,11 +425,6 @@ textarea.pi-options {
     padding-left: 22px;
 }
 
-/* The LMS view has different styling for pre tags */
-.ubcpipre {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
 .your-answer-and-rationale .inline-hint {
     color: rgb(140,140,140);
     font-weight: normal;
@@ -447,4 +439,8 @@ textarea.pi-options {
 
 .your-answer-and-rationale legend {
     font-weight: bold;
+}
+
+.results-container label {
+    cursor: default;
 }
