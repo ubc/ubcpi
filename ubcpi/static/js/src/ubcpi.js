@@ -40,6 +40,17 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
         };
     })
 
+    .directive('autoFocus', ['$timeout', function($timeout) {
+        return {
+            restrict: 'AC',
+            link: function (_scope, _element) {
+                $timeout(function () {
+                    _element[0].focus();
+                }, 0);
+            }
+        };
+    }])
+
     .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             getStats: getStats,
@@ -87,18 +98,19 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;
 
-            self.answer = self.answer_revised || self.answer_original;
-            self.rationale = self.rationale_revised || self.rationale_original;
-
             // Assign data based on what is submitted
             assignData(self, data);
+
+            self.answer = self.answer_revised || self.answer_original;
+            self.rationale = self.rationale_revised || self.rationale_original;
 
             // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
 
             /**
              * Determine if the submit button should be disabled
-             * If we have an answer selected, a rationale that is large enough and we are not already submitting, we ENable
+             * If we have an answer selected, a rationale that is large
+             * enough and we are not already submitting, we enable
              * the submit button. For all other scenarios, we disable it.
              *
              * @since 1.0.0

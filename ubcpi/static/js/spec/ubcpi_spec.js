@@ -189,8 +189,8 @@ describe('UBCPI module', function () {
             expect($rootScope.options).toEqual(mockConfig.data.options);
             expect($rootScope.rationale_size).toEqual(mockConfig.data.rationale_size);
             expect(controller.ALL_STATUS).toBe(mockConfig.data.all_status);
-            expect(controller.answer).toBe(undefined);
-            expect(controller.rationale).toBe(undefined);
+            expect(controller.answer).toBe(null);
+            expect(controller.rationale).toBe(null);
             expect(controller.submitting).toBe(false);
         });
 

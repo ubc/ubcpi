@@ -5,14 +5,13 @@ from copy import deepcopy
 import uuid
 
 from django.core.exceptions import PermissionDenied
-
 import pkg_resources
 from webob import Response
-
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
+from xblock.fields import Scope, String, List, Dict, Integer
 from xblock.fragment import Fragment
+
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
 from serialize import parse_from_xml
@@ -27,9 +26,35 @@ STATUS_REVISED = 2
 MAX_RATIONALE_SIZE = 32000
 
 
+def validate_options(options):
+    """
+    Validate the options that course author set up and return errors in a dict if there is any
+    """
+    errors = []
+
+    if int(options['rationale_size']['min']) < 0:
+        errors.append('Minimum Characters')
+    if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
+        errors.append('Maximum Characters')
+    if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
+            and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
+        errors += ['Minimum Characters', 'Maximum Characters']
+    if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
+        errors.append('Number of Responses')
+
+    if not errors:
+        return None
+    else:
+        return {'options_error': 'Invalid Option(s): ' + ', '.join(errors)}
+
+
 # noinspection all
 class MissingDataFetcherMixin:
-    """ Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py """
+    """
+    The mixin used for generating student item dict for submission API
+
+    Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py
+    """
 
     def get_student_item_dict(self, anonymous_user_id=None):
         """Create a student_item_dict from our surrounding context.
@@ -93,6 +118,8 @@ class MissingDataFetcherMixin:
 @XBlock.needs('user')
 class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     """
+    Peer Instruction XBlock
+
     Notes:
     storing index vs option text: when storing index, it is immune to the
     option text changes. But when the order changes, the results will be
@@ -104,15 +131,16 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     add or delete options
     """
 
-    # Fields are defined on the class.  You can access them in your code as
-    # self.<fieldname>.
-
     # the display name that used on the interface
     display_name = String(default="Peer Instruction")
 
     question_text = Dict(
-    	default={'text': 'What is the answer to life, the universe and everything?', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}, scope=Scope.content,
-    	help="The question the students see. This question appears above the possible answers which you set below. You can use text, an image or a combination of both. If you wish to add an image to your question, press the 'Add Image' button."
+        default={'text': 'What is the answer to life, the universe and everything?',
+                 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+        scope=Scope.content,
+        help="The question the students see. This question appears above the possible answers which you set below. "
+             "You can use text, an image or a combination of both. If you wish to add an image to your question, press "
+             "the 'Add Image' button."
     )
 
     options = List(
@@ -163,67 +191,59 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     # Declare that we are part of the grading System
     has_score = True
 
-    ## Everything below is stolen from https://github.com/edx/edx-ora2/blob/master/apps/openassessment/xblock/lms_mixin.py
-    ## It's needed to keep the LMS+Studio happy.
-    ## It should be included as a mixin.
-
-    start = DateTime(
-        default=None, scope=Scope.settings,
-        help="ISO-8601 formatted string representing the start date of this assignment. We ignore this."
-    )
-
-    due = DateTime(
-        default=None, scope=Scope.settings,
-        help="ISO-8601 formatted string representing the due date of this assignment. We ignore this."
-    )
-
-    weight = Float(
-        display_name="Problem Weight",
-        help=("Defines the number of points each problem is worth. "
-              "If the value is not set, the problem is worth the sum of the "
-              "option point values."),
-        values={"min": 0, "step": .1},
-        scope=Scope.settings
-    )
-
     def has_dynamic_children(self):
-        """Do we dynamically determine our children? No, we don't have any.
+        """
+        Do we dynamically determine our children? No, we don't have any.
         """
         return False
 
     def max_score(self):
-        """The maximum raw score of our problem.
+        """
+        The maximum raw score of our problem.
         """
         return 1
 
     def studio_view(self, context=None):
         """
+        view function for studio edit
         """
         html = self.resource_string("static/html/ubcpi_edit.html")
         frag = Fragment(html)
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
         frag.initialize_js('PIEdit', {
-                    'display_name': self.display_name,
-                    'correct_answer': self.correct_answer,
-                    'correct_rationale': self.correct_rationale,
-                    'rationale_size': self.rationale_size,
-                    'question_text': self.question_text,
-                    'options': self.options,
-                    'algo': self.algo,
-                    'algos': {'simple': 'System will select one of each option to present to the students.',
-                              'random': 'Completely random selection from the response pool.'},
-                    'image_position_locations': {
-                    	'above': 'Appears above',
-                    	'below': 'Appears below'
-                    },
-                    'seeds': self.seeds,
+            'display_name': self.display_name,
+            'correct_answer': self.correct_answer,
+            'correct_rationale': self.correct_rationale,
+            'rationale_size': self.rationale_size,
+            'question_text': self.question_text,
+            'options': self.options,
+            'algo': self.algo,
+            'algos': {
+                'simple': 'System will select one of each option to present to the students.',
+                'random': 'Completely random selection from the response pool.'
+            },
+            'image_position_locations': {
+                'above': 'Appears above',
+                'below': 'Appears below'
+            },
+            'seeds': self.seeds,
         })
 
         return frag
 
     @XBlock.json_handler
     def studio_submit(self, data, suffix=''):
+        """
+        Submit handler for studio edit
+
+        Args:
+            data (dict): data submitted from the form
+            suffix (str): not sure
+
+        Returns:
+            dict: result of the submission
+        """
         self.display_name = data['display_name']
         self.question_text = data['question_text']
         self.rationale_size = data['rationale_size']
@@ -243,6 +263,19 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @XBlock.handler
     def get_asset(self, request, suffix=''):
+        """
+        Get static partial assets from this XBlock
+
+        As there is no way to directly access the static assets within the XBlock, we use
+        a handler to expose assets by name. Only html is needed for now.
+
+        Args:
+            request (Request): HTTP request
+            suffix (str): not sure
+
+        Returns:
+            Response: HTTP response with the content of the asset
+        """
         filename = request.params.get('f')
         return Response(self.resource_string('static/js/partials/' + filename), content_type='text/html')
 
@@ -250,9 +283,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def get_base_url_path_for_course_assets(cls, course_key):
         """
         Slightly modified version of StaticContent.get_base_url_path_for_course_assets.
-        Code is copied as we don't want to introduce the dependency of edx-platform
-        :param course_key: CourseKey
-        :return: course asset base URL string
+
+        Code is copied as we don't want to introduce the dependency of edx-platform so that we can
+        develop in workbench
+
+        Args:
+            course_key (str): CourseKey
+
+        Returns:
+            str: course asset base URL string
         """
         if course_key is None:
             return None
@@ -269,17 +308,24 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     def serialize_asset_key_with_slash(asset_key):
         """
         Legacy code expects the serialized asset key to start w/ a slash; so, do that in one place
-        :param asset_key:
+
+        Args:
+            asset_key (str): Asset key to generate URL
         """
         url = unicode(asset_key)
         if not url.startswith('/'):
-            url = '/' + url  # TODO - re-address this once LMS-11198 is tackled.
+            url = '/' + url
         return url
 
     def get_asset_url(self, static_url):
-        """Returns the asset url for imported files (eg. images) that are uploaded in Files & Uploads
-        :param static_url(str): The static url for the file
-        :return (str) The URL for the file
+        """
+        Returns the asset url for imported files (eg. images) that are uploaded in Files & Uploads
+
+        Args:
+            static_url(str): The static url for the file
+
+        Returns:
+            str: The URL for the file
         """
         # if static_url is not a "asset url", we will use it as it is
         if not static_url.startswith('/static/'):
@@ -293,8 +339,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     def student_view(self, context=None):
         """
-        The primary view of the PeerInstructionXBlock, shown to students
-        when viewing courses.
+        The primary view of the PeerInstructionXBlock, shown to students when viewing courses.
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
@@ -354,6 +399,18 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         return frag
 
     def record_response(self, answer, rationale, status):
+        """
+        Store response from student to the backend
+
+        Args:
+            answer (int): the option index that student responded
+            rationale (str): the rationale text
+            status (int): the progress status for this student. Possible values are:
+                STATUS_NEW, STATUS_ANSWERED, STATUS_REVISED
+
+        Raises:
+            PermissionDenied: if we got an invalid status
+        """
         answers = self.get_answers_for_student()
         if not answers.has_revision(0) and status == STATUS_NEW:
             student_item = self.get_student_item_dict()
@@ -370,21 +427,37 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             grade = self.get_grade()
 
             # Send the grade
-            self.runtime.publish( self, 'grade', {'value': grade, 'max_value': 1} )
+            self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
         else:
             raise PermissionDenied
 
-    # Abstracted method to allow us to have some flexibility
-    # with the grade system.
     def get_grade(self):
+        """
+        Return the grade
+
+        Only returns 1 for now as a completion grade.
+        """
         return 1
 
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
+        """
+        Get the progress status for current user
+
+        Args:
+            data (dict): no input required
+            suffix (str): not sure
+
+        Return:
+            dict: current progress status
+        """
         return self.stats
 
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
+        """
+        Answer submission handler to process the student answers
+        """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
         self.record_response(data['q'], data['rationale'], data['status'])
@@ -407,12 +480,32 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         return ret
 
     def get_answers_for_student(self):
+        """
+        Retrieve answers from backend for current user
+        """
         return sas_api.get_answers_for_student(self.get_student_item_dict())
 
     @XBlock.json_handler
     def validate_form(self, data, suffix=''):
+        """
+        Validate edit form from studio.
+
+        This will check if all the parameters set up for peer instruction question satisfy all the constrains defined
+        by the algorithm. E.g. we need at least one seed for each option for simple algorithm.
+
+        Args:
+            data (dict): form data
+            suffix (str): not sure
+
+        Returns:
+            dict: {success: true} if there is no problem
+
+        Raises:
+            JsonHandlerError: with 400 error code, if there is any problem. This is necessary for angular async form
+                validation to be able to tell if the async validation success or failed
+        """
         msg = validate_seeded_answers(data['seeds'], data['options'], data['algo'])
-        options_msg = self.validate_options(data)
+        options_msg = validate_options(data)
         if msg is None and options_msg is None:
             return {'success': 'true'}
         else:
@@ -420,24 +513,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             options_msg = options_msg if options_msg else {}
             msg.update(options_msg)
             raise JsonHandlerError(400, msg)
-
-    def validate_options(self, options):
-        errors = []
-
-        if int(options['rationale_size']['min']) < 0:
-            errors.append('Minimum Characters')
-        if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
-            errors.append('Maximum Characters')
-        if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
-                and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
-            errors += ['Minimum Characters', 'Maximum Characters']
-        if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
-            errors.append('Number of Responses')
-
-        if not errors:
-            return None
-        else:
-            return {'options_error': 'Invalid Option(s): ' + ', '.join(errors)}
 
     @classmethod
     def workbench_scenarios(cls):  # pragma: no cover
@@ -451,10 +526,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     @classmethod
     def parse_xml(cls, node, runtime, keys, id_generator):
-        """Instantiate XBlock object from runtime XML definition.
+        """
+        Instantiate XBlock object from runtime XML definition.
 
-        Inherited by XBlock core.
-
+        Inherited from XBlock core.
         """
         config = parse_from_xml(node)
         block = runtime.construct_xblock_from_class(cls, keys)
