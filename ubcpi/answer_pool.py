@@ -139,17 +139,17 @@ def validate_seeded_answers(answers, options, algo):
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers(answers, seeded_answers, get_student_item_dict, algo, options):
+def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options):
     """
     Select other student's answers from answer pool or seeded answers based on the selection algorithm
 
     Args:
-        answers (list): answer pool, format:
+        pool (dict): answer pool, format:
             {
-                0: {
-                    student_id: { ... }
+                option1_index: {
+                    student_id: { can store algorithm specific info here }
                 },
-                1: {
+                option2_index: {
                     student_id: { ... }
                 }
             }
@@ -171,14 +171,14 @@ def get_other_answers(answers, seeded_answers, get_student_item_dict, algo, opti
         else int(algo['num_responses'])
 
     if algo['name'] == 'simple':
-        return get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses)
     elif algo['name'] == 'random':
-        return get_other_answers_random(answers, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses):
     """
     Get answers from others with simple algorithm, which picks one answer for each option.
 
@@ -192,28 +192,28 @@ def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num
     """
     ret = []
     # clean up answers so that all keys are int
-    answers = {int(k): v for k, v in answers.items()}
+    pool = {int(k): v for k, v in pool.items()}
     total_in_pool = len(seeded_answers)
-    pool = convert_seeded_answers(seeded_answers)
+    merged_pool = convert_seeded_answers(seeded_answers)
     student_id = get_student_item_dict()['student_id']
     # merge the dictionaries in the answer dictionary
-    for key in answers:
-        total_in_pool += len(answers[key])
+    for key in pool:
+        total_in_pool += len(pool[key])
         # if student_id has value, we assume the student just submitted an answer. So removing it
         # from total number in the pool
-        if student_id in answers[key].keys():
+        if student_id in pool[key].keys():
             total_in_pool -= 1
-        if key in pool:
-            pool[key].update(answers[key].items())
+        if key in merged_pool:
+            merged_pool[key].update(pool[key].items())
         else:
-            pool[key] = answers[key]
+            merged_pool[key] = pool[key]
 
     # remember which option+student_id is selected, so that we don't have duplicates in the result
     selected = []
 
     # loop until we have enough answers to return
     while len(ret) < min(num_responses, total_in_pool):
-        for option, students in pool.items():
+        for option, students in merged_pool.items():
             student = student_id
             i = 0
             while (student == student_id or i > 100) and (str(option) + student) not in selected:
@@ -240,7 +240,7 @@ def get_other_answers_simple(answers, seeded_answers, get_student_item_dict, num
     return {"answers": ret}
 
 
-def get_other_answers_random(answers, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses):
     """
     Get answers from others with random algorithm, which randomly select answer from the pool.
 
@@ -256,19 +256,19 @@ def get_other_answers_random(answers, seeded_answers, get_student_item_dict, num
     """
     ret = []
     # clean up answers so that all keys are int
-    answers = {int(k): v for k, v in answers.items()}
+    pool = {int(k): v for k, v in pool.items()}
     seeded = {'seeded'+str(index): answer for index, answer in enumerate(seeded_answers)}
-    pool = seeded.keys()
+    merged_pool = seeded.keys()
 
-    for key in answers:
-        pool += answers[key].keys()
+    for key in pool:
+        merged_pool += pool[key].keys()
 
     # shuffle
-    random.shuffle(pool)
+    random.shuffle(merged_pool)
     # get student identifier
     student_id = get_student_item_dict()['student_id']
 
-    for student in pool:
+    for student in merged_pool:
         if len(ret) >= num_responses:
             # have enough answers
             break

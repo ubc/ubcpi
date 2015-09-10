@@ -1,7 +1,7 @@
 """Setup for ubcpi XBlock."""
 
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 def package_data(pkg, roots):
@@ -38,7 +38,7 @@ setup(
     url="https://github.com/ubc/ubcpi",
     author="UBC CTLT",
     author_email="pan.luo@ubc.ca",
-    packages=find_packages(),
+    packages=['ubcpi'],
     install_requires=[
         'XBlock',
     ],

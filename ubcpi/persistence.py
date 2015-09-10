@@ -62,7 +62,10 @@ def add_answer_for_student(student_item, vote, rationale):
 
 class Answers:
     """
-    The class that encapsulate the student answers
+    The class that encapsulate the answers (original and revised) from a student
+
+    The revision is used to identify the original (0) answer or revised (1) answer. It could be extended
+    in the future if this xblock supports more than one round of revision.
     """
 
     def __init__(self, answers=None):
