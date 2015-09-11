@@ -178,6 +178,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="Instructor configured examples to give to students during the revise stage.",
     )
 
+    # sys_selected_answers dict format:
+    # {
+    #     option1_index: {
+    #         'student_id1': { can store algorithm specific info here },
+    #         'student_id2': { can store algorithm specific info here },
+    #         ...
+    #     }
+    #     option2_index: ...
+    # }
     sys_selected_answers = Dict(
         default={}, scope=Scope.user_state_summary,
         help="System selected answers to give to students during the revise stage.",

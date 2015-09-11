@@ -48,7 +48,15 @@
                 <li class="field comp-setting-entry is-set">
 
                     <div class="wrapper-comp-setting">
-                        <label class="label setting-label pi-setting-label" for="pi-display-name">Possible Options<span class="tip setting-help">These are the possible options from which a student may select. Each option may contain text, an image or a combination of both. To add an image to an option, press the 'Add Image' button within each option. To add an entirely new option press the 'Add Option' button below this help text. To remove an option press the blue cross to the side of the option you wish to remove.</span><input type="button" class="button action-primary add-image-button" value="Add Option" ng-click="esc.add_option()" name="pi-add-item-link" /></label>
+                        <label class="label setting-label pi-setting-label" for="pi-display-name">
+                            Possible Options
+                            <span class="tip setting-help">These are the possible options from which a student may select.
+                                Each option may contain text, an image or a combination of both. To add an image to an option,
+                                press the 'Add Image' button within each option. To add an entirely new option press the
+                                'Add Option' button below this help text. To remove an option press the blue cross to
+                                the side of the option you wish to remove. Maximum 10 options.</span>
+                            <input type="button" class="button action-primary add-image-button" value="Add Option" ng-click="esc.add_option()" name="pi-add-item-link" ng-hide="esc.data.options.length>=10"/>
+                        </label>
                         <div class="ubcpi-options-list-container">
                             <div class="wrapper-comp-setting ubcpi-options-list" id="option-{{ $index + 1}}" ng-repeat="option in esc.data.options track by $index">
                                 <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}">Option {{$index + 1}}<span class="tip setting-help">Specify the value for this option. If you wish to add an image to this option click the Add Image button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].show_image_fields ? 'Remove Image' : 'Add Image to Option ' + ($index+1) }}" ng-click="esc.show_image_fields($index)" name="pi-option-{{$index}}" /></label>
