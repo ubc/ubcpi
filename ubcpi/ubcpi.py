@@ -9,7 +9,7 @@ import pkg_resources
 from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, String, List, Dict, Integer
+from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
@@ -199,6 +199,26 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     # Declare that we are part of the grading System
     has_score = True
+
+    start = DateTime(
+        default=None, scope=Scope.settings,
+        help="ISO-8601 formatted string representing the start date of this assignment. We ignore this."
+    )
+
+    due = DateTime(
+        default=None, scope=Scope.settings,
+        help="ISO-8601 formatted string representing the due date of this assignment. We ignore this."
+    )
+
+    # required field for LMS progress page
+    weight = Float(
+        display_name="Problem Weight",
+        help=("Defines the number of points each problem is worth. "
+              "If the value is not set, the problem is worth the sum of the "
+              "option point values."),
+        values={"min": 0, "step": .1},
+        scope=Scope.settings
+    )
 
     def has_dynamic_children(self):
         """
