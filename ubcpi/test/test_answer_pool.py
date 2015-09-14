@@ -4,7 +4,7 @@ from ddt import file_data, ddt
 from mock import patch, call, MagicMock
 from ubcpi.answer_pool import offer_answer, validate_seeded_answers_simple, UnknownChooseAnswerAlgorithm, \
     validate_seeded_answers_random, validate_seeded_answers, get_other_answers, get_other_answers_simple, \
-    get_other_answers_random
+    get_other_answers_random, get_max_size, POOL_ITEM_LENGTH_SIMPLE
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
 
 
@@ -17,16 +17,15 @@ class TestAnswerPool(unittest.TestCase):
         expected_answer = options[0]
         expected_rationale = "rationale"
         expected_student_id = "student id"
-        offer_answer(pool, expected_answer, expected_rationale, expected_student_id, {'name': 'simple'})
+        offer_answer(pool, expected_answer, expected_rationale, expected_student_id, {'name': 'simple'}, options)
         expected_pool = {expected_answer: {expected_student_id: {}}}
         self.assertEqual(expected_pool, pool)
 
     def test_simple_algo_insert_max(self):
         options = ['optionA', 'optionB', 'optionC']
-        # test insert 50 entries for each option, all of them should make it in
         pool = {}
         expected_pool = {}
-        for i in range(50):
+        for i in range(6):
             for cur_expected_answer in options:
                 cur_expected_rationale = "rationale" + str(i)
                 cur_expected_student_id = "student id" + str(i) + cur_expected_answer
@@ -34,19 +33,20 @@ class TestAnswerPool(unittest.TestCase):
                 students[cur_expected_student_id] = {}
                 expected_pool[cur_expected_answer] = students
                 offer_answer(pool, cur_expected_answer, cur_expected_rationale,
-                             cur_expected_student_id, {'name': 'simple'})
-        self.assertEqual(expected_pool, pool)
-        # insert the 51st entry, this should evict one existing entry in favour
-        # of the new entry
-        with patch('random.choice', return_value="student id0optionA"):
-            offer_answer(pool, options[0], "some rationale", "test student 51", {'name': 'simple'})
-        for i in range(50):
-            for cur_expected_answer in options:
-                cur_expected_student_id = "student id" + str(i) + cur_expected_answer
-                if cur_expected_student_id == "student id0optionA":
-                    self.assertFalse(cur_expected_student_id in pool[cur_expected_answer])
-                else:
-                    self.assertTrue(cur_expected_student_id in pool[cur_expected_answer])
+                             cur_expected_student_id, {'name': 'simple'}, options)
+                self.assertEqual(expected_pool, pool)
+
+    def test_simple_algo_drop_from_pool(self):
+        options = ['optionA', 'optionB', 'optionC']
+        pool = {'optionA': {i: {} for i in xrange(6)}}
+        with patch('random.choice', return_value="0"):
+            with patch('ubcpi.answer_pool.get_max_size', return_value="6"):
+                offer_answer(pool, options[0], "some rationale", "test student 7", {'name': 'simple'}, options)
+
+        # make sure student "0" for optionA is removed
+        self.assertFalse("0" in pool['optionA'])
+        # make sure the new student answer is added
+        self.assertTrue("test student 7" in pool['optionA'])
 
     def test_validate_seeded_answers_simple(self):
         options = [{'text': 'optionA', 'image_url': '/static/test.jpg'}, {'text': 'optionB'}, {'text': 'optionC'}]
@@ -89,7 +89,7 @@ class TestAnswerPool(unittest.TestCase):
         expected_answer = options[0]
         expected_rationale = "rationale"
         expected_student_id = "student id"
-        offer_answer(pool, expected_answer, expected_rationale, expected_student_id, {'name': 'random'})
+        offer_answer(pool, expected_answer, expected_rationale, expected_student_id, {'name': 'random'}, options)
         expected_pool = {expected_answer: {expected_student_id: {}}}
         self.assertEqual(expected_pool, pool)
 
@@ -146,5 +146,11 @@ class TestAnswerPool(unittest.TestCase):
             get_other_answers({}, {}, {}, {'name': 'invalid'}, {})
 
     def test_offer_answer_invalid_algo(self):
+        options = ['optionA', 'optionB', 'optionC']
         with self.assertRaises(UnknownChooseAnswerAlgorithm):
-            offer_answer({}, {}, 'rationale', 'student_id', {'name': 'invalid'})
+            offer_answer({}, {}, 'rationale', 'student_id', {'name': 'invalid'}, options)
+
+    def test_get_max_size(self):
+        self.assertEqual(get_max_size({}, 3, POOL_ITEM_LENGTH_SIMPLE), 102)
+        self.assertEqual(get_max_size({}, 10, POOL_ITEM_LENGTH_SIMPLE), 67)
+        self.assertEqual(get_max_size({1: {i: {} for i in xrange(10)}}, 10, POOL_ITEM_LENGTH_SIMPLE), 62)

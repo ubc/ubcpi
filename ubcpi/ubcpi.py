@@ -446,7 +446,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             sas_api.add_answer_for_student(student_item, answer, rationale)
             num_resp = self.stats['original'].setdefault(answer, 0)
             self.stats['original'][answer] = num_resp + 1
-            offer_answer(self.sys_selected_answers, answer, rationale, student_item['student_id'], self.algo)
+            offer_answer(
+                self.sys_selected_answers, answer, rationale,
+                student_item['student_id'], self.algo, self.options)
         elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = self.stats['revised'].setdefault(answer, 0)

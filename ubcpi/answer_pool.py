@@ -1,14 +1,45 @@
 import random
 import persistence as sas_api
 
-POOL_SIZE = 50
+# min number of answers for each answers
+# so that we don't end up no answers for an option
+POOL_OPTION_MIN_SIZE = 5
+# pool size in bytes, the whole pool will be stored in the block and retrieved each time the page loads
+# so we want to keep the pool to a reasonable small size.
+POOL_SIZE = 4096
+# the length of item in bytes that stored in the pool, for simple and random algorithm, only student id (32 bytes)
+# and an empty dict value stored (curly brackets and colon when jsonified). Assuming the length is the same for all
+# items in the pool. For variable length item, specify the max length
+POOL_ITEM_LENGTH_SIMPLE = POOL_ITEM_LENGTH_RANDOM = 35
 
 
 class UnknownChooseAnswerAlgorithm(Exception):
     pass
 
 
-def offer_answer(pool, answer, rationale, student_id, algo):
+def get_max_size(pool, num_option, item_length):
+    """
+    Calculate the max number of item that an option can stored in the pool at give time.
+
+    This is to limit the pool size to POOL_SIZE
+
+    Args:
+        option_index (int): the index of the option to calculate the size for
+        pool (dict): answer pool
+        num_option (int): total number of options available for the question
+        item_length (int): the length of the item
+
+    Returns:
+        int: the max number of items that `option_index` can have
+    """
+    max_items = POOL_SIZE / item_length
+    # existing items plus the reserved for min size. If there is an option has 1 item, POOL_OPTION_MIN_SIZE - 1 space
+    # is reserved.
+    existing = POOL_OPTION_MIN_SIZE * num_option + sum([max(0, len(pool.get(i, {})) - 5) for i in xrange(num_option)])
+    return int(max_items - existing)
+
+
+def offer_answer(pool, answer, rationale, student_id, algo, options):
     """
     submit a student answer to the answer pool
 
@@ -28,19 +59,20 @@ def offer_answer(pool, answer, rationale, student_id, algo):
         rationale (str): the rationale text
         student_id (str): student identifier
         algo (str): the selection algorithm
+        options (dict): the options available in the question
 
     Raises:
         UnknownChooseAnswerAlgorithm: when we don't know the algorithm
     """
     if algo['name'] == 'simple':
-        offer_simple(pool, answer, rationale, student_id)
+        offer_simple(pool, answer, rationale, student_id, options)
     elif algo['name'] == 'random':
-        offer_random(pool, answer, rationale, student_id)
+        offer_random(pool, answer, rationale, student_id, options)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
 
-def offer_simple(pool, answer, rationale, student_id):
+def offer_simple(pool, answer, rationale, student_id, options):
     """
     The simple selection algorithm.
 
@@ -48,18 +80,18 @@ def offer_simple(pool, answer, rationale, student_id):
     the limit
     """
     existing = pool.setdefault(answer, {})
-    if len(existing) >= POOL_SIZE:
+    if len(existing) >= get_max_size(pool, len(options), POOL_ITEM_LENGTH_SIMPLE):
         student_id_to_remove = random.choice(existing.keys())
         del existing[student_id_to_remove]
     existing[student_id] = {}
     pool[answer] = existing
 
 
-def offer_random(pool, answer, rationale, student_id):
+def offer_random(pool, answer, rationale, student_id, options):
     """
     The random selection algorithm. The same as simple algorithm
     """
-    offer_simple(pool, answer, rationale, student_id)
+    offer_simple(pool, answer, rationale, student_id, options)
 
 
 def validate_seeded_answers_simple(answers, options, algo):
