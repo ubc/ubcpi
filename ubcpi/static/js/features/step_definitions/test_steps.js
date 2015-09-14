@@ -177,7 +177,8 @@ function getUrls(key, context) {
         'subsection': context.course.url,
         'section': context.course.url,
         'courseware': '/courses/' + context.course.course_key + '/courseware/' +
-        _.last(context.section.id.split('/')) + '/' + _.last(context.subsection.id.split('/'))
+        _.last(context.section.id.split('/')) + '/' + _.last(context.subsection.id.split('/')),
+        'progress': '/courses/' + context.course.course_key + '/progress'
     };
 
     return urls[key];

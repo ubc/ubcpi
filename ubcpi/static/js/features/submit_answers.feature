@@ -1,6 +1,6 @@
 @lms @with_enrolled_student @with_published @with_seeds
-Feature: Submitting Original Answers
-  Students should be able to submit their original answers
+Feature: Submitting Answers
+  Students should be able to submit their answers
   Background:
     Given a logged in "student"
 
