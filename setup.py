@@ -31,7 +31,7 @@ def readme():
 
 setup(
     name='ubcpi-xblock',
-    version='0.4.3',
+    version='0.4.4',
     description='UBC Peer Instruction XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',
