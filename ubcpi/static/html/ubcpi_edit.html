@@ -105,7 +105,7 @@
 
                 <li class="field comp-setting-entry is-set">
 
-                    <label class="label setting-label" for="">Seeded Answers<br /><span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. </span><input type="button" class="button action-primary add-image-button" value="Add Seed" ng-click="esc.addSeed()" name="pi-option-add-seed" /></label>
+                    <label class="label setting-label" for="">Seeded Answers<br /><span class="tip setting-help">Provide answers which can be shown to the students answering this question when there are not enough submitted responses from which to choose. </span></label>
 
 
                     <div class="ubcpi-options-list-container">
@@ -116,6 +116,7 @@
                             <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Rationale for Seeded Answer {{$index + 1}}<br /><span class="tip setting-help">Provide the rationale for this seeded answer</span></label>
                             <textarea class="input setting-input ubcpi-field" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" ng-model-options="{ debounce: 500 }" required></textarea>
                         </div>
+                        <input type="button" class="button action-primary add-image-button" value="Add Seed" ng-click="esc.addSeed()" name="pi-option-add-seed" />
                     </div>
 
                     <div ng-messages='piForm.$errors' ng-messages-multiple>
