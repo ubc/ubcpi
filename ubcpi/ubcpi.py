@@ -135,7 +135,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     display_name = String(default="Peer Instruction")
 
     question_text = Dict(
-        default={'text': 'What is the answer to life, the universe and everything?',
+        default={'text': '<p>Peer instruction allows learners to answer a multiple choice question with a rationale. '
+                         'Then they get to see other students choices and rationales before making a revision. '
+                         'Finally, the correct choice and rationale are shown to the students. </p>'
+                         '<p>In a fully grown tree, where does most of the mass originate from?</p>',
                  'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
         scope=Scope.content,
         help="The question the students see. This question appears above the possible answers which you set below. "
@@ -144,11 +147,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     options = List(
-        # default=['Default Option 1', 'Default Option 2'], scope=Scope.content,
         default=[
-            {'text': '21', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': '42', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': '63', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
         help="The possible options from which the student may select",
@@ -160,12 +162,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     )
 
     correct_answer = Integer(
-        default=1, scope=Scope.content,
+        default=0, scope=Scope.content,
         help="The correct option for the question",
     )
 
     correct_rationale = Dict(
-        default={'text': "Specify the rationale to explain the correct answer"}, scope=Scope.content,
+        default={'text': "Photosynthesis"}, scope=Scope.content,
         help="The feedback for student for the correct answer",
     )
 
@@ -174,7 +176,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="Overall stats for the instructor",
     )
     seeds = List(
-        default=[], scope=Scope.content,
+        default=[
+            {'answer': 0, 'rationale': 'Tree gets carbon from air.'},
+            {'answer': 1, 'rationale': 'Tree gets minerals from soil.'},
+            {'answer': 2, 'rationale': 'Tree drinks water.'}
+        ],
+        scope=Scope.content,
         help="Instructor configured examples to give to students during the revise stage.",
     )
 
