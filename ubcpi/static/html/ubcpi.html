@@ -30,14 +30,17 @@
                     </li>
                 </ul>
 
-                <h3>If you wish, you may now revise your answer.</h3>
-                <p>Now that you have seen a selection of others' responses, you have the option to alter your initial selection.</p>
+                <h3>If you wish, you may now revise your answer and rationale.</h3>
+                <p>Now that you have seen a selection of others' responses, you have the option to alter your initial selection and rationale.</p>
 
             </div><!-- .others-responses -->
 
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
-                <p>Your Response <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW">(You may change this response if you wish in the next step)</span></p>
+                <p>
+                    <span ng-if="rc.status() == rc.ALL_STATUS.NEW">Your Response <span class="inline-hint">(You may change this response if you wish in the next step)</span></span>
+                    <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Revise Your Response</span>
+                </p>
 
                 <fieldset role="radiogroup">
                     <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
