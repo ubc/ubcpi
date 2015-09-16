@@ -204,8 +204,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         help="The algorithm for selecting which answers to be presented to students",
     )
 
-    # Declare that we are part of the grading System
-    has_score = True
+    # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
+    # speed of the progress page.
+    has_score = False
 
     start = DateTime(
         default=None, scope=Scope.settings,
