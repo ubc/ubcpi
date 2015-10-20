@@ -5,7 +5,7 @@
         <div>
             <span class="possible-option">Option {{ $index + 1 }}</span>
             <span ng-if="correct == $index" class="correct-option option-details-text">Correct Option</span>
-            <span class="chosen-option option-details-text" ng-if="answer == $index">(You chose this option initially)</span>
+            <span class="chosen-option option-details-text" ng-if="answer == $index">(You chose this option)</span>
         </div>
         <img ng-src="{{d.image_url}}" alt="{{d.image_alt}}" ng-if="d.image_position == 'above' && d.image_url" />
         <div ng-if="d.text" class="original-response response-text">{{d.text}}</div>
