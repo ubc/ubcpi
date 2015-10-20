@@ -17,11 +17,21 @@ h2.question-text {
     border-left: 1px solid #ddd;
 }
 
-.ubcpi-label {
-    float: left;
+fieldset .ubcpi-label {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
     clear: both;
-    margin-bottom: 5px;
-    display: block;
+    margin-bottom: 10px;
+    border: 2px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 10px;
+    width: 100%;
+}
+
+fieldset .ubcpi-label:hover {
+    border: 2px solid #0078b0;
 }
 
 .ubcpi-label img {
