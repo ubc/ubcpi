@@ -30,10 +30,6 @@ fieldset .ubcpi-label {
     width: 100%;
 }
 
-fieldset .ubcpi-label:hover {
-    border: 2px solid #0078b0;
-}
-
 .ubcpi-label img {
     max-width: 100%;
     height: auto;
@@ -449,4 +445,13 @@ div.course-wrapper section.course-content .warning-notice p {
 
 .results-container label {
     cursor: default;
+}
+
+/*
+    Studio Specific changes
+*/
+
+/* LMS space for questions is wider than Studio. Normalize */
+.studio-xblock-wrapper .ubcpi_block.problem {
+    max-width: 820px;
 }
