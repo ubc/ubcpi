@@ -52,7 +52,7 @@
 
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
-                        <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option initially)</span>
+                        <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
                     </label>
                 </fieldset>
 
