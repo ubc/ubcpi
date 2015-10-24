@@ -1,0 +1,27 @@
+{
+  "basic": {
+    "xml": [
+      "<seeds>",
+        "<seed option=\"1\">This is seed1</seed>",
+        "<seed option=\"2\">This is seed2</seed>",
+      "</seeds>"
+    ],
+    "expect": [
+      {
+        "answer": 0,
+        "rationale": "This is seed1"
+      },
+      {
+        "answer": 1,
+        "rationale": "This is seed2"
+      }
+    ]
+  },
+  "empty": {
+    "xml": [
+      "<seeds></seeds>"
+    ],
+    "expect": [
+    ]
+  }
+}

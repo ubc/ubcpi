@@ -1,0 +1,9 @@
+{
+  "missing_text_element": {
+    "xml": [
+      "<question>",
+        "<image position=\"below\" alt=\"This is a image\" show_fields=\"0\">/static/test.jpg</image>",
+      "</question>"
+    ]
+  }
+}

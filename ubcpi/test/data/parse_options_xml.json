@@ -1,0 +1,32 @@
+{
+  "basic": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+            "<rationale>This is correct.</rationale>",
+            "<text>Option1</text>",
+            "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
+        "</option>",
+        "<option>",
+            "<text>Option2</text>",
+        "</option>",
+      "</options>"
+    ],
+    "expect": {
+      "options":
+      [
+        {
+          "text": "Option1",
+          "image_url": "/static/test1.jpg",
+          "image_position": "below",
+          "image_alt": "This is a image"
+        },
+        {
+          "text": "Option2"
+        }
+      ],
+      "correct_answer": 0,
+      "correct_rationale": {"text": "This is correct."}
+    }
+  }
+}

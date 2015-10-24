@@ -1,0 +1,53 @@
+{
+  "basic": {
+    "display_name": "Peer Instruction",
+    "question_text": {
+      "text": "What is the answer to life, the universe and everything?",
+      "image_alt": "",
+      "image_url": "/static/NEW-QUESTION.jpg",
+      "image_position": "below",
+      "image_show_fields": true
+    },
+    "rationale_size": {
+      "max": "#",
+      "min": 1
+    },
+    "options": [
+      {
+        "text": "21",
+        "image_alt": "",
+        "image_url": "",
+        "image_position": "below",
+        "image_show_fields": 0
+      },
+      {
+        "text": "42",
+        "image_alt": "",
+        "image_url": "",
+        "image_position": "below",
+        "image_show_fields": 0
+      },
+      {
+        "text": "63",
+        "image_alt": "",
+        "image_url": "",
+        "image_position": "below",
+        "image_show_fields": 0
+      }
+    ],
+    "correct_answer": 1,
+    "correct_rationale": {
+      "text": "This is correct"
+    },
+    "algo": {
+      "num_responses": "#",
+      "name": "random"
+    },
+    "seeds": [
+      {
+        "answer": 0,
+        "rationale": "dsfsdafsd"
+      }
+    ]
+  }
+}

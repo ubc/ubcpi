@@ -1,0 +1,58 @@
+{
+  "missing_correct_answer": {
+    "xml": [
+      "<options>",
+        "<option>",
+            "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
+            "<text>Option1</text>",
+        "</option>",
+        "<option>",
+            "<text>Option2</text>",
+        "</option>",
+      "</options>"
+    ]
+  },
+  "missing_correct_rationale": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+          "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
+          "<text>Option1</text>",
+        "</option>",
+        "<option>",
+          "<text>Option2</text>",
+          "</option>",
+      "</options>"
+    ]
+  },
+  "missing_option": {
+    "xml": [
+      "<options></options>"
+    ]
+  },
+  "multiple_correct_answers": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+          "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
+          "<rationale>This is correct.</rationale>",
+          "<text>Option1</text>",
+        "</option>",
+        "<option correct=\"True\">",
+          "<text>Option2</text>",
+          "<rationale>This is correct.</rationale>",
+        "</option>",
+      "</options>"
+    ]
+  },
+  "missing_option_text": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+            "<rationale>This is correct.</rationale>",
+        "</option>",
+      "</options>"
+    ]
+  }
+}
+

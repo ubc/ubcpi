@@ -1,0 +1,21 @@
+language: python
+python:
+  - "2.7"
+
+install:
+  - "gem install coveralls-lcov"
+  - "make deps"
+  - "pip install -e ."
+  - "pip install coveralls"
+
+script:
+  - "make test"
+
+after_success:
+  - "sed -i  's,SF:.,SF:ubcpi/static/js,' build/coverage/report-lcov/lcov.info"
+  - "coveralls-lcov -v -n build/coverage/report-lcov/lcov.info > js-coverage.json"
+  - "coveralls --merge=js-coverage.json"
+
+branches:
+    only:
+      - master

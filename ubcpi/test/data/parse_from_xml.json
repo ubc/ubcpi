@@ -1,0 +1,108 @@
+{
+  "basic": {
+    "xml": [
+      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\">",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<question>",
+            "<text>This is the question text</text>",
+            "<image position=\"below\" alt=\"This is a image\" show_fields=\"0\">/static/test.jpg</image>",
+        "</question>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<rationale>This is correct.</rationale>",
+                "<text>Option1</text>",
+                "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+        "<seeds>",
+            "<seed option=\"1\">This is seed1</seed>",
+            "<seed option=\"2\">This is seed2</seed>",
+        "</seeds>",
+      "</ubcpi>"
+    ],
+    "expect": {
+      "display_name": "Sample Peer Instruction",
+      "question_text": {
+        "image_url": "/static/test.jpg",
+        "image_position": "below",
+        "image_show_fields": 0,
+        "image_alt": "This is a image",
+        "text": "This is the question text"
+      },
+      "options": [
+        {
+          "text": "Option1",
+          "image_url": "/static/test1.jpg",
+          "image_position": "below",
+          "image_alt": "This is a image"
+        },
+        {
+          "text": "Option2"
+        }
+      ],
+      "rationale_size": {"min": 1, "max": 32000},
+      "correct_answer": 0,
+      "correct_rationale": {"text": "This is correct."},
+      "seeds": [
+        {
+          "answer": 0,
+          "rationale": "This is seed1"
+        },
+        {
+          "answer": 1,
+          "rationale": "This is seed2"
+        }
+      ],
+      "algo": {"name": "simple", "num_responses": "#"}
+    }
+  },
+  "minimal": {
+    "xml": [
+      "<ubcpi>",
+        "<display_name>Sample Peer Instruction</display_name>",
+        "<question>",
+            "<text>This is the question text</text>",
+        "</question>",
+        "<options>",
+            "<option correct=\"True\">",
+                "<rationale>This is correct.</rationale>",
+                "<text>Option1</text>",
+            "</option>",
+            "<option>",
+                "<text>Option2</text>",
+            "</option>",
+        "</options>",
+        "<seeds>",
+            "<seed option=\"2\">This is seed1</seed>",
+        "</seeds>",
+      "</ubcpi>"
+    ],
+    "expect": {
+      "display_name": "Sample Peer Instruction",
+      "question_text": {
+        "text": "This is the question text"
+      },
+      "options": [
+        {
+          "text": "Option1"
+        },
+        {
+          "text": "Option2"
+        }
+      ],
+      "rationale_size": {"min": null, "max": null},
+      "correct_answer": 0,
+      "correct_rationale": {"text": "This is correct."},
+      "seeds": [
+        {
+          "answer": 1,
+          "rationale": "This is seed1"
+        }
+      ],
+      "algo": {"name": null, "num_responses": null}
+    }
+  }
+}

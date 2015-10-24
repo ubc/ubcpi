@@ -1,0 +1,218 @@
+{
+  "missing_seed": {
+    "post": {
+      "display_name": "Peer Instruction1",
+      "question_text": {
+        "text": "What is the answer to life, the universe and everything?",
+        "image_show_fields": 0,
+        "image_url": "",
+        "image_position": "below",
+        "image_alt": ""
+      },
+      "rationale_size": {
+        "max": 32000,
+        "min": 1
+      },
+      "options": [
+        {
+          "text": "21",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        },
+        {
+          "text": "42",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        }
+      ],
+      "correct_answer": 1,
+      "correct_rationale": {
+        "text": "Correct rationale"
+      },
+      "algo": {
+        "num_responses": "#",
+        "name": "simple"
+      },
+      "seeds": [
+        {
+          "answer": 1,
+          "rationale": "Seeded Rationale  2"
+        }
+      ]
+    },
+    "error": {
+      "error": {
+        "seed_error": "Missing option seed(s): Option 1"
+      }
+    }
+  },
+  "invalid_rationale_limits": {
+    "post": {
+      "display_name": "Peer Instruction1",
+      "question_text": {
+        "text": "What is the answer to life, the universe and everything?",
+        "image_show_fields": 0,
+        "image_url": "",
+        "image_position": "below",
+        "image_alt": ""
+      },
+      "rationale_size": {
+        "max": 33000,
+        "min": -5
+      },
+      "options": [
+        {
+          "text": "21",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        },
+        {
+          "text": "42",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        }
+      ],
+      "correct_answer": 1,
+      "correct_rationale": {
+        "text": "Correct rationale"
+      },
+      "algo": {
+        "num_responses": "#",
+        "name": "simple"
+      },
+      "seeds": [
+        {
+          "answer": 0,
+          "rationale": "Seeded Rationale  1"
+        },
+        {
+          "answer": 1,
+          "rationale": "Seeded Rationale  2"
+        }
+      ]
+    },
+    "error": {
+      "error": {
+        "options_error": "Invalid Option(s): Minimum Characters, Maximum Characters"
+      }
+    }
+  },
+  "invalid_rationale_limits_2": {
+    "post": {
+      "display_name": "Peer Instruction1",
+      "question_text": {
+        "text": "What is the answer to life, the universe and everything?",
+        "image_show_fields": 0,
+        "image_url": "",
+        "image_position": "below",
+        "image_alt": ""
+      },
+      "rationale_size": {
+        "max": 50,
+        "min": 500
+      },
+      "options": [
+        {
+          "text": "21",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        },
+        {
+          "text": "42",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        }
+      ],
+      "correct_answer": 1,
+      "correct_rationale": {
+        "text": "Correct rationale"
+      },
+      "algo": {
+        "num_responses": "#",
+        "name": "simple"
+      },
+      "seeds": [
+        {
+          "answer": 0,
+          "rationale": "Seeded Rationale  1"
+        },
+        {
+          "answer": 1,
+          "rationale": "Seeded Rationale  2"
+        }
+      ]
+    },
+    "error": {
+      "error": {
+        "options_error": "Invalid Option(s): Minimum Characters, Maximum Characters"
+      }
+    }
+  },
+  "invalid_num_responses": {
+    "post": {
+      "display_name": "Peer Instruction1",
+      "question_text": {
+        "text": "What is the answer to life, the universe and everything?",
+        "image_show_fields": 0,
+        "image_url": "",
+        "image_position": "below",
+        "image_alt": ""
+      },
+      "rationale_size": {
+        "max": 32000,
+        "min": 1
+      },
+      "options": [
+        {
+          "text": "21",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        },
+        {
+          "text": "42",
+          "image_show_fields": 0,
+          "image_url": "",
+          "image_position": "below",
+          "image_alt": ""
+        }
+      ],
+      "correct_answer": 1,
+      "correct_rationale": {
+        "text": "Correct rationale"
+      },
+      "algo": {
+        "num_responses": -1,
+        "name": "simple"
+      },
+      "seeds": [
+        {
+          "answer": 0,
+          "rationale": "Seeded Rationale  1"
+        },
+        {
+          "answer": 1,
+          "rationale": "Seeded Rationale  2"
+        }
+      ]
+    },
+    "error": {
+      "error": {
+        "options_error": "Invalid Option(s): Number of Responses"
+      }
+    }
+  }
+}

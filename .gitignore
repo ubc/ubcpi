@@ -1,0 +1,22 @@
+.idea
+*.iml
+.classpath
+.project
+.settings
+.DS_Store
+*.pyc
+/ubcpi_xblock.egg-info
+/node_modules
+phantomjsdriver.log
+
+# vim
+*.swp
+ubcpi.db
+logs/*
+
+# coverage
+htmlcov
+.coverage
+
+build
+dist
