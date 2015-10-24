@@ -41,19 +41,19 @@ describe('UBCPI', function () {
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }, {
                 "text": "42",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }, {
                 "text": "63",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }];
             var answer = 1;
             var correct = 0;

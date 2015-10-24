@@ -172,7 +172,7 @@ describe('UBCPI_Edit module', function () {
                 ],
                 "question_text": {
                     "text": "What is the answer to life, the universe and everything?",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
@@ -180,19 +180,19 @@ describe('UBCPI_Edit module', function () {
                 "options": [
                     {
                         "text": "21",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
                     }, {
                         "text": "42",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
                     }, {
                         "text": "63",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
@@ -232,7 +232,7 @@ describe('UBCPI_Edit module', function () {
             controller.add_option();
             expect(controller.data.options.length).toBe(num_options + 1);
             expect(controller.data.options[controller.data.options.length - 1]).toEqual(
-                {'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+                {'text': '', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
             );
         });
 
@@ -244,13 +244,13 @@ describe('UBCPI_Edit module', function () {
             expect(controller.data.options).toEqual(
                 [{
                     "text": "21",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
                 }, {
                     "text": "63",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
@@ -287,18 +287,18 @@ describe('UBCPI_Edit module', function () {
             expect(controller.data.seeds.length).toBe(3);
         });
 
-        it('should flip the show image fields when show_image_fields is called', function() {
-            expect(controller.data.question_text.show_image_fields).toBe(0);
-            controller.show_image_fields(false);
-            expect(controller.data.question_text.show_image_fields).toBe(true);
-            controller.show_image_fields(false);
-            expect(controller.data.question_text.show_image_fields).toBe(false);
+        it('should flip the show image fields when image_show_fields is called', function() {
+            expect(controller.data.question_text.image_show_fields).toBe(0);
+            controller.image_show_fields(false);
+            expect(controller.data.question_text.image_show_fields).toBe(true);
+            controller.image_show_fields(false);
+            expect(controller.data.question_text.image_show_fields).toBe(false);
 
-            expect(controller.data.options[1].show_image_fields).toBe(0);
-            controller.show_image_fields(1);
-            expect(controller.data.options[1].show_image_fields).toBe(true);
-            controller.show_image_fields(1);
-            expect(controller.data.options[1].show_image_fields).toBe(false);
+            expect(controller.data.options[1].image_show_fields).toBe(0);
+            controller.image_show_fields(1);
+            expect(controller.data.options[1].image_show_fields).toBe(true);
+            controller.image_show_fields(1);
+            expect(controller.data.options[1].image_show_fields).toBe(false);
         });
 
         describe('submit', function () {

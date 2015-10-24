@@ -48,6 +48,10 @@ Run tests:
 
     make test-acceptance
 
+Single test:
+
+    node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
+
 ## Changelog
 
 ### [0.4.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.4+is%3Aclosed)

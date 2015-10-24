@@ -3,9 +3,9 @@
     "xml": [
       "<options>",
         "<option correct=\"True\">",
-            "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
-            "<text>Option1</text>",
             "<rationale>This is correct.</rationale>",
+            "<text>Option1</text>",
+            "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
         "</option>",
         "<option>",
             "<text>Option2</text>",
@@ -25,8 +25,8 @@
           "text": "Option2"
         }
       ],
-      "correct": 0,
-      "rationale": "This is correct."
+      "correct_answer": 0,
+      "correct_rationale": {"text": "This is correct."}
     }
   }
 }

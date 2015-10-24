@@ -1,4 +1,4 @@
-<ubcpi rationale_size_min="1" rationale_size_max="32000" algorithom="simple" num_responses="#">
+<ubcpi rationale_size_min="1" rationale_size_max="32000" algorithm="simple" num_responses="#">
     <display_name>Sample Peer Instruction</display_name>
     <question>
         <text>This is the question text</text>

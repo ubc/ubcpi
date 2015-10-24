@@ -14,7 +14,7 @@ from xblock.fragment import Fragment
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
-from serialize import parse_from_xml
+from serialize import parse_from_xml, serialize_to_xml
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
@@ -139,7 +139,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
                          'Then they get to see other students choices and rationales before making a revision. '
                          'Finally, the correct choice and rationale are shown to the students. </p>'
                          '<p>In a fully grown tree, where does most of the mass originate from?</p>',
-                 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+                 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
         scope=Scope.content,
         help="The question the students see. This question appears above the possible answers which you set below. "
              "You can use text, an image or a combination of both. If you wish to add an image to your question, press "
@@ -148,9 +148,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     options = List(
         default=[
-            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
         help="The possible options from which the student may select",
@@ -579,3 +579,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             setattr(block, key, value)
 
         return block
+
+    def add_xml_to_node(self, node):
+        """
+        Serialize the XBlock to XML for exporting.
+        """
+        serialize_to_xml(self, node)

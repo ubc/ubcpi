@@ -83,12 +83,14 @@ Api.prototype.createCourse = function (course, callback) {
 Api.prototype.configureCourse = function (courseKey, data, callback) {
     var self = this;
     var url = '/settings/details/' + courseKey;
+    // retrieve the settings first
     this.requests['cms'].get(url, function (err, response, body) {
         handleResponse(err, response, body, function (err, details) {
             if (err) {
                 callback(err);
             }
 
+            // merge with the new settings
             details = _.merge(details, data);
             self.requests['cms'].post({url: url, body: details}, function (err, response, body) {
                 handleResponse(err, response, body, callback);

@@ -75,7 +75,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
             self.add_option = function() {
                 self.data.options.push(
-                    {'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+                    {'text': '', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
                 );
             };
             self.delete_option = function(index) {
@@ -88,22 +88,22 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                 self.data.seeds.splice(index, 1);
             };
 
-            self.show_image_fields = function( index ) {
+            self.image_show_fields = function( index ) {
 
             	if ( index === false ) {
                     // This is just for the 'quetion', i.e. not an array of possibles
-            		self.data.question_text.show_image_fields = !self.data.question_text.show_image_fields;
+			self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
 
-                    if ( !self.data.question_text.show_image_fields ) {
+                    if ( !self.data.question_text.image_show_fields ) {
                         self.data.question_text.image_url = '';
                     }
 
             	} else {
 
                     // This is for the options
-            		self.data.options[index].show_image_fields = !self.data.options[index].show_image_fields;
+			self.data.options[index].image_show_fields = !self.data.options[index].image_show_fields;
 
-                    if ( !self.data.options[index].show_image_fields ) {
+                    if ( !self.data.options[index].image_show_fields ) {
                         self.data.options[index].image_url = '';
                     }
 
