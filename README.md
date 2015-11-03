@@ -44,6 +44,14 @@ or
 
 (Optional) Disable Django debug toolbar and contracts for faster tests: https://github.com/edx/edx-platform/wiki/Developing-on-the-edX-Developer-Stack#making-the-local-servers-run-faster
 
+Install webdriver:
+	
+	node_modules/protractor/bin/webdriver-manager update --standalone
+
+Edit **protractor.conf.js** and change the version of seleniumServerJar to:
+
+	seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',	
+
 Run tests:
 
     make test-acceptance
