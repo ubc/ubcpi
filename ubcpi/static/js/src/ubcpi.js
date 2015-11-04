@@ -54,7 +54,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
     .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             getStats: getStats,
-            submit: submit
+            submit: submit,
+            get_data: get_data,
         };
 
         function getStats() {
@@ -84,6 +85,18 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 }
             );
         }
+
+        function get_data() {
+            var dataUrl = $rootScope.config.urls.get_data;
+            return $http.post(dataUrl, '""').then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
     }])
 
     .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q',
@@ -98,11 +111,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;
 
-            // Assign data based on what is submitted
-            assignData(self, data);
+            // Assign data based on what has been persisted
+            var persistedDataObject = get_data().then( function(persistedData) {
 
-            self.answer = self.answer_revised || self.answer_original;
-            self.rationale = self.rationale_revised || self.rationale_original;
+                if ( persistedData.answer_original !== null ) {
+                    assignData(self, data);
+                }
+            });
+
 
             // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
@@ -156,6 +172,18 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 });
             };
 
+            function get_data() {
+                return backendService.get_data().then(function(data) {
+                    return data;
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error retrieving data!',
+                        'message': 'Please refresh the page and try again!'
+                    });
+                    return $q.reject(error);
+                });
+            }
+
             /**
              * Assign the data to be accessible within our XBlock
              */
@@ -167,6 +195,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 self.other_answers = data.other_answers;
                 self.correct_answer = data.correct_answer;
                 self.correct_rationale = data.correct_rationale;
+                self.answer = data.answer_revised || data.answer_original;
+                self.rationale = data.rationale_revised || data.rationale_original;
             }
 
         }]);
@@ -190,7 +220,8 @@ function PeerInstructionXBlock(runtime, element, data) {
     var urls = {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
-        'get_asset': runtime.handlerUrl(element, 'get_asset')
+        'get_asset': runtime.handlerUrl(element, 'get_asset'),
+        'get_data': runtime.handlerUrl(element, 'get_data'),
     };
 
     // in order to support multiple same apps on the same page but

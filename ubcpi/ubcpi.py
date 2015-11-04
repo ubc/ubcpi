@@ -509,6 +509,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
         self.record_response(data['q'], data['rationale'], data['status'])
+
+        return self.get_persisted_data()
+
+    def get_persisted_data(self):
+        """
+        Formats a usable dict based on what data the user has persisted
+        Adds the other answers and correct answer/rationale when needed
+        """
         answers = self.get_answers_for_student()
         ret = {
             "answer_original": answers.get_vote(0),
@@ -526,6 +534,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             ret['correct_rationale'] = self.correct_rationale
 
         return ret
+
+    @XBlock.json_handler
+    def get_data(self,data,suffix=''):
+        """
+        Retrieve persisted date from backend for current user
+        """
+        return self.get_persisted_data()
 
     def get_answers_for_student(self):
         """
