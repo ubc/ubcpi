@@ -86,7 +86,7 @@ var beforeFeatureCms = function () {
 
     this.Before('@with_enrolled_student', function (callback) {
         tasks.student = function (cb) {
-            api.createUserOrLogin(null, 'lms', cb);
+            api.createUserOrLogin(null, 'lms', null, cb);
         };
         tasks.enroll = ['student', 'course', function (cb, results) {
             api.enrolUsers(results.course.course_key, [results.student.username], cb);
@@ -168,7 +168,7 @@ var beforeFeatureCms = function () {
 
     function prepareCourse() {
         tasks.staff = function (cb) {
-            api.createUserOrLogin(null, 'cms', cb);
+            api.createUserOrLogin(null, 'cms', null, cb);
         };
         tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);

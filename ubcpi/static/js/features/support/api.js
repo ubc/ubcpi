@@ -1,6 +1,7 @@
 var req = require('request');
 var fs = require('fs');
 var _ = require('lodash');
+var querystring = require('querystring');
 
 var Api = function () {
     this.baseUrls = {
@@ -25,14 +26,22 @@ var Api = function () {
     };
 };
 
-Api.prototype.createUserOrLogin = function (username, target, callback) {
+Api.prototype.createUserOrLogin = function (username, target, course_id, callback) {
     var self = this;
-    var requestParams = '';
+    var query = {};
     if (username) {
-        requestParams = '?username=' + username;
+        query.username = username;
+    }
+    if (course_id) {
+        query.course_id = course_id;
+    }
+    var requestParams = querystring.stringify(query);
+    var url = this.baseUrls[target] + '/auto_auth';
+    if (requestParams) {
+       url += '?' + requestParams;
     }
 
-    req({url: this.baseUrls[target] + '/auto_auth' + requestParams, jar: this.jars[target]},
+    req({url: url, jar: this.jars[target]},
         function (error, response, body) {
             if (error) {
                 callback(error);
