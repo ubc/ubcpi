@@ -91,7 +91,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
             self.image_show_fields = function( index ) {
 
             	if ( index === false ) {
-                    // This is just for the 'quetion', i.e. not an array of possibles
+                    // This is just for the 'question', i.e. not an array of possibles
 			self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
 
                     if ( !self.data.question_text.image_show_fields ) {
