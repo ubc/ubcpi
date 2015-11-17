@@ -44,6 +44,10 @@ or
 
 (Optional) Disable Django debug toolbar and contracts for faster tests: https://github.com/edx/edx-platform/wiki/Developing-on-the-edX-Developer-Stack#making-the-local-servers-run-faster
 
+Install webdriver:
+	
+	node_modules/protractor/bin/webdriver-manager update --standalone
+
 Run tests:
 
     make test-acceptance
