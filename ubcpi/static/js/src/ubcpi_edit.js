@@ -79,7 +79,17 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                 );
             };
             self.delete_option = function(index) {
-                self.data.options.splice(index, 1);
+                // When removing an option, remove the option and the corresponding seeded answer 
+				self.data.options.splice(index, 1);
+				self.data.seeds.splice(index, 1);
+
+				// Re-index the answer seeds
+				var seedIndex = 0;
+				for(var i in self.data.seeds){
+					self.data.seeds[i]['answer'] = seedIndex;
+					seedIndex++;
+				}
+				
             };
             self.addSeed = function() {
                 self.data.seeds.push({});
