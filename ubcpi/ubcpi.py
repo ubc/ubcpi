@@ -135,10 +135,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     display_name = String(default="Peer Instruction")
 
     question_text = Dict(
-        default={'text': '<p>Peer instruction allows learners to answer a multiple choice question with a rationale. '
-                         'Then they get to see other students choices and rationales before making a revision. '
-                         'Finally, the correct choice and rationale are shown to the students. </p>'
-                         '<p>In a fully grown tree, where does most of the mass originate from?</p>',
+        default={'text': '<p>Where does most of the mass in a fully grown tree originate?</p>',
                  'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
         scope=Scope.content,
         help="The question the students see. This question appears above the possible answers which you set below. "
