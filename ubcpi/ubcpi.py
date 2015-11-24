@@ -32,7 +32,7 @@ def validate_options(options):
     """
     errors = []
 
-    if int(options['rationale_size']['min']) < 0:
+    if int(options['rationale_size']['min']) < 1:
         errors.append('Minimum Characters')
     if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
         errors.append('Maximum Characters')
