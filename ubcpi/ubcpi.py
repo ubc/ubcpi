@@ -449,18 +449,19 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             PermissionDenied: if we got an invalid status
         """
         answers = self.get_answers_for_student()
+        stats = self.get_current_stats()
         if not answers.has_revision(0) and status == STATUS_NEW:
             student_item = self.get_student_item_dict()
             sas_api.add_answer_for_student(student_item, answer, rationale)
-            num_resp = self.stats['original'].setdefault(answer, 0)
-            self.stats['original'][answer] = num_resp + 1
+            num_resp = stats['original'].setdefault(answer, 0)
+            stats['original'][answer] = num_resp + 1
             offer_answer(
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
         elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
-            num_resp = self.stats['revised'].setdefault(answer, 0)
-            self.stats['revised'][answer] = num_resp + 1
+            num_resp = stats['revised'].setdefault(answer, 0)
+            stats['revised'][answer] = num_resp + 1
 
             # Fetch the grade
             grade = self.get_grade()
@@ -478,6 +479,17 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         return 1
 
+    def get_current_stats(self):
+        """
+        Get the progress status for current user. This function also converts option index into integers
+        """
+        # convert key into integers as json.dump and json.load convert integer dictionary key into string
+        self.stats = {
+            'original': {int(k): v for k, v in self.stats['original'].iteritems()},
+            'revised': {int(k): v for k, v in self.stats['revised'].iteritems()}
+        }
+        return self.stats
+
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
         """
@@ -490,7 +502,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         Return:
             dict: current progress status
         """
-        return self.stats
+        return self.get_current_stats()
 
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
