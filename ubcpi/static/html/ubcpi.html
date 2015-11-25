@@ -14,8 +14,8 @@
 
             <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" auto-focus>
 
-                <h3>Others' responses</h3>
-                <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
+                <h3>Step 2) Read Other Student Answers</h3>
+                <p>These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
@@ -30,16 +30,13 @@
                     </li>
                 </ul>
 
-                <h3>If you wish, you may now revise your answer and rationale.</h3>
-                <p>Now that you have seen a selection of others' responses, you have the option to alter your initial selection and rationale.</p>
-
             </div><!-- .others-responses -->
 
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
                 <p>
-                    <span ng-if="rc.status() == rc.ALL_STATUS.NEW">Your Response <span class="inline-hint">(You may change this response if you wish in the next step)</span></span>
-                    <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Revise Your Response</span>
+                    <span ng-if="rc.status() == rc.ALL_STATUS.NEW">Step 1) Your Initial Answer <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
+                    <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Step 3) Your Final Answer <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
                 </p>
 
                 <fieldset role="radiogroup">
@@ -56,11 +53,11 @@
                     </label>
                 </fieldset>
 
-                <label class="ubcpi-label" for="rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <label class="ubcpi-label" for="rationale">Explain your selection (Required): <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
-                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason" />
-                <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='{{rc.status() == rc.ALL_STATUS.ANSWERED ? "Submit Answer >>" : "Next Step >>" }}' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason" />
+                <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will read a sample of other student answers for this question.</span>
                 <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
                 <br />
 
