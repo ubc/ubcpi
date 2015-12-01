@@ -11,6 +11,7 @@ from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
+from xblockutils.publish_event import PublishEventMixin
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
@@ -116,7 +117,7 @@ class MissingDataFetcherMixin:
 
 
 @XBlock.needs('user')
-class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
+class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     """
     Peer Instruction XBlock
 
@@ -130,6 +131,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     changes to the question options and may not change the order of the options,
     add or delete options
     """
+
+    event_namespace = 'ubc.peer_instruction'
 
     # the display name that used on the interface
     display_name = String(default="Peer Instruction")
@@ -433,6 +436,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', js_vals)
 
+        self.publish_event_from_dict(self.event_namespace + '.accessed', {})
+
         return frag
 
     def record_response(self, answer, rationale, status):
@@ -450,6 +455,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         """
         answers = self.get_answers_for_student()
         stats = self.get_current_stats()
+        event_dict = {
+            'answer': answer,
+            'rationale': rationale
+        }
         if not answers.has_revision(0) and status == STATUS_NEW:
             student_item = self.get_student_item_dict()
             sas_api.add_answer_for_student(student_item, answer, rationale)
@@ -458,6 +467,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             offer_answer(
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
+
+            self.publish_event_from_dict(
+                self.event_namespace + '.original_submitted',
+                event_dict
+            )
         elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = stats['revised'].setdefault(answer, 0)
@@ -468,6 +482,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
             # Send the grade
             self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
+
+            self.publish_event_from_dict(
+                    self.event_namespace + '.revised_submitted',
+                    event_dict
+            )
         else:
             raise PermissionDenied
 
