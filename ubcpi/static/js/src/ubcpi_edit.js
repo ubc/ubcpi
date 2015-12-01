@@ -78,9 +78,28 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     {'text': '', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
                 );
             };
+
             self.delete_option = function(index) {
+                //remove option
                 self.data.options.splice(index, 1);
+
+                //find seeds that match the index and remove them
+                for(var i=0;i<self.data.seeds.length;i++){
+                    if(self.data.seeds[i]['answer'] == index){
+                        self.data.seeds.splice(i,1);
+                        i--;
+                    }
+                }
+
+                //look for seeds with answer indexes that are greater than or equal to the option index and reduce 
+                // the answer value by one to account for the removed option
+                for(var j=0;j<self.data.seeds.length;j++){
+                    if(self.data.seeds[j]['answer'] >= index){
+                        self.data.seeds[j]['answer']--;
+                    }
+                }
             };
+
             self.addSeed = function() {
                 self.data.seeds.push({});
             };
@@ -90,24 +109,24 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
             self.image_show_fields = function( index ) {
 
-            	if ( index === false ) {
-                    // This is just for the 'quetion', i.e. not an array of possibles
-			self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
+                if ( index === false ) {
+                    // This is just for the 'question', i.e. not an array of possibles
+            self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
 
                     if ( !self.data.question_text.image_show_fields ) {
                         self.data.question_text.image_url = '';
                     }
 
-            	} else {
+                } else {
 
                     // This is for the options
-			self.data.options[index].image_show_fields = !self.data.options[index].image_show_fields;
+            self.data.options[index].image_show_fields = !self.data.options[index].image_show_fields;
 
                     if ( !self.data.options[index].image_show_fields ) {
                         self.data.options[index].image_url = '';
                     }
 
-            	}
+                }
 
             };
 

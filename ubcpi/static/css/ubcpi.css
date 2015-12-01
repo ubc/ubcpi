@@ -29,6 +29,14 @@ div.course-wrapper section.course-content fieldset legend {
     margin-bottom: 1.41575em;
 }
 
+div.course-wrapper section.course-content fieldset .ubcpi-option {
+    margin: 0;
+}
+
+div.course-wrapper section.course-content fieldset legend {
+    margin-bottom: 1.41575em;
+}
+
 fieldset .ubcpi-label {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
