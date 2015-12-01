@@ -14,18 +14,18 @@
 
             <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" aria-labelledby="others-respoonses-head" auto-focus>
 
-                <h3>Step 2) Read Other Student Answers</h3>
-                <p>These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
+                <h3 id="ubcpi-other-answers-head">Step 2) Read Other Student Answers</h3>
+                <p class="ubcpi-other-answers-instructions">These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
-                        <!-- <h4 class="other-answer">Answer: {{options[answer.option]}}</h4> -->
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
 
-                        <h4 class="other-answer" ng-if="options[answer.option].text">Answer: {{options[answer.option].text}}</h4>
+                        <h4 class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</h4>
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
-                        <span class="other-rationale">{{answer.rationale}}</span>
+                        <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i>
+                        <span class="other-rationale">"{{answer.rationale}}"</span>
 
                     </li>
                 </ul>
