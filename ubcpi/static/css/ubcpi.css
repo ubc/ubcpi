@@ -160,7 +160,8 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     border-bottom: none;
 }
 
-.ubcpi-other-answers {
+.ubcpi-other-answers,
+.ubcpi-solution-your-answers ul {
     margin: 20px 0;
     background: #F6F6F6;
 	border: 1px solid #DEE1E3;
@@ -174,17 +175,21 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     font-size: 1em;
 }
 
-.ubcpi-other-answers h4 {
+.ubcpi-other-answers h4,
+.ubcpi-solution-your-initial-answer,
+.ubcpi-solution-your-final-answer {
     font-weight: 900;
 }
 
-.ubcpi-other-answers li {
+.ubcpi-other-answers li,
+.ubcpi-solution-your-answers ul li {
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ddd;
 }
 
-.ubcpi-other-answers li:last-of-type {
+.ubcpi-other-answers li:last-of-type,
+.ubcpi-solution-your-answers ul li:last-of-type {
     margin-bottom: 0;
 }
 
@@ -346,7 +351,9 @@ textarea.pi-options {
     margin: 0;
 }
 
-#ubcpi-other-answers-head {
+#ubcpi-other-answers-head,
+#correct-option-head,
+.ubcpi-class-breakdown-head {
     font-weight: normal;
     display: block;
     color: #7f7f7f;
@@ -446,8 +453,58 @@ label.ubcpi-label {
 }
 
 .correct-answer-option {
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.show-correct {
     color: #50c67b;
+}
+
+.show-incorrect {
+    color: #EE363B;
+}
+
+.ubcpi-correct-answer-rationale {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.ubcpi-solution-rationales {
+    padding-left: 10px;
+}
+
+.other-rationale {
+    padding-left: 7px;
+}
+
+.ubcpi-class-breakdown {
+    padding: 10px 20px;
+    border: 1px solid #D7DBDF;
+    border-top: 6px solid #D7DBDF;
+}
+
+.ubcpi-breakdown-answer-options {
+    background: #F8F8F8;
+    padding: 15px;
+    margin: 15px 0 20px;
+}
+
+.ubcpi-breakdown-answer-options h4 {
+    color: black;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.ubcpi-breakdown-answer-options .ubcpi-option {
+    margin-bottom: 15px;
+    border: 2px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.ubcpi-breakdown-answer-options .ubcpi-option .ubcpi-breakdown-answer-text {
+    display: block;
 }
 
 #pi-form .list-input.settings-list .setting-label {

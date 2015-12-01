@@ -94,29 +94,74 @@
             <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region" auto-focus>
 
                 <div class="detailed-solution" id="detailed-solution">
-                    <h2 id="correct-option-head">Correct Option: <span class="correct-option">Option {{rc.correct_answer + 1}}</span></h2>
+                    <h2 id="correct-option-head">Correct Answer</h2>
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
-                    <p class="correct-answer-option" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
+                    <p class="correct-answer-option show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
-                    <h2>Correct Option Rationale:</h2>
-                    <span>{{rc.correct_rationale.text}}</span>
+                    <span class="ubcpi-correct-answer-rationale">{{rc.correct_rationale.text}}</span>
+
+                    <div class="ubcpi-solution-your-answers" data-ng-model="rc.answer">
+                        <ul>
+                            <li class="ubcpi-initial">
+                                <p class="ubcpi-solution-your-initial-answer">
+                                    Your initial answer:
+                                    <span class="ubcpi-initial-option-text">{{options[rc.answer_original].text}} </span>
+                                    <span class="ubcpi-initial-option-num">(Option {{rc.answer_original + 1}})</span>
+                                </p>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
+                            </li>
+                            <li class="ubcpi-final">
+                                <p class="ubcpi-solution-your-final-answer">
+                                    Your final answer:
+                                    <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text correct-final-answer show-correct">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text incorrect-final-answer show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
+                                </p>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div><!-- .detailed-solution -->
 
             </section><!-- .correct-answer-and-rationale -->
 
-            <div class="original-answers results-container choicegroup">
-                <pi-answer-result legend="Original Answers" options="options" answer="rc.answer_original" correct="rc.correct_answer"></pi-answer-result>
-                <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
-            </div><!-- .original-answers -->
+            <div class="ubcpi-class-breakdown">
 
-            <div class="revised-answers results-container choicegroup">
-                <pi-answer-result legend="Revised Answers" options="options" answer="rc.answer_revised" correct="rc.correct_answer"></pi-answer-result>
-                <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
-            </div><!-- .revised-answers -->
+                <h3 class="ubcpi-class-breakdown-head">Class Breakdown</h3>
+                <p>This is a look at how your classmates answered the question during the initial and final rounds.</p>
+
+                <div class="ubcpi-breakdown-answer-options">
+
+                    <h4>Answer Options</h4>
+
+                    <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
+
+                        <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span><span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
+                        <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text show-correct">{{option.text}}</span>
+                        <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
+
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+
+                        <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
+                    </p>
+
+                </div>
+
+                <div class="original-answers results-container choicegroup">
+                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
+                </div><!-- .original-answers -->
+
+                <div class="revised-answers results-container choicegroup">
+                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
+                </div><!-- .revised-answers -->
+
+            </div>
 
         </div><!-- .correct-revised-chart -->
 
