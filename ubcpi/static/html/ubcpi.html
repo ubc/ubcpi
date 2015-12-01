@@ -37,23 +37,25 @@
                 <fieldset>
 
                     <legend>
-                        <span ng-if="rc.status() == rc.ALL_STATUS.NEW">Step 1) Your Initial Answer <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
-                        <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Step 3) Your Final Answer <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
+                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.NEW">Step 1) Your Initial Answer <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
+                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Step 3) Your Final Answer <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
                     </legend>
 
-                    <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
-                        <label class="ubcpi-label ubcpi-answer" for="original-option-input-{{ $index }}">
-                            <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
+                    <div class="ubcpi-possible-options">
+                        <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
+                            <label class="ubcpi-label ubcpi-answer" for="original-option-input-{{ $index }}">
+                                <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
-                            <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
+                                <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                            {{option.text}}
+                                {{option.text}}
 
-                            <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+                                <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
-                            <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
-                        </label>
-                    </p>
+                                <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
+                            </label>
+                        </p>
+                    </div>
 
                 </fieldset>
 
@@ -65,7 +67,6 @@
                         <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
                         <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
                     </span>
-                    <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
                 </p>
 
                 <div id="button-disabled-reason">
@@ -80,8 +81,9 @@
                             <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">Note: In order to move to the next step please choose an answer and explain your decision.</span>
                         </p>
                     </div>
-
                 </div>
+
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
 
             </form>
 
