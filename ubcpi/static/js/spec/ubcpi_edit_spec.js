@@ -166,9 +166,13 @@ describe('UBCPI_Edit module', function () {
                 },
                 "correct_answer": 1,
                 "seeds": [
-                    {answer:0, rationale:'rationale1'},
+                    {answer:2, rationale:'rationale3'},
                     {answer:1, rationale:'rationale2'},
-                    {answer:2, rationale:'rationale3'}
+                    {answer:0, rationale:'rationale1'},
+                    {answer:2, rationale:'rationale3'},
+                    {answer:1, rationale:'rationale2'},
+                    {answer:0, rationale:'rationale1'}
+
                 ],
                 "question_text": {
                     "text": "What is the answer to life, the universe and everything?",
@@ -199,6 +203,7 @@ describe('UBCPI_Edit module', function () {
                     }
                 ]
             };
+
             $rootScope = _$rootScope_;
             createController = function (params) {
                 return $controller(
@@ -235,6 +240,7 @@ describe('UBCPI_Edit module', function () {
                 {'text': '', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
             );
         });
+
 
         it('should delete option to the data when delete_option is called', function() {
             var num_options = mockConfig.data.options.length;
@@ -277,14 +283,29 @@ describe('UBCPI_Edit module', function () {
             controller.deleteSeed(1);
             expect(controller.data.seeds.length).toBe(num_seeds - 1);
             expect(controller.data.seeds).toEqual([
+                {answer:2, rationale:'rationale3'},
                 {answer:0, rationale:'rationale1'},
-                {answer:2, rationale:'rationale3'}
+                {answer:2, rationale:'rationale3'},
+                {answer:1, rationale:'rationale2'},
+                {answer:0, rationale:'rationale1'}
             ]);
         });
 
+        it('should delete seeds containing an option when delete_option is called', function(){
+            var num_seeds = mockConfig.data.seeds.length;
+            controller.delete_option(1);
+            expect(controller.data.seeds.length).toBe(num_seeds - 2);
+            expect(controller.data.seeds).toEqual([
+                {answer:1, rationale:'rationale3'},
+                {answer:0, rationale:'rationale1'},
+                {answer:1, rationale:'rationale3'},
+                {answer:0, rationale:'rationale1'}
+            ])
+        });
+
         it('should fail silently when invalid index is give to deleteSeed', function() {
-            controller.deleteSeed(5);
-            expect(controller.data.seeds.length).toBe(3);
+            controller.deleteSeed(7);
+            expect(controller.data.seeds.length).toBe(6);
         });
 
         it('should flip the show image fields when image_show_fields is called', function() {
