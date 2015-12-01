@@ -59,13 +59,13 @@
 
                 </fieldset>
 
-                <label class="ubcpi-label" for="rationale">Explain your selection (Required): <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <label class="ubcpi-label" for="rationale">Explain your selection (Required):</label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
                 <p class="ubc-pi-next">
                     <span id="ubcpi-next-inline-hints">
                         <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
+                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> After submitting your final answer, you will see the correct answer for this question.</span>
                     </span>
                 </p>
 

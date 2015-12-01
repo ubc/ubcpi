@@ -70,9 +70,11 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
 
 .ubcpi-field[type="radio"] {
     float: left;
-    margin: 4px;
+    margin: 4px 8px 4px 4px;
     box-sizing: border-box;
     padding: 0;
+    position: relative;
+    top: -3px;
 }
 
 textarea.ubcpi-field {
