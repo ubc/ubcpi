@@ -17,6 +17,14 @@ h2.question-text {
     border-left: 1px solid #ddd;
 }
 
+div.course-wrapper section.course-content fieldset .ubcpi-option {
+    margin: 0;
+}
+
+div.course-wrapper section.course-content fieldset legend {
+    margin-bottom: 1.41575em;
+}
+
 fieldset .ubcpi-label {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -104,10 +112,16 @@ textarea.ubcpi-field {
 }
 
 .choicegroup input[type="button"]:disabled {
-    background-color: rgb(135, 135, 135);
-    border-color: rgb(135, 135, 135);
+    background-color: #515151;
+    border-color: #515151;
     cursor: not-allowed;
-    opacity: 0.4;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.choicegroup input[type="button"]:disabled:hover {
+    background-color: #515151;
+    border-color: #515151;
 }
 
 .your-answer-and-rationale .ubcpi_submit {
@@ -160,7 +174,7 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
 .wrapper-comp-settings .list-input.settings-list .add-image-button {
     display: inline-block;
     margin: 10px 0 0 0;
-    padding: 10px 30px;
+    padding: 10px 12px;
     width: auto;
     font-size: 12px;
     font-size: 1.2rem;
@@ -190,7 +204,7 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     margin: 10px 0 0 0;
     width: auto;
     display: block;
-    padding: 10px 30px;
+    padding: 10px 12px;
 }
 
 .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.ubcpi-options-list {
@@ -198,15 +212,36 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     padding: 10px;
     border: 1px solid rgb(245, 245, 245);
     margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.pi-wrapper-comp-setting {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.pi-label-and-hint {
+    width: 27%;
+    float: left;
+    clear: left;
+}
+
+.wrapper-comp-settings .list-input.settings-list .pi-label-and-hint .setting-label {
+    width: auto;
 }
 
 .add-image-inputs {
     padding: 20px 0;
+    clear: both;
 }
 
 .add-image-inputs input,
 .add-image-inputs select {
     margin-bottom: 20px;
+}
+
+#pi-form .list-input.settings-list .ubcpi-options-list-container .add-image-inputs .setting-label {
+    width: 37%;
 }
 
 .remove-action.remove-setting .fa.fa-times-circle {
@@ -235,6 +270,10 @@ textarea.pi-options {
 .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.seeded-answer {
     margin-bottom: 20px;
 }
+
+    .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.seeded-answer select {
+        margin-bottom: 60px;
+    }
 
 .seed_error, .options_error {
     color: #b20610;
@@ -361,7 +400,6 @@ textarea.pi-options {
 
 #pi-form .list-input.settings-list .setting-label {
     vertical-align: top;
-    margin-bottom: 20px;
 }
 
 #pi-form .list-input.settings-list .ubcpi-options-list-container .setting-label {
@@ -385,6 +423,7 @@ textarea.pi-options {
     color: rgb(140, 140, 140);
     font-style: italic;
     font-weight: normal;
+    margin-bottom: 20px;
 }
 
 .ubcpi-options-list-container {
@@ -408,7 +447,7 @@ textarea.pi-options {
     background: #edbd3c;
     padding: 10px;
     color: black;
-    margin: 40px 0 10px;
+    margin: 0 0 10px;
 }
 
 div.course-wrapper section.course-content .warning-notice p {
@@ -429,14 +468,20 @@ div.course-wrapper section.course-content .warning-notice p {
 }
 
 .your-answer-and-rationale .inline-hint {
-    color: rgb(140, 140, 140);
+    color: #6d6d6d;
     font-weight: normal;
     font-style: italic;
     font-size: 0.85em;
-    float: right;
-    max-width: 80%;
+    float: left;
+    max-width: 70%;
     display: block;
     margin-left: 5px;
+}
+
+.your-answer-and-rationale legend .inline-hint {
+    float: right;
+    max-width: 80%;
+    margin-top: 2px;
 }
 
 .your-answer-and-rationale legend {
