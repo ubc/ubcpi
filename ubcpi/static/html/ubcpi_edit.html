@@ -6,7 +6,13 @@
 
             <ul class="list-input settings-list" id="pi-line-items">
 
-                <li class="field comp-setting-entry is-set">
+                <li class="ubcpi-pi-intro">
+                    <p><strong>Peer Instruction</strong></p>
+                    <p>Peer instruction problems give learners an opportunity for interactive engagement while they answer a multiple choice question. Learners complete these problems in three steps.</p>
+                    <p>First, the learner answers a multiple choice question and provides a rationale for the answer. Next, the learner sees the rationale provided by another learner for each of the other possible answers. After assessing this input, the learner can make revisions and resubmit an answer and rationale. Finally, the learner sees the correct answer and the rationale that you provide for it.</p>
+                </li>
+
+                <li class="field comp-setting-entry is-set ubcpi-display-name">
                     <div class="wrapper-comp-setting">
                         <label class="label setting-label pi-setting-label" for="pi-display-name">Display Name<br /><span class="tip setting-help">This name appears in the horizontal navigation at the top of the page.</span></label>
                         <input class="input setting-input" name="display_name" id="pi-display-name" ng-model="esc.data.display_name" ng-model-options="{ debounce: 500 }" type="text" required />
@@ -110,10 +116,10 @@
 
                     <div class="ubcpi-options-list-container">
                         <div class="wrapper-comp-setting ubcpi-options-list seeded-answer" id="seed-{{ $index + 1 }}" ng-repeat="option in esc.data.seeds track by $index">
-                            <label class="label setting-label pi-setting-label" for="pi-option-seeded-{{$index}}">Seeded Answer {{$index + 1}} <br /><span class="tip setting-help">Choose which option this seeded answer is for</span></label>
+                            <label class="label setting-label pi-setting-label" for="pi-option-seeded-{{$index}}">Seeded Answer {{$index + 1}} <br /><span class="tip setting-help">Choose which option this seeded answer is for.</span></label>
                             <select name="pi-option-seeded-{{$index}}" id="pi-option-seeded-{{$index}}" ng-model="esc.data.seeds[$index].answer" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
                             <a href="" class="remove-action remove-setting" aria-label="Remove seed" data-lang="af" data-value="" ng-click="esc.deleteSeed($index)" data-tooltip="Remove seed"><i class="icon fa fa-times-circle"></i><span class="sr">Remove</span></a>
-                            <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Rationale for Seeded Answer {{$index + 1}}<br /><span class="tip setting-help">Provide the rationale for this seeded answer</span></label>
+                            <label class="label setting-label pi-setting-label" for="pi-seed-{{$index}}">Rationale for Seeded Answer {{$index + 1}}<br /><span class="tip setting-help">Provide the rationale for this seeded answer.</span></label>
                             <textarea class="input setting-input ubcpi-field" name="" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" ng-model-options="{ debounce: 500 }" required></textarea>
                         </div>
                         <input type="button" class="button action-primary add-image-button" value="Add Seed" ng-click="esc.addSeed()" name="pi-option-add-seed" />

@@ -382,8 +382,7 @@ textarea.pi-options {
 .wrapper-comp-settings .list-input.settings-list .setting-help {
     min-width: 100px;
     margin-right: 10px;
-    color: rgb(140, 140, 140);
-    font-style: italic;
+    color: #6d6d6d;
     font-weight: normal;
 }
 
@@ -428,8 +427,14 @@ div.course-wrapper section.course-content .warning-notice p {
     padding-left: 22px;
 }
 
+.ubcpi-your-response span {
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    color: rgb(60,60,60);
+}
+
 .your-answer-and-rationale .inline-hint {
-    color: rgb(140, 140, 140);
+    color: #6d6d6d;
     font-weight: normal;
     font-style: italic;
     font-size: 0.85em;
@@ -454,4 +459,27 @@ div.course-wrapper section.course-content .warning-notice p {
 /* LMS space for questions is wider than Studio. Normalize */
 .studio-xblock-wrapper .ubcpi_block.problem {
     max-width: 820px;
+}
+
+.ubcpi-pi-intro {
+    background: #F0F0F0;
+    padding-bottom: 10px;
+}
+
+.ubcpi-pi-intro p {
+    margin: 0;
+    padding: 10px 30px;
+    font-size: 14px;
+}
+
+.ubcpi-pi-intro p:nth-child(2n) {
+    padding-top: 0;
+}
+
+.wrapper-comp-settings #pi-form .list-input.settings-list .field.comp-setting-entry.ubcpi-display-name {
+    border-top: none;
+}
+
+#pi-algo {
+    text-transform: capitalize;
 }
