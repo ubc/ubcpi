@@ -94,6 +94,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             $scope.question_text = data.question_text;
             $scope.options = data.options;
             $scope.rationale_size = data.rationale_size;
+            $scope.weight = data.weight;
 
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;
@@ -167,6 +168,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 self.other_answers = data.other_answers;
                 self.correct_answer = data.correct_answer;
                 self.correct_rationale = data.correct_rationale;
+                self.weight = data.weight;
             }
 
         }]);

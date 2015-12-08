@@ -6,6 +6,10 @@
 
             <h2 id="pi-question-h" class="question-text">Question:</h2>
 
+            <div class="question-weight" ng-if-"rc.weight < 1"></div>
+            <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
+            <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
+
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
             <span aria-labelledby="pi-question-h" id="question-text" ng-bind-html="question_text.text" ng-if="question_text.text"></span>
