@@ -68,7 +68,6 @@
                         </div>
                         <div class="ubcpi-options-list-container">
                             <div class="wrapper-comp-setting ubcpi-options-list" id="option-{{ $index + 1}}" ng-repeat="option in esc.data.options track by $index">
-
                                 <div class="pi-label-and-hint pi-repeater">
                                     <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}" aria-describedby="pi-option={{$index}}-tip">Answer {{$index + 1}}</label>
                                     <span id="pi-option={{$index}}-tip" class="tip setting-help">Add the text for this answer. If you wish to add an image, press the button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].image_show_fields ? 'Remove Image' : 'Add Image' }}" ng-click="esc.image_show_fields($index)" name="pi-option-{{$index}}" />
@@ -139,7 +138,6 @@
 
                     <div class="ubcpi-options-list-container">
                         <div class="wrapper-comp-setting ubcpi-options-list seeded-answer" id="seed-{{ $index + 1 }}" ng-repeat="option in esc.data.seeds track by $index">
-
                             <div class="pi-label-and-hint pi-repeater">
                                 <label class="label setting-label pi-setting-label" for="pi-option-seeded-{{$index}}" aria-describedby="pi-option-seeded-{{$index}}-tip">Example Answer {{$index + 1}}</label>
                                 <span id="pi-option-seeded-{{$index}}-tip" class="tip setting-help">Choose the answer.</span>
@@ -151,6 +149,7 @@
                                 <span class="tip setting-help">Provide an explanation for this answer.</span>
                             </div>
                             <textarea class="input setting-input ubcpi-field" name="pi-seed-{{$index}}" id="pi-seed-{{$index}}" ng-model="esc.data.seeds[$index].rationale" ng-model-options="{ debounce: 500 }" required></textarea>
+
                         </div>
                         <input type="button" class="button action-primary add-image-button" value="Add New Example" ng-click="esc.addSeed()" name="pi-option-add-seed" />
                     </div>

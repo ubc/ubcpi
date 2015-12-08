@@ -1,6 +1,6 @@
 /* CSS for PeerInstructionXBlock */
 h2.question-text {
-    margin-top: 0;
+    margin: 0 40px 20px 0;
 }
 
 .ubcpi_block .count {
@@ -13,8 +13,20 @@ h2.question-text {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 20px;
-    padding: 0 0 0 20px;
-    border-left: 1px solid #ddd;
+    padding: 0;
+}
+
+.choicegroup fieldset .ubcpi-possible-options {
+    padding-left: 20px;
+    border-left: 2px solid #e5e5e5;
+}
+
+div.course-wrapper section.course-content fieldset .ubcpi-option {
+    margin: 0;
+}
+
+div.course-wrapper section.course-content fieldset legend {
+    margin-bottom: 1.41575em;
 }
 
 div.course-wrapper section.course-content fieldset .ubcpi-option {
@@ -38,6 +50,14 @@ fieldset .ubcpi-label {
     width: 100%;
 }
 
+fieldset .ubcpi-label:hover {
+    border-color: #ccc;
+}
+
+fieldset .ubcpi-option:last-of-type .ubcpi-label {
+    margin-bottom: 0;
+}
+
 .ubcpi-label img {
     max-width: 100%;
     height: auto;
@@ -58,9 +78,11 @@ fieldset .ubcpi-label {
 
 .ubcpi-field[type="radio"] {
     float: left;
-    margin: 4px;
+    margin: 4px 8px 4px 4px;
     box-sizing: border-box;
     padding: 0;
+    position: relative;
+    top: -3px;
 }
 
 textarea.ubcpi-field {
@@ -125,7 +147,8 @@ textarea.ubcpi-field {
 }
 
 .your-answer-and-rationale .ubcpi_submit {
-    float: left;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Other Answers */
@@ -145,8 +168,12 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     border-bottom: none;
 }
 
-.ubcpi-other-answers {
+.ubcpi-other-answers,
+.ubcpi-solution-your-answers ul {
     margin: 20px 0;
+    background: #F6F6F6;
+	border: 1px solid #DEE1E3;
+	padding: 15px;
 }
 
 .ubcpi-other-answers h3,
@@ -156,17 +183,21 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     font-size: 1em;
 }
 
-.ubcpi-other-answers h4 {
+.ubcpi-other-answers h4,
+.ubcpi-solution-your-initial-answer,
+.ubcpi-solution-your-final-answer {
     font-weight: 900;
 }
 
-.ubcpi-other-answers li {
+.ubcpi-other-answers li,
+.ubcpi-solution-your-answers ul li {
     margin-bottom: 20px;
-    padding-left: 20px;
-    border-left: 1px solid #ddd;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
-.ubcpi-other-answers li:last-of-type {
+.ubcpi-other-answers li:last-of-type,
+.ubcpi-solution-your-answers ul li:last-of-type {
     margin-bottom: 0;
 }
 
@@ -331,7 +362,7 @@ textarea.pi-options {
     border: 1px solid #d7dbdf;
     border-left: 10px solid #b9c1c8;
     box-shadow: inset 0 1px 2px 1px rgba(2, 2, 3, 0.1);
-    padding: 30px 20px 20px 20px;
+    padding: 20px;
     background: #fdfdfd;
 }
 
@@ -346,6 +377,31 @@ textarea.pi-options {
     margin: 0;
 }
 
+#ubcpi-other-answers-head,
+#correct-option-head,
+.ubcpi-class-breakdown-head {
+    font-weight: normal;
+    display: block;
+    color: #7f7f7f;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    clear: both;
+    font-size: 1em;
+}
+
+.ubcpi-other-answers-instructions {
+    float: none;
+    margin: 2px 0 0;
+    font-style: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    clear: both;
+    display: block;
+    color: #6d6d6d;
+	font-weight: normal;
+	font-size: 0.85em;
+}
+
 .your-answer-and-rationale h3 {
     margin-bottom: 10px;
 }
@@ -355,8 +411,13 @@ textarea.pi-options {
     padding: 20px;
     background: #f8f8f8;
     border-radius: 2px;
-    margin-top: 20px;
+    margin-top: 25px;
     overflow: hidden;
+}
+
+label.ubcpi-label {
+    font-size: 0.85em;
+    color: rgb(109, 109, 109);
 }
 
 .your-answer-and-rationale textarea {
@@ -364,6 +425,12 @@ textarea.pi-options {
     border: 1px solid #b9c1c8;
     color: #3c3c3c;
     overflow-y: scroll;
+    margin-top: 10px;
+}
+
+.ubc-pi-next {
+    overflow: hidden;
+    clear: both;
 }
 
 .results-container {
@@ -412,8 +479,58 @@ textarea.pi-options {
 }
 
 .correct-answer-option {
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.show-correct {
     color: #50c67b;
+}
+
+.show-incorrect {
+    color: #EE363B;
+}
+
+.ubcpi-correct-answer-rationale {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.ubcpi-solution-rationales {
+    padding-left: 10px;
+}
+
+.other-rationale {
+    padding-left: 7px;
+}
+
+.ubcpi-class-breakdown {
+    padding: 10px 20px;
+    border: 1px solid #D7DBDF;
+    border-top: 6px solid #D7DBDF;
+}
+
+.ubcpi-breakdown-answer-options {
+    background: #F8F8F8;
+    padding: 15px;
+    margin: 15px 0 20px;
+}
+
+.ubcpi-breakdown-answer-options h4 {
+    color: black;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.ubcpi-breakdown-answer-options .ubcpi-option {
+    margin-bottom: 15px;
+    border: 2px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.ubcpi-breakdown-answer-options .ubcpi-option .ubcpi-breakdown-answer-text {
+    display: block;
 }
 
 #pi-form .list-input.settings-list .setting-label {
@@ -453,7 +570,6 @@ textarea.pi-options {
 }
 
 .option-details-text {
-    font-style: italic;
     font-size: 0.8em;
     opacity: 0.7;
     clear: both;
@@ -461,7 +577,9 @@ textarea.pi-options {
 
 .warning-notice {
     display: block;
-    background: #edbd3c;
+    background: #FDF8EA;
+    border: 1px solid #F5D885;
+    border-top: 5px solid #F5D885;
     padding: 10px;
     color: black;
     margin: 0 0 10px;
@@ -493,7 +611,6 @@ div.course-wrapper section.course-content .warning-notice p {
 .your-answer-and-rationale .inline-hint {
     color: #6d6d6d;
     font-weight: normal;
-    font-style: italic;
     font-size: 0.85em;
     float: left;
     max-width: 70%;
@@ -501,14 +618,33 @@ div.course-wrapper section.course-content .warning-notice p {
     margin-left: 5px;
 }
 
+#ubcpi-next-inline-hints .inline-hint {
+    max-width: 100%;
+}
+
+.your-answer-and-rationale legend .ubcpi-legend-instruction {
+    font-weight: normal;
+    display: block;
+	color: #7f7f7f;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+    clear: both;
+}
+
 .your-answer-and-rationale legend .inline-hint {
-    float: right;
-    max-width: 80%;
-    margin-top: 2px;
+    float: none;
+    margin: 2px 0 0;
+    font-style: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    clear: both;
+    display: block;
 }
 
 .your-answer-and-rationale legend {
-    font-weight: bold;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .results-container label {
