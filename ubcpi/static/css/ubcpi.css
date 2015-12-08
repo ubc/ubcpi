@@ -201,10 +201,14 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
 }
 
 .wrapper-comp-settings .list-input.settings-list .add-image-button {
-    margin: 10px 0 0 0;
+    margin: 0;
     width: auto;
     display: block;
     padding: 10px 12px;
+}
+
+.wrapper-comp-settings .list-input.settings-list .add-image-button.add-new-answer-button {
+    margin-top: 20px;
 }
 
 .wrapper-comp-settings .list-input.settings-list .wrapper-comp-setting.ubcpi-options-list {
@@ -213,6 +217,15 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     border: 1px solid rgb(245, 245, 245);
     margin-bottom: 10px;
     overflow: hidden;
+}
+
+.wrapper-comp-settings .list-input.settings-list .ubcpi-options-list input,
+.wrapper-comp-settings .list-input.settings-list .ubcpi-options-list select,
+.wrapper-comp-settings .list-input.settings-list .ubcpi-options-list textarea,
+.wrapper-comp-settings .list-input.settings-list .pi-wrapper-comp-setting input,
+.wrapper-comp-settings .list-input.settings-list .pi-wrapper-comp-setting select,
+.wrapper-comp-settings .list-input.settings-list .pi-wrapper-comp-setting textarea {
+    margin-top: 25px;
 }
 
 .pi-wrapper-comp-setting {
@@ -224,6 +237,11 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     width: 27%;
     float: left;
     clear: left;
+}
+
+.pi-label-and-hint.pi-repeater {
+    width: 45%;
+    margin-right: 5%;
 }
 
 .wrapper-comp-settings .list-input.settings-list .pi-label-and-hint .setting-label {
@@ -403,7 +421,7 @@ textarea.pi-options {
 }
 
 #pi-form .list-input.settings-list .ubcpi-options-list-container .setting-label {
-    width: 47%;
+    width: 75%;
 }
 
 #pi-form .list-input.settings-list .ubcpi-options-list-container .ubcpi-field {
