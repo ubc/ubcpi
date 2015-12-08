@@ -293,12 +293,13 @@ describe('UBCPI_Edit module', function () {
 
         it('should delete seeds containing an option when delete_option is called', function(){
             var num_seeds = mockConfig.data.seeds.length;
-            controller.delete_option(1);
+
+            controller.delete_option(2);
             expect(controller.data.seeds.length).toBe(num_seeds - 2);
             expect(controller.data.seeds).toEqual([
-                {answer:1, rationale:'rationale3'},
+                {answer:1, rationale:'rationale2'},
                 {answer:0, rationale:'rationale1'},
-                {answer:1, rationale:'rationale3'},
+                {answer:1, rationale:'rationale2'},
                 {answer:0, rationale:'rationale1'}
             ])
         });

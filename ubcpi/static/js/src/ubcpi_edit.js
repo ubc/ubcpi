@@ -111,7 +111,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
                 if ( index === false ) {
                     // This is just for the 'question', i.e. not an array of possibles
-            self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
+                    self.data.question_text.image_show_fields = !self.data.question_text.image_show_fields;
 
                     if ( !self.data.question_text.image_show_fields ) {
                         self.data.question_text.image_url = '';
@@ -120,14 +120,12 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                 } else {
 
                     // This is for the options
-            self.data.options[index].image_show_fields = !self.data.options[index].image_show_fields;
+                    self.data.options[index].image_show_fields = !self.data.options[index].image_show_fields;
 
                     if ( !self.data.options[index].image_show_fields ) {
                         self.data.options[index].image_url = '';
                     }
-
                 }
-
             };
 
             self.submit = function() {
