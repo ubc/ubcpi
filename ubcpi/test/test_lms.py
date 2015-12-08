@@ -61,6 +61,12 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         # check the stats that we have 1 answer
         self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
 
+        # Check the data is persisted
+        persisted = xblock.get_persisted_data()
+        self.assertEquals(persisted['answer_original'], 0)
+        self.assertFalse( 'correct_answer' in persisted )
+
+
         # submit revised answer
         resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']), response_format='json')
         self.assertEqual(resp, data['expect2'])
@@ -75,6 +81,11 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         # check the stats that we have 1 answer
         self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
         self.assertEqual(xblock.stats['revised'][data['post2']['q']], 1)
+
+        # Check we now have all the persisted data we should have
+        persisted = xblock.get_persisted_data()
+        self.assertEquals(persisted['answer_original'], 0)
+        self.assertTrue( 'correct_answer' in persisted )
 
     @file_data('data/submit_answer_errors.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')

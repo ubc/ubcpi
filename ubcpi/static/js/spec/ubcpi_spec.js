@@ -90,6 +90,44 @@ describe('UBCPI module', function () {
             });
         });
 
+        describe('get_data', function() {
+
+            beforeEach(function() {
+                mockConfig.urls.get_data = '/handler/get_data';
+            });
+
+            it('should get data', function() {
+                // mock ajax request
+                var exp = {
+                    "answer_original": null,
+                    "rationale_original": null,
+                    "answer_revised": null,
+                    "rationale_revised": null,
+                };
+                var data = undefined;
+                $httpBackend.expectPOST('/handler/get_data', '""').respond(200, exp);
+
+                backendService.get_data().then(function(d) {
+                    data = d;
+                });
+                $httpBackend.flush();
+
+                expect(data).toEqual(exp);
+            });
+
+            it('should reject promise with error returned from backend when backend error', function() {
+                $httpBackend.expectPOST('/handler/get_data', '""').respond(500, 'error');
+
+                var error = undefined;
+                backendService.get_data().catch(function(e) {
+                   error = e.data;
+                });
+                $httpBackend.flush();
+
+                expect(error).toBe('error');
+            });
+        });
+
         describe('submit', function() {
             var post = {
                 "q": 0,
@@ -189,9 +227,8 @@ describe('UBCPI module', function () {
             expect($rootScope.options).toEqual(mockConfig.data.options);
             expect($rootScope.rationale_size).toEqual(mockConfig.data.rationale_size);
             expect(controller.ALL_STATUS).toBe(mockConfig.data.all_status);
-            expect(controller.answer).toBe(null);
-            expect(controller.rationale).toBe(null);
             expect(controller.submitting).toBe(false);
+
         });
 
         describe('status', function() {
@@ -210,11 +247,17 @@ describe('UBCPI module', function () {
         });
 
         describe('clickSubmit', function() {
-            var backendDeferred, backendService, controller;
+            var backendDeferred, backendService, controller, backendGetDataDeferred;
 
             beforeEach(inject(function($q, _backendService_) {
                 backendDeferred = $q.defer();
                 backendService = _backendService_;
+                backendGetDataDeferred = $q.defer();
+
+                spyOn(backendService, 'get_data').and.callFake(function() {
+                    return backendGetDataDeferred.promise;
+                });
+
                 controller = createController();
             }));
 
@@ -230,11 +273,28 @@ describe('UBCPI module', function () {
                 expect(mockNotify).toHaveBeenCalledWith('save', {state: 'start', message: "Submitting"});
 
                 backendDeferred.resolve({'answer_original': 'original'});
+                backendGetDataDeferred.resolve({
+                    "answer_original": null,
+                    "rationale_original": null,
+                    "answer_revised": null,
+                    "rationale_revised": null
+                });
                 $rootScope.$apply();
 
                 expect(mockNotify.calls.count()).toBe(2);
                 expect(mockNotify.calls.argsFor(1)).toEqual(['save', {state: 'end'}]);
                 expect(controller.submitting).toBe(false);
+            });
+
+            it('should call notify with error when backend errors', function() {
+
+                backendGetDataDeferred.reject('error');
+                $rootScope.$apply();
+
+                expect(mockNotify).toHaveBeenCalledWith('error', {
+                        'title': 'Error retrieving data!',
+                        'message': 'Please refresh the page and try again!'
+                });
             });
 
             it('should call backendService with correct parameters', function() {
@@ -286,6 +346,12 @@ describe('UBCPI module', function () {
                 controller.clickSubmit();
 
                 backendDeferred.reject('backend error');
+                backendGetDataDeferred.resolve({
+                    "answer_original": null,
+                    "rationale_original": null,
+                    "answer_revised": null,
+                    "rationale_revised": null
+                });
                 $rootScope.$apply();
 
                 expect(controller.submitting).toBe(false);
@@ -299,6 +365,17 @@ describe('UBCPI module', function () {
             beforeEach(inject(function(_backendService_, $q) {
                 backendDeferred = $q.defer();
                 backendService = _backendService_;
+                var backendGetDataDeferred = $q.defer();
+
+                spyOn(backendService, 'get_data').and.callFake(function() {
+                    return backendGetDataDeferred.promise;
+                });
+                backendGetDataDeferred.resolve({
+                    "answer_original": null,
+                    "rationale_original": null,
+                    "answer_revised": null,
+                    "rationale_revised": null
+                });
                 controller = createController();
             }));
 
@@ -338,7 +415,8 @@ describe('UBCPI module', function () {
                         'title': 'Error retrieving statistics!',
                         'message': 'Please refresh the page and try again!'
                 });
-            })
+            });
+
         })
     })
 });
@@ -373,9 +451,8 @@ describe('PeerInstructionXBlock function', function() {
     });
 
     it('should generate URLs using runtime', function() {
-        expect(mockRuntime.handlerUrl.calls.count()).toBe(3);
+        expect(mockRuntime.handlerUrl.calls.count()).toBe(4);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
-            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset']]);
+            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset'], [mockElement, 'get_data']]);
     });
 });
-
