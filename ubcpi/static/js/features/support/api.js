@@ -51,7 +51,7 @@ Api.prototype.createUserOrLogin = function (username, target, course_id, callbac
             self.headers[target] = {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRFToken': self.getCookie(target, 'csrftoken').value
+                'X-CSRFToken': self.getCookieValue(target, 'csrftoken')
             };
             // set up default for subsequent calls
             self.requests[target] = req.defaults({
@@ -200,15 +200,15 @@ Api.prototype.piSubmitAnswer = function (courseKey, xblockKey, data, callback) {
     });
 };
 
-Api.prototype.getCookie = function (target, key) {
+Api.prototype.getCookieValue = function (target, key) {
     var cookies = this.jars[target].getCookies(this.baseUrls[target]);
     for (var i = 0; i < cookies.length; i++) {
         if (cookies[i].key == key) {
-            return cookies[i];
+            return cookies[i].value;
         }
     }
 
-    return undefined;
+    return null;
 };
 
 function handleResponse(error, response, body, callback) {

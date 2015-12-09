@@ -75,7 +75,7 @@ Feature: Setting Up PI XBlock
   Scenario: Add Option
     Given I'm on "unit" page
     And I click on "EDIT" link in xblock action list
-    When I click on "Add Option" button
+    When I click on "Add New Answer" button
     And I fill in "This is option 4" in "Option 4 Text Input"
     And I add seed(s) for option(s) "Option 4"
     And I click on "Save" button
@@ -86,6 +86,5 @@ Feature: Setting Up PI XBlock
     Given I'm on "unit" page
     And I click on "EDIT" link in xblock action list
     When I click on "Remove" link for "Option 3"
-    And I click on "Remove" link for "Seed 3"
     And I click on "Save" button
     Then I should not be able to see the "Option 3"

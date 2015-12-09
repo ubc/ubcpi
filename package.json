@@ -25,7 +25,7 @@
     "karma-phantomjs-launcher": "^0.2.0",
     "lodash": "^3.10.1",
     "phantomjs": "^1.9.17",
-    "protractor": "^2.1.0",
+    "protractor": "~2.5",
     "request": "^2.60.0",
     "uglify-js": "2.3.6"
   },

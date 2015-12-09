@@ -49,7 +49,14 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.When(/^I click on "([^"]*)" button$/, function (arg1, callback) {
-        var el = this.element(by.css('input[type=button][value="' + arg1 + '"], input[type=submit][value="' + arg1 + '"]'));
+        // not sure why the css selector by value doesn't work
+        if (arg1 == "Add Image to Question") {
+            var el = this.element(by.css('input[name=add-image-button]'));
+        } else if (arg1 == 'Add Image to Option 1') {
+            var el = this.element(by.css('input[name=add-image-button-pi-option-1'));
+        } else {
+            var el = this.element(by.css('input[type=button][value="' + arg1 + '"], input[type=submit][value="' + arg1 + '"]'));
+        }
         browser.wait(EC.elementToBeClickable(el), TIMEOUT);
         el.click();
         callback();
@@ -101,7 +108,7 @@ var myStepDefinitionsWrapper = function () {
     this.When(/^I add seed\(s\) for option\(s\) "([^"]*)"$/, function (arg1, callback) {
         var options = arg1.split(',');
         options.forEach(function (option) {
-            this.element(by.css('input[value="Add Seed"]')).click();
+            this.element(by.css('input[value="Add New Example"]')).click();
             this.element.all(by.css('.ubcpi-options-list-container select')).last()
                 .element(by.cssContainingText('option', option)).click();
             this.element.all(by.css('.ubcpi-options-list-container textarea')).last().sendKeys('Rationale for ' + option);
@@ -177,7 +184,7 @@ function getUrls(key, context) {
         'subsection': context.course.url,
         'section': context.course.url,
         'courseware': '/courses/' + context.course.course_key + '/courseware/' +
-        _.last(context.section.id.split('/')) + '/' + _.last(context.subsection.id.split('/')),
+        _.last(context.section.id.split('@')) + '/' + _.last(context.subsection.id.split('@')),
         'progress': '/courses/' + context.course.course_key + '/progress'
     };
 

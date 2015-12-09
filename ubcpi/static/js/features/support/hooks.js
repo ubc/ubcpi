@@ -201,7 +201,7 @@ var beforeFeatureCms = function () {
     }
 
     function getCourseLocation(courseKey) {
-        return 'i4x://' + courseKey.replace('NOW', 'course/NOW');
+        return courseKey.replace('course-v1', 'block-v1') + '+type@course+block@course';
     }
 };
 
