@@ -98,7 +98,7 @@
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
-                    <p class="correct-answer-option show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
+                    <p class="ubcpi-correct-answer-option ubcpi-show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
@@ -117,8 +117,8 @@
                             <li class="ubcpi-final">
                                 <p class="ubcpi-solution-your-final-answer">
                                     Your final answer:
-                                    <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text correct-final-answer show-correct">{{options[rc.answer_revised].text}} </span>
-                                    <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text incorrect-final-answer show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
                                 </p>
                                 <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
@@ -143,7 +143,7 @@
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
                         <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span><span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
-                        <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text show-correct">{{option.text}}</span>
+                        <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text ubcpi-show-correct">{{option.text}}</span>
                         <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
 
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
