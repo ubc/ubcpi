@@ -478,16 +478,16 @@ label.ubcpi-label {
     opacity: 1.0;
 }
 
-.correct-answer-option {
+.ubcpi-correct-answer-option {
     margin-top: 20px;
     margin-bottom: 5px;
 }
 
-.show-correct {
+.ubcpi-show-correct {
     color: #50c67b;
 }
 
-.show-incorrect {
+.ubcpi-show-incorrect {
     color: #EE363B;
 }
 
