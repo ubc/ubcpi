@@ -8,6 +8,7 @@ from mock import patch, Mock
 from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
+from ubcpi.ubcpi import truncate_rationale, MAX_RATIONALE_SIZE_IN_EVENT
 
 
 @ddt
@@ -194,6 +195,17 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
             xblock.get_asset_url('/static/cat.jpg'),
             '/c4x://test/course/cat.jpg',
             'in edx env, it should return converted asset URL')
+
+    def test_truncate_rationale(self):
+        short_rationale = 'This is a rationale'
+        truncated_rationle, was_truncated = truncate_rationale(short_rationale)
+        self.assertEqual(truncated_rationle, short_rationale)
+        self.assertFalse(was_truncated)
+
+        long_rationale = "x" * 50000
+        truncated_rationle, was_truncated = truncate_rationale(long_rationale)
+        self.assertEqual(len(truncated_rationle), MAX_RATIONALE_SIZE_IN_EVENT)
+        self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):
         for key, value in data.iteritems():

@@ -5,6 +5,7 @@ from copy import deepcopy
 import uuid
 
 from django.core.exceptions import PermissionDenied
+from django.conf import settings
 import pkg_resources
 from webob import Response
 from xblock.core import XBlock
@@ -25,6 +26,26 @@ STATUS_REVISED = 2
 # of 64k in size. Because we are storing rationale and revised rationale both in the the field, the max size
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
+MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
+
+
+def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
+    """
+    Truncates the rationale for analytics event emission if necessary
+
+    Args:
+        rationale (string): the string value of the rationale
+        max_length (int): the max length for truncation
+
+    Returns:
+        truncated_value (string): the possibly truncated version of the rationale
+        was_truncated (bool): returns true if the rationale is truncated
+
+    """
+    if isinstance(rationale, basestring) and max_length is not None and len(rationale) > max_length:
+        return rationale[0:max_length], True
+    else:
+        return rationale, False
 
 
 def validate_options(options):
@@ -452,9 +473,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         answers = self.get_answers_for_student()
         stats = self.get_current_stats()
+        truncated_rationle, was_truncated = truncate_rationale(rationale)
         event_dict = {
             'answer': answer,
-            'rationale': rationale
+            'rationale': truncated_rationle,
+            'truncated': was_truncated
         }
         if not answers.has_revision(0) and status == STATUS_NEW:
             student_item = self.get_student_item_dict()

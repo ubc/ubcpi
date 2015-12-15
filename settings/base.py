@@ -146,3 +146,6 @@ CACHES = {
 }
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+# value from cms/envs/common.py
+TRACK_MAX_EVENT = 50000
