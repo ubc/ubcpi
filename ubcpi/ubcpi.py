@@ -650,4 +650,4 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         Serialize the XBlock to XML for exporting.
         """
-        serialize_to_xml(self, node)
+        serialize_to_xml(node, self)

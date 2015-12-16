@@ -269,19 +269,19 @@ def serialize_options(options, block):
 
             if hasattr(block, 'correct_rationale'):
                 rationale = etree.SubElement(option, 'rationale')
-                rationale.text = unicode(block.correct_rationale['text'])
+                rationale.text = block.correct_rationale['text']
 
         text = etree.SubElement(option, 'text')
-        text.text = unicode(option_dict.get('text', ''))
+        text.text = option_dict.get('text', '')
 
-        serialize_image(option, option_dict)
+        serialize_image(option_dict, option)
 
 
-def serialize_image(root, image_dict):
+def serialize_image(image_dict, root):
     if 'image_url' not in image_dict:
         return
     image = etree.SubElement(root, 'image')
-    image.text = unicode(image_dict.get('image_url', ''))
+    image.text = image_dict.get('image_url', '')
     for attr in ['image_position', 'image_show_fields', 'image_alt']:
         if image_dict.get(attr) is not None:
             image.set(attr[6:], unicode(image_dict.get(attr)))
@@ -298,14 +298,14 @@ def serialize_seeds(seeds, block):
     Returns:
         None
     """
-    for index, seed_dict in enumerate(block.seeds):
+    for seed_dict in block.seeds:
         seed = etree.SubElement(seeds, 'seed')
         # options in xml starts with 1
         seed.set('option', unicode(seed_dict.get('answer', 0) + 1))
-        seed.text = unicode(seed_dict.get('rationale', ''))
+        seed.text = seed_dict.get('rationale', '')
 
 
-def serialize_to_xml(block, root):
+def serialize_to_xml(root, block):
     """
     Serialize the Peer Instruction XBlock's content to XML.
 
@@ -321,23 +321,23 @@ def serialize_to_xml(block, root):
 
     if block.rationale_size is not None:
         if block.rationale_size.get('min'):
-            root.set('rationale_size_min', unicode(block.rationale_size.get('min', 1)))
+            root.set('rationale_size_min', unicode(block.rationale_size.get('min')))
         if block.rationale_size.get('max'):
             root.set('rationale_size_max', unicode(block.rationale_size['max']))
 
     if block.algo:
         if block.algo.get('name'):
-            root.set('algorithm', unicode(block.algo.get('name', 'simple')))
+            root.set('algorithm', block.algo.get('name'))
         if block.algo.get('num_responses'):
-            root.set('num_responses', unicode(block.algo.get('num_responses', '#')))
+            root.set('num_responses', unicode(block.algo.get('num_responses')))
 
     display_name = etree.SubElement(root, 'display_name')
-    display_name.text = unicode(block.display_name)
+    display_name.text = block.display_name
 
     question = etree.SubElement(root, 'question')
     question_text = etree.SubElement(question, 'text')
-    question_text.text = unicode(block.question_text['text'])
-    serialize_image(question, block.question_text)
+    question_text.text = block.question_text['text']
+    serialize_image(block.question_text, question)
 
     options = etree.SubElement(root, 'options')
     serialize_options(options, block)

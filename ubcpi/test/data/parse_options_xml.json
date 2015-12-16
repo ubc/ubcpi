@@ -28,5 +28,60 @@
       "correct_answer": 0,
       "correct_rationale": {"text": "This is correct."}
     }
+  },
+  "unicode": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+          "<rationale>圣诞快乐</rationale>",
+          "<text>选项1</text>",
+          "<image position=\"below\" alt=\"图像\">/路径/文件.jpg</image>",
+        "</option>",
+        "<option>",
+          "<text>选项2</text>",
+        "</option>",
+      "</options>"
+    ],
+    "expect": {
+      "options":
+      [
+        {
+          "text": "选项1",
+          "image_url": "/路径/文件.jpg",
+          "image_position": "below",
+          "image_alt": "图像"
+        },
+        {
+          "text": "选项2"
+        }
+      ],
+      "correct_answer": 0,
+      "correct_rationale": {"text": "圣诞快乐"}
+    }
+  },
+  "minial": {
+    "xml": [
+      "<options>",
+        "<option correct=\"True\">",
+          "<rationale>This is correct.</rationale>",
+          "<text>Option1</text>",
+        "</option>",
+        "<option>",
+          "<text>Option2</text>",
+        "</option>",
+      "</options>"
+    ],
+    "expect": {
+      "options": [
+        {
+          "text": "Option1"
+        },
+        {
+          "text": "Option2"
+        }
+      ],
+      "correct_answer": 0,
+      "correct_rationale": {"text": "This is correct."}
+    }
   }
 }

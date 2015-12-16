@@ -104,5 +104,65 @@
       ],
       "algo": {"name": null, "num_responses": null}
     }
+  },
+  "unicode": {
+    "xml": [
+      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\">",
+      "<display_name>样品 Peer Instruction</display_name>",
+      "<question>",
+      "<text>这是一个问题</text>",
+      "<image position=\"below\" alt=\"图像\" show_fields=\"0\">/static/test.jpg</image>",
+      "</question>",
+      "<options>",
+      "<option correct=\"True\">",
+      "<rationale>正确</rationale>",
+      "<text>选项1</text>",
+      "<image position=\"below\" alt=\"另一个图像\">/static/test1.jpg</image>",
+      "</option>",
+      "<option>",
+      "<text>选项2</text>",
+      "</option>",
+      "</options>",
+      "<seeds>",
+      "<seed option=\"1\">种子1</seed>",
+      "<seed option=\"2\">种子2</seed>",
+      "</seeds>",
+      "</ubcpi>"
+    ],
+    "expect": {
+      "display_name": "样品 Peer Instruction",
+      "question_text": {
+        "image_url": "/static/test.jpg",
+        "image_position": "below",
+        "image_show_fields": 0,
+        "image_alt": "图像",
+        "text": "这是一个问题"
+      },
+      "options": [
+        {
+          "text": "选项1",
+          "image_url": "/static/test1.jpg",
+          "image_position": "below",
+          "image_alt": "另一个图像"
+        },
+        {
+          "text": "选项2"
+        }
+      ],
+      "rationale_size": {"min": 1, "max": 32000},
+      "correct_answer": 0,
+      "correct_rationale": {"text": "正确"},
+      "seeds": [
+        {
+          "answer": 0,
+          "rationale": "种子1"
+        },
+        {
+          "answer": 1,
+          "rationale": "种子2"
+        }
+      ],
+      "algo": {"name": "simple", "num_responses": "#"}
+    }
   }
 }

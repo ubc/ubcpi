@@ -86,7 +86,7 @@ class TestSerialize(unittest.TestCase):
     @file_data('data/parse_image_xml.json')
     def test_serialize_image(self, data):
         root = etree.Element('option')
-        serialize_image(root, data['expect'])
+        serialize_image(data['expect'], root)
         self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))
 
     @file_data('data/parse_options_xml.json')
@@ -110,5 +110,5 @@ class TestSerialize(unittest.TestCase):
         xblock_class = namedtuple('PeerInstructionXBlock', data['expect'].keys())
         block = xblock_class(**data['expect'])
         root = etree.Element('ubcpi')
-        serialize_to_xml(block, root)
+        serialize_to_xml(root, block)
         self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))

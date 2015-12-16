@@ -17,5 +17,16 @@
     "expect": {
       "image_url": "/static/test.jpg"
     }
+  },
+  "unicode": {
+    "xml": [
+      "<option><image position=\"below\" alt=\"图像\" show_fields=\"0\">/图像/文件1.jpg</image></option>"
+    ],
+    "expect": {
+      "image_url": "/图像/文件1.jpg",
+      "image_position": "below",
+      "image_show_fields": 0,
+      "image_alt": "图像"
+    }
   }
 }
