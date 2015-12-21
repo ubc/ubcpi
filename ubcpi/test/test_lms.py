@@ -17,7 +17,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_render_student_view(self, xblock):
         # mock static asset path because it is not set in workbench
         frag = self.runtime.render(xblock, 'student_view')
-        self.assertNotEqual(frag.body_html().find('Question:'), -1)
+        self.assertNotEqual(frag.body_html().find('Question'), -1)
 
     @patch(
         'ubcpi.persistence.get_answers_for_student',

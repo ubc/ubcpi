@@ -227,7 +227,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
     # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
     # speed of the progress page.
-    has_score = False
+    has_score = True 
 
     start = DateTime(
         default=None, scope=Scope.settings,
@@ -241,6 +241,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
     # required field for LMS progress page
     weight = Float(
+        default=1,
         display_name="Problem Weight",
         help=("Defines the number of points each problem is worth. "
               "If the value is not set, the problem is worth the sum of the "
@@ -271,6 +272,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
         frag.initialize_js('PIEdit', {
             'display_name': self.display_name,
+            'weight': self.weight,
             'correct_answer': self.correct_answer,
             'correct_rationale': self.correct_rationale,
             'rationale_size': self.rationale_size,
@@ -303,6 +305,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             dict: result of the submission
         """
         self.display_name = data['display_name']
+        self.weight = data['weight']
         self.question_text = data['question_text']
         self.rationale_size = data['rationale_size']
         self.options = data['options']
@@ -438,6 +441,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'rationale_revised': answers.get_rationale(1),
             'display_name': self.display_name,
             'question_text': question,
+            'weight': self.weight,
             'options': options,
             'rationale_size': self.rationale_size,
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},

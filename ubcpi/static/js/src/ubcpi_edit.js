@@ -62,6 +62,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
+            self.data.weight = data.weight;
             self.data.question_text = data.question_text;
             self.data.rationale_size = data.rationale_size;
             self.image_position_locations = data.image_position_locations;
