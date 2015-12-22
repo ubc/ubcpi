@@ -22,6 +22,14 @@
                     </div>
                 </li>
 
+
+                <li class="field comp-setting-entry is-set ubcpi-weight">
+                    <div class="wrapper-comp-setting">
+                        <label class="label setting-label pi-setting-label" for="pi-display-name">Problem Weight<br /><span class="tip setting-help">Defines the number of points each problem is worth. If the value is not set, the problem is worth the sum of the option point values.</span></label>
+                        <input class="input setting-input" name="weight" id="pi-weight" ng-model="esc.data.weight" ng-model-options="{ debounce: 500 }" type="text" required />
+                    </div>
+                </li>
+
                 <li class="field comp-setting-entry is-set">
                     <div class="wrapper-comp-setting pi-wrapper-comp-setting">
                         <div class="pi-label-and-hint">

@@ -4,7 +4,11 @@
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
-            <h2 id="pi-question-h" class="question-text">Question:</h2>
+            <h2 id="pi-question-h" class="question-text">Question</h2>
+
+            <div class="question-weight" ng-if-"rc.weight < 1"></div>
+            <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
+            <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
