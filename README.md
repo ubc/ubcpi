@@ -62,9 +62,10 @@ Single test:
 2. Updated UX and accessibility based on feedbacks from EdX
 3. Added serialisation support for course export
 4. Added EdX analytic event
-5. Disabled student empty rationale submission
-6. Fixed a bug where a 500 error is generated when removing an option from list under certain condition
-7. Fixed a bug where the responses are missing after going to a different page
+5. Added participation score support
+6. Disabled student empty rationale submission
+7. Fixed a bug where a 500 error is generated when removing an option from list under certain condition
+8. Fixed a bug where the responses are missing after going to a different page
 
 ### [0.4.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.4+is%3Aclosed)
 1. Added unit and acceptance tests with 100% coverage
