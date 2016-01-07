@@ -1,4 +1,6 @@
-IMAGE_ATTRIBUTES = {'position': 'image_position', 'show_image_fields': 'show_image_fields', 'alt': 'image_alt'}
+from lxml import etree
+
+IMAGE_ATTRIBUTES = {'position': 'image_position', 'show_fields': 'image_show_fields', 'alt': 'image_alt'}
 
 
 class UpdateFromXmlError(Exception):
@@ -73,7 +75,7 @@ def parse_question_xml(root):
             'text': 'What is the answer to life, the universe and everything?',
             'image_url': '',
             'image_position': 'below',
-            'show_image_fields': 0,
+            'image_show_fields': 0,
             'image_alt': 'description'
         }
 
@@ -107,7 +109,7 @@ def parse_options_xml(root):
             'text': 'Option 1',
             'image_url': '',
             'image_position': 'below',
-            'show_image_fields': 0,
+            'image_show_fields': 0,
             'image_alt': ''
         },
         {....
@@ -136,7 +138,7 @@ def parse_options_xml(root):
                 correct_option = len(options)
                 rationale_el = option_el.find('rationale')
                 if rationale_el is not None:
-                    rationale = _safe_get_text(rationale_el)
+                    rationale = {'text': _safe_get_text(rationale_el)}
                 else:
                     raise ValidationError('Missing rationale for correct answer.')
             else:
@@ -233,7 +235,7 @@ def parse_from_xml(root):
     else:
         seeds = parse_seeds_xml(seeds_el)
 
-    algo = unicode(root.attrib['algorithom']) if 'algorithom' in root.attrib else None
+    algo = unicode(root.attrib['algorithm']) if 'algorithm' in root.attrib else None
     num_responses = unicode(root.attrib['num_responses']) if 'num_responses' in root.attrib else None
 
     return {
@@ -242,7 +244,103 @@ def parse_from_xml(root):
         'options': options,
         'rationale_size': {'min': rationale_size_min, 'max': rationale_size_max},
         'correct_answer': correct_answer,
-        'correct_rationale': {'text': correct_rationale},
+        'correct_rationale': correct_rationale,
         'seeds': seeds,
         'algo': {"name": algo, 'num_responses': num_responses}
     }
+
+
+def serialize_options(options, block):
+    """
+    Serialize the options in peer instruction XBlock to xml
+
+    Args:
+        options (lxml.etree.Element): The <options> XML element.
+        block (PeerInstructionXBlock): The XBlock with configuration to serialize.
+
+    Returns:
+        None
+    """
+    for index, option_dict in enumerate(block.options):
+        option = etree.SubElement(options, 'option')
+        # set correct option and rationale
+        if index == block.correct_answer:
+            option.set('correct', u'True')
+
+            if hasattr(block, 'correct_rationale'):
+                rationale = etree.SubElement(option, 'rationale')
+                rationale.text = block.correct_rationale['text']
+
+        text = etree.SubElement(option, 'text')
+        text.text = option_dict.get('text', '')
+
+        serialize_image(option_dict, option)
+
+
+def serialize_image(image_dict, root):
+    if 'image_url' not in image_dict:
+        return
+    image = etree.SubElement(root, 'image')
+    image.text = image_dict.get('image_url', '')
+    for attr in ['image_position', 'image_show_fields', 'image_alt']:
+        if image_dict.get(attr) is not None:
+            image.set(attr[6:], unicode(image_dict.get(attr)))
+
+
+def serialize_seeds(seeds, block):
+    """
+    Serialize the seeds in peer instruction XBlock to xml
+
+    Args:
+        seeds (lxml.etree.Element): The <seeds> XML element.
+        block (PeerInstructionXBlock): The XBlock with configuration to serialize.
+
+    Returns:
+        None
+    """
+    for seed_dict in block.seeds:
+        seed = etree.SubElement(seeds, 'seed')
+        # options in xml starts with 1
+        seed.set('option', unicode(seed_dict.get('answer', 0) + 1))
+        seed.text = seed_dict.get('rationale', '')
+
+
+def serialize_to_xml(root, block):
+    """
+    Serialize the Peer Instruction XBlock's content to XML.
+
+    Args:
+        block (PeerInstructionXBlock): The peer instruction block to serialize.
+        root (etree.Element): The XML root node to update.
+
+    Returns:
+        etree.Element
+
+    """
+    root.tag = 'ubcpi'
+
+    if block.rationale_size is not None:
+        if block.rationale_size.get('min'):
+            root.set('rationale_size_min', unicode(block.rationale_size.get('min')))
+        if block.rationale_size.get('max'):
+            root.set('rationale_size_max', unicode(block.rationale_size['max']))
+
+    if block.algo:
+        if block.algo.get('name'):
+            root.set('algorithm', block.algo.get('name'))
+        if block.algo.get('num_responses'):
+            root.set('num_responses', unicode(block.algo.get('num_responses')))
+
+    display_name = etree.SubElement(root, 'display_name')
+    display_name.text = block.display_name
+
+    question = etree.SubElement(root, 'question')
+    question_text = etree.SubElement(question, 'text')
+    question_text.text = block.question_text['text']
+    serialize_image(block.question_text, question)
+
+    options = etree.SubElement(root, 'options')
+    serialize_options(options, block)
+
+    seeds = etree.SubElement(root, 'seeds')
+    serialize_seeds(seeds, block)

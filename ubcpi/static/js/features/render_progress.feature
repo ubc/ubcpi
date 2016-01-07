@@ -5,6 +5,6 @@ Feature: Rendering Progress
     Given a logged in "student"
 
   @with_original_answer
-  Scenario: Submitting an valid answer
+  Scenario: Checking progress page
     Given I'm on "progress" page
     Then I should see "Subsection" in "course-info-progress" section

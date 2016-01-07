@@ -1,6 +1,7 @@
 var req = require('request');
 var fs = require('fs');
 var _ = require('lodash');
+var querystring = require('querystring');
 
 var Api = function () {
     this.baseUrls = {
@@ -25,14 +26,22 @@ var Api = function () {
     };
 };
 
-Api.prototype.createUserOrLogin = function (username, target, callback) {
+Api.prototype.createUserOrLogin = function (username, target, course_id, callback) {
     var self = this;
-    var requestParams = '';
+    var query = {};
     if (username) {
-        requestParams = '?username=' + username;
+        query.username = username;
+    }
+    if (course_id) {
+        query.course_id = course_id;
+    }
+    var requestParams = querystring.stringify(query);
+    var url = this.baseUrls[target] + '/auto_auth';
+    if (requestParams) {
+       url += '?' + requestParams;
     }
 
-    req({url: this.baseUrls[target] + '/auto_auth' + requestParams, jar: this.jars[target]},
+    req({url: url, jar: this.jars[target]},
         function (error, response, body) {
             if (error) {
                 callback(error);
@@ -42,7 +51,7 @@ Api.prototype.createUserOrLogin = function (username, target, callback) {
             self.headers[target] = {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRFToken': self.getCookie(target, 'csrftoken').value
+                'X-CSRFToken': self.getCookieValue(target, 'csrftoken')
             };
             // set up default for subsequent calls
             self.requests[target] = req.defaults({
@@ -83,12 +92,14 @@ Api.prototype.createCourse = function (course, callback) {
 Api.prototype.configureCourse = function (courseKey, data, callback) {
     var self = this;
     var url = '/settings/details/' + courseKey;
+    // retrieve the settings first
     this.requests['cms'].get(url, function (err, response, body) {
         handleResponse(err, response, body, function (err, details) {
             if (err) {
                 callback(err);
             }
 
+            // merge with the new settings
             details = _.merge(details, data);
             self.requests['cms'].post({url: url, body: details}, function (err, response, body) {
                 handleResponse(err, response, body, callback);
@@ -189,15 +200,15 @@ Api.prototype.piSubmitAnswer = function (courseKey, xblockKey, data, callback) {
     });
 };
 
-Api.prototype.getCookie = function (target, key) {
+Api.prototype.getCookieValue = function (target, key) {
     var cookies = this.jars[target].getCookies(this.baseUrls[target]);
     for (var i = 0; i < cookies.length; i++) {
         if (cookies[i].key == key) {
-            return cookies[i];
+            return cookies[i].value;
         }
     }
 
-    return undefined;
+    return null;
 };
 
 function handleResponse(error, response, body, callback) {

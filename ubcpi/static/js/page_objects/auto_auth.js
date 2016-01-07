@@ -16,6 +16,7 @@
  * @param staff
  * @param course_id
  * @param roles
+ * @param no_login
  * @constructor
  */
 var AutoAuthPage = function (username, email, password, staff, course_id, roles, no_login) {

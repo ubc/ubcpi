@@ -5,16 +5,18 @@ from copy import deepcopy
 import uuid
 
 from django.core.exceptions import PermissionDenied
+from django.conf import settings
 import pkg_resources
 from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
+from xblockutils.publish_event import PublishEventMixin
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
-from serialize import parse_from_xml
+from serialize import parse_from_xml, serialize_to_xml
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
@@ -24,6 +26,26 @@ STATUS_REVISED = 2
 # of 64k in size. Because we are storing rationale and revised rationale both in the the field, the max size
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
+MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
+
+
+def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
+    """
+    Truncates the rationale for analytics event emission if necessary
+
+    Args:
+        rationale (string): the string value of the rationale
+        max_length (int): the max length for truncation
+
+    Returns:
+        truncated_value (string): the possibly truncated version of the rationale
+        was_truncated (bool): returns true if the rationale is truncated
+
+    """
+    if isinstance(rationale, basestring) and max_length is not None and len(rationale) > max_length:
+        return rationale[0:max_length], True
+    else:
+        return rationale, False
 
 
 def validate_options(options):
@@ -32,7 +54,7 @@ def validate_options(options):
     """
     errors = []
 
-    if int(options['rationale_size']['min']) < 0:
+    if int(options['rationale_size']['min']) < 1:
         errors.append('Minimum Characters')
     if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
         errors.append('Maximum Characters')
@@ -116,7 +138,7 @@ class MissingDataFetcherMixin:
 
 
 @XBlock.needs('user')
-class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
+class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     """
     Peer Instruction XBlock
 
@@ -131,15 +153,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
     add or delete options
     """
 
+    event_namespace = 'ubc.peer_instruction'
+
     # the display name that used on the interface
     display_name = String(default="Peer Instruction")
 
     question_text = Dict(
-        default={'text': '<p>Peer instruction allows learners to answer a multiple choice question with a rationale. '
-                         'Then they get to see other students choices and rationales before making a revision. '
-                         'Finally, the correct choice and rationale are shown to the students. </p>'
-                         '<p>In a fully grown tree, where does most of the mass originate from?</p>',
-                 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
+        default={'text': '<p>Where does most of the mass in a fully grown tree originate?</p>',
+                 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
         scope=Scope.content,
         help="The question the students see. This question appears above the possible answers which you set below. "
              "You can use text, an image or a combination of both. If you wish to add an image to your question, press "
@@ -148,9 +169,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     options = List(
         default=[
-            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''},
-            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
         help="The possible options from which the student may select",
@@ -206,7 +227,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
     # speed of the progress page.
-    has_score = False
+    has_score = True 
 
     start = DateTime(
         default=None, scope=Scope.settings,
@@ -220,6 +241,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
     # required field for LMS progress page
     weight = Float(
+        default=1,
         display_name="Problem Weight",
         help=("Defines the number of points each problem is worth. "
               "If the value is not set, the problem is worth the sum of the "
@@ -250,6 +272,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         frag.initialize_js('PIEdit', {
             'display_name': self.display_name,
+            'weight': self.weight,
             'correct_answer': self.correct_answer,
             'correct_rationale': self.correct_rationale,
             'rationale_size': self.rationale_size,
@@ -282,6 +305,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             dict: result of the submission
         """
         self.display_name = data['display_name']
+        self.weight = data['weight']
         self.question_text = data['question_text']
         self.rationale_size = data['rationale_size']
         self.options = data['options']
@@ -417,6 +441,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             'rationale_revised': answers.get_rationale(1),
             'display_name': self.display_name,
             'question_text': question,
+            'weight': self.weight,
             'options': options,
             'rationale_size': self.rationale_size,
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
@@ -432,6 +457,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
 
         # Pass the answer to out Javascript
         frag.initialize_js('PeerInstructionXBlock', js_vals)
+
+        self.publish_event_from_dict(self.event_namespace + '.accessed', {})
 
         return frag
 
@@ -449,24 +476,41 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             PermissionDenied: if we got an invalid status
         """
         answers = self.get_answers_for_student()
+        stats = self.get_current_stats()
+        truncated_rationle, was_truncated = truncate_rationale(rationale)
+        event_dict = {
+            'answer': answer,
+            'rationale': truncated_rationle,
+            'truncated': was_truncated
+        }
         if not answers.has_revision(0) and status == STATUS_NEW:
             student_item = self.get_student_item_dict()
             sas_api.add_answer_for_student(student_item, answer, rationale)
-            num_resp = self.stats['original'].setdefault(answer, 0)
-            self.stats['original'][answer] = num_resp + 1
+            num_resp = stats['original'].setdefault(answer, 0)
+            stats['original'][answer] = num_resp + 1
             offer_answer(
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
+
+            self.publish_event_from_dict(
+                self.event_namespace + '.original_submitted',
+                event_dict
+            )
         elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
-            num_resp = self.stats['revised'].setdefault(answer, 0)
-            self.stats['revised'][answer] = num_resp + 1
+            num_resp = stats['revised'].setdefault(answer, 0)
+            stats['revised'][answer] = num_resp + 1
 
             # Fetch the grade
             grade = self.get_grade()
 
             # Send the grade
             self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
+
+            self.publish_event_from_dict(
+                    self.event_namespace + '.revised_submitted',
+                    event_dict
+            )
         else:
             raise PermissionDenied
 
@@ -477,6 +521,17 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         Only returns 1 for now as a completion grade.
         """
         return 1
+
+    def get_current_stats(self):
+        """
+        Get the progress status for current user. This function also converts option index into integers
+        """
+        # convert key into integers as json.dump and json.load convert integer dictionary key into string
+        self.stats = {
+            'original': {int(k): v for k, v in self.stats['original'].iteritems()},
+            'revised': {int(k): v for k, v in self.stats['revised'].iteritems()}
+        }
+        return self.stats
 
     @XBlock.json_handler
     def get_stats(self, data, suffix=''):
@@ -490,7 +545,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         Return:
             dict: current progress status
         """
-        return self.stats
+        return self.get_current_stats()
 
     @XBlock.json_handler
     def submit_answer(self, data, suffix=''):
@@ -500,6 +555,14 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
         self.record_response(data['q'], data['rationale'], data['status'])
+
+        return self.get_persisted_data()
+
+    def get_persisted_data(self):
+        """
+        Formats a usable dict based on what data the user has persisted
+        Adds the other answers and correct answer/rationale when needed
+        """
         answers = self.get_answers_for_student()
         ret = {
             "answer_original": answers.get_vote(0),
@@ -517,6 +580,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             ret['correct_rationale'] = self.correct_rationale
 
         return ret
+
+    @XBlock.json_handler
+    def get_data(self,data,suffix=''):
+        """
+        Retrieve persisted date from backend for current user
+        """
+        return self.get_persisted_data()
 
     def get_answers_for_student(self):
         """
@@ -579,3 +649,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin):
             setattr(block, key, value)
 
         return block
+
+    def add_xml_to_node(self, node):
+        """
+        Serialize the XBlock to XML for exporting.
+        """
+        serialize_to_xml(node, self)

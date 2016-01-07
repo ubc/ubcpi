@@ -4,7 +4,11 @@
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
-            <h2 id="pi-question-h" class="question-text">Question:</h2>
+            <h2 id="pi-question-h" class="question-text">Question</h2>
+
+            <div class="question-weight" ng-if-"rc.weight < 1"></div>
+            <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
+            <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
@@ -12,68 +16,78 @@
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
 
-            <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" auto-focus>
+            <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" aria-labelledby="others-respoonses-head" auto-focus>
 
-                <h3>Others' responses</h3>
-                <p>Here is a selection of other students' answers. They may help you refine your answer.</p>
+                <h3 id="ubcpi-other-answers-head">Step 2) Read Other Student Answers</h3>
+                <p class="ubcpi-other-answers-instructions">These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
-                        <!-- <h4 class="other-answer">Answer: {{options[answer.option]}}</h4> -->
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
 
-                        <h4 class="other-answer" ng-if="options[answer.option].text">Answer: {{options[answer.option].text}}</h4>
+                        <h4 class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</h4>
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
-                        <span class="other-rationale">{{answer.rationale}}</span>
+                        <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i>
+                        <span class="other-rationale">"{{answer.rationale}}"</span>
 
                     </li>
                 </ul>
-
-                <h3>If you wish, you may now revise your answer and rationale.</h3>
-                <p>Now that you have seen a selection of others' responses, you have the option to alter your initial selection and rationale.</p>
 
             </div><!-- .others-responses -->
 
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
-                <p>
-                    <span ng-if="rc.status() == rc.ALL_STATUS.NEW">Your Response <span class="inline-hint">(You may change this response if you wish in the next step)</span></span>
-                    <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Revise Your Response</span>
-                </p>
+                <fieldset>
 
-                <fieldset role="radiogroup">
-                    <label class="ubcpi-label ubcpi-answer" data-ng-repeat="option in options track by $index">
-                        <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
+                    <legend>
+                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.NEW">Step 1) Your Initial Answer <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
+                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Step 3) Your Final Answer <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
+                    </legend>
 
-                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
+                    <div class="ubcpi-possible-options">
+                        <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
+                            <label class="ubcpi-label ubcpi-answer" for="original-option-input-{{ $index }}">
+                                <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
-                        {{option.text}}
+                                <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+                                {{option.text}}
 
-                        <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option initially)</span>
-                    </label>
+                                <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+
+                                <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
+                            </label>
+                        </p>
+                    </div>
+
                 </fieldset>
 
-                <label class="ubcpi-label" for="rationale">Please explain your selection <span class="inline-hint" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">(Your original rationale is entered here and you may change it if you wish)</span></label>
+                <label class="ubcpi-label" for="rationale">Explain your selection (Required):</label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
 
-                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason" />
-                <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><i class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><i class="icon fa fa-info-circle"></i> The next - and final - step is where you will be shown the correct answer and rationale.</span>
-                <br />
+                <p class="ubc-pi-next">
+                    <span id="ubcpi-next-inline-hints">
+                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
+                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> After submitting your final answer, you will see the correct answer for this question.</span>
+                    </span>
+                </p>
 
-                <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
-                    <p role="alert" class="warning" id="button-disabled-reason">
-                        <i class="icon fa fa-warning"></i>
-                        <span ng-if="answerForm.rationale.$error.minlength">Note: Your rationale must be at least {{rationale_size.min}} characters.</span>
-                        <span ng-if="answerForm.rationale.$error.maxlength">Note: Your rationale must be at most {{rationale_size.max}} characters.</span>
-                        <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">Note: In order to move to the next step please explain your selection.</span>
-                        <span ng-if="answerForm.rationale.$valid && answerForm.q.$invalid">Note: In order to move to the next step please choose an answer.</span>
-                        <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">Note: In order to move to the next step please choose an answer and explain your decision.</span>
-                    </p>
+                <div id="button-disabled-reason">
+                    <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
+                        <p role="alert" class="warning" id="button-disabled-reason">
+                            <span class="sr">Warning</span>
+                            <i aria-hidden="true" class="icon fa fa-warning"></i>
+                            <span ng-if="answerForm.rationale.$error.minlength">Note: Your rationale must be at least {{rationale_size.min}} characters.</span>
+                            <span ng-if="answerForm.rationale.$error.maxlength">Note: Your rationale must be at most {{rationale_size.max}} characters.</span>
+                            <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">Note: In order to move to the next step please explain your selection.</span>
+                            <span ng-if="answerForm.rationale.$valid && answerForm.q.$invalid">Note: In order to move to the next step please choose an answer.</span>
+                            <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">Note: In order to move to the next step please choose an answer and explain your decision.</span>
+                        </p>
+                    </div>
                 </div>
+
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
 
             </form>
 
@@ -81,32 +95,77 @@
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 
-            <section class="solution-span correct-answer-and-rationale" tabindex="-1" role="region" auto-focus>
+            <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region" auto-focus>
 
                 <div class="detailed-solution" id="detailed-solution">
-                    <h2>Correct Option: <span class="correct-option">Option {{rc.correct_answer + 1}}</span></h2>
+                    <h2 id="correct-option-head">Correct Answer</h2>
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
-                    <p class="correct-answer-option" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
+                    <p class="ubcpi-correct-answer-option ubcpi-show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
 
                     <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
 
-                    <h2>Correct Option Rationale:</h2>
-                    <span>{{rc.correct_rationale.text}}</span>
+                    <span class="ubcpi-correct-answer-rationale">{{rc.correct_rationale.text}}</span>
+
+                    <div class="ubcpi-solution-your-answers" data-ng-model="rc.answer">
+                        <ul>
+                            <li class="ubcpi-initial">
+                                <p class="ubcpi-solution-your-initial-answer">
+                                    Your initial answer:
+                                    <span class="ubcpi-initial-option-text">{{options[rc.answer_original].text}} </span>
+                                    <span class="ubcpi-initial-option-num">(Option {{rc.answer_original + 1}})</span>
+                                </p>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
+                            </li>
+                            <li class="ubcpi-final">
+                                <p class="ubcpi-solution-your-final-answer">
+                                    Your final answer:
+                                    <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
+                                </p>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div><!-- .detailed-solution -->
 
             </section><!-- .correct-answer-and-rationale -->
 
-            <div class="original-answers results-container choicegroup">
-                <pi-answer-result legend="Original Answers" options="options" answer="rc.answer_original" correct="rc.correct_answer"></pi-answer-result>
-                <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
-            </div><!-- .original-answers -->
+            <div class="ubcpi-class-breakdown">
 
-            <div class="revised-answers results-container choicegroup">
-                <pi-answer-result legend="Revised Answers" options="options" answer="rc.answer_revised" correct="rc.correct_answer"></pi-answer-result>
-                <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
-            </div><!-- .revised-answers -->
+                <h3 class="ubcpi-class-breakdown-head">Class Breakdown</h3>
+                <p>This is a look at how your classmates answered the question during the initial and final rounds.</p>
+
+                <div class="ubcpi-breakdown-answer-options">
+
+                    <h4>Answer Options</h4>
+
+                    <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
+
+                        <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span><span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
+                        <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text ubcpi-show-correct">{{option.text}}</span>
+                        <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
+
+                        <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
+
+                        <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
+                    </p>
+
+                </div>
+
+                <div class="original-answers results-container choicegroup">
+                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
+                </div><!-- .original-answers -->
+
+                <div class="revised-answers results-container choicegroup">
+                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
+                </div><!-- .revised-answers -->
+
+            </div>
 
         </div><!-- .correct-revised-chart -->
 

@@ -44,11 +44,28 @@ or
 
 (Optional) Disable Django debug toolbar and contracts for faster tests: https://github.com/edx/edx-platform/wiki/Developing-on-the-edX-Developer-Stack#making-the-local-servers-run-faster
 
+Install webdriver:
+	
+	node_modules/protractor/bin/webdriver-manager update --standalone
+
 Run tests:
 
     make test-acceptance
 
+Single test:
+
+    node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
+
 ## Changelog
+### [0.5.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.0+is%3Aclosed)
+1. Updated UX based on feedbacks from the student usability testing
+2. Updated UX and accessibility based on feedbacks from EdX
+3. Added serialisation support for course export
+4. Added EdX analytic event
+5. Added participation score support
+6. Disabled student empty rationale submission
+7. Fixed a bug where a 500 error is generated when removing an option from list under certain condition
+8. Fixed a bug where the responses are missing after going to a different page
 
 ### [0.4.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.4+is%3Aclosed)
 1. Added unit and acceptance tests with 100% coverage

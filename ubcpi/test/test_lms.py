@@ -8,6 +8,7 @@ from mock import patch, Mock
 from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
+from ubcpi.ubcpi import truncate_rationale, MAX_RATIONALE_SIZE_IN_EVENT
 
 
 @ddt
@@ -16,7 +17,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_render_student_view(self, xblock):
         # mock static asset path because it is not set in workbench
         frag = self.runtime.render(xblock, 'student_view')
-        self.assertNotEqual(frag.body_html().find('Question:'), -1)
+        self.assertNotEqual(frag.body_html().find('Question'), -1)
 
     @patch(
         'ubcpi.persistence.get_answers_for_student',
@@ -61,6 +62,12 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         # check the stats that we have 1 answer
         self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
 
+        # Check the data is persisted
+        persisted = xblock.get_persisted_data()
+        self.assertEquals(persisted['answer_original'], 0)
+        self.assertFalse( 'correct_answer' in persisted )
+
+
         # submit revised answer
         resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']), response_format='json')
         self.assertEqual(resp, data['expect2'])
@@ -75,6 +82,11 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         # check the stats that we have 1 answer
         self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
         self.assertEqual(xblock.stats['revised'][data['post2']['q']], 1)
+
+        # Check we now have all the persisted data we should have
+        persisted = xblock.get_persisted_data()
+        self.assertEquals(persisted['answer_original'], 0)
+        self.assertTrue( 'correct_answer' in persisted )
 
     @file_data('data/submit_answer_errors.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
@@ -183,6 +195,17 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
             xblock.get_asset_url('/static/cat.jpg'),
             '/c4x://test/course/cat.jpg',
             'in edx env, it should return converted asset URL')
+
+    def test_truncate_rationale(self):
+        short_rationale = 'This is a rationale'
+        truncated_rationle, was_truncated = truncate_rationale(short_rationale)
+        self.assertEqual(truncated_rationle, short_rationale)
+        self.assertFalse(was_truncated)
+
+        long_rationale = "x" * 50000
+        truncated_rationle, was_truncated = truncate_rationale(long_rationale)
+        self.assertEqual(len(truncated_rationle), MAX_RATIONALE_SIZE_IN_EVENT)
+        self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):
         for key, value in data.iteritems():

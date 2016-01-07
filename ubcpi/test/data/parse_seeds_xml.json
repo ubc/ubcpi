@@ -23,5 +23,23 @@
     ],
     "expect": [
     ]
+  },
+  "unicode": {
+    "xml": [
+      "<seeds>",
+        "<seed option=\"1\">种子1</seed>",
+        "<seed option=\"2\">种子2</seed>",
+      "</seeds>"
+    ],
+    "expect": [
+      {
+        "answer": 0,
+        "rationale": "种子1"
+      },
+      {
+        "answer": 1,
+        "rationale": "种子2"
+      }
+    ]
   }
 }

@@ -6,7 +6,7 @@
       "image_alt": "",
       "image_url": "/static/NEW-QUESTION.jpg",
       "image_position": "below",
-      "show_image_fields": true
+      "image_show_fields": true
     },
     "rationale_size": {
       "max": "#",
@@ -18,21 +18,21 @@
         "image_alt": "",
         "image_url": "",
         "image_position": "below",
-        "show_image_fields": 0
+        "image_show_fields": 0
       },
       {
         "text": "42",
         "image_alt": "",
         "image_url": "",
         "image_position": "below",
-        "show_image_fields": 0
+        "image_show_fields": 0
       },
       {
         "text": "63",
         "image_alt": "",
         "image_url": "",
         "image_position": "below",
-        "show_image_fields": 0
+        "image_show_fields": 0
       }
     ],
     "correct_answer": 1,
@@ -48,6 +48,7 @@
         "answer": 0,
         "rationale": "dsfsdafsd"
       }
-    ]
+    ],
+    "weight": 1
   }
 }

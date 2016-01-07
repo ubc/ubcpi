@@ -41,19 +41,19 @@ describe('UBCPI', function () {
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }, {
                 "text": "42",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }, {
                 "text": "63",
                 "image_alt": "",
                 "image_url": "",
                 "image_position": "below",
-                "show_image_fields": 0
+                "image_show_fields": 0
             }];
             var answer = 1;
             var correct = 0;
@@ -73,7 +73,7 @@ describe('UBCPI', function () {
 
             it('should mark the correct answer and selected answer', function () {
                 expect(element.find('label').eq(answer).find('div span').eq(1).text())
-                    .toBe('(You chose this option initially)');
+                    .toBe('(You chose this option)');
                 expect(element.find('label').eq(correct).find('div span').eq(1).text())
                     .toBe('Correct Option');
             })

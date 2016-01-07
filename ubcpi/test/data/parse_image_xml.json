@@ -1,12 +1,12 @@
 {
   "basic": {
     "xml": [
-      "<option><image position=\"below\" alt=\"This is a image\" show_image_fields=\"0\">/static/test.jpg</image></option>"
+      "<option><image position=\"below\" alt=\"This is a image\" show_fields=\"0\">/static/test.jpg</image></option>"
     ],
     "expect": {
       "image_url": "/static/test.jpg",
       "image_position": "below",
-      "show_image_fields": 0,
+      "image_show_fields": 0,
       "image_alt": "This is a image"
     }
   },
@@ -16,6 +16,17 @@
     ],
     "expect": {
       "image_url": "/static/test.jpg"
+    }
+  },
+  "unicode": {
+    "xml": [
+      "<option><image position=\"below\" alt=\"图像\" show_fields=\"0\">/图像/文件1.jpg</image></option>"
+    ],
+    "expect": {
+      "image_url": "/图像/文件1.jpg",
+      "image_position": "below",
+      "image_show_fields": 0,
+      "image_alt": "图像"
     }
   }
 }

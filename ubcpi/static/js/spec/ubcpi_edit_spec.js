@@ -166,13 +166,17 @@ describe('UBCPI_Edit module', function () {
                 },
                 "correct_answer": 1,
                 "seeds": [
-                    {answer:0, rationale:'rationale1'},
+                    {answer:2, rationale:'rationale3'},
                     {answer:1, rationale:'rationale2'},
-                    {answer:2, rationale:'rationale3'}
+                    {answer:0, rationale:'rationale1'},
+                    {answer:2, rationale:'rationale3'},
+                    {answer:1, rationale:'rationale2'},
+                    {answer:0, rationale:'rationale1'}
+
                 ],
                 "question_text": {
                     "text": "What is the answer to life, the universe and everything?",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
@@ -180,25 +184,26 @@ describe('UBCPI_Edit module', function () {
                 "options": [
                     {
                         "text": "21",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
                     }, {
                         "text": "42",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
                     }, {
                         "text": "63",
-                        "show_image_fields": 0,
+                        "image_show_fields": 0,
                         "image_url": "",
                         "image_position": "below",
                         "image_alt": ""
                     }
                 ]
             };
+
             $rootScope = _$rootScope_;
             createController = function (params) {
                 return $controller(
@@ -232,9 +237,10 @@ describe('UBCPI_Edit module', function () {
             controller.add_option();
             expect(controller.data.options.length).toBe(num_options + 1);
             expect(controller.data.options[controller.data.options.length - 1]).toEqual(
-                {'text': '', 'image_url': '', 'image_position': 'below', 'show_image_fields': 0, 'image_alt': ''}
+                {'text': '', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
             );
         });
+
 
         it('should delete option to the data when delete_option is called', function() {
             var num_options = mockConfig.data.options.length;
@@ -244,13 +250,13 @@ describe('UBCPI_Edit module', function () {
             expect(controller.data.options).toEqual(
                 [{
                     "text": "21",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
                 }, {
                     "text": "63",
-                    "show_image_fields": 0,
+                    "image_show_fields": 0,
                     "image_url": "",
                     "image_position": "below",
                     "image_alt": ""
@@ -277,28 +283,44 @@ describe('UBCPI_Edit module', function () {
             controller.deleteSeed(1);
             expect(controller.data.seeds.length).toBe(num_seeds - 1);
             expect(controller.data.seeds).toEqual([
+                {answer:2, rationale:'rationale3'},
                 {answer:0, rationale:'rationale1'},
-                {answer:2, rationale:'rationale3'}
+                {answer:2, rationale:'rationale3'},
+                {answer:1, rationale:'rationale2'},
+                {answer:0, rationale:'rationale1'}
             ]);
         });
 
-        it('should fail silently when invalid index is give to deleteSeed', function() {
-            controller.deleteSeed(5);
-            expect(controller.data.seeds.length).toBe(3);
+        it('should delete seeds containing an option when delete_option is called', function(){
+            var num_seeds = mockConfig.data.seeds.length;
+
+            controller.delete_option(2);
+            expect(controller.data.seeds.length).toBe(num_seeds - 2);
+            expect(controller.data.seeds).toEqual([
+                {answer:1, rationale:'rationale2'},
+                {answer:0, rationale:'rationale1'},
+                {answer:1, rationale:'rationale2'},
+                {answer:0, rationale:'rationale1'}
+            ])
         });
 
-        it('should flip the show image fields when show_image_fields is called', function() {
-            expect(controller.data.question_text.show_image_fields).toBe(0);
-            controller.show_image_fields(false);
-            expect(controller.data.question_text.show_image_fields).toBe(true);
-            controller.show_image_fields(false);
-            expect(controller.data.question_text.show_image_fields).toBe(false);
+        it('should fail silently when invalid index is give to deleteSeed', function() {
+            controller.deleteSeed(7);
+            expect(controller.data.seeds.length).toBe(6);
+        });
 
-            expect(controller.data.options[1].show_image_fields).toBe(0);
-            controller.show_image_fields(1);
-            expect(controller.data.options[1].show_image_fields).toBe(true);
-            controller.show_image_fields(1);
-            expect(controller.data.options[1].show_image_fields).toBe(false);
+        it('should flip the show image fields when image_show_fields is called', function() {
+            expect(controller.data.question_text.image_show_fields).toBe(0);
+            controller.image_show_fields(false);
+            expect(controller.data.question_text.image_show_fields).toBe(true);
+            controller.image_show_fields(false);
+            expect(controller.data.question_text.image_show_fields).toBe(false);
+
+            expect(controller.data.options[1].image_show_fields).toBe(0);
+            controller.image_show_fields(1);
+            expect(controller.data.options[1].image_show_fields).toBe(true);
+            controller.image_show_fields(1);
+            expect(controller.data.options[1].image_show_fields).toBe(false);
         });
 
         describe('submit', function () {

@@ -42,7 +42,7 @@ var beforeFeatureCms = function () {
 
     this.Before('@with_option1_image', function (callback) {
         data.options[0] = _.merge(data.options[0], {
-            "show_image_fields": 1,
+            "image_show_fields": 1,
             "image_url": "/static/cat.jpg",
             "image_position": "below",
             "image_alt": ""
@@ -53,7 +53,7 @@ var beforeFeatureCms = function () {
 
     this.Before('@with_question_image', function (callback) {
         data.question_text = _.merge(data.question_text, {
-            "show_image_fields": 1,
+            "image_show_fields": 1,
             "image_url": "/static/cat.jpg",
             "image_position": "below",
             "image_alt": ""
@@ -86,7 +86,7 @@ var beforeFeatureCms = function () {
 
     this.Before('@with_enrolled_student', function (callback) {
         tasks.student = function (cb) {
-            api.createUserOrLogin(null, 'lms', cb);
+            api.createUserOrLogin(null, 'lms', null, cb);
         };
         tasks.enroll = ['student', 'course', function (cb, results) {
             api.enrolUsers(results.course.course_key, [results.student.username], cb);
@@ -168,15 +168,18 @@ var beforeFeatureCms = function () {
 
     function prepareCourse() {
         tasks.staff = function (cb) {
-            api.createUserOrLogin(null, 'cms', cb);
+            api.createUserOrLogin(null, 'cms', null, cb);
         };
         tasks.course = ['staff', function (cb) {
             api.createCourse(null, cb);
         }];
         tasks.course_config = ['course', function (cb, results) {
-            api.configureCourse(results.course.course_key, {start_date: '2015-01-01', end_date: '2099-01-01'}, cb);
+            api.configureCourse(results.course.course_key,
+                {start_date: '2015-01-01T00:00:00.000Z', end_date: '2099-01-01T00:00:00.000Z'}, cb);
         }];
-        tasks.advanced_settings = ['course', function (cb, results) {
+        // in theory course_config and advanced_settings should be able to run in parallel, but it seems edx
+        // has some concurrency problem. If they are run in parallel, start_data and end_data are not saved.
+        tasks.advanced_settings = ['course_config', function (cb, results) {
             api.updateAdvancedSettings(results.course.course_key, {advanced_modules: {value: ['ubcpi']}}, cb);
         }];
         // in theory we can run update settings and create section in parallel. However, it seems
@@ -198,7 +201,7 @@ var beforeFeatureCms = function () {
     }
 
     function getCourseLocation(courseKey) {
-        return 'i4x://' + courseKey.replace('NOW', 'course/NOW');
+        return courseKey.replace('course-v1', 'block-v1') + '+type@course+block@course';
     }
 };
 
