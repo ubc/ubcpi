@@ -370,7 +370,9 @@ textarea.pi-options {
 }
 
 #question-image {
-  display:block;
+  display: block;
+  max-width: 100%;
+  padding-bottom: 1em;
 }
 
 .others-responses,
