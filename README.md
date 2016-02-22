@@ -57,6 +57,12 @@ Single test:
     node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
 
 ## Changelog
+### [0.5.1](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.1+is%3Aclosed)
+1. Changed the "Question" title to "Peer Instruction Question"
+2. Changed the answer icon from fa-users to fa-user and the dot at the last step
+3. Modified the ‘Explain your selection’ instruction to remind them that the intended readers are other students
+4. Added question text at the end of the process
+
 ### [0.5.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.0+is%3Aclosed)
 1. Updated UX based on feedbacks from the student usability testing
 2. Updated UX and accessibility based on feedbacks from EdX
