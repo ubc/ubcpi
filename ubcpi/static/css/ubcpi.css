@@ -198,6 +198,11 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     font-weight: 900;
 }
 
+.ubcpi-initial,
+.ubcpi-final {
+    list-style-type:none;
+}
+
 .ubcpi-other-answers li,
 .ubcpi-solution-your-answers ul li {
     margin-bottom: 20px;
