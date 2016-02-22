@@ -95,6 +95,20 @@
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 
+            <h2 id="pi-question-h" class="question-text">Question</h2>
+
+            <div class="question-weight" ng-if-"rc.weight < 1"></div>
+
+            <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
+
+            <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
+
+            <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
+
+            <span aria-labelledby="pi-question-h" id="question-text" ng-bind-html="question_text.text" ng-if="question_text.text"></span>
+
+            <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
+
             <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region" auto-focus>
 
                 <div class="detailed-solution" id="detailed-solution">
