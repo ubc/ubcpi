@@ -28,7 +28,7 @@
                         <h4 class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</h4>
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
-                        <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i>
+                        <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i>
                         <span class="other-rationale">"{{answer.rationale}}"</span>
 
                     </li>
@@ -116,7 +116,7 @@
                                     <span class="ubcpi-initial-option-text">{{options[rc.answer_original].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_original + 1}})</span>
                                 </p>
-                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
                             </li>
                             <li class="ubcpi-final">
                                 <p class="ubcpi-solution-your-final-answer">
@@ -125,7 +125,7 @@
                                     <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
                                 </p>
-                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-users"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
+                                <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
                             </li>
                         </ul>
 
