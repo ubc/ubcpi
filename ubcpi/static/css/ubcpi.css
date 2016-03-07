@@ -511,6 +511,12 @@ label.ubcpi-label {
     color: #EE363B;
 }
 
+.ubcpi-rationale-warning{
+    text-align:right;
+    margin-top:-12px;
+    font-size:12px;
+}
+
 .ubcpi-correct-answer-rationale {
     display: block;
     margin-bottom: 20px;
