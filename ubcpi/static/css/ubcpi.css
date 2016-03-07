@@ -518,6 +518,7 @@ label.ubcpi-label {
 
 .ubcpi-solution-rationales {
     padding-left: 10px;
+    word-break: break-all;
 }
 
 .other-rationale {
