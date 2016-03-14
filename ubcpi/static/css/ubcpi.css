@@ -85,6 +85,11 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
     display: block;
 }
 
+.ubcpi-chart-label{
+    font-weight: 900;
+    text-align: center;
+}
+
 .ubcpi-field[type="radio"] {
     float: left;
     margin: 4px 8px 4px 4px;
