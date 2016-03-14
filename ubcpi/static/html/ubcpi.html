@@ -160,7 +160,7 @@
                     <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span><span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
+                        <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span>&nbsp;<span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
                         <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text ubcpi-show-correct">{{option.text}}</span>
                         <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
 
