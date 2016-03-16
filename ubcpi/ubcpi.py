@@ -13,6 +13,7 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
+from .utils import _  # pylint: disable=unused-import
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
@@ -138,6 +139,7 @@ class MissingDataFetcherMixin:
 
 
 @XBlock.needs('user')
+@XBlock.needs('i18n')
 class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     """
     Peer Instruction XBlock
@@ -156,22 +158,22 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     event_namespace = 'ubc.peer_instruction'
 
     # the display name that used on the interface
-    display_name = String(default="Peer Instruction")
+    display_name = String(default=_("Peer Instruction"))
 
     question_text = Dict(
-        default={'text': '<p>Where does most of the mass in a fully grown tree originate?</p>',
+        default={'text': _('<p>Where does most of the mass in a fully grown tree originate?</p>'),
                  'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
         scope=Scope.content,
-        help="The question the students see. This question appears above the possible answers which you set below. "
-             "You can use text, an image or a combination of both. If you wish to add an image to your question, press "
-             "the 'Add Image' button."
+        help=_("The question the students see. This question appears above the possible answers which you set below. "
+               "You can use text, an image or a combination of both. If you wish to add an image to your question, "
+               "press the 'Add Image' button.")
     )
 
     options = List(
         default=[
-            {'text': 'Air', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
-            {'text': 'Soil', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
-            {'text': 'Water', 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
+            {'text': _('Air'), 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': _('Soil'), 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''},
+            {'text': _('Water'), 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
         help="The possible options from which the student may select",
@@ -179,31 +181,31 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
     rationale_size = Dict(
         default={'min': 1, 'max': MAX_RATIONALE_SIZE}, scope=Scope.content,
-        help="The minimum and maximum number of characters a student is allowed for their rationale.",
+        help=_("The minimum and maximum number of characters a student is allowed for their rationale."),
     )
 
     correct_answer = Integer(
         default=0, scope=Scope.content,
-        help="The correct option for the question",
+        help=_("The correct option for the question"),
     )
 
     correct_rationale = Dict(
-        default={'text': "Photosynthesis"}, scope=Scope.content,
-        help="The feedback for student for the correct answer",
+        default={'text': _("Photosynthesis")}, scope=Scope.content,
+        help=_("The feedback for student for the correct answer"),
     )
 
     stats = Dict(
         default={'original': {}, 'revised': {}}, scope=Scope.user_state_summary,
-        help="Overall stats for the instructor",
+        help=_("Overall stats for the instructor"),
     )
     seeds = List(
         default=[
-            {'answer': 0, 'rationale': 'Tree gets carbon from air.'},
-            {'answer': 1, 'rationale': 'Tree gets minerals from soil.'},
-            {'answer': 2, 'rationale': 'Tree drinks water.'}
+            {'answer': 0, 'rationale': _('Tree gets carbon from air.')},
+            {'answer': 1, 'rationale': _('Tree gets minerals from soil.')},
+            {'answer': 2, 'rationale': _('Tree drinks water.')}
         ],
         scope=Scope.content,
-        help="Instructor configured examples to give to students during the revise stage.",
+        help=_("Instructor configured examples to give to students during the revise stage."),
     )
 
     # sys_selected_answers dict format:
@@ -217,12 +219,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     # }
     sys_selected_answers = Dict(
         default={}, scope=Scope.user_state_summary,
-        help="System selected answers to give to students during the revise stage.",
+        help=_("System selected answers to give to students during the revise stage."),
     )
 
     algo = Dict(
         default={'name': 'simple', 'num_responses': '#'}, scope=Scope.content,
-        help="The algorithm for selecting which answers to be presented to students",
+        help=_("The algorithm for selecting which answers to be presented to students"),
     )
 
     # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
@@ -231,21 +233,21 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
     start = DateTime(
         default=None, scope=Scope.settings,
-        help="ISO-8601 formatted string representing the start date of this assignment. We ignore this."
+        help=_("ISO-8601 formatted string representing the start date of this assignment. We ignore this.")
     )
 
     due = DateTime(
         default=None, scope=Scope.settings,
-        help="ISO-8601 formatted string representing the due date of this assignment. We ignore this."
+        help=_("ISO-8601 formatted string representing the due date of this assignment. We ignore this.")
     )
 
     # required field for LMS progress page
     weight = Float(
         default=1,
-        display_name="Problem Weight",
-        help=("Defines the number of points each problem is worth. "
-              "If the value is not set, the problem is worth the sum of the "
-              "option point values."),
+        display_name=_("Problem Weight"),
+        help=_(("Defines the number of points each problem is worth. "
+                "If the value is not set, the problem is worth the sum of the "
+                "option point values.")),
         values={"min": 0, "step": .1},
         scope=Scope.settings
     )
@@ -271,7 +273,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
         frag.initialize_js('PIEdit', {
-            'display_name': self.display_name,
+            'display_name': self._(self.display_name),
             'weight': self.weight,
             'correct_answer': self.correct_answer,
             'correct_rationale': self.correct_rationale,
@@ -280,12 +282,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'options': self.options,
             'algo': self.algo,
             'algos': {
-                'simple': 'System will select one of each option to present to the students.',
-                'random': 'Completely random selection from the response pool.'
+                'simple': self._('System will select one of each option to present to the students.'),
+                'random': self._('Completely random selection from the response pool.')
             },
             'image_position_locations': {
-                'above': 'Appears above',
-                'below': 'Appears below'
+                'above': self._('Appears above'),
+                'below': self._('Appears below')
             },
             'seeds': self.seeds,
         })
@@ -429,8 +431,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         question = deepcopy(self.question_text)
         question.update({'image_url': self.get_asset_url(question.get('image_url'))})
 
+        question['text'] = self._(question['text'])
         options = deepcopy(self.options)
         for option in options:
+            option['text'] = self._(option['text'])
             if option.get('image_url'):
                 option.update({'image_url': self.get_asset_url(option.get('image_url'))})
 
@@ -439,7 +443,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'rationale_original': answers.get_rationale(0),
             'answer_revised': answers.get_vote(1),
             'rationale_revised': answers.get_rationale(1),
-            'display_name': self.display_name,
+            'display_name': self._(self.display_name),
             'question_text': question,
             'weight': self.weight,
             'options': options,

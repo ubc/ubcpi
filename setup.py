@@ -47,7 +47,7 @@ setup(
             'ubcpi = ubcpi.ubcpi:PeerInstructionXBlock',
         ]
     },
-    package_data=package_data("ubcpi", ["static", "public"]),
+    package_data=package_data("ubcpi", ["static", "public", "translations"]),
     keywords=['edx', 'peer instruction', 'ubc'],
     classifiers=[
         "Development Status :: 4 - Beta",
