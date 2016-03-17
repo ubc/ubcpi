@@ -273,7 +273,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         frag.add_javascript(self.resource_string("static/js/src/ubcpi_edit.js"))
 
         frag.initialize_js('PIEdit', {
-            'display_name': self._(self.display_name),
+            'display_name': self.ugettext(self.display_name),
             'weight': self.weight,
             'correct_answer': self.correct_answer,
             'correct_rationale': self.correct_rationale,
@@ -282,12 +282,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'options': self.options,
             'algo': self.algo,
             'algos': {
-                'simple': self._('System will select one of each option to present to the students.'),
-                'random': self._('Completely random selection from the response pool.')
+                'simple': self.ugettext('System will select one of each option to present to the students.'),
+                'random': self.ugettext('Completely random selection from the response pool.')
             },
             'image_position_locations': {
-                'above': self._('Appears above'),
-                'below': self._('Appears below')
+                'above': self.ugettext('Appears above'),
+                'below': self.ugettext('Appears below')
             },
             'seeds': self.seeds,
         })
@@ -431,10 +431,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         question = deepcopy(self.question_text)
         question.update({'image_url': self.get_asset_url(question.get('image_url'))})
 
-        question['text'] = self._(question['text'])
+        question['text'] = self.ugettext(question['text'])
         options = deepcopy(self.options)
         for option in options:
-            option['text'] = self._(option['text'])
+            option['text'] = self.ugettext(option['text'])
             if option.get('image_url'):
                 option.update({'image_url': self.get_asset_url(option.get('image_url'))})
 
@@ -443,7 +443,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'rationale_original': answers.get_rationale(0),
             'answer_revised': answers.get_vote(1),
             'rationale_revised': answers.get_rationale(1),
-            'display_name': self._(self.display_name),
+            'display_name': self.ugettext(self.display_name),
             'question_text': question,
             'weight': self.weight,
             'options': options,
