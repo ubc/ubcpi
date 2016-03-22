@@ -6,11 +6,13 @@ angular.module('UBCPI').
                 options: '=',
                 stats: '=',
                 correct: '=',
-                answer: '='
+                answer: '=',
+                is_instructor: '=',
             },
             // no overwrite template
             replace: false,
             link: function(scope, element) {
+
                 // watch the stats as it could be async populated
                 scope.$watch('stats', function(stats) {
                     if(!stats) {
@@ -32,6 +34,10 @@ angular.module('UBCPI').
                     d3.select(element[0])
                         .datum(data)
                         .call(chartLayout)
+                }, true);
+
+                scope.$watch('instructor', function(is_instructor){
+                    console.log( 'scope watch: ' + is_instructor );
                 }, true);
             }
         }

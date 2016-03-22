@@ -28,7 +28,7 @@ d3.custom.barChart = function() {
                 left: 0
             };
 
-            if (totalFreq < minTotalFrequency) {
+            if (totalFreq < minTotalFrequency && ! ubcpiIsInstructor) {
                 d3.select(this)
                     .append("span")
                     .text("Not enough data to generate the chart. Please check back later.");

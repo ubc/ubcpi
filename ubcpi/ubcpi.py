@@ -18,6 +18,8 @@ from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
 import persistence as sas_api
 from serialize import parse_from_xml, serialize_to_xml
 
+import logging
+
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
 STATUS_REVISED = 2
@@ -227,7 +229,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
     # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
     # speed of the progress page.
-    has_score = True 
+    has_score = True
 
     start = DateTime(
         default=None, scope=Scope.settings,
@@ -531,6 +533,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'original': {int(k): v for k, v in self.stats['original'].iteritems()},
             'revised': {int(k): v for k, v in self.stats['revised'].iteritems()}
         }
+
         return self.stats
 
     @XBlock.json_handler
@@ -622,6 +625,19 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             options_msg = options_msg if options_msg else {}
             msg.update(options_msg)
             raise JsonHandlerError(400, msg)
+
+    @XBlock.json_handler
+    def get_is_instructor(self, data, suffix=''):
+        """
+        Check if user role is instructor.
+        """
+        return self.is_instructor()
+
+    def is_instructor(self):
+        """
+        Getter to check if user role is instructor.
+        """
+        return self.xmodule_runtime.get_user_role() == 'instructor'
 
     @classmethod
     def workbench_scenarios(cls):  # pragma: no cover

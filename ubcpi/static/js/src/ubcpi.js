@@ -1,3 +1,6 @@
+// Temp
+var ubcpiIsInstructor = false;
+
 angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
     .config(['$httpProvider', function($httpProvider) {
         // register an http interceptor to transform template urls. Because $rootScope
@@ -56,6 +59,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             getStats: getStats,
             submit: submit,
             get_data: get_data,
+            is_instructor: is_instructor,
         };
 
         function getStats() {
@@ -97,6 +101,20 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 }
             );
         }
+
+        function is_instructor() {
+
+            var isInstructorUrl = $rootScope.config.urls.is_instructor;
+
+            return $http.post(isInstructorUrl, '""').then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    console.log( error );
+                    return $q.reject(error);
+                });
+        }
     }])
 
     .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q',
@@ -111,6 +129,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
 
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;
+            self.is_instructor = false;
+            $scope.is_instructor = false;
 
             // Assign data based on what has been persisted
             var persistedDataObject = get_data().then( function(persistedData) {
@@ -120,6 +140,13 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 }
             });
 
+            var getInstrucor = is_instructor().then( function(is_instructor) {
+
+                self.is_instructor = is_instructor;
+                $scope.is_instructor = is_instructor;
+                ubcpiIsInstructor = is_instructor;
+
+            });
 
             // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
@@ -173,6 +200,20 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 });
             };
 
+            function is_instructor() {
+
+                return backendService.is_instructor().then(function(is_instructor) {
+                    self.is_instructor = is_instructor;
+                    return is_instructor;
+                }, function(error) {
+                    notify('error', {
+                        'title': 'Error retrieving statistics!',
+                        'message': 'Please refresh the page and try again!'
+                    });
+                    return $q.reject(error);
+                });
+            }
+
             function get_data() {
                 return backendService.get_data().then(function(data) {
                     return data;
@@ -224,6 +265,7 @@ function PeerInstructionXBlock(runtime, element, data) {
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
         'get_asset': runtime.handlerUrl(element, 'get_asset'),
         'get_data': runtime.handlerUrl(element, 'get_data'),
+        'is_instructor': runtime.handlerUrl(element, 'get_is_instructor'),
     };
 
     // in order to support multiple same apps on the same page but
