@@ -31,7 +31,7 @@ def readme():
 
 setup(
     name='ubcpi-xblock',
-    version='0.5.1',
+    version='0.5.2',
     description='UBC Peer Instruction XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',
@@ -47,7 +47,7 @@ setup(
             'ubcpi = ubcpi.ubcpi:PeerInstructionXBlock',
         ]
     },
-    package_data=package_data("ubcpi", ["static", "public"]),
+    package_data=package_data("ubcpi", ["static", "public", "translations"]),
     keywords=['edx', 'peer instruction', 'ubc'],
     classifiers=[
         "Development Status :: 4 - Beta",
