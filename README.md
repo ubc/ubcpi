@@ -57,9 +57,20 @@ Single test:
     node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
 
 ## Changelog
+
+### [0.5.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.3+is%3Aclosed)
+1. Introduced Esperanto (eo) language dummy translations.
+
 ### [0.5.2](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.2+is%3Aclosed)
 1. Updated XBlock version reference to 0.4.7
 2. Added support for XBlock-level internationalization/localization
+3. Added chart labels: Original Answer, Revised Answer
+4. Fixed the fact that rationales that had words longer than 77 characters would bleed outside container/not-wrap
+5. Modified CSS to make images larger than the container responsive
+6. Minor text change (clarification of rationale to students)
+7. Added question text to final step
+8. Changed icon on final step + style change to remove floating list bullet
+9. Changed title from "Question" to "Peer Instruction Question"
 
 ### [0.5.1](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.1+is%3Aclosed)
 1. Changed the "Question" title to "Peer Instruction Question"
