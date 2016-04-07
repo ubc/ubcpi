@@ -65,6 +65,8 @@
 
                 <label class="ubcpi-label" for="rationale">Explain to other students why you chose this answer (Required):</label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
+                <p class="ubcpi-rationale-warning" ng-if="((rationale_size.max - rc.rationale.length) <= (rationale_size.max/10)) && (rc.rationale.length <= rationale_size.max)">You are approaching the limit of {{rationale_size.max}} characters for this answer. Characters left: {{rationale_size.max - rc.rationale.length}}</p>
+                <p class="ubcpi-rationale-warning" ng-if="answerForm.rationale.$error.maxlength"><span class="ubcpi-show-incorrect"><strong>Error:</strong></span> Please edit your explanation so that it is less than {{rationale_size.max}} characters.</p>
 
                 <p class="ubc-pi-next">
                     <span id="ubcpi-next-inline-hints">
@@ -77,12 +79,12 @@
                     <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
                         <p role="alert" class="warning" id="button-disabled-reason">
                             <span class="sr">Warning</span>
-                            <i aria-hidden="true" class="icon fa fa-warning"></i>
-                            <span ng-if="answerForm.rationale.$error.minlength">Note: Your rationale must be at least {{rationale_size.min}} characters.</span>
-                            <span ng-if="answerForm.rationale.$error.maxlength">Note: Your rationale must be at most {{rationale_size.max}} characters.</span>
-                            <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">Note: In order to move to the next step please explain your selection.</span>
-                            <span ng-if="answerForm.rationale.$valid && answerForm.q.$invalid">Note: In order to move to the next step please choose an answer.</span>
-                            <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">Note: In order to move to the next step please choose an answer and explain your decision.</span>
+                            <i aria-hidden="true" class="icon fa fa-warning"></i>&nbsp;Note: 
+                            <span ng-if="answerForm.rationale.$error.minlength">Your rationale must be a minimum of {{rationale_size.min}} characters.</span>
+                            <span ng-if="answerForm.rationale.$error.maxlength">Your rationale must be a maximum of {{rationale_size.max}} characters.</span>
+                            <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">In order to move to the next step please briefly explain why you chose this answer.</span>
+                            <span ng-if="answerForm.rationale.$valid && answerForm.q.$invalid">In order to move to the next step please choose an answer.</span>
+                            <span ng-if="answerForm.q.$invalid && answerForm.rationale.$invalid">In order to move to the next step please choose an answer and briefly explain your decision.</span>
                         </p>
                     </div>
                 </div>
