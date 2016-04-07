@@ -1,0 +1,153 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-03-16 15:27+0500\n"
+"PO-Revision-Date: 2016-03-16 15:28+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: ubcpi.py\n"
+
+#: ubcpi.py
+msgid "Peer Instruction"
+msgstr "Péér Ìnstrüçtïön Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αм#"
+
+#: ubcpi.py
+msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
+msgstr ""
+"<p>Whéré döés möst öf thé mäss ïn ä füllý gröwn tréé örïgïnäté?</p> Ⱡ'σяєм "
+"ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя #"
+
+#: ubcpi.py
+msgid ""
+"The question the students see. This question appears above the possible "
+"answers which you set below. You can use text, an image or a combination of "
+"both. If you wish to add an image to your question, press the 'Add Image' "
+"button."
+msgstr ""
+"Thé qüéstïön thé stüdénts séé. Thïs qüéstïön äppéärs äßövé thé pössïßlé "
+"änswérs whïçh ýöü sét ßélöw. Ýöü çän üsé téxt, än ïmägé ör ä çömßïnätïön öf "
+"ßöth. Ìf ýöü wïsh tö ädd än ïmägé tö ýöür qüéstïön, préss thé 'Àdd Ìmägé' "
+"ßüttön. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя α∂ιριѕι¢ιηg єłιт, ѕє∂ ∂σ "
+"єιυѕмσ∂ тємρσя ιη¢ι∂ι∂υηт υт łαвσяє єт ∂σłσяє мαgηα αłιqυα. υт єηιм α∂ мιηιм"
+" νєηιαм, qυιѕ ησѕтяυ∂ єχєя¢ιтαтιση υłłαм¢σ łαвσяιѕ ηιѕι υт αłιqυιρ єχ єα "
+"¢σммσ∂σ ¢σηѕєqυαт. ∂υιѕ αυтє ιяυяє ∂σłσя ιη яєρяєнєη∂єяιт ιη νσłυρтαтє νєłιт"
+" єѕѕє ¢ιłłυм ∂σłσяє є#"
+
+#: ubcpi.py
+msgid "Air"
+msgstr "Àïr Ⱡ'σяєм#"
+
+#: ubcpi.py
+msgid "Soil"
+msgstr "Söïl Ⱡ'σяєм ι#"
+
+#: ubcpi.py
+msgid "Water"
+msgstr "Wätér Ⱡ'σяєм ιρѕ#"
+
+#: ubcpi.py
+msgid ""
+"The minimum and maximum number of characters a student is allowed for their "
+"rationale."
+msgstr ""
+"Thé mïnïmüm änd mäxïmüm nümßér öf çhäräçtérs ä stüdént ïs ällöwéd för théïr "
+"rätïönälé. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"
+
+#: ubcpi.py
+msgid "The correct option for the question"
+msgstr ""
+"Thé çörréçt öptïön för thé qüéstïön Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєт#"
+
+#: ubcpi.py
+msgid "Photosynthesis"
+msgstr "Phötösýnthésïs Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт#"
+
+#: ubcpi.py
+msgid "The feedback for student for the correct answer"
+msgstr ""
+"Thé féédßäçk för stüdént för thé çörréçt änswér Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт,"
+" ¢σηѕє¢тєтυя α#"
+
+#: ubcpi.py
+msgid "Overall stats for the instructor"
+msgstr ""
+"Övéräll stäts för thé ïnstrüçtör Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тє#"
+
+#: ubcpi.py
+msgid "Tree gets carbon from air."
+msgstr "Tréé géts çärßön fröm äïr. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕ#"
+
+#: ubcpi.py
+msgid "Tree gets minerals from soil."
+msgstr "Tréé géts mïnéräls fröm söïl. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"
+
+#: ubcpi.py
+msgid "Tree drinks water."
+msgstr "Tréé drïnks wätér. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт#"
+
+#: ubcpi.py
+msgid ""
+"Instructor configured examples to give to students during the revise stage."
+msgstr ""
+"Ìnstrüçtör çönfïgüréd éxämplés tö gïvé tö stüdénts dürïng thé révïsé stägé. "
+"Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυ#"
+
+#: ubcpi.py
+msgid "System selected answers to give to students during the revise stage."
+msgstr ""
+"Sýstém séléçtéd änswérs tö gïvé tö stüdénts dürïng thé révïsé stägé. Ⱡ'σяєм "
+"ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя #"
+
+#: ubcpi.py
+msgid "The algorithm for selecting which answers to be presented to students"
+msgstr ""
+"Thé älgörïthm för séléçtïng whïçh änswérs tö ßé préséntéd tö stüdénts Ⱡ'σяєм"
+" ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя #"
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the start date of this assignment. We"
+" ignore this."
+msgstr ""
+"ÌSÖ-8601 förmättéd strïng répréséntïng thé stärt däté öf thïs ässïgnmént. Wé"
+" ïgnöré thïs. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕ#"
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the due date of this assignment. We "
+"ignore this."
+msgstr ""
+"ÌSÖ-8601 förmättéd strïng répréséntïng thé düé däté öf thïs ässïgnmént. Wé "
+"ïgnöré thïs. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє#"
+
+#: ubcpi.py
+msgid "Problem Weight"
+msgstr "Prößlém Wéïght Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт#"
+
+#: ubcpi.py
+msgid "System will select one of each option to present to the students."
+msgstr ""
+"Sýstém wïll séléçt öné öf éäçh öptïön tö présént tö thé stüdénts. Ⱡ'σяєм "
+"ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя α#"
+
+#: ubcpi.py
+msgid "Completely random selection from the response pool."
+msgstr ""
+"Çömplétélý rändöm séléçtïön fröm thé réspönsé pööl. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт "
+"αмєт, ¢σηѕє¢тєтυя α#"
+
+#: ubcpi.py
+msgid "Appears above"
+msgstr "Àppéärs äßövé Ⱡ'σяєм ιρѕυм ∂σłσя ѕι#"
+
+#: ubcpi.py
+msgid "Appears below"
+msgstr "Àppéärs ßélöw Ⱡ'σяєм ιρѕυм ∂σłσя ѕι#"

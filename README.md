@@ -57,6 +57,10 @@ Single test:
     node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
 
 ## Changelog
+
+### [0.5.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.3+is%3Aclosed)
+1. Introduced Esperanto (eo) language dummy translations.
+
 ### [0.5.2](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.2+is%3Aclosed)
 1. Updated XBlock version reference to 0.4.7
 2. Added support for XBlock-level internationalization/localization
