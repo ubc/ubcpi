@@ -60,6 +60,7 @@ Single test:
 
 ### [0.5.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.3+is%3Aclosed)
 1. Introduced Esperanto (eo) language dummy translations.
+2. Added character limit warning for rationale.
 
 ### [0.5.2](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.2+is%3Aclosed)
 1. Updated XBlock version reference to 0.4.7
