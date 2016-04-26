@@ -4,7 +4,7 @@
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
-            <h2 id="pi-question-h" class="question-text">Peer Instruction Question</h2>
+            <h2 id="pi-question-h" class="question-text">{{display_name}}</h2>
 
             <div class="question-weight" ng-if-"rc.weight < 1"></div>
             <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
