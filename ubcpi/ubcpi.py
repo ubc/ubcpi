@@ -158,7 +158,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     event_namespace = 'ubc.peer_instruction'
 
     # the display name that used on the interface
-    display_name = String(default=_("Peer Instruction"))
+    display_name = String(default=_("Peer Instruction Question"))
 
     question_text = Dict(
         default={'text': _('<p>Where does most of the mass in a fully grown tree originate?</p>'),
