@@ -5,7 +5,8 @@ describe('D3 bar chart', function () {
     var chartContainer;
 
     beforeEach(function() {
-        chart = d3.custom.barChart();
+        var scope = {role:'student'};
+        chart = d3.custom.barChart(scope);
         chartContainer = d3.select('body')
             .append('div')
             .attr('class', 'testContainer');

@@ -5,10 +5,9 @@
         <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
             <h2 id="pi-question-h" class="question-text">{{display_name}}</h2>
-
-            <div class="question-weight" ng-if-"rc.weight < 1"></div>
-            <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
-            <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
+            <div class="question-weight" ng-if="weight < 1"></div>
+            <div class="question-weight" ng-if="weight == 1">&nbsp;({{weight}} point possible)</div>
+            <div class="question-weight" ng-if="weight > 1">&nbsp;({{weight}} points possible)</div>
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
@@ -88,7 +87,22 @@
                         </p>
                     </div>
                 </div>
+                <div class="ubcpi-staff-button-wrapper" ng-if="user_role == 'instructor' || user_role == 'staff'" data-ng-init="rc.getStats()">
+                    <a ng-model="collapse" ng-click="collapse=!collapse" ng-class="{true: 'ubcpi-staff-statistics-button--active', false: 'ubcpi-staff-statistics-button'}[collapse]" >View Question Statistics</a>
+                    <div class="ubcpi-staff-statistics" ng-show="collapse">
+                        
+                        <div class="original-answers results-container choicegroup">
+                            <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                            <p class="ubcpi-chart-label">Original Answer</p>
+                        </div><!-- .original-answers -->
 
+                        <div class="revised-answers results-container choicegroup">
+                            <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                            <p class="ubcpi-chart-label">Revised Answer</p>
+                        </div><!-- .revised-answers -->
+                        </div>
+                </div>
+                
                 <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
 
             </form>
@@ -174,12 +188,12 @@
                 </div>
 
                 <div class="original-answers results-container choicegroup">
-                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer"></pi-barchart>
+                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
                     <p class="ubcpi-chart-label">Original Answer</p>
                 </div><!-- .original-answers -->
 
                 <div class="revised-answers results-container choicegroup">
-                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer"></pi-barchart>
+                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
                     <p class="ubcpi-chart-label">Revised Answer</p>
                 </div><!-- .revised-answers -->
 

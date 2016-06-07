@@ -10,11 +10,13 @@ d3.custom = (d3.custom || {});
  *     {frequency: 0,  label: 'Option 5', class: 'ubcpibar'},
  * ]
  */
-d3.custom.barChart = function() {
+d3.custom.barChart = function(scope) {
     // Private Variables
     var chartWidth  = 750;
     var chartHeight = 250;
     var minTotalFrequency = 10;
+
+    if(scope.role == 'instructor' || scope.role == 'staff'){ minTotalFrequency = 1};
 
     function chart(selection) {
         selection.each(function(data) {
