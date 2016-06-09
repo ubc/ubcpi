@@ -109,6 +109,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             $scope.rationale_size = data.rationale_size;
             $scope.weight = data.weight;
             $scope.display_name = data.display_name;
+            $scope.user_role = data.user_role;
+            $scope.collapse = false;
 
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;

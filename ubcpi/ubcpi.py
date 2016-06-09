@@ -117,6 +117,25 @@ class MissingDataFetcherMixin:
         )
         return student_item_dict
 
+    def get_user_role(self):
+        """Create a student_item_dict from our surrounding context.
+
+        See also: submissions.api for details.
+
+        Args:
+            anonymous_user_id(str): A unique anonymous_user_id for (user, course) pair.
+        Returns:
+            (dict): The student item associated with this XBlock instance. This
+                includes the student id, item id, and course id.
+        """
+
+        # This is not the real way course_ids should work, but this is a
+        # temporary expediency for LMS integration
+        if hasattr(self, "xmodule_runtime"):
+            return self.xmodule_runtime.get_user_role()
+        else:
+            return 'student' 
+
     def _serialize_opaque_key(self, key):
         """
         Gracefully handle opaque keys, both before and after the transition.
@@ -446,6 +465,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'weight': self.weight,
             'options': options,
             'rationale_size': self.rationale_size,
+            'user_role': self.get_user_role(),
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
         }
         if answers.has_revision(0) and not answers.has_revision(1):
