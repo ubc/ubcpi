@@ -152,7 +152,8 @@
                                 <p class="ubcpi-solution-your-final-answer">
                                     Your final answer:
                                     <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
-                                    <span ng-if="rc.correct_answer !== rc.answer_revised" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer === rc.options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_revised && rc.correct_answer != rc.options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
                                 </p>
                                 <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>

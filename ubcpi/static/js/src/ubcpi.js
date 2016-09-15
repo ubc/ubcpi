@@ -202,6 +202,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 self.answer = data.answer_revised || data.answer_original;
                 self.rationale = data.rationale_revised || data.rationale_original;
                 self.weight = data.weight;
+                self.options = data.options;
             }
 
         }]);
