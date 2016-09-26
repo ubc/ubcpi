@@ -108,7 +108,7 @@
                             <label class="label setting-label pi-setting-label" for="pi-option-correct" aria-describedby="pi-option-correct-tip">Correct Answer</label>
                             <span id="pi-option-correct-tip" class="tip setting-help">Choose the answer you consider correct.</span>
                         </div>
-                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-model-options="{ debounce: 500 }" ng-options="esc.data.options.indexOf(option) as ('Option ' + (esc.data.options.indexOf(option) +1) ) for option in esc.data.options" required></select>
+                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-model-options="{ debounce: 500 }" ng-options="esc.makeOptions().indexOf(opt) as opt for opt in esc.makeOptions()" required></select>
                     </div>
                     <div class="wrapper-comp-setting pi-wrapper-comp-setting">
                         <div class="pi-label-and-hint">

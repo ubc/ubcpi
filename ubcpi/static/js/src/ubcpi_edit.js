@@ -59,6 +59,20 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
         function ($scope, studioBackendService, notify, $rootScope) {
             var self = this;
             var data = $scope.config.data;
+
+            self.makeOptions = function() {
+                var options = [];
+                for (var i = 0; i < data.options.length + 1; i++) {
+                    if(i==(data.options.length))
+                        options.push("No correct answer");
+                    else {
+                        var option = i+1;
+                        options.push("Option " + option);
+                    }
+                }
+                return options;
+            };
+
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
@@ -131,6 +145,8 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
             self.submit = function() {
                 notify('save', {state: 'start', message: "Saving"});
+                if(data.correct_answer == data.options.length)
+                    self.data.correct_rationale.text = "n/a";
 
                 return studioBackendService.submit(self.data).catch(function(errors) {
                     notify('error', {

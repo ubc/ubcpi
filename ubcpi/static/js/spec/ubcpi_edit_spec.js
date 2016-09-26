@@ -264,6 +264,12 @@ describe('UBCPI_Edit module', function () {
             );
         });
 
+        it('should add "No correct answer" option to a return options array when makeOptions is called', function() {
+            var options = controller.makeOptions();
+            expect(controller.data.options.length+1).toBe(options.length);
+            expect(options[options.length-1]).toEqual("No correct answer");
+        });
+
         it('should fail silently when invalid index is give to delete_option', function() {
             controller.delete_option(5);
             expect(controller.data.options.length).toBe(3);
