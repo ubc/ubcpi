@@ -106,7 +106,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     }
                 }
 
-                //look for seeds with answer indexes that are greater than or equal to the option index and reduce 
+                //look for seeds with answer indexes that are greater than or equal to the option index and reduce
                 // the answer value by one to account for the removed option
                 for(var j=0;j<self.data.seeds.length;j++){
                     if(self.data.seeds[j]['answer'] >= index){
@@ -145,8 +145,6 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
             self.submit = function() {
                 notify('save', {state: 'start', message: "Saving"});
-                if(data.correct_answer == data.options.length)
-                    self.data.correct_rationale.text = "n/a";
 
                 return studioBackendService.submit(self.data).catch(function(errors) {
                     notify('error', {

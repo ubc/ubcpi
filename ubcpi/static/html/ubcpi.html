@@ -78,7 +78,7 @@
                     <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
                         <p role="alert" class="warning" id="button-disabled-reason">
                             <span class="sr">Warning</span>
-                            <i aria-hidden="true" class="icon fa fa-warning"></i>&nbsp;Note: 
+                            <i aria-hidden="true" class="icon fa fa-warning"></i>&nbsp;Note:
                             <span ng-if="answerForm.rationale.$error.minlength">Your rationale must be a minimum of {{rationale_size.min}} characters.</span>
                             <span ng-if="answerForm.rationale.$error.maxlength">Your rationale must be a maximum of {{rationale_size.max}} characters.</span>
                             <span ng-if="answerForm.rationale.$invalid && answerForm.q.$valid">In order to move to the next step please briefly explain why you chose this answer.</span>
@@ -128,13 +128,15 @@
             <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region" auto-focus>
 
                 <div class="detailed-solution" id="detailed-solution">
-                    <h2 id="correct-option-head">Correct Answer</h2>
+                    <h2 id="correct-option-head" ng-if="options.length > rc.correct_answer">Correct Answer</h2>
 
-                    <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
+                    <div id="correct-answer-choice" ng-if="options.length > rc.correct_answer">
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
 
-                    <p class="ubcpi-correct-answer-option ubcpi-show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
+                        <p class="ubcpi-correct-answer-option ubcpi-show-correct" ng-if="options[rc.correct_answer].text">{{options[rc.correct_answer].text}}</p>
 
-                    <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
+                        <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'below' && options[rc.correct_answer].image_url" />
+                    </div>
 
                     <span class="ubcpi-correct-answer-rationale">{{rc.correct_rationale.text}}</span>
 
