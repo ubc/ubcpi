@@ -145,6 +145,8 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
 
             self.submit = function() {
                 notify('save', {state: 'start', message: "Saving"});
+                if(self.data.correct_answer == data.options.length)
+                    self.data.correct_rationale.text = "n/a";
 
                 return studioBackendService.submit(self.data).catch(function(errors) {
                     notify('error', {
