@@ -17,14 +17,14 @@
 
             <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" aria-labelledby="others-respoonses-head" auto-focus>
 
-                <h3 id="ubcpi-other-answers-head">Step 2) Read Other Student Answers</h3>
-                <p class="ubcpi-other-answers-instructions">These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
+                <h3 id="ubcpi-other-answers-head">Step 2A) READ OTHER STUDENT ANSWERS</h3>
+                <p class="ubcpi-other-answers-instructions">These are samples of other student answers picked at random for this question. Read them carefully to compare with your answer below.</p>
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
 
-                        <h4 class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</h4>
+                        <h4 class="other-answer" ng-if="options[answer.option].text">"{{options[answer.option].text}}" chosen because:</h4>
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
                         <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i>
@@ -32,9 +32,35 @@
 
                     </li>
                 </ul>
+                <h3 id="ubcpi-other-answers-head">Step 2B) COMPARE YOUR ANSWER</h3>
+                <ul class="ubcpi-other-answers">
+                    <li>
+                        <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
+
+                        <h4 class="other-answer">"{{options[rc.answer_original].text}}" chosen by you because:</h4>
+
+                        <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
+                        <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i>
+                        <span class="other-rationale">"{{rc.rationale_original}}"</span>
+
+                    </li>
+                </ul>
+                <div id="decisionPrompt" style="text-align:center">What would you like to do?</div>
+                <script>
+                    function showUpdate() {
+                        document.getElementById("decisionPrompt").style.display = 'none';
+                        document.getElementById("hidingForm").style.display = 'block';
+                        document.getElementById("updateBtn").style.display = 'none';
+                        document.getElementById("initSubmit").style.display = 'none';
+                        location.hash = "#hidingForm";
+                    }
+                </script>
+                <button id="updateBtn" onclick="showUpdate()">Update</button>
+                <input id="initSubmit" data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
 
             </div><!-- .others-responses -->
 
+            <div id="hidingForm" style="display: none";>
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
                 <fieldset>
@@ -55,7 +81,7 @@
 
                                 <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
-                                <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this option)</span>
+                                <span class="chosen-option option-details-text" ng-if="rc.answer_original == $index && rc.status() == rc.ALL_STATUS.ANSWERED">(You chose this in Step 1)</span>
                             </label>
                         </p>
                     </div>
@@ -70,7 +96,6 @@
                 <p class="ubc-pi-next">
                     <span id="ubcpi-next-inline-hints">
                         <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> After submitting your final answer, you will see the correct answer for this question.</span>
                     </span>
                 </p>
 
@@ -106,6 +131,7 @@
                 <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='Next Step &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event)" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" />
 
             </form>
+            </div>
 
         </div><!-- .question-other-explain -->
 
