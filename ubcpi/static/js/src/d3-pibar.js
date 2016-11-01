@@ -72,6 +72,7 @@ d3.custom.barChart = function(scope) {
             svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
+                .style("font-style", function(d) { return "italic";})
                 .call(xAxis);
 
             svg.append("g")
@@ -81,8 +82,7 @@ d3.custom.barChart = function(scope) {
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Frequency");
+                .style("text-anchor", "end");
 
             var bars = svg.selectAll(".ubcpibar")
                 .data(data)
@@ -120,12 +120,13 @@ d3.custom.barChart = function(scope) {
                     return "1.25em";
 
                 })
-                .attr("dx", (x.rangeBand() / 2) - 15 + "px")
+                .attr("dx", (x.rangeBand() / 2) - 25 + "px")
                 .text(function (d) {
                     var percentage = (d.frequency / totalFreq) * 100;
                     var rounded = Math.round(percentage * 10) / 10;
                     return rounded.toFixed(1) + '%';
-                });
+                })
+                .style("font-weight", function(d) { return "bold";});
         });
 
     }
