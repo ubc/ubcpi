@@ -22,7 +22,7 @@ angular.module('UBCPI').
                     for (var i = 0; i < scope.options.length; i++) {
                         data.push({
                             frequency: i in stats ? stats[i] : 0,
-                            label: 'Option ' + (i + 1) + (scope.correct == i ? '(correct)' : ''),
+                            label: 'Option ' + (i + 1) + (scope.correct == i ? ' (correct)' : ''),
                             class: 'ubcpibar' +  (scope.correct == i ? ' correct-answer' : '')
                         });
                     }

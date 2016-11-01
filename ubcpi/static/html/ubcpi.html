@@ -161,6 +161,7 @@
                                 <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
                             </li>
                         </ul>
+                        <p>See how your classmates answered <a href="#classbreakdown">below</a></p>
 
                     </div>
                 </div><!-- .detailed-solution -->
@@ -169,17 +170,16 @@
 
             <div class="ubcpi-class-breakdown">
 
+                <a name="classbreakdown"></a>
                 <h3 class="ubcpi-class-breakdown-head">Class Breakdown</h3>
                 <p>This is a look at how your classmates answered the question during the initial and final rounds.</p>
-
+                <h4>Answer Options</h4>
                 <div class="ubcpi-breakdown-answer-options">
-
-                    <h4>Answer Options</h4>
 
                     <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
-                        <span class="ubcpi-breakdown-option-num">Option {{$index + 1}}</span>&nbsp;<span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
+                        <span class="ubcpi-breakdown-option-num"><i>Option {{$index + 1}}</i></span>&nbsp;<span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index">(Correct answer)</span>
                         <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text ubcpi-show-correct">{{option.text}}</span>
                         <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
 
@@ -189,12 +189,14 @@
                     </p>
 
                 </div>
-
+                <h4>Initial Answer Selection</h4>
                 <div class="original-answers results-container choicegroup">
+
                     <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
                     <p class="ubcpi-chart-label">Original Answer</p>
                 </div><!-- .original-answers -->
 
+                <h4>Final Answer Selection</h4>
                 <div class="revised-answers results-container choicegroup">
                     <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
                     <p class="ubcpi-chart-label">Revised Answer</p>
