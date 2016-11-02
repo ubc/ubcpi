@@ -41,9 +41,11 @@ d3.custom.barChart = function(scope) {
             var height = chartHeight - margin.top - margin.bottom;
 
             var svg = d3.select(this)
+                .classed("svg-container", true)
                 .append("svg")
-                .attr("width", chartWidth)
-                .attr("height", chartHeight);
+                .attr("preserveAspectRatio", "xMaxYMax meet")
+                .attr("viewBox", "0 0 800 250")
+                .classed("svg-content-responsive", true);
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], 0.1);
@@ -152,3 +154,4 @@ d3.custom.barChart = function(scope) {
 
     return chart;
 };
+
