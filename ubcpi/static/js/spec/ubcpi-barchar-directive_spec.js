@@ -77,7 +77,7 @@ describe('UBCPI', function () {
 
                 it('should mark the correct answer label', function () {
                     expect(element.find('g.axis').eq(0).find('text').eq(correct).text())
-                        .toBe('Option ' + (correct + 1) + '(correct)');
+                        .toBe('Option ' + (correct + 1) + ' (correct)');
                 });
 
                 it('should calculate percentage correctly', function() {
