@@ -44,7 +44,9 @@
                 </ul>
 
             </div><!-- .others-responses -->
+
             <span id="answer" ng-if="rc.status() == rc.ALL_STATUS.NEW && user_role == 'student'">
+
                 <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
                   <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#333;padding-top:.3em"><i class="fa fa-arrow-circle-down" style="font-size:1.4em;"></i></span><br>Answer</li>
                   <i class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></i>
@@ -156,6 +158,7 @@
             <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region" auto-focus>
 
                 <div class="detailed-solution" id="detailed-solution">
+
                     <h2 id="correct-option-head" ng-if="options.length > rc.correct_answer">Correct Answer</h2>
                     <h2 id="correct-option-head" ng-if="!rc.correct_rationale.text"></h2>
                     <h2 id="correct-option-head" ng-if="options.length == rc.correct_answer && rc.correct_rationale.text">Rationale</h2>
