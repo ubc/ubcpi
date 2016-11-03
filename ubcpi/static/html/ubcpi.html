@@ -161,7 +161,7 @@
 
                     <h2 id="correct-option-head" ng-if="options.length > rc.correct_answer">Correct Answer</h2>
                     <h2 id="correct-option-head" ng-if="!rc.correct_rationale.text"></h2>
-                    <h2 id="correct-option-head" ng-if="options.length == rc.correct_answer && rc.correct_rationale.text">Rationale</h2>
+                    <h2 id="correct-option-head" ng-if="options.length == rc.correct_answer && rc.correct_rationale.text">INSTRUCTOR'S EXPLANATION</h2>
 
                     <div id="correct-answer-choice" ng-if="options.length > rc.correct_answer">
                         <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
@@ -187,8 +187,8 @@
                                 <p class="ubcpi-solution-your-final-answer">
                                     Your final answer:
                                     <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
-                                    <span ng-if="rc.correct_answer === rc.options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_revised].text}} </span>
-                                    <span ng-if="rc.correct_answer !== rc.answer_revised && rc.correct_answer != rc.options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_revised && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
+                                    <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_revised].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_revised + 1}})</span>
                                 </p>
                                 <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
