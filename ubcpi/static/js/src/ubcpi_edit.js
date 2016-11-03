@@ -64,7 +64,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                 var options = [];
                 for (var i = 0; i < data.options.length + 1; i++) {
                     if(i==(data.options.length))
-                        options.push("No correct answer");
+                        options.push("n/a");
                     else {
                         var option = i+1;
                         options.push("Option " + option);
@@ -142,6 +142,13 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     }
                 }
             };
+
+            self.noCorrect = function() {
+                if(self.data.correct_answer==data.options.length)
+                    return false;
+                else
+                    return true;
+            }
 
             self.submit = function() {
                 notify('save', {state: 'start', message: "Saving"});
