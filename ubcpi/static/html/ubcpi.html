@@ -45,7 +45,7 @@
 
             </div><!-- .others-responses -->
 
-            <span id="answer" ng-if="rc.status() == rc.ALL_STATUS.NEW && user_role == 'student'">
+            <span id="answer" ng-if="rc.status() == rc.ALL_STATUS.NEW">
 
                 <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
                   <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#333;padding-top:.3em"><i class="fa fa-arrow-circle-down" style="font-size:1.4em;"></i></span><br>Answer</li>
@@ -90,7 +90,6 @@
                 <p class="ubc-pi-next">
                     <span id="ubcpi-next-inline-hints">
                         <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.NEW"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> In the next step you will be shown a selection of other responses which may help you refine your answer.</span>
-                        <span class="inline-hint" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED"><span class="sr">Hint</span><i aria-hidden="true" class="icon fa fa-info-circle"></i> After submitting your final answer, you will see the correct answer for this question.</span>
                     </span>
                 </p>
 
@@ -178,7 +177,9 @@
                             <li class="ubcpi-initial">
                                 <p class="ubcpi-solution-your-initial-answer">
                                     Your initial answer:
-                                    <span class="ubcpi-initial-option-text">{{options[rc.answer_original].text}} </span>
+                                    <span ng-if="rc.correct_answer === rc.answer_original" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_original].text}} </span>
+                                    <span ng-if="rc.correct_answer !== rc.answer_original && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_original].text}} </span>
+                                    <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_original].text}} </span>
                                     <span class="ubcpi-initial-option-num">(Option {{rc.answer_original + 1}})</span>
                                 </p>
                                 <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
@@ -226,13 +227,11 @@
                 <div class="original-answers results-container choicegroup">
 
                     <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
-                    <p class="ubcpi-chart-label">Original Answer</p>
                 </div><!-- .original-answers -->
 
                 <h4>Final Answer Selection</h4>
                 <div class="revised-answers results-container choicegroup">
                     <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
-                    <p class="ubcpi-chart-label">Revised Answer</p>
                 </div><!-- .revised-answers -->
 
             </div>
