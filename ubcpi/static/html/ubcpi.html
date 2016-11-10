@@ -9,12 +9,14 @@
             <div class="question-weight" ng-if="weight == 1">&nbsp;({{weight}} point possible)</div>
             <div class="question-weight" ng-if="weight > 1">&nbsp;({{weight}} points possible)</div>
 
+            <div style="padding: .5em; margin-bottom: 0px; background: #ddd;"><h2 id="pi-question-h" class="question-text" style="margin-bottom:0">QUESTION</h2></div>
+            <div style="margin: 0 0 1.5em 0; padding: 1em; background: #f8f8f8;">
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
             <span aria-labelledby="pi-question-h" id="question-text" ng-bind-html="question_text.text" ng-if="question_text.text"></span>
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
-
+            </div>
             <span id="reflect" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
                 <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
                     <li style="display:inline-block;width:30%;text-align:center;color:#aaa;padding-top:.3em"><i class="fa fa-check-circle" style="font-size:1.4em;"></i></span><br>Answer</li>
@@ -130,19 +132,22 @@
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 
-            <h2 id="pi-question-h" class="question-text">Question</h2>
-
+            <h2 id="pi-question-h" class="question-text">{{display_name}}</h2>
             <div class="question-weight" ng-if-"rc.weight < 1"></div>
 
             <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
 
             <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
 
+            <div style="padding: .5em; margin-bottom: 0px; background: #ddd;"><h2 id="pi-question-h" class="question-text" style="margin-bottom:0">QUESTION</h2></div>
+            <div style="margin: 0 0 1.5em 0; padding: 1em; background: #f8f8f8;">
+
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
             <span aria-labelledby="pi-question-h" id="question-text" ng-bind-html="question_text.text" ng-if="question_text.text"></span>
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
+            </div>
 
             <span id="test" ng-if="rc.status() == rc.ALL_STATUS.REVISED">
                 <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
