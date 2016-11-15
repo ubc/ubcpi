@@ -177,7 +177,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     event_namespace = 'ubc.peer_instruction'
 
     # the display name that used on the interface
-    display_name = String(default=_("Peer Instruction Question"))
+    display_name = String(default=_("Peer Rationale Reflection Question"))
 
     question_text = Dict(
         default={'text': _('<p>Where does most of the mass in a fully grown tree originate?</p>'),
@@ -650,7 +650,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """A canned scenario for display in the workbench."""
         return [
             (
-                "UBC Peer Instruction: Basic",
+                "UBC Peer Rationale Reflection: Basic",
                 cls.resource_string('static/xml/basic_scenario.xml')
             ),
         ]

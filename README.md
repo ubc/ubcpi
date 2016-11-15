@@ -12,7 +12,7 @@ One of the key features in the success of peer instruction in enhancing student 
 
 ## Basic workflow
 
-1. In Studio, course creator creates a new advanced problem of type Peer Instruction, configures and publishes
+1. In Studio, course creator creates a new advanced problem of type Peer Rationale Reflection, configures and publishes
 2. In the LMS, (following some content presentation) the student is presented the question, answer options and text box to complete their rationale for their answer.
 3. Following submit, the student is presented with a range of alternative student answers and rationales (This is as an alternative to small group discussion)
 4. Students reflect on the answers presented, then modify their own answer and rationale and submit a final answer

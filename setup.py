@@ -48,7 +48,7 @@ setup(
         ]
     },
     package_data=package_data("ubcpi", ["static", "public", "translations"]),
-    keywords=['edx', 'peer instruction', 'ubc'],
+    keywords=['edx', 'peer rationale reflection', 'ubc'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Plugins",
