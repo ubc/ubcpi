@@ -96,7 +96,7 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
     box-sizing: border-box;
     padding: 0;
     position: relative;
-    top: -3px;
+    top: 2px;
 }
 
 textarea.ubcpi-field {
