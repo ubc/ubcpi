@@ -26,13 +26,13 @@ def readme():
             return f.read()
     else:
         # fallback to a default description
-        return 'UBC Peer Instruction Tool'
+        return 'UBC Peer Rationale Reflection Tool'
 
 
 setup(
-    name='ubcpi-xblock',
+    name='prrt-xblock',
     version='0.5.3',
-    description='UBC Peer Instruction XBlock',
+    description='UBC Peer Rationale Reflection XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',
     url="https://github.com/ubc/ubcpi",
