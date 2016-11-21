@@ -31,7 +31,7 @@ def readme():
 
 setup(
     name='prrt-xblock',
-    version='0.5.3',
+    version='0.6.0',
     description='UBC Peer Rationale Reflection XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',

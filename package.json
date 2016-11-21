@@ -1,6 +1,6 @@
 {
   "name": "prrt",
-  "version": "0.0.1",
+  "version": "0.6.0",
   "repository": "https://github.com/ubc/ubcpi.git",
   "devDependencies": {
     "angular": "~1.3",
