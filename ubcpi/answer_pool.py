@@ -119,9 +119,10 @@ def validate_seeded_answers_simple(answers, options, algo):
     index = 1
     for option in options:
         key = option.get('text') + option.get('image_url') if option.get('image_url') else option.get('text')
-        if seen_options.get(key, 0) == 0:
-            missing_options.append('Option ' + str(index))
-        index += 1
+        if option.get('text') != 'n/a':
+            if seen_options.get(key, 0) == 0:
+                missing_options.append('Option ' + str(index))
+            index += 1
 
     if missing_options:
         return {'seed_error': 'Missing option seed(s): ' + ', '.join(missing_options)}

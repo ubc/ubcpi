@@ -1,4 +1,4 @@
-## UBC Peer Instruction Tool for EdX
+## UBC Peer Rational Reflection Tool for edX
 
 [![Build Status](https://travis-ci.org/ubc/ubcpi.svg)](https://travis-ci.org/ubc/ubcpi) [![Coverage Status](https://coveralls.io/repos/ubc/ubcpi/badge.svg?branch=master&service=github)](https://coveralls.io/github/ubc/ubcpi?branch=master)
 
@@ -8,11 +8,11 @@ Over the last 20 years, Peer Instruction has become a widely-adopted instruction
 
 The learning and retention benefits of interactive engagement strategies has been convincingly demonstrated in a recent meta-analysis by Freeman et al which examined 225 published studies across various STEM disciplines and course contexts. Relating directly to peer instruction, and specifically the efficacy of peer discussion to improve student performance on concept questions posed in class, a 2009 study by Smith et al (Science 323, 122 (2009)) demonstrates this effect comes from enhanced learning, rather than simply peer influence. The impact peer instruction has had was recognized through the award of the inaugural Minerva prize for enhancement in higher education to Eric Mazur in 2014.
 
-One of the key features in the success of peer instruction in enhancing student learning is to promote higher-order cognitive activities (articulation, evaluation, synthesis etc.) within a learning sequence or activity (for example, within a lecture segment in the face-to-face environment). It is specifically this benefit that we seek to replicate and expose within the online environment through this suggestion to develop online Peer Instruction (oPI) in the functionality within edX.
+One of the key features in the success of peer instruction in enhancing student learning is to promote higher-order cognitive activities (articulation, evaluation, synthesis etc.) within a learning sequence or activity (for example, within a lecture segment in the face-to-face environment). It is specifically this benefit that we seek to replicate and expose within the online environment through this suggestion to develop online Peer Instruction (oPI) in the functionality within edX. To that effect, we have created the Peer Rationale Reflection Tool. In choosing a name, we wanted to emphasize the fact that a student reflects on their initial response using the responses of their peers, as well as highlight the importance of the student-provided rationale for their answer selection.
 
 ## Basic workflow
 
-1. In Studio, course creator creates a new advanced problem of type Peer Instruction, configures and publishes
+1. In Studio, course creator creates a new advanced problem of type Peer Rationale Reflection, configures and publishes
 2. In the LMS, (following some content presentation) the student is presented the question, answer options and text box to complete their rationale for their answer.
 3. Following submit, the student is presented with a range of alternative student answers and rationales (This is as an alternative to small group discussion)
 4. Students reflect on the answers presented, then modify their own answer and rationale and submit a final answer
@@ -38,7 +38,7 @@ or
     make test-js
 
 ## Running Acceptance Tests
- To run acceptance test, the devstack has to be running at localhost:8000 and localhost:8001 (configurable in protractor.conf) with auth auth enabled. To enable auto auth in cms.env.json and lms.env.json from Edx platform:
+ To run acceptance test, the devstack has to be running at localhost:8000 and localhost:8001 (configurable in protractor.conf) with auth auth enabled. To enable auto auth under FEATURE section in cms.env.json and lms.env.json from Edx platform:
 
     AUTOMATIC_AUTH_FOR_TESTING: true
 
@@ -57,6 +57,19 @@ Single test:
     node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
 
 ## Changelog
+
+### [0.6](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6+is%3Aclosed)
+1. Allowed setup of a question with no correct answer.
+2. Made the instructor-entered rationale optional for case where there is no correct answer.
+3. Changed text in various locations to reflect option of scenario where there is no correct answer.
+4. Inserted red asterisks in Studio view as appropriate to further indicate fields as required.
+5. Fixed display of graphs on mobile.
+6. Introduced a progress bar, with anchoring as appropriate, to better orient students during each stage of a question.
+7. Changed colouring of both initial and final answers at last stage to correspond to correct answer, if specified, as appropriate. Initial and final answers are left black for the scenario where the instructor did not specify a correct answer.
+8. Changed text labels to emphasize answer chosen by student, as appropriate.
+9. Moved graphs headings above graphs for further emphasis.
+10. Styled (italicized, emboldened) various labels for further emphasis.
+3. Changed name of tool from Peer Instruction Tool to Peer Rationale Reflection Tool, and modified text in various locations as appropriate.
 
 ### [0.5.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.5.3+is%3Aclosed)
 1. Introduced Esperanto (eo) language dummy translations.

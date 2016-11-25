@@ -10,11 +10,13 @@ d3.custom = (d3.custom || {});
  *     {frequency: 0,  label: 'Option 5', class: 'ubcpibar'},
  * ]
  */
-d3.custom.barChart = function() {
+d3.custom.barChart = function(scope) {
     // Private Variables
     var chartWidth  = 750;
     var chartHeight = 250;
     var minTotalFrequency = 10;
+
+    if(scope.role == 'instructor' || scope.role == 'staff'){ minTotalFrequency = 1};
 
     function chart(selection) {
         selection.each(function(data) {
@@ -39,9 +41,11 @@ d3.custom.barChart = function() {
             var height = chartHeight - margin.top - margin.bottom;
 
             var svg = d3.select(this)
+                .classed("svg-container", true)
                 .append("svg")
-                .attr("width", chartWidth)
-                .attr("height", chartHeight);
+                .attr("preserveAspectRatio", "xMaxYMax meet")
+                .attr("viewBox", "0 0 800 250")
+                .classed("svg-content-responsive", true);
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], 0.1);
@@ -68,6 +72,7 @@ d3.custom.barChart = function() {
             svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
+                .style("font-style", function(d) { return "italic";})
                 .call(xAxis);
 
             svg.append("g")
@@ -77,8 +82,7 @@ d3.custom.barChart = function() {
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Frequency");
+                .style("text-anchor", "end");
 
             var bars = svg.selectAll(".ubcpibar")
                 .data(data)
@@ -116,12 +120,13 @@ d3.custom.barChart = function() {
                     return "1.25em";
 
                 })
-                .attr("dx", (x.rangeBand() / 2) - 15 + "px")
+                .attr("dx", (x.rangeBand() / 2) - 25 + "px")
                 .text(function (d) {
                     var percentage = (d.frequency / totalFreq) * 100;
                     var rounded = Math.round(percentage * 10) / 10;
                     return rounded.toFixed(1) + '%';
-                });
+                })
+                .style("font-weight", function(d) { return "bold";});
         });
 
     }
@@ -150,3 +155,4 @@ d3.custom.barChart = function() {
 
     return chart;
 };
+

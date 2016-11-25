@@ -158,7 +158,7 @@ describe('UBCPI_Edit module', function () {
                 "correct_rationale": {"text": "correct rationale"},
                 "image_position_locations": {"below": "Appears below", "above": "Appears above"},
                 "rationale_size": {"max": 32000, "min": 1},
-                "display_name": "Peer Instruction",
+                "display_name": "Peer Rationale Reflection",
                 "algo": {"num_responses": "#", "name": "simple"},
                 "algos": {
                     "simple": "System will select one of each option to present to the students.",
@@ -262,6 +262,17 @@ describe('UBCPI_Edit module', function () {
                     "image_alt": ""
                 }]
             );
+        });
+
+        it('should add "n/a" option to a return options array when makeOptions is called', function() {
+            var options = controller.makeOptions();
+            expect(controller.data.options.length+1).toBe(options.length);
+            expect(options[options.length-1]).toEqual("n/a");
+        });
+
+        it('should return false when noCorrect is called, given a correct answer of index 1', function() {
+            expect(controller.noCorrect()).toBe(true);
+
         });
 
         it('should fail silently when invalid index is give to delete_option', function() {

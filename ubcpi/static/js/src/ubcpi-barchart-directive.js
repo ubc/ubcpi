@@ -6,7 +6,8 @@ angular.module('UBCPI').
                 options: '=',
                 stats: '=',
                 correct: '=',
-                answer: '='
+                answer: '=',
+                role: '='
             },
             // no overwrite template
             replace: false,
@@ -21,18 +22,18 @@ angular.module('UBCPI').
                     for (var i = 0; i < scope.options.length; i++) {
                         data.push({
                             frequency: i in stats ? stats[i] : 0,
-                            label: 'Option ' + (i + 1) + (scope.correct == i ? '(correct)' : ''),
+                            label: 'Option ' + (i + 1) + (scope.correct == i ? ' (correct)' : ''),
                             class: 'ubcpibar' +  (scope.correct == i ? ' correct-answer' : '')
                         });
                     }
 
                     // generate the chart
-                    var chartLayout = d3.custom.barChart();
+                    var chartLayout = d3.custom.barChart(scope);
 
                     d3.select(element[0])
                         .datum(data)
                         .call(chartLayout)
-                }, true);
+                }, true)
             }
         }
     });

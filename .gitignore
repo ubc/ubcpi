@@ -1,4 +1,5 @@
 .idea
+.env
 *.iml
 .classpath
 .project
@@ -20,3 +21,5 @@ htmlcov
 
 build
 dist
+
+scripts/populate.json

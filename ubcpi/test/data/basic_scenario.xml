@@ -1,5 +1,5 @@
 <ubcpi rationale_size_min="1" rationale_size_max="32000" algorithm="simple" num_responses="#">
-    <display_name>Sample Peer Instruction</display_name>
+    <display_name>Sample Peer Rationale Reflection</display_name>
     <question>
         <image position="below" alt="This is a image" show_fields="0">/static/test.jpg</image>
         <text>This is the question text</text>
