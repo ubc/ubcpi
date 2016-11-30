@@ -96,7 +96,7 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
     box-sizing: border-box;
     padding: 0;
     position: relative;
-    top: 2px;
+    top: -3px;
 }
 
 textarea.ubcpi-field {
@@ -683,71 +683,6 @@ div.course-wrapper section.course-content .warning-notice p {
     cursor: default;
 }
 
-/* styles for 'view question statistics' button and chart area */
-
-.ubcpi-staff-button-wrapper{
-  text-align:right;
-  position:relative;
-  padding: 10px 0px 10px 10px;
-}
-
-.ubcpi-staff-statistics-button{
-  border:none;
-  border-radius:5px;
-  padding:5px 10px;
-  text-transform:uppercase;
-  font-size:12px;
-  color:#646464;
-  background-color:rgba(3,3,3,0.05);
-  transition:none;
-}
-
-.ubcpi-staff-statistics-button--active{
-    color:white;
-    background-color:#b62568;
-    border:none;
-    border-radius:5px;
-    padding: 5px 10px;
-    text-transform:uppercase;
-    font-size:12px;
-    transition:none;
-}
-
-.ubcpi-staff-statistics{
-    padding:1em;
-    margin-top:0.5em;
-    background:black;
-    border-top: 5px solid #b62568;
-    transition: none;
-}
-
-.ubcpi-staff-statistics-button:hover{
-    color:white;
-    background-color: #61b5e6;
-}
-
-.ubcpi-staff-statistics-button:active{
-    color:white;
-    background-color:#b62568;
-}
-
-.ubcpi-staff-statistics-button--active:hover{
-    color:white;
-}
-
-.ubcpi-staff-statistics-button:focus, .ubcpi-staff-statistics-button--active:focus{
-    outline:none;
-}
-
-pi-barchart > span{
-    text-align:center;
-    display:block;
-}
-
-pi-barchart > svg {
-    margin-left:-21px;
-}
-
 /*
     Studio Specific changes
 */
@@ -779,5 +714,3 @@ pi-barchart > svg {
 #pi-algo {
     text-transform: capitalize;
 }
-
-

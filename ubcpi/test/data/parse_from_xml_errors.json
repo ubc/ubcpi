@@ -2,7 +2,7 @@
   "invalid_ubcpi_element": {
     "xml": [
       "<ubcpi_invalid>",
-        "<display_name>Sample Peer Rationale Reflection</display_name>",
+        "<display_name>Sample Peer Instruction</display_name>",
         "<question>",
             "<text>This is the question text</text>",
         "</question>",
@@ -45,7 +45,7 @@
   "missing_question_element": {
     "xml": [
       "<ubcpi>",
-        "<display_name>Sample Peer Rationale Reflection</display_name>",
+        "<display_name>Sample Peer Instruction</display_name>",
         "<options>",
             "<option correct=\"True\">",
                 "<text>Option1</text>",
@@ -64,7 +64,7 @@
   "missing_options_element": {
     "xml": [
       "<ubcpi>",
-        "<display_name>Peer Rationale Reflection</display_name>",
+        "<display_name>Sample Peer Instruction</display_name>",
         "<question>",
             "<text>This is the question text</text>",
         "</question>",
@@ -77,7 +77,7 @@
   "missing_seeds_element": {
     "xml": [
       "<ubcpi>",
-        "<display_name>Peer Rationale Reflection</display_name>",
+        "<display_name>Sample Peer Instruction</display_name>",
         "<question>",
             "<text>This is the question text</text>",
         "</question>",
