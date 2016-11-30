@@ -59,20 +59,6 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
         function ($scope, studioBackendService, notify, $rootScope) {
             var self = this;
             var data = $scope.config.data;
-
-            self.makeOptions = function() {
-                var options = [];
-                for (var i = 0; i < data.options.length + 1; i++) {
-                    if(i==(data.options.length))
-                        options.push("n/a");
-                    else {
-                        var option = i+1;
-                        options.push("Option " + option);
-                    }
-                }
-                return options;
-            };
-
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
@@ -106,7 +92,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     }
                 }
 
-                //look for seeds with answer indexes that are greater than or equal to the option index and reduce
+                //look for seeds with answer indexes that are greater than or equal to the option index and reduce 
                 // the answer value by one to account for the removed option
                 for(var j=0;j<self.data.seeds.length;j++){
                     if(self.data.seeds[j]['answer'] >= index){
@@ -142,13 +128,6 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     }
                 }
             };
-
-            self.noCorrect = function() {
-                if(self.data.correct_answer==data.options.length)
-                    return false;
-                else
-                    return true;
-            }
 
             self.submit = function() {
                 notify('save', {state: 'start', message: "Saving"});

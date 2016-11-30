@@ -10,7 +10,7 @@ module.exports = function(config) {
     plugins: [
       'karma-coverage',
       'karma-jasmine',
-      'karma-jasmine-jquery',
+	  'karma-jasmine-jquery',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-phantomjs-launcher',
@@ -24,7 +24,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../../../node_modules/jquery/dist/jquery.js',
+      '../../../node_modules/jquery/tmp/jquery.js',
       '../../../node_modules/angular/angular.js',
       '../../../node_modules/angular-messages/angular-messages.js',
       '../../../node_modules/angular-sanitize/angular-sanitize.js',
