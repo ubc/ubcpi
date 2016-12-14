@@ -158,7 +158,7 @@ describe('UBCPI_Edit module', function () {
                 "correct_rationale": {"text": "correct rationale"},
                 "image_position_locations": {"below": "Appears below", "above": "Appears above"},
                 "rationale_size": {"max": 32000, "min": 1},
-                "display_name": "Peer Rationale Reflection",
+                "display_name": "Peer Instruction",
                 "algo": {"num_responses": "#", "name": "simple"},
                 "algos": {
                     "simple": "System will select one of each option to present to the students.",
