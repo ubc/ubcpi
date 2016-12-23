@@ -1,0 +1,125 @@
+# 
+# Translators:
+# qualityalltext <quality@alltext.co.il>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: XBlocks\n"
+"POT-Creation-Date: 2016-03-16 15:27+0500\n"
+"PO-Revision-Date: 2016-08-21 08:16+0000\n"
+"Last-Translator: qualityalltext <quality@alltext.co.il>\n"
+"Language-Team: Hebrew (http://www.transifex.com/open-edx/xblocks/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: ubcpi.py\n"
+
+#: ubcpi.py
+msgid "Peer Instruction"
+msgstr "הוראת עמיתים"
+
+#: ubcpi.py
+msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
+msgstr "<p>מה מקור מרבית המסה של עץ בוגר?</p>"
+
+#: ubcpi.py
+msgid ""
+"The question the students see. This question appears above the possible "
+"answers which you set below. You can use text, an image or a combination of "
+"both. If you wish to add an image to your question, press the 'Add Image' "
+"button."
+msgstr "השאלה שרואה הסטודנט. השאלה מופיעה מעל התשובות האפשריות שהגדרת למטה. ניתן להשתמש בטקסט, תמונה או שילוב של השניים. אם תרצה להוסיף תמונה לשאלתך, לחץ על לחצן 'הוסף תמונה'."
+
+#: ubcpi.py
+msgid "Air"
+msgstr "אוויר"
+
+#: ubcpi.py
+msgid "Soil"
+msgstr "קרקע"
+
+#: ubcpi.py
+msgid "Water"
+msgstr "מים"
+
+#: ubcpi.py
+msgid ""
+"The minimum and maximum number of characters a student is allowed for their "
+"rationale."
+msgstr "המספר המינימלי והמקסימלי של גופנים שיכול הסטודנט  להשתמש בהסברו."
+
+#: ubcpi.py
+msgid "The correct option for the question"
+msgstr "האפשרות הנכונה לשאלה"
+
+#: ubcpi.py
+msgid "Photosynthesis"
+msgstr "פוטוסינתזה"
+
+#: ubcpi.py
+msgid "The feedback for student for the correct answer"
+msgstr "המשוב לסטודנט על תשובה נכונה"
+
+#: ubcpi.py
+msgid "Overall stats for the instructor"
+msgstr "סטטיסטיקה כללית עבור המורה"
+
+#: ubcpi.py
+msgid "Tree gets carbon from air."
+msgstr "העץ מקבל פחם מהאוויר."
+
+#: ubcpi.py
+msgid "Tree gets minerals from soil."
+msgstr "העץ מקבל מינרלים מהקרקע."
+
+#: ubcpi.py
+msgid "Tree drinks water."
+msgstr "העץ שותה מים."
+
+#: ubcpi.py
+msgid ""
+"Instructor configured examples to give to students during the revise stage."
+msgstr "המורה מתכנן דוגמאות לתלמידים במהלך שלב התיקון."
+
+#: ubcpi.py
+msgid "System selected answers to give to students during the revise stage."
+msgstr "המערכת בוחרת תשובות שיינתנו לתלמיד במהלך שלב התיקון."
+
+#: ubcpi.py
+msgid "The algorithm for selecting which answers to be presented to students"
+msgstr "האלגוריתם לבחירת התשובות שיוצגו לתלמידים"
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the start date of this assignment. We"
+" ignore this."
+msgstr "מחרוזת ISO-8601 מייצגת את תאריך ההתחלה של מטלה זו. אנו מתעלמים מכך."
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the due date of this assignment. We "
+"ignore this."
+msgstr "מחרוזת ISO-8601 מייצגת את תאריך המסירה של מטלה זו. אנו מתעלמים מכך."
+
+#: ubcpi.py
+msgid "Problem Weight"
+msgstr "משקל הבעיה"
+
+#: ubcpi.py
+msgid "System will select one of each option to present to the students."
+msgstr "המערכת תבחר אחת מהאפשרויות להציג לתלמידים."
+
+#: ubcpi.py
+msgid "Completely random selection from the response pool."
+msgstr "בחירה אקראית לחלוטין ממאגר התשובות."
+
+#: ubcpi.py
+msgid "Appears above"
+msgstr "מופיע למעלה"
+
+#: ubcpi.py
+msgid "Appears below"
+msgstr "מופיע למטה"
