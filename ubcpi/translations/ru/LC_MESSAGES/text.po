@@ -1,0 +1,124 @@
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: XBlocks\n"
+"POT-Creation-Date: 2016-03-16 15:27+0500\n"
+"PO-Revision-Date: 2016-06-08 14:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian (http://www.transifex.com/open-edx/xblocks/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: ubcpi.py\n"
+
+#: ubcpi.py
+msgid "Peer Instruction"
+msgstr ""
+
+#: ubcpi.py
+msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
+msgstr ""
+
+#: ubcpi.py
+msgid ""
+"The question the students see. This question appears above the possible "
+"answers which you set below. You can use text, an image or a combination of "
+"both. If you wish to add an image to your question, press the 'Add Image' "
+"button."
+msgstr ""
+
+#: ubcpi.py
+msgid "Air"
+msgstr ""
+
+#: ubcpi.py
+msgid "Soil"
+msgstr ""
+
+#: ubcpi.py
+msgid "Water"
+msgstr ""
+
+#: ubcpi.py
+msgid ""
+"The minimum and maximum number of characters a student is allowed for their "
+"rationale."
+msgstr ""
+
+#: ubcpi.py
+msgid "The correct option for the question"
+msgstr ""
+
+#: ubcpi.py
+msgid "Photosynthesis"
+msgstr ""
+
+#: ubcpi.py
+msgid "The feedback for student for the correct answer"
+msgstr ""
+
+#: ubcpi.py
+msgid "Overall stats for the instructor"
+msgstr ""
+
+#: ubcpi.py
+msgid "Tree gets carbon from air."
+msgstr ""
+
+#: ubcpi.py
+msgid "Tree gets minerals from soil."
+msgstr ""
+
+#: ubcpi.py
+msgid "Tree drinks water."
+msgstr ""
+
+#: ubcpi.py
+msgid ""
+"Instructor configured examples to give to students during the revise stage."
+msgstr ""
+
+#: ubcpi.py
+msgid "System selected answers to give to students during the revise stage."
+msgstr ""
+
+#: ubcpi.py
+msgid "The algorithm for selecting which answers to be presented to students"
+msgstr ""
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the start date of this assignment. We"
+" ignore this."
+msgstr ""
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the due date of this assignment. We "
+"ignore this."
+msgstr ""
+
+#: ubcpi.py
+msgid "Problem Weight"
+msgstr ""
+
+#: ubcpi.py
+msgid "System will select one of each option to present to the students."
+msgstr ""
+
+#: ubcpi.py
+msgid "Completely random selection from the response pool."
+msgstr ""
+
+#: ubcpi.py
+msgid "Appears above"
+msgstr ""
+
+#: ubcpi.py
+msgid "Appears below"
+msgstr ""

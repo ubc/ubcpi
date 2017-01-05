@@ -1,0 +1,125 @@
+# 
+# Translators:
+# shefaa abu jabel <shefaa.aj@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: XBlocks\n"
+"POT-Creation-Date: 2016-03-16 15:27+0500\n"
+"PO-Revision-Date: 2016-08-24 14:06+0000\n"
+"Last-Translator: shefaa abu jabel <shefaa.aj@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/open-edx/xblocks/language/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: ubcpi.py\n"
+
+#: ubcpi.py
+msgid "Peer Instruction"
+msgstr "تعليمات تفاعلية"
+
+#: ubcpi.py
+msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
+msgstr "<p>أين تنشأ معظم كتلة الشجرة كاملة النمو؟</p>"
+
+#: ubcpi.py
+msgid ""
+"The question the students see. This question appears above the possible "
+"answers which you set below. You can use text, an image or a combination of "
+"both. If you wish to add an image to your question, press the 'Add Image' "
+"button."
+msgstr "السؤال الذي يراه الطلاب. يظهر هذا السؤال فوق الإجابات المحتملة التي ستحددها فيما يلي. يمكنك استخدام نص، أو صورة، أو الجمع بين الاثنين. إذا كنت ترغب في إضافة صورة إلى سؤالك، اضغط على زر 'إضافة صورة'."
+
+#: ubcpi.py
+msgid "Air"
+msgstr "هواء"
+
+#: ubcpi.py
+msgid "Soil"
+msgstr "تربة"
+
+#: ubcpi.py
+msgid "Water"
+msgstr "ماء"
+
+#: ubcpi.py
+msgid ""
+"The minimum and maximum number of characters a student is allowed for their "
+"rationale."
+msgstr "العدد الأدنى والأقصى من الرموز المسموحة للطالب عند استعراضه للأسباب."
+
+#: ubcpi.py
+msgid "The correct option for the question"
+msgstr "خيار الإجابة الصحيح للسؤال"
+
+#: ubcpi.py
+msgid "Photosynthesis"
+msgstr "التمثيل الضوئي"
+
+#: ubcpi.py
+msgid "The feedback for student for the correct answer"
+msgstr "تعليق الطالب على الإجابة الصحيحة"
+
+#: ubcpi.py
+msgid "Overall stats for the instructor"
+msgstr "الإحصائيات الإجمالية للمعلم"
+
+#: ubcpi.py
+msgid "Tree gets carbon from air."
+msgstr "تحصل الشجرة على الكربون من الهواء."
+
+#: ubcpi.py
+msgid "Tree gets minerals from soil."
+msgstr "تحصل الشجرة على المعادن من التربة."
+
+#: ubcpi.py
+msgid "Tree drinks water."
+msgstr "تشرب الشجرة الماء."
+
+#: ubcpi.py
+msgid ""
+"Instructor configured examples to give to students during the revise stage."
+msgstr "الأمثلة التي يقوم المعلم بإعدادها لإعطائها للطلاب أثناء مرحلة المراجعة."
+
+#: ubcpi.py
+msgid "System selected answers to give to students during the revise stage."
+msgstr "الإجابات التي يختارها النظام لإعطائها للطلاب أثناء مرحلة المراجعة."
+
+#: ubcpi.py
+msgid "The algorithm for selecting which answers to be presented to students"
+msgstr "خوارزمية اختيار الإجابات التي يتم تقديمها للطلاب"
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the start date of this assignment. We"
+" ignore this."
+msgstr "سلسلة المنسقة حسب ISO-8601 لعرض تاريخ بدء هذه المهمة. نحن نتجاهل هذا."
+
+#: ubcpi.py
+msgid ""
+"ISO-8601 formatted string representing the due date of this assignment. We "
+"ignore this."
+msgstr "سلسلة المنسقة حسب ISO-8601 لعرض الموعد الاخير لإتمام هذه المهمة. نحن نتجاهل هذا."
+
+#: ubcpi.py
+msgid "Problem Weight"
+msgstr "تقييم المشكلة"
+
+#: ubcpi.py
+msgid "System will select one of each option to present to the students."
+msgstr "سيختار النظام أحد الخيارات من أجل تقديمها للطلاب."
+
+#: ubcpi.py
+msgid "Completely random selection from the response pool."
+msgstr "اختيار عشوائي بالكامل من مجموعة الإجابات."
+
+#: ubcpi.py
+msgid "Appears above"
+msgstr "يظهر أعلاه"
+
+#: ubcpi.py
+msgid "Appears below"
+msgstr "يظهر أدناه"
