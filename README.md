@@ -58,6 +58,10 @@ Single test:
 
 ## Changelog
 
+### [0.6.2](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.2+is%3Aclosed)
+1. Added additional translations.
+2. UI update for accessibility.
+
 ### [0.6](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6+is%3Aclosed)
 1. Allowed setup of a question with no correct answer.
 2. Made the instructor-entered rationale optional for case where there is no correct answer.
