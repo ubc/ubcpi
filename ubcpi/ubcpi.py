@@ -62,8 +62,11 @@ def validate_options(options):
     if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
             and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
         errors += ['Minimum Characters', 'Maximum Characters']
-    if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
-        errors.append('Number of Responses')
+    try:
+        if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
+            errors.append('Number of Responses')
+    except ValueError:
+        errors.append('Not an Integer')
 
     if not errors:
         return None

@@ -4,12 +4,12 @@
 
         <div class="question-other-explain" data-ng-if="rc.status() == rc.ALL_STATUS.NEW || rc.status() == rc.ALL_STATUS.ANSWERED">
 
-            <h2 id="pi-question-h" class="question-text">{{display_name}}</h2>
+            <h3 id="pi-question-h" class="question-text" style="display:inline;">{{display_name}}</h3>
             <div class="question-weight" ng-if="weight < 1"></div>
             <div class="question-weight" ng-if="weight == 1">&nbsp;({{weight}} point possible)</div>
             <div class="question-weight" ng-if="weight > 1">&nbsp;({{weight}} points possible)</div>
 
-            <div style="padding: .5em; margin-bottom: 0px; background: #ddd;"><h2 id="pi-question-h" class="question-text" style="margin-bottom:0">QUESTION</h2></div>
+            <div style="padding: .5em; margin-bottom: 0px; margin-top: 10px; background: #ddd;"><h4 id="pi-question-h2" class="question-text" style="margin-bottom:0;color:#414141">Question</h4></div>
             <div style="margin: 0 0 1.5em 0; padding: 1em; background: #f8f8f8;">
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
 
@@ -19,27 +19,28 @@
             </div>
 
             <a name="reflecting"></a>
-            <span id="reflect" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
+            <div role="group" aria-label="Progress Indicator">
+                <span id="reflect" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
+                    <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span></span><br>Answer<span class="sr">, Completed</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111;padding-top:.3em;"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span><br>Reflection<span class="sr">, In Progress</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br>Results<span class="sr">, Upcoming</span></li>
+                    </ol>
+                </span>
+            </div>
 
-                <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
-                    <li style="display:inline-block;width:30%;text-align:center;color:#aaa;padding-top:.3em"><span class="fa fa-check-circle" style="font-size:1.4em;"></span></span><br>Answer</li>
-                    <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                    <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#333;padding-top:.3em;text-transform:uppercase;"><span class="fa fa-arrow-circle-down" style="font-size:1.4em;"></span><br>Reflection</li>
-                    <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                    <li style="display:inline-block;width:30%;text-align:center;color:#aaa"><span class="fa fa-circle-o" style="font-size:1.4em;"></span><br>Results</li>
-                </ul>
-            </span>
+            <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" aria-labelledby="ubcpi-other-answers-heading">
 
-            <div class="others-responses" id="others-responses" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" tabindex="-1" role="region" aria-labelledby="others-respoonses-head">
-
-                <h3 id="ubcpi-other-answers-head">Step 2) READ OTHER STUDENT ANSWERS</h3>
+                <span id="ubcpi-other-answers-heading" style="color:#414141">Step 2) Read Other Students Answers</span>
                 <p class="ubcpi-other-answers-instructions">These are samples of other student answers for this question. Read them and then compare with your answer below.</p>
 
                 <ul class="ubcpi-other-answers">
                     <li data-ng-repeat="answer in rc.other_answers.answers">
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'above' && options[answer.option].image_url" />
 
-                        <h4 class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</h4>
+                        <b><div class="other-answer" ng-if="options[answer.option].text">Student Answer: {{options[answer.option].text}}</div></b>
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
                         <span class="sr">Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i>
@@ -50,23 +51,25 @@
 
             </div><!-- .others-responses -->
 
-            <span id="answer" ng-if="rc.status() == rc.ALL_STATUS.NEW">
+            <div role="group" aria-label="Progress Indicator">
+                <span id="answer" ng-if="rc.status() == rc.ALL_STATUS.NEW">
 
-                <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
-                  <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#333;padding-top:.3em"><span class="fa fa-arrow-circle-down" style="font-size:1.4em;"></span></span><br>Answer</li>
-                  <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                  <li style="display:inline-block;width:30%;text-align:center;color:#aaa;padding-top:.3em;text-transform:uppercase;"><span class="fa fa-circle-o" style="font-size:1.4em;"></span><br>Reflection</li>
-                  <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                  <li style="display:inline-block;width:30%;text-align:center;color:#aaa"><span class="fa fa-circle-o" style="font-size:1.4em;"></span><br>Results</li>
-                </ul>
-            </span>
+                    <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
+                        <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111;padding-top:.3em"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span></span><br>Answer<span class="sr">, In Progress</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em;"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br>Reflection<span class="sr">, Upcoming</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br>Results<span class="sr">, Upcoming</span></li>
+                    </ol>
+                </span>
+            </div>
             <form name="answerForm" class="choicegroup your-answer-and-rationale">
 
                 <fieldset>
 
                     <legend>
-                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.NEW">Step 1) YOUR INITIAL ANSWER <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
-                        <span class="ubcpi-legend-instruction" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">Step 3) YOUR FINAL ANSWER <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
+                        <span ng-if="rc.status() == rc.ALL_STATUS.NEW" style="color:#414141">Step 1) Your Initial Answer <span class="inline-hint">You can change this answer later, if you change your mind.</span></span>
+                        <span ng-if="rc.status() == rc.ALL_STATUS.ANSWERED" style="color:#414141">Step 3) Your Final Answer <span class="inline-hint">You now have the option to change your initial selection and explanation, if you wish.</span></span>
                     </legend>
 
                     <div class="ubcpi-possible-options">
@@ -98,7 +101,7 @@
                     </span>
                 </p>
 
-                <div id="button-disabled-reason">
+                <div id="button-disabled-reason-label">
                     <div class="message has-warnings warning-notice option-details-text" data-ng-if="answerForm.$invalid">
                         <p role="alert" class="warning" id="button-disabled-reason">
                             <span class="sr">Warning</span>
@@ -116,12 +119,12 @@
                     <div class="ubcpi-staff-statistics" ng-show="collapse">
                         
                         <div class="original-answers results-container choicegroup">
-                            <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                            <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" data-role="user_role"></pi-barchart>
                             <p class="ubcpi-chart-label">Original Answer</p>
                         </div><!-- .original-answers -->
 
                         <div class="revised-answers results-container choicegroup">
-                            <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                            <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" data-role="user_role"></pi-barchart>
                             <p class="ubcpi-chart-label">Revised Answer</p>
                         </div><!-- .revised-answers -->
                         </div>
@@ -135,14 +138,14 @@
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 
-            <h2 id="pi-question-h" class="question-text">{{display_name}}</h2>
-            <div class="question-weight" ng-if-"rc.weight < 1"></div>
+            <h3 id="pi-question-h" class="question-text" style="display:inline;">{{display_name}}</h3>
+            <div class="question-weight" ng-if="rc.weight < 1"></div>
 
             <div class="question-weight" ng-if="rc.weight == 1">({{weight}} point possible)</div>
 
             <div class="question-weight" ng-if="rc.weight > 1">({{weight}} points possible)</div>
 
-            <div style="padding: .5em; margin-bottom: 0px; background: #ddd;"><h2 id="pi-question-h" class="question-text" style="margin-bottom:0">QUESTION</h2></div>
+            <div style="padding: .5em; margin-bottom: 0px; margin-top: 10px; background: #ddd;"><h4 id="pi-question-h2" class="question-text" style="margin-bottom:0;color:#414141">Question</h4></div>
             <div style="margin: 0 0 1.5em 0; padding: 1em; background: #f8f8f8;">
 
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'above' && question_text.image_url" />
@@ -152,24 +155,25 @@
             <img ng-src="{{question_text.image_url}}" id="question-image" alt="{{question_text.image_alt}}" ng-if="question_text.image_position == 'below' && question_text.image_url" />
             </div>
 
-            <span id="test" ng-if="rc.status() == rc.ALL_STATUS.REVISED">
-                <ul style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;text-transform:uppercase;">
-                    <li style="display:inline-block;width:30%;text-align:center;color:#aaa;padding-top:.3em"><span class="fa fa-check-circle" style="font-size:1.4em;"></span></span><br>Answer</li>
-                    <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                    <li style="display:inline-block;width:30%;text-align:center;color:#aaa;padding-top:.3em;text-transform:uppercase;"><span class="fa fa-check-circle" style="font-size:1.4em;"></span><br>Reflection</li>
-                    <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em"></span>
-                    <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#333"><span class="fa fa-arrow-circle-down" style="font-size:1.4em;"></span><br>Results</li>
-                </ul>
+            <div role="group" aria-label="Progress Indicator">
+                <span id="test" ng-if="rc.status() == rc.ALL_STATUS.REVISED">
+                    <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span></span><br>Answer<span class="sr">, Completed</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em;"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span><br>Reflection<span class="sr">, Completed</span></li>
+                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                        <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span><br>Results<span class="sr">, In Progress</span></li>
+                    </ol>
 
-            </span>
-
-            <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-head" role="region">
+                </span>
+            </div>
+            <section class="solution-span correct-answer-and-rationale" tabindex="-1" aria-labelledby="correct-option-heading" role="region">
 
                 <div class="detailed-solution" id="detailed-solution">
 
-                    <h2 id="correct-option-head" ng-if="options.length > rc.correct_answer">Correct Answer</h2>
-                    <h2 id="correct-option-head" ng-if="!rc.correct_rationale.text"></h2>
-                    <h2 id="correct-option-head" ng-if="options.length == rc.correct_answer && rc.correct_rationale.text">INSTRUCTOR'S EXPLANATION</h2>
+                    <h5 id="correct-option-heading" ng-if="options.length > rc.correct_answer">Correct Answer</h5>
+                    <h5 id="correct-option-heading" ng-if="!rc.correct_rationale.text"></h5>
+                    <h5 id="correct-option-heading" ng-if="options.length == rc.correct_answer && rc.correct_rationale.text">Instructor's Explanation</h5>
 
                     <div id="correct-answer-choice" ng-if="options.length > rc.correct_answer">
                         <img ng-src="{{options[rc.correct_answer].image_url}}" alt="{{options[rc.correct_answer].image_alt}}" ng-if="options[rc.correct_answer].image_position == 'above' && options[rc.correct_answer].image_url" />
@@ -214,9 +218,9 @@
             <div class="ubcpi-class-breakdown">
 
                 <a name="classbreakdown"></a>
-                <h3 class="ubcpi-class-breakdown-head">Class Breakdown</h3>
+                <h5>Class Breakdown</h5>
                 <p>This is a look at how your classmates answered the question during the initial and final rounds.</p>
-                <h4>Answer Options</h4>
+                <h6>Answer Options</h6>
                 <div class="ubcpi-breakdown-answer-options">
 
                     <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
@@ -224,7 +228,9 @@
 
                         <span class="ubcpi-breakdown-option-num"><i>Option {{$index + 1}}</i></span>&nbsp;<span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index" style="font-style:italic">(correct)</span>
                         <span ng-if="rc.correct_answer === $index" class="ubcpi-breakdown-answer-text ubcpi-show-correct">{{option.text}}</span>
+                        <span ng-if="rc.correct_answer === $index" class="sr">{{rc.calc($index)}}</span>
                         <span ng-if="rc.correct_answer !== $index" class="ubcpi-breakdown-answer-text">{{option.text}}</span>
+                        <span ng-if="rc.correct_answer !== $index" class="sr">{{rc.calc($index)}}</span>
 
                         <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'below' && option.image_url" />
 
@@ -232,15 +238,22 @@
                     </p>
 
                 </div>
-                <h4>Initial Answer Selection</h4>
-                <div class="original-answers results-container choicegroup">
 
-                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                <div class="sr">
+                    <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
+                        <li><span class="ubcpi-breakdown-option-num">Option {{$index + 1}}: {{rc.calc($index)}}</span><span class="ubcpi-breakdown-correct-option" ng-if="rc.correct_answer === $index"> (correct)</span></li>&nbsp;
+                </div>
+
+                <h6>Initial Answer Selection</h6>
+                <div class="original-answers results-container choicegroup" aria-hidden="true">
+
+                    <pi-barchart options="options" stats="rc.stats.original" correct="rc.correct_answer" data-role="user_role"></pi-barchart>
                 </div><!-- .original-answers -->
+                <div ></div>
 
-                <h4>Final Answer Selection</h4>
-                <div class="revised-answers results-container choicegroup">
-                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" role="user_role"></pi-barchart>
+                <h6>Final Answer Selection</h6>
+                <div class="revised-answers results-container choicegroup" aria-hidden="true">
+                    <pi-barchart options="options" stats="rc.stats.revised" correct="rc.correct_answer" data-role="user_role"></pi-barchart>
                 </div><!-- .revised-answers -->
 
             </div>

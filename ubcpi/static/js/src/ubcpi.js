@@ -176,6 +176,34 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                 });
             };
 
+            self.calc = function(s) {
+                var originalPercentage = " Initial Answer Selection: ";
+                var revisedPercentage = " Final Answer Selection: ";
+                if (typeof self.stats.original[s] !== 'undefined') {
+                    var totalCounts = 0;
+                    for (var i = 0; i < data.options.length; i++) {
+                        if (typeof self.stats.original[i] !== 'undefined')
+                            totalCounts += self.stats.original[i];
+                    }
+                    originalPercentage += self.stats.original[s] / totalCounts * 100 + "%";
+                }
+                else
+                    originalPercentage += "0%";
+
+                if (typeof self.stats.revised[s] !== 'undefined') {
+                    var totalCounts = 0;
+                    for (var i = 0; i < data.options.length; i++) {
+                        if (typeof self.stats.revised[i] !== 'undefined')
+                            totalCounts += self.stats.revised[i];
+                    }
+                    revisedPercentage += self.stats.revised[s] / totalCounts * 100 + "%";
+                }
+                else
+                    revisedPercentage += "0%";
+
+                return originalPercentage + " " + revisedPercentage;
+            };
+
             function get_data() {
                 return backendService.get_data().then(function(data) {
                     return data;
