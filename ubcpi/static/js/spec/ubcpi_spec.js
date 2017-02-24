@@ -243,7 +243,7 @@ describe('UBCPI module', function () {
                controller.answer_revised = 0;
                controller.rationale_revised = 'This is my revised rationale';
                expect(controller.status()).toBe(controller.ALL_STATUS.REVISED);
-           })
+           });
         });
 
         describe('clickSubmit', function() {
@@ -400,6 +400,7 @@ describe('UBCPI module', function () {
                 });
                 controller.getStats();
                 expect(controller.stats).toEqual(response);
+                expect(controller.calc(0)).toBe(" Initial Answer Selection: 100%  Final Answer Selection: 0%");
             });
 
             it('should call notify with error when backend errors', function() {
@@ -416,8 +417,7 @@ describe('UBCPI module', function () {
                         'message': 'Please refresh the page and try again!'
                 });
             });
-
-        })
+        });
     })
 });
 
