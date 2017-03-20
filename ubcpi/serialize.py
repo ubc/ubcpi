@@ -1,5 +1,7 @@
 from lxml import etree
 
+from utils import _
+
 IMAGE_ATTRIBUTES = {'position': 'image_position', 'show_fields': 'image_show_fields', 'alt': 'image_alt'}
 
 
@@ -88,7 +90,7 @@ def parse_question_xml(root):
     if question_prompt_el is not None:
         question_dict['text'] = _safe_get_text(question_prompt_el)
     else:
-        raise ValidationError('Question must have text element.')
+        raise ValidationError(_('Question must have text element.'))
 
     # optional image element
     question_dict.update(parse_image_xml(root))
@@ -128,7 +130,7 @@ def parse_options_xml(root):
         if option_prompt_el is not None:
             option_dict['text'] = _safe_get_text(option_prompt_el)
         else:
-            raise ValidationError('Option must have text element.')
+            raise ValidationError(_('Option must have text element.'))
 
         # optional image element
         option_dict.update(parse_image_xml(option_el))
@@ -140,14 +142,14 @@ def parse_options_xml(root):
                 if rationale_el is not None:
                     rationale = {'text': _safe_get_text(rationale_el)}
                 else:
-                    raise ValidationError('Missing rationale for correct answer.')
+                    raise ValidationError(_('Missing rationale for correct answer.'))
             else:
-                raise ValidationError('Only one correct answer can be defined in options.')
+                raise ValidationError(_('Only one correct answer can be defined in options.'))
 
         options.append(option_dict)
 
     if correct_option is None or rationale is None:
-        raise ValidationError('Correct answer and rationale are required and have to be defined in one of the option.')
+        raise ValidationError(_('Correct answer and rationale are required and have to be defined in one of the option.'))
 
     return options, correct_option, rationale
 
@@ -180,7 +182,7 @@ def parse_seeds_xml(root):
         if 'option' in seed_el.attrib:
             seed_dict['answer'] = int(seed_el.attrib['option']) - 1
         else:
-            raise ValidationError('Seed element must have an option attribute.')
+            raise ValidationError(_('Seed element must have an option attribute.'))
 
         seeds.append(seed_dict)
 
@@ -206,11 +208,11 @@ def parse_from_xml(root):
 
     # Check that the root has the correct tag
     if root.tag != 'ubcpi':
-        raise UpdateFromXmlError('Every peer instruction tool must contain an "ubcpi" element.')
+        raise UpdateFromXmlError(_('Every peer instruction tool must contain an "ubcpi" element.'))
 
     display_name_el = root.find('display_name')
     if display_name_el is None:
-        raise UpdateFromXmlError('Every peer instruction tool must contain a "display_name" element.')
+        raise UpdateFromXmlError(_('Every peer instruction tool must contain a "display_name" element.'))
     else:
         display_name = _safe_get_text(display_name_el)
 
@@ -219,19 +221,19 @@ def parse_from_xml(root):
 
     question_el = root.find('question')
     if question_el is None:
-        raise UpdateFromXmlError('Every peer instruction must tool contain a "question" element.')
+        raise UpdateFromXmlError(_('Every peer instruction must tool contain a "question" element.'))
     else:
         question = parse_question_xml(question_el)
 
     options_el = root.find('options')
     if options_el is None:
-        raise UpdateFromXmlError('Every peer instruction must tool contain a "options" element.')
+        raise UpdateFromXmlError(_('Every peer instruction must tool contain a "options" element.'))
     else:
         options, correct_answer, correct_rationale = parse_options_xml(options_el)
 
     seeds_el = root.find('seeds')
     if seeds_el is None:
-        raise UpdateFromXmlError('Every peer instruction must tool contain a "seeds" element.')
+        raise UpdateFromXmlError(_('Every peer instruction must tool contain a "seeds" element.'))
     else:
         seeds = parse_seeds_xml(seeds_el)
 

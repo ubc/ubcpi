@@ -56,22 +56,22 @@ def validate_options(options):
     errors = []
 
     if int(options['rationale_size']['min']) < 1:
-        errors.append('Minimum Characters')
+        errors.append(_('Minimum Characters'))
     if int(options['rationale_size']['max']) < 0 or int(options['rationale_size']['max']) > MAX_RATIONALE_SIZE:
-        errors.append('Maximum Characters')
-    if not any(error in ['Minimum Characters', 'Maximum Characters'] for error in errors) \
+        errors.append(_('Maximum Characters'))
+    if not any(error in [_('Minimum Characters'), _('Maximum Characters')] for error in errors) \
             and int(options['rationale_size']['max']) <= int(options['rationale_size']['min']):
-        errors += ['Minimum Characters', 'Maximum Characters']
+        errors += [_('Minimum Characters'), _('Maximum Characters')]
     try:
         if options['algo']['num_responses'] != '#' and int(options['algo']['num_responses']) < 0:
-            errors.append('Number of Responses')
+            errors.append(_('Number of Responses'))
     except ValueError:
-        errors.append('Not an Integer')
+        errors.append(_('Not an Integer'))
 
     if not errors:
         return None
     else:
-        return {'options_error': 'Invalid Option(s): ' + ', '.join(errors)}
+        return {'options_error': _('Invalid Option(s): ') + ', '.join(errors)}
 
 
 # noinspection all
@@ -137,7 +137,7 @@ class MissingDataFetcherMixin:
         if hasattr(self, "xmodule_runtime"):
             return self.xmodule_runtime.get_user_role()
         else:
-            return 'student' 
+            return 'student'
 
     def _serialize_opaque_key(self, key):
         """
@@ -198,7 +198,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             {'text': _('Water'), 'image_url': '', 'image_position': 'below', 'image_show_fields': 0, 'image_alt': ''}
         ],
         scope=Scope.content,
-        help="The possible options from which the student may select",
+        help=_("The possible options from which the student may select"),
     )
 
     rationale_size = Dict(

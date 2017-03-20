@@ -1,5 +1,6 @@
 import random
 import persistence as sas_api
+from utils import _  # pylint: disable=unused-import
 
 # min number of answers for each answers
 # so that we don't end up no answers for an option
@@ -121,11 +122,11 @@ def validate_seeded_answers_simple(answers, options, algo):
         key = option.get('text') + option.get('image_url') if option.get('image_url') else option.get('text')
         if option.get('text') != 'n/a':
             if seen_options.get(key, 0) == 0:
-                missing_options.append('Option ' + str(index))
+                missing_options.append(_('Option ') + str(index))
             index += 1
 
     if missing_options:
-        return {'seed_error': 'Missing option seed(s): ' + ', '.join(missing_options)}
+        return {'seed_error': _('Missing option seed(s): ') + ', '.join(missing_options)}
 
     return None
 
@@ -141,7 +142,7 @@ def validate_seeded_answers_random(answers):
         None if everything is good. Otherwise, the missing option error message.
     """
     if len(answers) < 1:
-        return {'seed_error': 'Missing 1 option seed'}
+        return {'seed_error': _('Missing 1 option seed')}
 
     return None
 
