@@ -48,3 +48,13 @@ release:
 	python setup.py bdist_egg upload
 	python setup.py sdist upload
 	rm README.rst
+
+extract:
+	find ubcpi/ -iname "*.py" ! -path "ubcpi/test/*" | xargs xgettext --from-code=UTF-8 --default-domain=py --language=Python --force-po --output-dir=build --omit-header
+	node_modules/.bin/angular-gettext-cli --files './ubcpi/static/**/*.+(js|html)' --exclude '**/*_(spec|steps).js' --dest 'build/static.po'
+	msgcat build/static.po build/py.po > build/text.po
+	msgmerge --update ubcpi/translations/en/LC_MESSAGES/text.po build/text.po
+
+compile:
+	for i in `find ubcpi/translations/ -name *.po`; do msgfmt $$i -o `dirname $$i`/text.mo; done
+	node_modules/.bin/angular-gettext-cli --compile --files 'ubcpi/translations/**/*.po' --format javascript --dest 'ubcpi/static/js/src/translations.js'

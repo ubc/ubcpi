@@ -6,6 +6,7 @@ import uuid
 
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.utils import translation
 import pkg_resources
 from webob import Response
 from xblock.core import XBlock
@@ -312,6 +313,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
                 'below': self.ugettext('Appears below')
             },
             'seeds': self.seeds,
+            'lang': translation.get_language(),
         })
 
         return frag
@@ -443,11 +445,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-messages.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-sanitize.js")
         frag.add_javascript_url("//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-cookies.js")
+        frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/angular-gettext/2.3.8/angular-gettext.min.js")
         frag.add_javascript_url("//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js")
         frag.add_javascript(self.resource_string("static/js/src/d3-pibar.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-answer-result-directive.js"))
         frag.add_javascript(self.resource_string("static/js/src/ubcpi-barchart-directive.js"))
+        frag.add_javascript(self.resource_string("static/js/src/translations.js"))
 
         # convert image URLs
         question = deepcopy(self.question_text)
@@ -470,6 +474,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'rationale_size': self.rationale_size,
             'user_role': self.get_user_role(),
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
+            'lang': translation.get_language(),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             js_vals['other_answers'] = get_other_answers(

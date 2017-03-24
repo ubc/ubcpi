@@ -1,4 +1,4 @@
-angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
+angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
     .config(['$httpProvider', function($httpProvider) {
         // register an http interceptor to transform template urls. Because $rootScope
         // is not available in config phase, it can't be injected to config function. But
@@ -18,12 +18,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
         }]);
     }])
 
-    .run(['$http', '$cookies', '$rootScope', '$rootElement', function ($http, $cookies, $rootScope, $rootElement) {
+    .run(['$http', '$cookies', '$rootScope', '$rootElement', 'gettextCatalog', function ($http, $cookies, $rootScope, $rootElement, gettextCatalog) {
         // set up CSRF Token from cookie. This is needed by all post requests
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
         // assign config to rootScope for easier access. All scopes inherit
         // rootScope and will have access to config as well.
         $rootScope.config = $rootElement[0].config;
+        // config the language
+        gettextCatalog.setCurrentLanguage($rootScope.config.data.lang);
     }])
 
     /**
@@ -99,8 +101,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
         }
     }])
 
-    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q',
-        function ($scope, notify, backendService, $q) {
+    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext',
+        function ($scope, notify, backendService, $q, gettext) {
             var self = this;
             var data = $scope.config.data;
 
@@ -148,14 +150,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
             };
 
             self.clickSubmit = function () {
-                notify('save', {state: 'start', message: "Submitting"});
+                notify('save', {state: 'start', message: gettext("Submitting")});
                 self.submitting = true;
                 return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
                     assignData(self, data);
                 }, function(error) {
                     notify('error', {
-                        'title': 'Error submitting answer!',
-                        'message': 'Please refresh the page and try again!'
+                        'title': gettext('Error submitting answer!'),
+                        'message': gettext('Please refresh the page and try again!')
                     });
                     return $q.reject(error);
                 }).finally(function() {
@@ -169,16 +171,16 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                     self.stats = data;
                 }, function(error) {
                     notify('error', {
-                        'title': 'Error retrieving statistics!',
-                        'message': 'Please refresh the page and try again!'
+                        'title': gettext('Error retrieving statistics!'),
+                        'message': gettext('Please refresh the page and try again!')
                     });
                     return $q.reject(error);
                 });
             };
 
             self.calc = function(s) {
-                var originalPercentage = " Initial Answer Selection: ";
-                var revisedPercentage = " Final Answer Selection: ";
+                var originalPercentage = gettext(" Initial Answer Selection: ");
+                var revisedPercentage = gettext(" Final Answer Selection: ");
                 if (typeof self.stats.original[s] !== 'undefined') {
                     var totalCounts = 0;
                     for (var i = 0; i < data.options.length; i++) {
@@ -209,8 +211,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies'])
                     return data;
                 }, function(error) {
                     notify('error', {
-                        'title': 'Error retrieving data!',
-                        'message': 'Please refresh the page and try again!'
+                        'title': gettext('Error retrieving data!'),
+                        'message': gettext('Please refresh the page and try again!')
                     });
                     return $q.reject(error);
                 });
@@ -255,7 +257,7 @@ function PeerInstructionXBlock(runtime, element, data) {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
         'get_asset': runtime.handlerUrl(element, 'get_asset'),
-        'get_data': runtime.handlerUrl(element, 'get_data'),
+        'get_data': runtime.handlerUrl(element, 'get_data')
     };
 
     // in order to support multiple same apps on the same page but

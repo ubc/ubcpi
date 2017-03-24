@@ -10,13 +10,13 @@ d3.custom = (d3.custom || {});
  *     {frequency: 0,  label: 'Option 5', class: 'ubcpibar'},
  * ]
  */
-d3.custom.barChart = function(scope) {
+d3.custom.barChart = function(scope, gettext) {
     // Private Variables
     var chartWidth  = 750;
     var chartHeight = 250;
     var minTotalFrequency = 10;
 
-    if(scope.role == 'instructor' || scope.role == 'staff'){ minTotalFrequency = 1};
+    if(scope.role == 'instructor' || scope.role == 'staff'){ minTotalFrequency = 1}
 
     function chart(selection) {
         selection.each(function(data) {
@@ -33,7 +33,7 @@ d3.custom.barChart = function(scope) {
             if (totalFreq < minTotalFrequency) {
                 d3.select(this)
                     .append("span")
-                    .text("Not enough data to generate the chart. Please check back later.");
+                    .text(gettext("Not enough data to generate the chart. Please check back later."));
                 return;
             }
 

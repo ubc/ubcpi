@@ -1,4 +1,4 @@
-## UBC Peer Instruction Tool for edX
+# UBC Peer Instruction Tool for edX
 
 [![Build Status](https://travis-ci.org/ubc/ubcpi.svg)](https://travis-ci.org/ubc/ubcpi) [![Coverage Status](https://coveralls.io/repos/ubc/ubcpi/badge.svg?branch=master&service=github)](https://coveralls.io/github/ubc/ubcpi?branch=master)
 
@@ -24,6 +24,18 @@ One of the key features in the success of peer instruction in enhancing student 
     cd PATH/TO/SOURCE
     make deps
     pip install -e .
+
+## Update Lanaguage Files
+
+### Extract Strings
+
+    make extract
+
+Then upload `ubcpi/translations/en/LC_MESSAGES/text.po` to transifex for translation. Once translation is complete, download the translated files and compile them into .mo files.
+
+### Compile Translation Files
+
+    make compile
 
 ## Running in WorkBench
 

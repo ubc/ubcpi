@@ -1,9 +1,12 @@
-angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
+angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'])
 
-    .run(['$http', '$cookies', '$rootScope', '$rootElement', function ($http, $cookies, $rootScope, $rootElement) {
+    .run(['$http', '$cookies', '$rootScope', '$rootElement', 'gettextCatalog', function ($http, $cookies, $rootScope, $rootElement, gettextCatalog) {
         // set up CSRF Token from cookie. This is needed by all post requests
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
         $rootScope.config = $rootElement[0].config;
+
+        // config the language
+        gettextCatalog.setCurrentLanguage($rootScope.config.data.lang);
     }])
 
     .directive('validateForm', ['$q', 'studioBackendService', function($q, studioBackendService) {
@@ -55,8 +58,8 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
         }
     }])
 
-    .controller('EditSettingsController', ['$scope', 'studioBackendService', 'notify', '$rootScope',
-        function ($scope, studioBackendService, notify, $rootScope) {
+    .controller('EditSettingsController', ['$scope', 'studioBackendService', 'notify', '$rootScope', 'gettext',
+        function ($scope, studioBackendService, notify, $rootScope, gettext) {
             var self = this;
             var data = $scope.config.data;
 
@@ -148,14 +151,14 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies'])
                     return false;
                 else
                     return true;
-            }
+            };
 
             self.submit = function() {
-                notify('save', {state: 'start', message: "Saving"});
+                notify('save', {state: 'start', message: gettext("Saving")});
 
                 return studioBackendService.submit(self.data).catch(function(errors) {
                     notify('error', {
-                        'title': 'Error saving question',
+                        'title': gettext('Error saving question'),
                         'message': errors.errors
                     });
                 }).finally(function() {

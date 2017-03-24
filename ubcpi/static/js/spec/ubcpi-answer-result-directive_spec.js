@@ -72,9 +72,9 @@ describe('UBCPI', function () {
             });
 
             it('should mark the correct answer and selected answer', function () {
-                expect(element.find('label').eq(answer).find('div span').eq(1).text())
+                expect(element.find('label').eq(answer).find('div span').eq(2).text())
                     .toBe('(You chose this option)');
-                expect(element.find('label').eq(correct).find('div span').eq(1).text())
+                expect(element.find('label').eq(correct).find('div span').eq(2).text())
                     .toBe('Correct Option');
             })
         })

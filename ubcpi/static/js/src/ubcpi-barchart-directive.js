@@ -1,5 +1,5 @@
 angular.module('UBCPI').
-    directive('piBarchart', function(){
+    directive('piBarchart', ['gettext', function(gettext){
         return {
             restrict: 'E',
             scope: {
@@ -28,7 +28,7 @@ angular.module('UBCPI').
                     }
 
                     // generate the chart
-                    var chartLayout = d3.custom.barChart(scope);
+                    var chartLayout = d3.custom.barChart(scope, gettext);
 
                     d3.select(element[0])
                         .datum(data)
@@ -36,4 +36,4 @@ angular.module('UBCPI').
                 }, true)
             }
         }
-    });
+    }]);
