@@ -510,7 +510,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         truncated_rationle, was_truncated = truncate_rationale(rationale)
         event_dict = {
             'answer': answer,
+            'answer_text': self.options[answer].get('text'),
             'rationale': truncated_rationle,
+            'correct_answer': self.correct_answer,
+            'correct_answer_text': self.options[self.correct_answer].get('text'),
+            'correct_rationale': self.correct_rationale,
             'truncated': was_truncated
         }
         if not answers.has_revision(0) and status == STATUS_NEW:
