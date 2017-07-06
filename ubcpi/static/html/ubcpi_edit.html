@@ -34,7 +34,7 @@
                     <div class="wrapper-comp-setting pi-wrapper-comp-setting">
                         <div class="pi-label-and-hint">
                             <label class="label setting-label pi-setting-label" for="pi-question-text" aria-describedby="pi-question-text-tip" translate>Question Text <font color="red">*</font></label>
-                            <span class="tip setting-help" id="pi-question-text-tip" translate>The question appears above the possible answers that you set below. You can use text, an image, or a combination of both. If you wish to add an image to your question, press the "Add Image To Question" button.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.question_text.image_show_fields ? 'Remove Image' | translate : 'Add Image To Question' | translate }}" ng-click="esc.image_show_fields(false)" name="add-image-button" />
+                            <span class="tip setting-help" id="pi-question-text-tip" translate>The question appears above the possible answers that you set below. You can use text, an image, or a combination of both. If you wish to add an image to your question, press the "Add Image To Question" button.</span> <input type="button" class="button action-primary add-image-button" value="{{ (esc.data.question_text.image_show_fields ? 'Remove Image' : 'Add Image To Question') | translate }}" ng-click="esc.image_show_fields(false)" name="add-image-button" />
                         </div>
                         <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text" ng-model-options="{ debounce: 500 }"></textarea>
 
@@ -78,7 +78,7 @@
                             <div class="wrapper-comp-setting ubcpi-options-list" id="option-{{ $index + 1}}" ng-repeat="option in esc.data.options track by $index">
                                 <div class="pi-label-and-hint pi-repeater">
                                     <label class="label setting-label pi-setting-label" for="pi-option-{{$index}}" aria-describedby="pi-option={{$index}}-tip" translate>Answer {{$index + 1}}</label>
-                                    <span id="pi-option={{$index}}-tip" class="tip setting-help" translate>Add the text for this answer. If you wish to add an image, press the button below.</span> <input type="button" class="button action-primary add-image-button" value="{{esc.data.options[$index].image_show_fields ? 'Remove Image' | translate : 'Add Image' | translate }}" ng-click="esc.image_show_fields($index)" name="add-image-button-pi-option-{{$index+1}}" />
+                                    <span id="pi-option={{$index}}-tip" class="tip setting-help" translate>Add the text for this answer. If you wish to add an image, press the button below.</span> <input type="button" class="button action-primary add-image-button" value="{{ (esc.data.options[$index].image_show_fields ? 'Remove Image' : 'Add Image') | translate }}" ng-click="esc.image_show_fields($index)" name="add-image-button-pi-option-{{$index+1}}" />
                                 </div>
                                 <input class="input setting-input pi-options" name="pi-option-{{$index}}" id="pi-option-{{$index}}" ng-model="esc.data.options[$index].text" ng-model-options="{ debounce: 500 }" type="text" required />
                                 <a href="" class="remove-action remove-setting" aria-label="Remove Option" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr" translate>Remove</span></a>
@@ -94,7 +94,7 @@
 
                             </div>
 
-                            <input type="button" class="button action-primary add-image-button add-new-answer-button" value="{{ 'Add New Answer' | translate }}" ng-click="esc.add_option()" name="pi-add-item-link" ng-hide="esc.data.options.length>=10"/>
+                            <input type="button" class="button action-primary add-image-button add-new-answer-button" value="{{ 'Add New Answer' | translate}}" ng-click="esc.add_option()" name="pi-add-item-link" ng-hide="esc.data.options.length>=10"/>
 
                         </div>
 
@@ -179,7 +179,7 @@
             <div class="xblock-actions">
 
                 <ul>
-                    <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="{{ 'You are unable to save this form as there are errors: ' | translate }}{{ piForm.$errors.seed_error }}"><i class="icon fa fa-question-circle"></i></a></li>
+                    <li class="action-item validation-tip"><a href="" class="save-disabled-tooltip" data-lang="af" data-value="" ng-show="piForm.$errors.seed_error" data-tooltip="{{ 'You are unable to save this form as there are errors: ' | translate}}{{ piForm.$errors.seed_error }}"><i class="icon fa fa-question-circle"></i></a></li>
                     <li class="action-item">
                         <input id="pi-submit-options" type="submit" class="button action-primary save-button" name="pi-submit-options" value="{{ 'Save' | translate }}" ng-disabled="esc.data.options.length == 0 || piForm.$invalid || piForm.$pending"/>
                     </li>
