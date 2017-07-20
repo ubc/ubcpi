@@ -34,12 +34,14 @@
                     <div class="wrapper-comp-setting pi-wrapper-comp-setting">
                         <div class="pi-label-and-hint">
                             <label class="label setting-label pi-setting-label" for="pi-question-text" aria-describedby="pi-question-text-tip" translate>Question Text <font color="red">*</font></label>
-                            <span class="tip setting-help" id="pi-question-text-tip" translate>The question appears above the possible answers that you set below. You can use text, an image, or a combination of both. If you wish to add an image to your question, press the "Add Image To Question" button.</span> <input type="button" class="button action-primary add-image-button" value="{{ (esc.data.question_text.image_show_fields ? 'Remove Image' : 'Add Image To Question') | translate }}" ng-click="esc.image_show_fields(false)" name="add-image-button" />
+                            <span class="tip setting-help" id="pi-question-text-tip" translate>The question appears above the possible answers that you set below. You can use text, an image, or a combination of both. If you wish to add an image to your question, press the "Add Image To Question" button.</span>
+                            <button id="add-image-question-button" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';this.style.display='none'; document.getElementById('remove-image-question-button').style.display='block'" name="add-image-button">{{'Add Image To Question' | translate}}</button>
+                            <button id="remove-image-question-button" type="button" style="display: none;" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';this.style.display='none'; document.getElementById('add-image-question-button').style.display='block'" name="add-image-button">{{'Remove Image' | translate}}</button>
                         </div>
                         <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text" ng-model-options="{ debounce: 500 }"></textarea>
 
                         <div class="add-image-inputs" ng-if="esc.data.question_text.image_show_fields">
-                        	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image URL<br /><span class="tip setting-help" translate>Upload a file first using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field here.</span></label>
+                        	<label class="label setting-label pi-setting-label" for="question-text-image-url">Image URL<br /><span class="tip setting-help" translate>Upload a file first by clicking Content, then Files and Uploads. Then copy the Studio URL. Paste that into the text field here.</span></label>
                         	<input type="text" name="question-text-image-url" id="question-text-image-url" class="input setting-input pi-options image-input-url" ng-model="esc.data.question_text.image_url" ng-model-options="{ debounce: 500 }" required/> <br />
                         	<label class="label setting-label pi-setting-label" for="question-text-image-position">Image Position<br /><span class="tip setting-help" translate>Choose if you want the image to appear above or below the question.</span></label>
                         	<select name="question-text-image-position" id="question-text-image-position" ng-model="esc.data.question_text.image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
@@ -84,7 +86,7 @@
                                 <a href="" class="remove-action remove-setting" aria-label="Remove Option" data-lang="af" data-value="" ng-click="esc.delete_option($index)" data-tooltip="Remove option"><i class="icon fa fa-times-circle"></i><span class="sr" translate>Remove</span></a>
 
                                 <div class="add-image-inputs" ng-if="esc.data.options[$index].image_show_fields">
-                                	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL<br /><span class="tip setting-help" translate>Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio URL'. Paste that into the text field above.</span></label>
+                                	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image URL<br /><span class="tip setting-help" translate>Upload a file first by clicking Content, then Files and Uploads. Then copy the Studio URL. Paste that into the text field here.</span></label>
                                 	<input type="text" name="question-text-image-url" id="question-text-image-url-{{$index}}" class="input setting-input pi-options image-input-url" ng-model="esc.data.options[$index].image_url" ng-model-options="{ debounce: 500 }" required/> <br />
                                 	<label class="label setting-label pi-setting-label" for="question-text-image-url-{{$index}}">Image Position<br /><span class="tip setting-help" translate>Choose if you want the image to appear above or below the question text.</span></label>
                                 	<select name="question-text-image-position" id="question-text-image-position-{{$index}}" ng-model="esc.data.options[$index].image_position" ng-options="position as desc for (position, desc) in esc.image_position_locations"></select><br />
@@ -94,7 +96,7 @@
 
                             </div>
 
-                            <input type="button" class="button action-primary add-image-button add-new-answer-button" value="{{ 'Add New Answer' | translate}}" ng-click="esc.add_option()" name="pi-add-item-link" ng-hide="esc.data.options.length>=10"/>
+                            <input type="button" class="button action-primary add-image-button add-new-answer-button" value="{{ 'Add New Answer' | translate }}" ng-click="esc.add_option()" name="pi-add-item-link" ng-hide="esc.data.options.length>=10"/>
 
                         </div>
 

@@ -193,7 +193,7 @@
                                     <span ng-if="rc.correct_answer === rc.answer_original" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_original].text}} </span>
                                     <span ng-if="rc.correct_answer !== rc.answer_original && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_original].text}} </span>
                                     <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_original].text}} </span>
-                                    <span class="ubcpi-initial-option-num" translate>(Option {{rc.answer_original + 1}})</span>
+                                    <span class="ubcpi-initial-option-num">({{'Option' | translate }} {{rc.answer_original + 1}})</span>
                                 </p>
                                 <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
                             </li>
@@ -203,7 +203,7 @@
                                     <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
                                     <span ng-if="rc.correct_answer !== rc.answer_revised && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
                                     <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_revised].text}} </span>
-                                    <span class="ubcpi-initial-option-num" translate>(Option {{rc.answer_revised + 1}})</span>
+                                    <span class="ubcpi-initial-option-num">({{'Option' | translate }} {{rc.answer_revised + 1}})</span>
                                 </p>
                                 <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
                             </li>
