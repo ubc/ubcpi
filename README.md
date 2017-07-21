@@ -70,6 +70,11 @@ Single test:
 
 ## Changelog
 
+### [0.6.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.3+is%3Aclosed)
+1. Added missing translation strings.
+2. Added full i18n support.
+3. Converted all course_ids to strings before sending to submissions API.
+
 ### [0.6.2](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.2+is%3Aclosed)
 1. Added additional translations.
 2. UI update for accessibility.
