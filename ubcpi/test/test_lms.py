@@ -123,21 +123,21 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         xblock.scope_ids.user_id = None
         student_item = xblock.get_student_item_dict()
         self.assertEqual(student_item, {
-            'student_id': None,
+            'student_id': '',
             'item_id': 'usage_id',
             'course_id': 'edX/Enchantment_101/April_1',
             'item_type': 'ubcpi'
         })
 
         # mock the LMS environment
-        xblock.course_id = 'course 101'
         xblock.xmodule_runtime = Mock()
+        xblock.xmodule_runtime.course_id.to_deprecated_string = Mock(return_value='course 101')
         xblock.xmodule_runtime.anonymous_student_id = 'anonymous'
 
         student_item = xblock.get_student_item_dict()
         self.assertEqual(student_item, {
             'student_id': 'anonymous',
-            'item_id': 'usage_id',
+            'item_id': u'usage_id',
             'course_id': 'course 101',
             'item_type': 'ubcpi'
         })

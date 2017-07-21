@@ -82,6 +82,8 @@ class MissingDataFetcherMixin:
 
     Copied from https://github.com/edx/edx-ora2/blob/master/openassessment/xblock/openassessmentblock.py
     """
+    def get_course_id(self):
+        return self._serialize_opaque_key(self.xmodule_runtime.course_id)
 
     def get_student_item_dict(self, anonymous_user_id=None):
         """Create a student_item_dict from our surrounding context.
@@ -100,7 +102,7 @@ class MissingDataFetcherMixin:
         # This is not the real way course_ids should work, but this is a
         # temporary expediency for LMS integration
         if hasattr(self, "xmodule_runtime"):
-            course_id = self.course_id  # pylint:disable=E1101
+            course_id = self.get_course_id()  # pylint:disable=E1101
 
             if anonymous_user_id:
                 student_id = anonymous_user_id
@@ -109,7 +111,7 @@ class MissingDataFetcherMixin:
         else:
             course_id = "edX/Enchantment_101/April_1"
             if self.scope_ids.user_id is None:
-                student_id = None
+                student_id = ''
             else:
                 student_id = unicode(self.scope_ids.user_id)
 
