@@ -35,8 +35,12 @@
                         <div class="pi-label-and-hint">
                             <label class="label setting-label pi-setting-label" for="pi-question-text" aria-describedby="pi-question-text-tip" translate>Question Text <font color="red">*</font></label>
                             <span class="tip setting-help" id="pi-question-text-tip" translate>The question appears above the possible answers that you set below. You can use text, an image, or a combination of both. If you wish to add an image to your question, press the "Add Image To Question" button.</span>
-                            <button id="add-image-question-button" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';this.style.display='none'; document.getElementById('remove-image-question-button').style.display='block'" name="add-image-button">{{'Add Image To Question' | translate}}</button>
-                            <button id="remove-image-question-button" type="button" style="display: none;" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';this.style.display='none'; document.getElementById('add-image-question-button').style.display='block'" name="add-image-button">{{'Remove Image' | translate}}</button>
+                            <div ng-if="!esc.data.question_text.image_show_fields">
+                                <button id="add-image-question-button" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';this.style.display='none'; document.getElementById('remove-image-question-button').style.display='block'" name="add-image-button">{{'Add Image To Question' | translate}}</button>
+                            </div>
+                            <div ng-if="esc.data.question_text.image_show_fields">
+                                <button id="remove-image-question-button" type="button" type="button" class="button action-primary add-image-button" ng-click="esc.image_show_fields(false)" onclick="this.style.display='block';document.getElementById('add-image-question-button').style.display='block'" name="add-image-button">{{'Remove Image' | translate}}</button>
+                            </div>
                         </div>
                         <textarea class="input setting-input" name="question_text" id="pi-question-text" ng-model="esc.data.question_text.text" ng-model-options="{ debounce: 500 }"></textarea>
 
