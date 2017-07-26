@@ -23,9 +23,9 @@
                 <span id="reflect" ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
                     <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Answer</span><span class="sr" translate>, Completed</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
-                        <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111;padding-top:.3em;"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;" ></span><br><span translate>Reflection</span><span class="sr" translate>, In Progress</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
+                        <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111;padding-top:.3em;"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Reflection</span><span class="sr" translate>, In Progress</span></li>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Results</span><span class="sr" translate>, Upcoming</span></li>
                     </ol>
                 </span>
@@ -56,9 +56,9 @@
 
                     <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
                         <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111;padding-top:.3em"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Answer</span><span class="sr" translate>, In Progress</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em;"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Reflection</span><span class="sr" translate>, Upcoming</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141"><span class="fa fa-circle-o" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Results</span><span class="sr" translate>, Upcoming</span></li>
                     </ol>
                 </span>
@@ -130,7 +130,7 @@
                         </div>
                 </div>
 
-                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value='{{ 'Next Step' | translate }} &rarr;' name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event); location.href='#reflecting;'" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" onclick="location.href='#reflecting'"/>
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value="{{ 'Next Step' | translate }} &rarr;" name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event); location.href='#reflecting;'" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" onclick="location.href='#reflecting'"/>
 
             </form>
 
@@ -159,9 +159,9 @@
                 <span id="test" ng-if="rc.status() == rc.ALL_STATUS.REVISED">
                     <ol style="background:#f8f8f8;border:2px solid #ddd;margin:1em 0;padding-top:.3em;">
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Answer</span><span class="sr" translate>, Completed</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
                         <li style="display:inline-block;width:30%;text-align:center;color:#414141;padding-top:.3em;"><span class="fa fa-check-circle" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Reflection</span><span class="sr" translate>, Completed</span></li>
-                            <span class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></span>
+                            <li class="fa fa-angle-double-right" style="color:#ddd;vertical-align:15%;font-size:2.2em" aria-hidden="true"></li>
                         <li style="display:inline-block;width:30%;text-align:center;font-weight:bold;color:#111111"><span class="fa fa-arrow-circle-down" aria-hidden="true" style="font-size:1.4em;"></span><br><span translate>Results</span><span class="sr" translate>, In Progress</span></li>
                     </ol>
 
@@ -193,7 +193,7 @@
                                     <span ng-if="rc.correct_answer === rc.answer_original" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_original].text}} </span>
                                     <span ng-if="rc.correct_answer !== rc.answer_original && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_original].text}} </span>
                                     <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_original].text}} </span>
-                                    <span class="ubcpi-initial-option-num" translate>(Option {{rc.answer_original + 1}})</span>
+                                    <span class="ubcpi-initial-option-num">({{'Option' | translate }} {{rc.answer_original + 1}})</span>
                                 </p>
                                 <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-initial-rationale ubcpi-solution-rationales">"{{rc.rationale_original}}"</span>
                             </li>
@@ -203,7 +203,7 @@
                                     <span ng-if="rc.correct_answer === rc.answer_revised" class="ubcpi-initial-option-text ubcpi-correct-final-answer ubcpi-show-correct">{{options[rc.answer_revised].text}} </span>
                                     <span ng-if="rc.correct_answer !== rc.answer_revised && rc.correct_answer !== options.length" class="ubcpi-initial-option-text ubcpi-incorrect-final-answer ubcpi-show-incorrect">{{options[rc.answer_revised].text}} </span>
                                     <span ng-if="rc.correct_answer === options.length" class="ubcpi-initial-option-text ubcpi-correct-final-answer">{{options[rc.answer_revised].text}} </span>
-                                    <span class="ubcpi-initial-option-num" translate>(Option {{rc.answer_revised + 1}})</span>
+                                    <span class="ubcpi-initial-option-num">({{'Option' | translate }} {{rc.answer_revised + 1}})</span>
                                 </p>
                                 <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
                             </li>
