@@ -70,6 +70,11 @@ Single test:
 
 ## Changelog
 
+### [0.6.4](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.4+is%3Aclosed)
+1. Fixed broken buttons in Studio view.
+2. Fixed bug with certain strings not being exported for translation.
+3. Handled logging student response when there is no correct answer.
+
 ### [0.6.3](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.3+is%3Aclosed)
 1. Added missing translation strings.
 2. Added full i18n support.
