@@ -40,6 +40,22 @@
       "correct_answer": 0,
       "correct_rationale": {
         "text": "This is correct."
+      },
+      "other_answers": {
+        "answers": [
+          {
+            "option": 0,
+            "rationale": "This is seed1"
+          },
+          {
+            "option": 1,
+            "rationale": "This is seed2"
+          },
+          {
+            "option": 2,
+            "rationale": "This is seed3"
+          }
+        ]
       }
     }
   }

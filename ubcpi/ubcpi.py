@@ -30,6 +30,7 @@ STATUS_REVISED = 2
 MAX_RATIONALE_SIZE = 32000
 MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
 
+otr_answers = {}
 
 def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
     """
@@ -533,6 +534,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
 
+            otr_answers['other_answers'] = get_other_answers(
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            event_dict['other_student_responses'] = otr_answers.get("other_answers")
             self.publish_event_from_dict(
                 self.event_namespace + '.original_submitted',
                 event_dict
@@ -548,6 +552,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             # Send the grade
             self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
 
+            event_dict['other_student_responses'] = otr_answers.get("other_answers")
+
+            print(event_dict['other_student_responses'])
             self.publish_event_from_dict(
                     self.event_namespace + '.revised_submitted',
                     event_dict
@@ -612,11 +619,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            ret['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            ret['other_answers'] = otr_answers.get("other_answers")
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
+            ret['other_answers'] = otr_answers.get("other_answers")
             ret['correct_answer'] = self.correct_answer
             ret['correct_rationale'] = self.correct_rationale
 
