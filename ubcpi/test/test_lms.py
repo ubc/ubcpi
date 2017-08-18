@@ -198,13 +198,13 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
 
     def test_truncate_rationale(self):
         short_rationale = 'This is a rationale'
-        truncated_rationle, was_truncated = truncate_rationale(short_rationale)
-        self.assertEqual(truncated_rationle, short_rationale)
+        truncated_rationale, was_truncated = truncate_rationale(short_rationale)
+        self.assertEqual(truncated_rationale, short_rationale)
         self.assertFalse(was_truncated)
 
         long_rationale = "x" * 50000
-        truncated_rationle, was_truncated = truncate_rationale(long_rationale)
-        self.assertEqual(len(truncated_rationle), MAX_RATIONALE_SIZE_IN_EVENT)
+        truncated_rationale, was_truncated = truncate_rationale(long_rationale)
+        self.assertEqual(len(truncated_rationale), MAX_RATIONALE_SIZE_IN_EVENT)
         self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):
