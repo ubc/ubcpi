@@ -482,7 +482,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             if "other_answers" in self.otr_answers:                
-                js_vals['other_answers'] = self.otr_answers.get("other_answers")
+                js_vals['other_answers'] = self.otr_answers
             else:
                 js_vals['other_answers'] = get_other_answers(
                 self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
@@ -538,9 +538,9 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
 
-            self.otr_answers['other_answers'] = get_other_answers(
+            self.otr_answers = get_other_answers(
                 self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)#.get("answers")
-            event_dict['other_student_responses'] = self.otr_answers.get("other_answers").get("answers")
+            event_dict['other_student_responses'] = self.otr_answers.get("answers")
             self.publish_event_from_dict(
                 self.event_namespace + '.original_submitted',
                 event_dict
@@ -556,7 +556,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             # Send the grade
             self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
 
-            event_dict['other_student_responses'] = self.otr_answers.get("other_answers").get("answers")            
+            event_dict['other_student_responses'] = self.otr_answers.get("answers")
             
             self.publish_event_from_dict(
                     self.event_namespace + '.revised_submitted',
@@ -622,11 +622,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            ret['other_answers'] = self.otr_answers.get("other_answers")
+            ret['other_answers'] = self.otr_answers
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
-            ret['other_answers'] = self.otr_answers.get("other_answers")
+            ret['other_answers'] = self.otr_answers
             ret['correct_answer'] = self.correct_answer
             ret['correct_rationale'] = self.correct_rationale
 
