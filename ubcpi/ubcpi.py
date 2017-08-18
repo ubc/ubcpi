@@ -481,8 +481,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'lang': translation.get_language(),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            js_vals['other_answers'] = self.otr_answers.get("other_answers")#get_other_answers(
-                #self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            if "other_answers" in self.otr_answers:                
+                js_vals['other_answers'] = self.otr_answers.get("other_answers")
+            else:
+                js_vals['other_answers'] = get_other_answers(
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
