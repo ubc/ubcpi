@@ -276,9 +276,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         scope=Scope.settings
     )
 
-    # stores other student answers seen in Step 2
-    otr_answers = {}
-
     def has_dynamic_children(self):
         """
         Do we dynamically determine our children? No, we don't have any.
@@ -481,10 +478,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'lang': translation.get_language(),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            if "other_answers" in self.otr_answers:                
-                js_vals['other_answers'] = self.otr_answers
-            else:
-                js_vals['other_answers'] = get_other_answers(
+            js_vals['other_answers'] = get_other_answers(
                 self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
 
         # reveal the correct answer in the end
@@ -537,14 +531,15 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             offer_answer(
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
-
-            self.otr_answers = get_other_answers(
-                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)#.get("answers")
-            event_dict['other_student_responses'] = self.otr_answers.get("answers")
+            
+            event_dict['other_student_responses'] = get_other_answers(
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            print(event_dict['other_student_responses'])                
             self.publish_event_from_dict(
                 self.event_namespace + '.original_submitted',
                 event_dict
             )
+            return event_dict['other_student_responses']
         elif answers.has_revision(0) and not answers.has_revision(1) and status == STATUS_ANSWERED:
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = stats['revised'].setdefault(answer, 0)
@@ -555,8 +550,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
             # Send the grade
             self.runtime.publish(self, 'grade', {'value': grade, 'max_value': 1})
-
-            event_dict['other_student_responses'] = self.otr_answers.get("answers")
             
             self.publish_event_from_dict(
                     self.event_namespace + '.revised_submitted',
@@ -604,12 +597,11 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Answer submission handler to process the student answers
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
-        self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}
-        self.record_response(data['q'], data['rationale'], data['status'])
+        self.sys_selected_answers = {int(k): v for k, v in self.sys_selected_answers.items()}        
 
-        return self.get_persisted_data()
+        return self.get_persisted_data(self.record_response(data['q'], data['rationale'], data['status']))
 
-    def get_persisted_data(self):
+    def get_persisted_data(self, other_answers):
         """
         Formats a usable dict based on what data the user has persisted
         Adds the other answers and correct answer/rationale when needed
@@ -622,11 +614,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            ret['other_answers'] = self.otr_answers
+            ret['other_answers'] = other_answers
 
         # reveal the correct answer in the end
-        if answers.has_revision(1):
-            ret['other_answers'] = self.otr_answers
+        if answers.has_revision(1):            
             ret['correct_answer'] = self.correct_answer
             ret['correct_rationale'] = self.correct_rationale
 
@@ -637,7 +628,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         Retrieve persisted date from backend for current user
         """
-        return self.get_persisted_data()
+        return self.get_persisted_data(get_other_answers(
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options))
 
     def get_answers_for_student(self):
         """
