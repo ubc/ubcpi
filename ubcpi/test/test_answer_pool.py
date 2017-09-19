@@ -77,7 +77,7 @@ class TestAnswerPool(unittest.TestCase):
         student_item_dict_func = MagicMock(return_value={'student_id': data['user_id']})
         with patch('random.choice', side_effect=data['choice_result']):
             result = get_other_answers_simple(
-                data['pool'], data['seeds'], student_item_dict_func, data['num_responses']
+                data['pool'], data['seeds'], student_item_dict_func, data['num_responses'], []
             )
         # check the answers
         self.assertEqual(result, data['expect'])
@@ -108,7 +108,7 @@ class TestAnswerPool(unittest.TestCase):
 
         with patch('random.shuffle', side_effect=side_effect):
             result = get_other_answers_random(
-                data['pool'], data['seeds'], student_item_dict_func, data['num_responses']
+                data['pool'], data['seeds'], student_item_dict_func, data['num_responses'], []
             )
         # check the answers
         self.assertEqual(result, data['expect'])
@@ -135,15 +135,15 @@ class TestAnswerPool(unittest.TestCase):
 
     def test_get_other_answers(self):
         with patch('ubcpi.answer_pool.get_other_answers_simple') as mock:
-            get_other_answers({}, {}, {}, {'name': 'simple', 'num_responses': '#'}, ['option1', 'option2'])
-            self.assertEqual(mock.mock_calls, [call({}, {}, {}, 2)])
+            get_other_answers({}, {}, {}, {'name': 'simple', 'num_responses': '#'}, ['option1', 'option2'], [])
+            self.assertEqual(mock.mock_calls, [call({}, {}, {}, 2, [])])
 
         with patch('ubcpi.answer_pool.get_other_answers_random') as mock:
-            get_other_answers({}, {}, {}, {'name': 'random', 'num_responses': '1'}, ['option1', 'option2'])
-            self.assertEqual(mock.mock_calls, [call({}, {}, {}, 1)])
+            get_other_answers({}, {}, {}, {'name': 'random', 'num_responses': '1'}, ['option1', 'option2'], [])
+            self.assertEqual(mock.mock_calls, [call({}, {}, {}, 1, [])])
 
         with self.assertRaises(UnknownChooseAnswerAlgorithm):
-            get_other_answers({}, {}, {}, {'name': 'invalid'}, {})
+            get_other_answers({}, {}, {}, {'name': 'invalid'}, {}, [])
 
     def test_offer_answer_invalid_algo(self):
         options = ['optionA', 'optionB', 'optionC']

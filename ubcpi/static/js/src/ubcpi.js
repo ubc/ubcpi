@@ -58,7 +58,49 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             getStats: getStats,
             submit: submit,
             get_data: get_data,
+            flag: flag,
+            getFlagged: getFlagged,
+            remove: remove
         };
+
+        function flag (rationale) {
+            var flagUrl = $rootScope.config.urls.flag;
+            var flagData = JSON.stringify({
+                "rationale": rationale
+            });
+            return $http.post(flagUrl, flagData).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                });
+        }
+
+        function remove (rationale) {
+            var removeUrl = $rootScope.config.urls.remove;
+            var removeData = JSON.stringify({
+                "rationale": rationale
+            });
+            return $http.post(removeUrl, removeData).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                });
+        }
+
+        function getFlagged () {
+            var getFlaggedUrl = $rootScope.config.urls.getFlagged;
+            return $http.post(getFlaggedUrl, '""').then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                });
+        }
 
         function getStats() {
             var statsUrl = $rootScope.config.urls.get_stats;
@@ -113,6 +155,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             $scope.display_name = data.display_name;
             $scope.user_role = data.user_role;
             $scope.collapse = false;
+            $scope.flaggedRationales = [];
 
             // all status of the app. Passed it from backend so we have a synced status codes
             self.ALL_STATUS = data.all_status;
@@ -147,6 +190,48 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 } else {
                     return self.ALL_STATUS.REVISED;
                 }
+            };
+
+            self.flag = function (rationale) {
+                if (window.confirm("To flag this rationale, click \"OK\".") === true) {
+                    return backendService.flag(rationale).then(function(data) {
+                        window.alert("Flagged: " + data);
+                    }, function(error) {
+                        notify('error', {
+                            'title': gettext('Error retrieving statistics!'),
+                            'message': gettext('Please refresh the page and try again!')
+                        });
+                        return $q.reject(error);
+                    });
+                }
+            };
+
+            self.remove = function (rationale) {
+                if (window.confirm("To permanently remove this rationale, click \"OK\".") === true) {
+                    return backendService.remove(rationale).then(function(data) {
+                        window.alert("Rationale removed: " + rationale);
+                        var index = $scope.flaggedRationales.indexOf(rationale);
+                        $scope.flaggedRationales.splice(index, 1);
+                    }, function(error) {
+                        notify('error', {
+                            'title': gettext('Error retrieving statistics!'),
+                            'message': gettext('Please refresh the page and try again!')
+                        });
+                        return $q.reject(error);
+                    });
+                }
+            };
+
+            self.getFlagged = function () {
+                return backendService.getFlagged().then(function(data) {
+                    $scope.flaggedRationales = data;
+                }, function(error) {
+                    notify('error', {
+                        'title': gettext('Error retrieving statistics!'),
+                        'message': gettext('Please refresh the page and try again!')
+                    });
+                    return $q.reject(error);
+                });
             };
 
             self.clickSubmit = function () {
@@ -257,7 +342,10 @@ function PeerInstructionXBlock(runtime, element, data) {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
         'get_asset': runtime.handlerUrl(element, 'get_asset'),
-        'get_data': runtime.handlerUrl(element, 'get_data')
+        'get_data': runtime.handlerUrl(element, 'get_data'),
+        'flag': runtime.handlerUrl(element, 'flag'),
+        'getFlagged': runtime.handlerUrl(element, 'getFlagged'),
+        'remove': runtime.handlerUrl(element, 'remove')
     };
 
     // in order to support multiple same apps on the same page but

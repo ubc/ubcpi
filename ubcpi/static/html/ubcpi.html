@@ -44,7 +44,7 @@
 
                         <img ng-src="{{options[answer.option].image_url}}" alt="{{options[answer.option].image_alt}}" ng-if="options[answer.option].image_position == 'below' && options[answer.option].image_url" />
                         <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i>
-                        <span class="other-rationale">"{{answer.rationale}}"</span>
+                        <span class="other-rationale">"{{answer.rationale}}"</span> <span class="icon fa fa-flag" title="Flag this response" aria-hidden="true" ng-click="rc.flag(answer.rationale);"></span>
 
                     </li>
                 </ul>
@@ -135,6 +135,18 @@
             </form>
 
         </div><!-- .question-other-explain -->
+
+        <div class="ubcpi-staff-button-wrapper" ng-if="user_role == 'instructor' || user_role == 'staff'" data-ng-init="rc.getStats()">
+            <a ng-model="collapse" ng-click="collapse=!collapse; rc.getFlagged();" ng-class="{true: 'ubcpi-staff-statistics-button--active', false: 'ubcpi-staff-statistics-button'}[collapse]" translate>Manage Flagged Rationales</a>
+            <div ng-show="collapse">
+
+                        <div ng-repeat="n in flaggedRationales track by $index">
+
+                                <li>{{n}} <button ng-model="rc.data" ng-click="rc.remove(n)">Remove from answer pool</button></li>
+
+                        </div>
+                    </div>
+        </div>
 
         <div class="correct-revised-chart" data-ng-if="rc.status() == rc.ALL_STATUS.REVISED" data-ng-init="rc.getStats()">
 

@@ -3,6 +3,7 @@ import os
 import random
 from copy import deepcopy
 import uuid
+import json
 
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
@@ -11,7 +12,7 @@ import pkg_resources
 from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
-from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
+from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float, Set
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _  # pylint: disable=unused-import
@@ -29,7 +30,6 @@ STATUS_REVISED = 2
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
 MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
-
 
 def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
     """
@@ -277,6 +277,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         scope=Scope.settings
     )
 
+    flagged_rationales = List(default=[], scope=Scope.user_state_summary,
+        help=_("Rationales flagged as inappropriate by students"),)
+
+    removed_rationales = List(default=[], scope=Scope.user_state_summary,
+        help=_("Rationales removed by the instructor"),)
+
     def has_dynamic_children(self):
         """
         Do we dynamically determine our children? No, we don't have any.
@@ -480,7 +486,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             js_vals['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options, self.removed_rationales)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -613,7 +619,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             ret['other_answers'] = get_other_answers(
-                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+                self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options, self.removed_rationales)
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -628,6 +634,30 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Retrieve persisted date from backend for current user
         """
         return self.get_persisted_data()
+
+    @XBlock.json_handler
+    def flag(self,data,suffix=''):
+        """
+        Retrieve persisted date from backend for current user
+        """
+        if data['rationale'] not in self.flagged_rationales:
+            self.flagged_rationales.append(data['rationale'])
+        return data['rationale']
+
+    @XBlock.json_handler
+    def remove(self,data,suffix=''):
+        """
+        Retrieve persisted date from backend for current user
+        """
+        self.flagged_rationales.remove(data['rationale'])
+        self.removed_rationales.append(data['rationale'])
+
+    @XBlock.json_handler
+    def getFlagged(self,data,suffix=''):
+        """
+        Retrieve persisted date from backend for current user
+        """
+        return self.flagged_rationales
 
     def get_answers_for_student(self):
         """

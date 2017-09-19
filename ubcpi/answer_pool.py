@@ -173,7 +173,7 @@ def validate_seeded_answers(answers, options, algo):
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options):
+def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options, removed_rationales):
     """
     Select other student's answers from answer pool or seeded answers based on the selection algorithm
 
@@ -205,14 +205,14 @@ def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options
         else int(algo['num_responses'])
 
     if algo['name'] == 'simple':
-        return get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses, removed_rationales)
     elif algo['name'] == 'random':
-        return get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses, removed_rationales)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses, removed_rationales):
     """
     Get answers from others with simple algorithm, which picks one answer for each option.
 
@@ -265,7 +265,8 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
                 student_item = get_student_item_dict(student)
                 submission = sas_api.get_answers_for_student(student_item)
                 rationale = submission.get_rationale(0)
-            ret.append({'option': option, 'rationale': rationale})
+            if rationale not in removed_rationales:
+                ret.append({'option': option, 'rationale': rationale})
 
             # check if we have enough answers
             if len(ret) >= min(num_responses, total_in_pool):
@@ -274,7 +275,7 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
     return {"answers": ret}
 
 
-def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses, removed_rationales):
     """
     Get answers from others with random algorithm, which randomly select answer from the pool.
 
@@ -318,7 +319,8 @@ def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_re
             submission = sas_api.get_answers_for_student(student_item)
             rationale = submission.get_rationale(0)
             option = submission.get_vote(0)
-        ret.append({'option': option, 'rationale': rationale})
+        if rationale not in removed_rationales:
+            ret.append({'option': option, 'rationale': rationale})
 
     return {"answers": ret}
 
