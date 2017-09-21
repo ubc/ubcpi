@@ -13,6 +13,7 @@ from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
+from xblockutils.studio_editable import StudioEditableXBlockMixin
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _  # pylint: disable=unused-import
 
@@ -165,7 +166,7 @@ class MissingDataFetcherMixin:
 
 @XBlock.needs('user')
 @XBlock.needs('i18n')
-class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
+class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin, StudioEditableXBlockMixin):
     """
     Peer Instruction XBlock
 
@@ -276,6 +277,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         values={"min": 0, "step": .1},
         scope=Scope.settings
     )
+
+    editable_fields = ('correct_answer', 'rationale_size')
 
     def has_dynamic_children(self):
         """
