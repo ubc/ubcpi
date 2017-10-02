@@ -76,6 +76,13 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
                 return options;
             };
 
+            self.makeHistOptions = function() {
+                var histOptions = [];
+                histOptions.push("Show");
+                histOptions.push("Hide");
+                return histOptions;
+            };
+
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
@@ -85,6 +92,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
             self.image_position_locations = data.image_position_locations;
 
             self.data.options = data.options;
+            self.data.histOption = data.histOption;
             self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
                 self.data.correct_rationale = data.correct_rationale;
@@ -162,7 +170,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
                         'message': errors.errors
                     });
                 }).finally(function() {
-                    notify('save', {state: 'end'})
+                    notify('save', {state: 'end'});
                 });
             };
         }]);

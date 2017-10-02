@@ -142,6 +142,13 @@
                         </div>
                         <input class="input setting-input pi-options" name="pi-algo-num-responses" id="pi-algo-num-responses" ng-model="esc.data.algo.num_responses" ng-model-options="{ debounce: 500 }" type="text" required />
                     </div>
+                    <div class="wrapper-comp-setting pi-wrapper-comp-setting">
+                        <div class="pi-label-and-hint">
+                            <label class="label setting-label pi-setting-label" for="pi-hist-option" aria-describedby="pi-algo-tip" translate>Display of Results Histogram <font color="red">*</font></label>
+                            <span id="pi-hist-tip" class="tip setting-help" translate>Specify whether or not to display results histogram in Step 3.</span>
+                        </div>
+                        <select name="pi-hist-option" id="pi-hist-option" ng-model="esc.data.histOption" ng-model-options="{ debounce: 500 }" ng-options="esc.makeHistOptions().indexOf(opt) as opt for opt in esc.makeHistOptions()" required></select>
+                    </div>
                 </li>
 
                 <li class="field comp-setting-entry is-set">

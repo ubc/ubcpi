@@ -208,14 +208,14 @@
                                 <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user"></i><span class="ubcpi-solution-your-final-rationale ubcpi-solution-rationales">"{{rc.rationale_revised}}"</span>
                             </li>
                         </ul>
-                        <p translate>See how your classmates answered <a href="#classbreakdown">below</a></p>
+                        <p translate ng-if="histOption == 0">See how your classmates answered <a href="#classbreakdown">below</a></p>
 
                     </div>
                 </div><!-- .detailed-solution -->
 
             </section><!-- .correct-answer-and-rationale -->
 
-            <div class="ubcpi-class-breakdown">
+            <div class="ubcpi-class-breakdown" ng-if="histOption == 0">
 
                 <a name="classbreakdown"></a>
                 <h5 translate>Class Breakdown</h5>
