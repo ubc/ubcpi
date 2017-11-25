@@ -214,6 +214,12 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         help=_("The correct option for the question"),
     )
 
+    # 0 is "By Participation", 1 is "By Correct Answer" 
+    gradingOption = Integer(
+        default=0, scope=Scope.content,
+        help=_("The grading option for the question"),
+    )
+
     correct_rationale = Dict(
         default={'text': _("Photosynthesis")}, scope=Scope.content,
         help=_("The feedback for student for the correct answer"),
@@ -301,6 +307,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'display_name': self.ugettext(self.display_name),
             'weight': self.weight,
             'correct_answer': self.correct_answer,
+            'gradingOption': self.gradingOption,
             'correct_rationale': self.correct_rationale,
             'rationale_size': self.rationale_size,
             'question_text': self.question_text,
@@ -341,6 +348,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         self.correct_rationale = data['correct_rationale']
         self.algo = data['algo']
         self.seeds = data['seeds']
+        self.gradingOption = data['gradingOption']
 
         return {'success': 'true'}
 
@@ -477,6 +485,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'user_role': self.get_user_role(),
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
             'lang': translation.get_language(),
+            'gradingOption': self.gradingOption,
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             js_vals['other_answers'] = get_other_answers(
@@ -559,9 +568,16 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         Return the grade
 
-        Only returns 1 for now as a completion grade.
         """
-        return 1
+        if self.gradingOption==0:
+            return 1
+        else:
+            answers = self.get_answers_for_student()
+            student_answer = answers.get_vote(1) # retrieve revised/final option chosen
+            if student_answer == self.correct_answer:
+                return 1
+            else:
+                return 0
 
     def get_current_stats(self):
         """

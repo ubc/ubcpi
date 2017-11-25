@@ -114,7 +114,14 @@
                             <label class="label setting-label pi-setting-label" for="pi-option-correct" aria-describedby="pi-option-correct-tip" translate>Correct Answer <font color="red">*</font></label>
                             <span id="pi-option-correct-tip" class="tip setting-help" translate>Choose the answer you consider correct, or select "n/a" if there is no correct answer.</span>
                         </div>
-                        <select name="pi-option-correct" id="pi-option-correct" ng-model="esc.data.correct_answer" ng-model-options="{ debounce: 500 }" ng-options="esc.makeOptions().indexOf(opt) as opt for opt in esc.makeOptions()" required></select>
+                        <select name="pi-option-correct" id="pi-option-correct" ng-change="esc.data.correct_answer==esc.data.options.length ? esc.data.gradingOption=0 : esc.data.gradingOption=esc.data.gradingOption" ng-model="esc.data.correct_answer" ng-model-options="{ debounce: 500 }" ng-options="esc.makeOptions().indexOf(opt) as opt for opt in esc.makeOptions()" required></select>
+                    </div>
+                    <div class="wrapper-comp-setting pi-wrapper-comp-setting">
+                        <div class="pi-label-and-hint">
+                            <label class="label setting-label pi-setting-label" for="pi-option-correct" aria-describedby="pi-option-correct-tip" translate>Grading <font color="red">*</font></label>
+                            <span id="pi-option-correct-tip2" class="tip setting-help" translate>Determine how the problem will be graded. "By Participation" means that students will get full marks by completing the problem.</span>
+                        </div>
+                        <select name="pi-grading-option" id="pi-grading-option" ng-disabled="esc.data.correct_answer==esc.data.options.length" ng-model="esc.data.gradingOption" ng-model-options="{ debounce: 500 }" ng-options="esc.makeGradingOptions().indexOf(opt) as opt for opt in esc.makeGradingOptions()" required></select>
                     </div>
                     <div class="wrapper-comp-setting pi-wrapper-comp-setting">
                         <div class="pi-label-and-hint">
