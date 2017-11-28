@@ -14,7 +14,7 @@
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
     "cucumber": "^0.5.2",
-    "d3": "~3.3",
+    "d3": "~3.5.17",
     "jasmine-core": "^2.3.4",
     "jquery": "~2.2",
     "karma": "^0.13",
@@ -29,7 +29,7 @@
     "phantomjs": "^1.9.17",
     "protractor": "~2.5",
     "request": "^2.60.0",
-    "uglify-js": "2.3.6"
+    "uglify-js": "2.6.0"
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --reporters progress,coverage"
