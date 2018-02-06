@@ -154,6 +154,10 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.submitting = true;
                 return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
                     assignData(self, data);
+                    $timeout(function() {
+                        $location.hash('others-responses');
+                        $anchorScroll();
+                    });
                 }, function(error) {
                     notify('error', {
                         'title': gettext('Error submitting answer!'),
