@@ -63,7 +63,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
 
         # Check the data is persisted
-        persisted = xblock.get_persisted_data()
+        persisted = xblock.get_persisted_data(data['expect1']['other_answers'])
         self.assertEquals(persisted['answer_original'], 0)
         self.assertFalse( 'correct_answer' in persisted )
 
@@ -84,7 +84,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         self.assertEqual(xblock.stats['revised'][data['post2']['q']], 1)
 
         # Check we now have all the persisted data we should have
-        persisted = xblock.get_persisted_data()
+        persisted = xblock.get_persisted_data(data['expect1']['other_answers'])
         self.assertEquals(persisted['answer_original'], 0)
         self.assertTrue( 'correct_answer' in persisted )
 
@@ -198,13 +198,13 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
 
     def test_truncate_rationale(self):
         short_rationale = 'This is a rationale'
-        truncated_rationle, was_truncated = truncate_rationale(short_rationale)
-        self.assertEqual(truncated_rationle, short_rationale)
+        truncated_rationale, was_truncated = truncate_rationale(short_rationale)
+        self.assertEqual(truncated_rationale, short_rationale)
         self.assertFalse(was_truncated)
 
         long_rationale = "x" * 50000
-        truncated_rationle, was_truncated = truncate_rationale(long_rationale)
-        self.assertEqual(len(truncated_rationle), MAX_RATIONALE_SIZE_IN_EVENT)
+        truncated_rationale, was_truncated = truncate_rationale(long_rationale)
+        self.assertEqual(len(truncated_rationale), MAX_RATIONALE_SIZE_IN_EVENT)
         self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):

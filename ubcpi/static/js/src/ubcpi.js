@@ -101,8 +101,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
         }
     }])
 
-    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext',
-        function ($scope, notify, backendService, $q, gettext) {
+    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext', '$location', '$anchorScroll', '$timeout',
+        function ($scope, notify, backendService, $q, gettext, $location, $anchorScroll, $timeout) {
             var self = this;
             var data = $scope.config.data;
 
@@ -154,6 +154,10 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.submitting = true;
                 return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
                     assignData(self, data);
+                    $timeout(function() {
+                        $location.hash('others-responses');
+                        $anchorScroll();
+                    });
                 }, function(error) {
                     notify('error', {
                         'title': gettext('Error submitting answer!'),
