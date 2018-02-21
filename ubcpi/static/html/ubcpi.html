@@ -86,7 +86,7 @@
                     <div id="hiding-options-div" class="ubcpi-possible-options">
                         <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
                             <label class="ubcpi-label ubcpi-answer" for="original-option-input-{{ $index }}">
-                                <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
+                                <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" onclick="document.getElementById('hiding-rationale-div').style.display='block';" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
                                 <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
 
@@ -101,7 +101,7 @@
 
                 </fieldset>
 
-                <div id="hiding-rationale-div">
+                <div id="hiding-rationale-div" style="display:none;">
                 <label class="ubcpi-label" for="rationale" translate>Explain to other students why you chose this answer (Required):</label>
                 <textarea class="ubcpi-field ubcpi-rationale" id="rationale" name="rationale" data-ng-model="rc.rationale" required ng-minlength="{{rationale_size.min}}" ng-maxlength="{{rationale_size.max}}"></textarea>
                 <p class="ubcpi-rationale-warning" ng-if="((rationale_size.max - rc.rationale.length) <= (rationale_size.max/10)) && (rc.rationale.length <= rationale_size.max)" translate>You are approaching the limit of {{rationale_size.max}} characters for this answer. Characters left: {{rationale_size.max - rc.rationale.length}}</p>
