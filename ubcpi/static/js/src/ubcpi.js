@@ -166,7 +166,28 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                     return $q.reject(error);
                 }).finally(function() {
                     self.submitting = false;
+                    $timeout(function() {
+                        if(self.status()==self.ALL_STATUS.ANSWERED)
+                            $location.hash('reflecting');
+                        else
+                            $location.hash('finalReflecting');
+                        $anchorScroll();
+                    });
                     notify('save', {state: 'end'});
+                });
+            };
+
+            self.jump = function () {
+                $timeout(function() {
+                    $location.hash('ubcpi-init-answer-heading');
+                    $anchorScroll();
+                });
+            };
+
+            self.jumpBelow = function () {
+                $timeout(function() {
+                    $location.hash('classbreakdown');
+                    $anchorScroll();
                 });
             };
 
