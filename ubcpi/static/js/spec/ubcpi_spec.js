@@ -400,7 +400,6 @@ describe('UBCPI module', function () {
                 });
                 controller.getStats();
                 expect(controller.stats).toEqual(response);
-                expect(controller.calc(0)).toBe(" Initial Answer Selection: 100%  Final Answer Selection: 0%");
             });
 
             it('should call notify with error when backend errors', function() {

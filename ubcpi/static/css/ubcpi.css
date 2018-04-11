@@ -25,11 +25,6 @@ h2.question-text {
     padding: 0;
 }
 
-.choicegroup fieldset .ubcpi-possible-options {
-    padding-left: 20px;
-    border-left: 2px solid #e5e5e5;
-}
-
 div.course-wrapper section.course-content fieldset .ubcpi-option {
     margin: 0;
 }
@@ -77,6 +72,12 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
     float: none;
 }
 
+.ubcpi-label.ubcpi-explain-label {
+    border: none;
+    margin-bottom: 0;
+    padding: 0px;
+}
+
 .results-container .ubcpi-label {
     margin-bottom: 15px;
 }
@@ -116,7 +117,8 @@ textarea.ubcpi-field {
     -webkit-font-smoothing: antialiased;
 }
 
-.choicegroup .ubcpi_submit {
+.choicegroup .ubcpi_submit,
+.others-responses .ubcpi_submit {
     padding: 10px 40px;
     border: 1px solid #2b8dbb;
     color: #fff;
@@ -140,7 +142,10 @@ textarea.ubcpi-field {
 
 .ubcpi_block .choicegroup .ubcpi_submit:hover,
 .ubcpi_block .choicegroup .ubcpi_submit:active,
-.ubcpi_block .choicegroup .ubcpi_submit:focus {
+.ubcpi_block .choicegroup .ubcpi_submit:focus,
+.others-responses .ubcpi_submit:hover,
+.others-responses .ubcpi_submit:active,
+.others-responses .ubcpi_submit:focus {
     border-color: #00a7f6;
     box-shadow: none;
     background: #00a7f6 none;
@@ -178,8 +183,15 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     border-bottom: 1px solid #cfc6c6;
 }
 
-div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers li:last-of-type {
-    border-bottom: none;
+div.course-wrapper section.course-content .vert-mod .sample-answer {
+    margin: 1em;
+}
+
+div.course-wrapper section.course-content .vert-mod .own-answer {
+    margin: 1em;
+    border-top: 1px solid #cfc6c6;
+    padding-top: 15px;
+    font-weight: bold;
 }
 
 .ubcpi-other-answers,
@@ -198,8 +210,14 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
 }
 
 .ubcpi-other-answers h4,
-.ubcpi-solution-your-initial-answer,
+.ubcpi-solution-your-initial-answer {
+    font-weight: 900;
+}
+
 .ubcpi-solution-your-final-answer {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 5px;
     font-weight: 900;
 }
 
@@ -385,7 +403,6 @@ textarea.pi-options {
     position: relative;
     margin: 20px 0;
     border: 1px solid #d7dbdf;
-    border-left: 10px solid #b9c1c8;
     box-shadow: inset 0 1px 2px 1px rgba(2, 2, 3, 0.1);
     padding: 20px;
     background: #fdfdfd;
@@ -499,6 +516,18 @@ label.ubcpi-label {
     fill: #50c67b;
 }
 
+text.ubcpibar {
+    font-size: 11px;
+    font-weight: 600;
+    fill: #000000;
+}
+
+text.ubcpibar.correct-answer {
+    font-size: 11px;
+    font-weight: 600;
+    fill: #000000;
+}
+
 .ubcpibar:hover {
     opacity: 1.0;
 }
@@ -509,6 +538,7 @@ label.ubcpi-label {
 }
 
 .ubcpi-show-correct {
+    font-size: 0.85em;
     color: #50c67b;
 }
 
@@ -530,6 +560,7 @@ label.ubcpi-label {
 .ubcpi-solution-rationales {
     padding-left: 10px;
     word-break: break-all;
+    font-weight: normal;
 }
 
 .other-rationale {
