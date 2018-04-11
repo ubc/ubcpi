@@ -618,7 +618,13 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            ret['other_answers'] = other_answers
+            # If no persisted peer answers, generate new ones.
+            # Could happen if a student completed Step 1 before ubcpi upgraded to persist peer answers.
+            if not self.other_answers_shown:
+                ret['other_answers'] = get_other_answers(
+                    self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            else:
+                ret['other_answers'] = other_answers
 
         # reveal the correct answer in the end
         if answers.has_revision(1):

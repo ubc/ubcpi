@@ -151,6 +151,9 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
 
+            // Whether user is revising the answer
+            self.revising = false;
+
             /**
              * Determine if the submit button should be disabled
              * If we have an answer selected, a rationale that is large
@@ -191,6 +194,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             self.getStats = function () {
                 return backendService.getStats().then(function(data) {
                     self.stats = data;
+
+                    self.perAnswerStats = {};
+                    for (var i = 0; i < $scope.options.length; i++) {
+                        self.perAnswerStats[i] = {
+                            'original': (typeof self.stats.original[i] !== 'undefined'? self.stats.original[i] : 0),
+                            'revised' : (typeof self.stats.revised[i] !== 'undefined'? self.stats.revised[i] : 0)
+                        }
+                    }
                 }, function(error) {
                     notify('error', {
                         'title': gettext('Error retrieving statistics!'),
@@ -198,34 +209,6 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                     });
                     return $q.reject(error);
                 });
-            };
-
-            self.calc = function(s) {
-                var originalPercentage = gettext(" Initial Answer Selection: ");
-                var revisedPercentage = gettext(" Final Answer Selection: ");
-                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.original[s] !== 'undefined') {
-                    var totalCounts = 0;
-                    for (var i = 0; i < data.options.length; i++) {
-                        if (typeof self.stats.original[i] !== 'undefined')
-                            totalCounts += self.stats.original[i];
-                    }
-                    originalPercentage += self.stats.original[s] / totalCounts * 100 + "%";
-                }
-                else
-                    originalPercentage += "0%";
-
-                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.revised[s] !== 'undefined') {
-                    var totalCounts = 0;
-                    for (var i = 0; i < data.options.length; i++) {
-                        if (typeof self.stats.revised[i] !== 'undefined')
-                            totalCounts += self.stats.revised[i];
-                    }
-                    revisedPercentage += self.stats.revised[s] / totalCounts * 100 + "%";
-                }
-                else
-                    revisedPercentage += "0%";
-
-                return originalPercentage + " " + revisedPercentage;
             };
 
             function get_data() {
@@ -257,6 +240,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.options = data.options;
             }
 
+            self.hasSampleExplanationForOption = function (option) {
+                for (var index in self.other_answers.answers) {
+                    if (option == self.other_answers.answers[index].option) {
+                        return true;
+                    }
+                }
+                return false;
+            };
         }]);
 
 /**

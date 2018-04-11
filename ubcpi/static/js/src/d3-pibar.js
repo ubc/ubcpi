@@ -156,3 +156,139 @@ d3.custom.barChart = function(scope, gettext) {
     return chart;
 };
 
+/**
+ * Data format:
+ * [
+ *     {percentage: 40, order: 0, label: '(including you) initial choise', class: 'ubcpibar'},
+ *     {percentage: 75, order: 1, label: 'after revision', class: 'ubcpibar'},
+ * ]
+ */
+d3.custom.perAnswerChart = function(scope, gettext, allAnswerCount) {
+    // Private Variables
+    var chartWidth  = 750;
+    var chartHeight = 56;
+    var labelWidth = 150;
+    var minTotalFrequency = 10;
+
+    if(scope.role == 'instructor' || scope.role == 'staff'){ minTotalFrequency = 1}
+
+    function chart(selection) {
+        selection.each(function(data) {
+            var totalFreq = allAnswerCount;
+
+            // sort bars based on given order
+            data = data.sort(function(a, b) {
+                return d3.ascending(a.order, b.order);
+            });
+
+            if (totalFreq < minTotalFrequency) {
+                d3.select(this)
+                    .append("span")
+                    .attr("id", 'not-enough-data')
+                    .text(gettext("Not enough data to generate the chart. Please check back later."));
+                return;
+            } else {
+                var notEnoughDataSpan = d3.select('#not-enough-data');
+                if (typeof notEnoughDataSpan !== 'undefined') {
+                    notEnoughDataSpan.remove();
+                }
+            }
+
+            var svg = d3.select(this)
+                .classed("svg-container", true)
+                .append("svg")
+                .attr("preserveAspectRatio", "xMaxYMax meet")
+                .attr("viewBox", "0 0 " + chartWidth + " " + chartHeight)
+                .classed("svg-content-responsive", true);
+
+            // x and y scale
+            var x = d3.scale.linear()
+                .range([0, chartWidth-labelWidth])
+                .domain([0, 100]);
+            var y = d3.scale.ordinal()
+                .rangeRoundBands([0, chartHeight], 0.2)
+                .domain(data.map(function (d) {
+                    return d.type;
+                }));
+
+            var bars = svg.selectAll("g.bar")
+                .data(data)
+                .enter()
+                .append("g")
+                .attr("transform", function(d) {
+                    return "translate(0," + y(d.type) + ")";
+                });
+
+            // label of each bar
+            bars.append("text")
+                .attr("x", "0em")
+                .attr("dy", "1.2em")
+                .attr("text-anchor", "left")
+                .attr("class", function(d) {
+                    return d.label_class;
+                })
+                .text(function(d) { return d.type; });
+
+            // background of each bar at 100% full length
+            bars.append("rect")
+                .style("fill", "#dddddd")
+                .attr("x", labelWidth)
+                .attr("rx", 3)
+                .attr("ry", 3)
+                .attr("height", y.rangeBand())
+                .attr("width", function(d) {
+                    return x(100);
+                });
+
+            // the actual bar based on given percentage
+            bars.append("rect")
+                .attr("class", function (d) {
+                    return d.class;
+                })
+                .attr("x", labelWidth)
+                .attr("rx", 3)
+                .attr("ry", 3)
+                .attr("height", y.rangeBand())
+                .attr("width", function (d) {
+                    return x(d.percentage);
+                });
+
+            // text on each bar
+            bars.append("svg")
+                .attr({ height: y.rangeBand() })
+                .append("text")
+                .attr("x", labelWidth+10)
+                .attr("dy", "1.2em")
+                .attr("text-anchor", "left")
+                .attr("class", function(d) {
+                    return d.class;
+                })
+                .text(function(d) { return Math.round(d.percentage) + "% " + d.text; });
+        });
+
+    }
+
+    // Public Variables/ (Getters and Setters)
+    chart.width = function(width) {
+        if (!arguments.length) return chartWidth;
+        chartWidth = width;
+
+        return this;
+    };
+
+    chart.height = function(height) {
+        if (!arguments.length) return chartHeight;
+        chartHeight = height;
+
+        return this;
+    };
+
+    chart.minTotalFrequency = function(min) {
+        if (!arguments.length) return minTotalFrequency;
+        minTotalFrequency = min;
+
+        return this;
+    };
+
+    return chart;
+};
