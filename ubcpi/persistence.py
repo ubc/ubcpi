@@ -149,3 +149,9 @@ class Answers:
         Return the answers as a list
         """
         return self.raw_answers
+
+    def get_answers_as_dict(self):
+        """
+        Return the answers as a dictionary of list
+        """
+        return { ANSWER_LIST_KEY: self.get_answers_as_list() }

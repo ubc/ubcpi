@@ -3,6 +3,7 @@ import os
 import random
 from copy import deepcopy
 import uuid
+from datetime import datetime
 
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
@@ -249,6 +250,21 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
     other_answers_shown = Dict(
         default={}, scope=Scope.user_state,
         help=_("Stores the specific answers of other students shown, for a given student."),
+    )
+
+    learner_answers = Dict(
+        default={}, scope=Scope.user_state,
+        help=_("Stores the answers submitted by the learner."),
+    )
+
+    init_submission_timestamp = DateTime(
+        default=None, scope=Scope.user_state,
+        help=_("Timestamp of initial answer submission"),
+    )
+
+    revision_submission_timestamp = DateTime(
+        default=None, scope=Scope.user_state,
+        help=_("Timestamp of revision submission"),
     )
 
     algo = Dict(
@@ -532,6 +548,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             sas_api.add_answer_for_student(student_item, answer, rationale)
             num_resp = stats['original'].setdefault(answer, 0)
             stats['original'][answer] = num_resp + 1
+            self.learner_answers = self.get_answers_for_student().get_answers_as_dict()
+            self.init_submission_timestamp = datetime.utcnow()
             offer_answer(
                 self.sys_selected_answers, answer, rationale,
                 student_item['student_id'], self.algo, self.options)
@@ -547,6 +565,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             sas_api.add_answer_for_student(self.get_student_item_dict(), answer, rationale)
             num_resp = stats['revised'].setdefault(answer, 0)
             stats['revised'][answer] = num_resp + 1
+            self.learner_answers = self.get_answers_for_student().get_answers_as_dict()
+            self.revision_submission_timestamp = datetime.utcnow()
 
             # Fetch the grade
             grade = self.get_grade()
