@@ -11,6 +11,8 @@ import pkg_resources
 from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
+# For supporting manual revision of scores.  Commented out for now.
+# from xblock.scorable import ScorableXBlockMixin, Score
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
@@ -256,8 +258,6 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         help=_("The algorithm for selecting which answers to be presented to students"),
     )
 
-    # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
-    # speed of the progress page.
     has_score = True
 
     start = DateTime(
@@ -292,6 +292,57 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         The maximum raw score of our problem.
         """
         return 1
+
+    # def calculate_score(self):
+    #     answers = self.get_answers_for_student()
+    #     if answers.has_revision(0) and answers.has_revision(1):
+    #         return Score(1, 1)
+    #     return Score(0, 1)
+    #
+    # def set_score(self, score):
+    #     # TODO persisting score
+    #     pass
+    #
+    # def get_score(self):
+    #     # TODO Since we are not persisting score, always return 1.
+    #     # That means the Overriding Score function will always set the score to 1
+    #     # Instructors can reset the score to 0 by deleting learner's state
+    #     return Score(1, 1)
+
+    def clear_student_state(self, user_id, course_id, item_id, requesting_user_id):
+        """
+        Being notified that student state is going to be deleted.  Mark student's
+        submissions as deleted
+        """
+        student_item = dict(
+            student_id=user_id,
+            item_id=item_id,
+            course_id=course_id,
+            item_type='ubcpi'
+        )
+
+        # TODO currently not possible to revise the stats as they are defined with scope Scope.user_state_summary.
+        # The stats are not available when clear_student_state is called
+        # answers = sas_api.get_answers_for_student(student_item)
+        # stats = self.get_current_stats()
+        # if answers.has_revision(0):
+        #     num_resp = stats['original'].setdefault(answers.get_vote(0), 0)
+        #     if num_resp > 0:
+        #         stats['original'][answers.get_vote(0)] = num_resp - 1
+        # if answers.has_revision(1):
+        #     num_resp = stats['revised'].setdefault(answers.get_vote(1), 0)
+        #     if num_resp > 0:
+        #         stats['revised'][answers.get_vote(1)] = num_resp - 1
+
+        # mark existing submission as deleted
+        sas_api.delete_answer_for_student(student_item, requesting_user_id)
+
+    # def has_submitted_answer(self):
+    #     answers = self.get_answers_for_student()
+    #     return answers.has_revision(0) and answers.has_revision(1)
+    #
+    # def publish_grade(self):
+    #     self._publish_grade(self.get_score())
 
     def studio_view(self, context=None):
         """
@@ -620,7 +671,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         if answers.has_revision(0) and not answers.has_revision(1):
             # If no persisted peer answers, generate new ones.
             # Could happen if a student completed Step 1 before ubcpi upgraded to persist peer answers.
-            if not self.other_answers_shown:
+            if not other_answers:
                 ret['other_answers'] = get_other_answers(
                     self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
             else:
