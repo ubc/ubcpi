@@ -227,48 +227,45 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
     ret = []
     # clean up answers so that all keys are int
     pool = {int(k): v for k, v in pool.items()}
-    total_in_pool = len(seeded_answers)
     merged_pool = convert_seeded_answers(seeded_answers)
     student_id = get_student_item_dict()['student_id']
     # merge the dictionaries in the answer dictionary
     for key in pool:
-        total_in_pool += len(pool[key])
-        # if student_id has value, we assume the student just submitted an answer. So removing it
-        # from total number in the pool
-        if student_id in pool[key].keys():
-            total_in_pool -= 1
-        if key in merged_pool:
-            merged_pool[key].update(pool[key].items())
-        else:
-            merged_pool[key] = pool[key]
+        merged_pool.setdefault(key, {})
+        merged_pool[key].update(pool[key])
+        # Pop student's own answer, if exists
+        merged_pool[key].pop(student_id, None)
 
-    # remember which option+student_id is selected, so that we don't have duplicates in the result
-    selected = []
-
-    # loop until we have enough answers to return
-    while len(ret) < min(num_responses, total_in_pool):
+    # loop until we have enough answers to return or when there is nothing more to return
+    while len(ret) < num_responses and merged_pool:
         for option, students in merged_pool.items():
-            student = student_id
-            i = 0
-            while (student == student_id or i > 100) and (str(option) + student) not in selected:
-                # retry until we got a different one or after 100 retries
-                # we are suppose to get a different student answer or a seeded one in a few tries
-                # as we have at least one seeded answer for each option in the algo. And it is not
-                # suppose to overflow i order to break the loop
+            rationale = None
+            while students:
                 student = random.choice(students.keys())
-                i += 1
-            selected.append(str(option)+student)
-            if student.startswith('seeded'):
-                # seeded answer, get the rationale from local
-                rationale = students[student]
-            else:
-                student_item = get_student_item_dict(student)
-                submission = sas_api.get_answers_for_student(student_item)
-                rationale = submission.get_rationale(0)
-            ret.append({'option': option, 'rationale': rationale})
+                # remove the chosen answer from pool
+                content = students.pop(student, None)
+
+                if student.startswith('seeded'):
+                    # seeded answer, get the rationale from local
+                    rationale = content
+                else:
+                    student_item = get_student_item_dict(student)
+                    submission = sas_api.get_answers_for_student(student_item)
+                    # Make sure the answer is still the one we want.
+                    # It may have changed (e.g. instructor deleted the student state
+                    # and the student re-submitted a diff answer)
+                    if submission.has_revision(0) and submission.get_vote(0) == option:
+                        rationale = submission.get_rationale(0)
+
+                if rationale:
+                    ret.append({'option': option, 'rationale': rationale})
+                    break
+
+            if not students:
+                del merged_pool[option]
 
             # check if we have enough answers
-            if len(ret) >= min(num_responses, total_in_pool):
+            if len(ret) >= num_responses:
                 break
 
     return {"answers": ret}
@@ -316,8 +313,11 @@ def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_re
         else:
             student_item = get_student_item_dict(student)
             submission = sas_api.get_answers_for_student(student_item)
-            rationale = submission.get_rationale(0)
-            option = submission.get_vote(0)
+            if submission.has_revision(0):
+                rationale = submission.get_rationale(0)
+                option = submission.get_vote(0)
+            else:
+                continue
         ret.append({'option': option, 'rationale': rationale})
 
     return {"answers": ret}
