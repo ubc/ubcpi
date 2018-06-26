@@ -45,6 +45,7 @@
         "answer": 1,
         "rationale": "Seeded Rationale  2"
       }
-    ]
+    ],
+    "flag_inappropriate_threshold": 2
   }
 }

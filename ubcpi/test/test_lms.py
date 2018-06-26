@@ -111,9 +111,12 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_student_item_dict(self, xblock):
         student_item = xblock.get_student_item_dict()
+        # the item_id is in the format of '.ubcpi.d#.u0' where # is based on how many test cases had run
+        self.assertTrue(student_item['item_id'].startswith('.ubcpi.d'))
+        self.assertTrue(student_item['item_id'].endswith('.u0'))
         self.assertEqual(student_item, {
             'student_id': 'Bob',
-            'item_id': '.ubcpi.d3.u0',
+            'item_id': student_item['item_id'],     # checked the format above
             'course_id': 'edX/Enchantment_101/April_1',
             'item_type': 'ubcpi'
         })
@@ -195,6 +198,37 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
             xblock.get_asset_url('/static/cat.jpg'),
             '/c4x://test/course/cat.jpg',
             'in edx env, it should return converted asset URL')
+
+    @patch('ubcpi.ubcpi.get_other_answers')
+    @file_data('data/submit_answer.json')
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_clear_student_state_hook(self, xblock, data, mock):
+        # patch get_other_answers to avoid randomness
+        mock.return_value = data['expect1']['other_answers']
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
+        self.assertEqual(resp, data['expect1'])
+
+        # check the student is recorded
+        answers = xblock.get_answers_for_student()
+        self.assertTrue(answers.has_revision(0))
+        self.assertFalse(answers.has_revision(1))
+        self.assertEqual(answers.get_rationale(0), data['post1']['rationale'])
+
+        # check the stats that we have 1 answer
+        self.assertEqual(xblock.stats['original'][data['post1']['q']], 1)
+
+        # Check the data is persisted
+        persisted = xblock.get_persisted_data(data['expect1']['other_answers'])
+        self.assertEquals(persisted['answer_original'], 0)
+        self.assertFalse( 'correct_answer' in persisted )
+
+        # simulate a call to the hook to clear student state
+        student_item = xblock.get_student_item_dict()
+        xblock.clear_student_state(student_item['student_id'], student_item['course_id'], student_item['item_id'], 'dummy_user')
+        # check the student state is removed
+        answers = xblock.get_answers_for_student()
+        self.assertFalse(answers.has_revision(0))
+        self.assertFalse(answers.has_revision(1))
 
     def test_truncate_rationale(self):
         short_rationale = 'This is a rationale'

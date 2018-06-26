@@ -25,15 +25,18 @@
     "expect": {
       "answers": [
         {
+          "id": "submission_uuid_1",
           "option": 0,
           "rationale": "my rationale"
         },
         {
+          "id": "-1",
           "option": 1,
           "rationale": "rationale B"
         }
       ]
-    }
+    },
+    "inappropriate_answers": {}
   },
   "empty_pool": {
     "pool": {
@@ -54,15 +57,18 @@
     "expect": {
       "answers": [
         {
+          "id": "-1",
           "option": 0,
           "rationale": "rationale A"
         },
         {
+          "id": "-1",
           "option": 1,
           "rationale": "rationale B"
         }
       ]
-    }
+    },
+    "inappropriate_answers": {}
   },
   "not_enough_in_pool_to_return": {
     "pool": {
@@ -83,14 +89,17 @@
     "expect": {
       "answers": [
         {
+          "id": "-1",
           "option": 0,
           "rationale": "rationale A"
         },
         {
+          "id": "-1",
           "option": 1,
           "rationale": "rationale B"
         }
       ]
-    }
+    },
+    "inappropriate_answers": {}
   }
 }

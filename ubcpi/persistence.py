@@ -16,6 +16,7 @@ answer_item has to be in the format:
 }
 """
 
+SUBMISSION_UUID = 'uuid'
 ANSWER_LIST_KEY = 'answers'
 DELETE_INDICATOR = 'deleted'
 REQUEST_USER_ID_KEY = 'requesting_user_id'
@@ -43,7 +44,7 @@ def get_answers_for_student(student_item):
     latest_answer_item = latest_submission.get('answer', {})
     if latest_answer_item.get(DELETE_INDICATOR, False):
         return Answers()
-    return Answers(latest_answer_item.get(ANSWER_LIST_KEY, []))
+    return Answers(latest_answer_item.get(ANSWER_LIST_KEY, []), latest_submission.get(SUBMISSION_UUID, None))
 
 
 def add_answer_for_student(student_item, vote, rationale):
@@ -85,11 +86,12 @@ class Answers:
     in the future if this xblock supports more than one round of revision.
     """
 
-    def __init__(self, answers=None):
+    def __init__(self, answers=None, uuid=None):
         if not answers:
             self.raw_answers = []
         else:
             self.raw_answers = answers
+        self.submission_uuid = uuid
 
     def _safe_get(self, revision, key):
         """
@@ -108,6 +110,15 @@ class Answers:
             return self.raw_answers[revision].get(key)
         else:
             return None
+
+    def get_submission_uuid(self):
+        """
+        Get the UUID of the submission
+
+        Returns:
+            the uuid of the submission. None if there is no submission
+        """
+        return self.submission_uuid
 
     def has_revision(self, revision):
         """

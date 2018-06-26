@@ -13,6 +13,8 @@ POOL_SIZE = 4096
 # items in the pool. For variable length item, specify the max length
 POOL_ITEM_LENGTH_SIMPLE = POOL_ITEM_LENGTH_RANDOM = 35
 
+# dummy id to identify a seed explanation
+SEED_EXPLANATION_ID = "-1"
 
 class UnknownChooseAnswerAlgorithm(Exception):
     pass
@@ -173,7 +175,7 @@ def validate_seeded_answers(answers, options, algo):
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options):
+def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options, inappropriate_answers):
     """
     Select other student's answers from answer pool or seeded answers based on the selection algorithm
 
@@ -195,6 +197,12 @@ def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options
         get_student_item_dict (callable): get student item dict function to return student item dict
         algo (str): selection algorithm
         options (dict): answer options for the question
+        inappropriate_answers (set): inappropriate answers that shouldn't be showing. Format:
+            {
+                submission_uuid_1,   # Submission UUID of inappropriate answer
+                submission_uuid_2,
+                ...
+            }
 
     Returns:
         dict: answers based on the selection algorithm
@@ -204,15 +212,24 @@ def get_other_answers(pool, seeded_answers, get_student_item_dict, algo, options
         if 'num_responses' not in algo or algo['num_responses'] == "#" \
         else int(algo['num_responses'])
 
+    # clean up the pool
+    for option in pool.keys():
+        for student in pool[option].keys():
+            student_item = get_student_item_dict(student)
+            submission = sas_api.get_answers_for_student(student_item)
+            # remove deleted submission or new submission that doesn't match recorded option
+            if not submission.has_revision(0) or (submission.has_revision(0) and submission.get_vote(0) != option):
+                del pool[option][student]
+
     if algo['name'] == 'simple':
-        return get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses, inappropriate_answers)
     elif algo['name'] == 'random':
-        return get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses)
+        return get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses, inappropriate_answers)
     else:
         raise UnknownChooseAnswerAlgorithm()
 
 
-def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_responses, inappropriate_answers):
     """
     Get answers from others with simple algorithm, which picks one answer for each option.
 
@@ -240,6 +257,7 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
     while len(ret) < num_responses and merged_pool:
         for option, students in merged_pool.items():
             rationale = None
+            unique_id = SEED_EXPLANATION_ID
             while students:
                 student = random.choice(students.keys())
                 # remove the chosen answer from pool
@@ -251,14 +269,17 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
                 else:
                     student_item = get_student_item_dict(student)
                     submission = sas_api.get_answers_for_student(student_item)
+                    if submission.get_submission_uuid() in inappropriate_answers:
+                        continue
                     # Make sure the answer is still the one we want.
                     # It may have changed (e.g. instructor deleted the student state
                     # and the student re-submitted a diff answer)
                     if submission.has_revision(0) and submission.get_vote(0) == option:
                         rationale = submission.get_rationale(0)
+                        unique_id = submission.get_submission_uuid()
 
                 if rationale:
-                    ret.append({'option': option, 'rationale': rationale})
+                    ret.append({'option': option, 'rationale': rationale, 'id': unique_id})
                     break
 
             if not students:
@@ -271,7 +292,7 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
     return {"answers": ret}
 
 
-def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses):
+def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_responses, inappropriate_answers):
     """
     Get answers from others with random algorithm, which randomly select answer from the pool.
 
@@ -307,18 +328,23 @@ def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_re
             # this is the student's answer so don't return
             continue
 
+        unique_id = SEED_EXPLANATION_ID
         if student.startswith('seeded'):
             option = seeded[student]['answer']
             rationale = seeded[student]['rationale']
         else:
             student_item = get_student_item_dict(student)
             submission = sas_api.get_answers_for_student(student_item)
+            if submission.get_submission_uuid() in inappropriate_answers:
+                continue
+
             if submission.has_revision(0):
                 rationale = submission.get_rationale(0)
                 option = submission.get_vote(0)
+                unique_id = submission.get_submission_uuid()
             else:
                 continue
-        ret.append({'option': option, 'rationale': rationale})
+        ret.append({'option': option, 'rationale': rationale, 'id': unique_id})
 
     return {"answers": ret}
 

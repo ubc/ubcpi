@@ -602,6 +602,10 @@ text.ubcpibar.label {
     padding-left: 7px;
 }
 
+.other-rationale-inappropriate {
+    cursor: pointer;
+}
+
 .ubcpi-class-breakdown {
     padding: 10px 20px;
     border: 1px solid #D7DBDF;
@@ -629,6 +633,59 @@ text.ubcpibar.label {
 
 .ubcpi-breakdown-answer-options .ubcpi-option .ubcpi-breakdown-answer-text {
     display: block;
+}
+
+.ubcpi-staff-explanation-pool {
+    text-align: left;
+    background: #F8F8F8;
+    padding: 15px;
+    margin: 15px 0 20px;
+}
+
+.ubcpi-staff-explanation-pool .ubcpi-staff-explanation-pool-loading {
+    text-align: center;
+}
+
+.ubcpi-staff-explanation-pool .pool-table {
+    width: 100%;
+    border: 1px solid black;
+    font-size: 0.8em;
+}
+
+.ubcpi-staff-explanation-pool .pool-table thead td {
+    text-align: center;
+    font-weight: bold;
+}
+
+.ubcpi-staff-explanation-pool .pool-table td {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+}
+
+.ubcpi-staff-explanation-pool .pool-table .ubcpi-staff-override-options {
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.ubcpi-staff-explanation-pool .pool-table .ubcpi-staff-override-options .ubcpi-staff-override-options-shown {
+    color: rgba(0,128,0,0.8);
+    font-size: 1.3em;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 4px;
+}
+
+.ubcpi-staff-explanation-pool .pool-table .ubcpi-staff-override-options .ubcpi-staff-override-options-not-shown {
+    color: rgba(128,0,0,0.8);
+    font-size: 1.3em;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 4px;
+}
+
+.ubcpi-staff-explanation-pool .pool-table tbody tr:nth-child(even){
+    background-color: #f2f2f2;
 }
 
 #pi-form .list-input.settings-list .setting-label {
@@ -774,6 +831,12 @@ div.course-wrapper section.course-content .warning-notice p {
   transition:none;
 }
 
+.ubcpi-staff-statistics-button *{
+  font-size:12px;
+  color:#0075b4;
+  transition:none;
+}
+
 .ubcpi-staff-statistics-button--active{
     color:white;
     background-color:#b62568;
@@ -782,6 +845,12 @@ div.course-wrapper section.course-content .warning-notice p {
     padding: 5px 10px;
     text-transform:uppercase;
     font-size:12px;
+    transition:none;
+}
+
+.ubcpi-staff-statistics-button--active *{
+    font-size:12px;
+    color:#0075b4;
     transition:none;
 }
 
@@ -795,7 +864,7 @@ div.course-wrapper section.course-content .warning-notice p {
 
 .ubcpi-staff-statistics-button:hover{
     color:white;
-    background-color: #61b5e6;
+    background-color:#b62568;
 }
 
 .ubcpi-staff-statistics-button:active{
@@ -810,6 +879,53 @@ div.course-wrapper section.course-content .warning-notice p {
 .ubcpi-staff-statistics-button:focus, .ubcpi-staff-statistics-button--active:focus{
     outline:none;
 }
+
+.ubcpi-staff-answer-pool-button {
+  border:none;
+  border-radius:5px;
+  padding:5px 10px;
+  text-transform:uppercase;
+  font-size:12px;
+  background-color:rgba(3,3,3,0.05);
+  transition:none;
+}
+
+.ubcpi-staff-answer-pool-button * {
+  font-size:12px;
+  color:#0075b4;
+  transition:none;
+}
+
+.ubcpi-staff-answer-pool-button--active{
+    color:white;
+    background-color:#b62568;
+    border:none;
+    border-radius:5px;
+    padding: 5px 10px;
+    text-transform:uppercase;
+    font-size:12px;
+    transition:none;
+}
+
+.ubcpi-staff-answer-pool-button--active * {
+    color:white;
+    font-size:12px;
+    transition:none;
+}
+
+.ubcpi-staff-answer-pool-button:hover{
+    background-color: #b62568;
+}
+
+.ubcpi-staff-answer-pool-button:active {
+    color:white;
+    background-color:#b62568;
+}
+
+.ubcpi-staff-answer-pool-button:focus, .ubcpi-staff-answer-pool-button:focus{
+    outline:none;
+}
+
 
 pi-barchart > span{
     text-align:center;
@@ -854,4 +970,62 @@ pi-barchart > svg {
 
 #not-enough-data {
     font-size: 0.85em;
+}
+
+.ubcpi-modal-dialog {
+    display: none;
+    background: #F0F0F0;
+    box-shadow: 0 0 20px 0 rgba(0,0,0,0.4);
+    border-radius: 5px;
+    padding: 10px;
+    width: 50%;
+    height: 60%;
+    overflow: auto;
+}
+
+.ubcpi-modal-dialog-header {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.ubcpi-modal-dialog-body {
+    text-align: left;
+    font-size: 0.8em;
+    padding: 10px;
+}
+
+.ubcpi-modal-dialog-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    z-index: 2;
+    cursor: pointer;
+    color: #0075b4;
+}
+
+.ubcpi-report-inappropriate-button {
+    font-size: 0.9em;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    color: #0075b4;
+    background-color: rgba(3,3,3, 0.05);
+    transition: none;
+}
+
+.ubcpi-report-inappropriate-button * {
+    font-size: 0.8em;
+    color: #0075b4;
+    transition: none;
+}
+
+.ubcpi-report-inappropriate-button:hover {
+    background-color: #61b5e6;
 }

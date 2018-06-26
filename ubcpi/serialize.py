@@ -240,6 +240,8 @@ def parse_from_xml(root):
     algo = unicode(root.attrib['algorithm']) if 'algorithm' in root.attrib else None
     num_responses = unicode(root.attrib['num_responses']) if 'num_responses' in root.attrib else None
 
+    flag_inappropriate_threshold = int(root.attrib['flag_inappropriate_threshold']) if 'flag_inappropriate_threshold' in root.attrib else None
+
     return {
         'display_name': display_name,
         'question_text': question,
@@ -248,7 +250,8 @@ def parse_from_xml(root):
         'correct_answer': correct_answer,
         'correct_rationale': correct_rationale,
         'seeds': seeds,
-        'algo': {"name": algo, 'num_responses': num_responses}
+        'algo': {"name": algo, 'num_responses': num_responses},
+        'flag_inappropriate_threshold': flag_inappropriate_threshold
     }
 
 
@@ -346,3 +349,6 @@ def serialize_to_xml(root, block):
 
     seeds = etree.SubElement(root, 'seeds')
     serialize_seeds(seeds, block)
+
+    if block.flag_inappropriate_threshold:
+        root.set('flag_inappropriate_threshold', unicode(block.flag_inappropriate_threshold))

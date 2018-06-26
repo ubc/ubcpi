@@ -25,7 +25,8 @@
       "answer_original": 0,
       "rationale_original": "This is my answer.",
       "answer_revised": null,
-      "rationale_revised": null
+      "rationale_revised": null,
+      "can_report_inappropriate": true
     },
     "post2": {
       "q": 1,
@@ -40,7 +41,8 @@
       "correct_answer": 0,
       "correct_rationale": {
         "text": "This is correct."
-      }
+      },
+      "can_report_inappropriate": true
     }
   }
 }

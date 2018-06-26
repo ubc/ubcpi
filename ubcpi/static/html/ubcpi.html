@@ -122,8 +122,32 @@
 
                 </fieldset>
 
+                <div style="padding-top: 10px; padding-bottom: 10px;" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED && rc.can_report_inappropriate">
+                    <a href="#report_inappropriate_dialog" class="ubcpi-report-inappropriate-button" rel="leanModal" ubcpi-modal-trigger translate>Report Inappropriate Answers</a>
+
+                    <div id="report_inappropriate_dialog" class="ubcpi-modal-dialog">
+                        <div class="ubcpi-modal-dialog-header">
+                            <div translate>Report Inappropriate Answers</div>
+                            <hr>
+                        </div>
+                        <div class="ubcpi-modal-dialog-close-button" aria-label="Close">
+                            <i class="icon fa fa-times-circle"></i>
+                        </div>
+                        <div class="ubcpi-modal-dialog-body">
+                            <p translate>If you think a student answer doesn't meet our course guidelines or is inappropriate, offensive or unsafe in any way, please report to the instructional team.</p>
+                            <div data-ng-repeat="otherAnswer in rc.other_answers.answers | orderBy:'option'" data-ng-if="rc.status() == rc.ALL_STATUS.ANSWERED">
+                                <div class="sample-answer">
+                                    <span class="sr" translate>Student Rationale</span><i aria-hidden="true" class="icon fa fa-user fa-lg"></i>
+                                    <span class="other-rationale">"{{otherAnswer.rationale}}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<div data-ng-class="{ 'icon fa ubcpi-report-inappropriate-button' : otherAnswer.reported, 'icon fa fa-hand-paper-o other-rationale-inappropriate ubcpi-report-inappropriate-button' : !otherAnswer.reported }" title="{{ 'Report this answer as inappropriate' | translate }}" confirm-flag-appropriate="{{ 'I would like to report to instructional team that this answer is inappropriate.' | translate }}" translate>&nbsp;&nbsp;Report</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="ubcpi-staff-button-wrapper" data-ng-if="user_role == 'instructor' || user_role == 'staff'" data-ng-init="rc.getStats()">
                     <a data-ng-model="collapse" data-ng-click="collapse=!collapse" data-ng-class="{true: 'ubcpi-staff-statistics-button--active', false: 'ubcpi-staff-statistics-button'}[collapse]" translate>View Question Statistics</a>
+
                     <div class="ubcpi-staff-statistics" data-ng-show="collapse">
 
                         <div class="ubcpi-breakdown-answer-options">
@@ -144,6 +168,7 @@
                         </div>
 
                     </div>
+
                 </div>
 
             </form>
@@ -224,6 +249,87 @@
             </section><!-- .correct-answer-and-rationale -->
 
         </div><!-- .correct-revised-chart -->
+
+        <div class="ubcpi-staff-button-wrapper" data-ng-if="user_role == 'instructor' || user_role == 'staff'">
+            <a data-ng-click="rc.explanationPool.showing=!rc.explanationPool.showing" data-ng-class="{true: 'ubcpi-staff-answer-pool-button--active', false: 'ubcpi-staff-answer-pool-button'}[rc.explanationPool.showing]" translate>View Explanation Pool Status</a>
+
+            <div class="ubcpi-staff-explanation-pool" data-ng-show="rc.explanationPool.showing">
+                <div class="ubcpi-staff-explanation-pool-loading" data-ng-show="rc.explanationPool.pool===null">
+                   <span class="fa fa-spinner fa-spin" style="font-size:1.4em;"></span>&nbsp;<span translate>Loading data...</span>
+                </div>
+                <div data-ng-show="rc.explanationPool.pool!==null">
+                    <table class="pool-table">
+                        <thead>
+                            <tr>
+                                <!-- <td width="20%"><div translate>ID</div></td> -->
+                                <td width="8%">
+                                    <a href="#" ng-click="rc.explanationPool.sortType=['option', 'explanation']; rc.explanationPool.sortReverse=!rc.explanationPool.sortReverse">
+                                        <span translate>Option</span>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'option' && !rc.explanationPool.sortReverse" class="fa fa-caret-up fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'option' && rc.explanationPool.sortReverse" class="fa fa-caret-down fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] !== 'option'" class="fa fa-fw" aria-hidden="true">&nbsp;</i>
+                                    </a>
+                                </td>
+                                <td width="65%">
+                                    <a href="#" ng-click="rc.explanationPool.sortType=['explanation', 'option']; rc.explanationPool.sortReverse=!rc.explanationPool.sortReverse">
+                                        <span translate>Explanation</span>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'explanation' && !rc.explanationPool.sortReverse" class="fa fa-caret-up fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'explanation' && rc.explanationPool.sortReverse" class="fa fa-caret-down fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] !== 'explanation'" class="fa fa-fw" aria-hidden="true">&nbsp;</i>
+                                    </a>
+                                </td>
+                                <td width="15%" ng-if="rc.can_report_inappropriate">
+                                    <a href="#" ng-click="rc.explanationPool.sortType=['-inappropriate_report_count', 'option', 'explanation']; rc.explanationPool.sortReverse=!rc.explanationPool.sortReverse">
+                                        <span translate># reported as inappropriate</span>
+                                        <i ng-show="rc.explanationPool.sortType[0] === '-inappropriate_report_count' && rc.explanationPool.sortReverse" class="fa fa-caret-up fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] === '-inappropriate_report_count' && !rc.explanationPool.sortReverse" class="fa fa-caret-down fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] !== '-inappropriate_report_count'" class="fa fa-fw" aria-hidden="true">&nbsp;</i>
+                                    </a>
+                                </td>
+                                <td width="12%" ng-if="rc.can_report_inappropriate">
+                                    <a href="#" ng-click="rc.explanationPool.sortType=['considered_inappropriate', 'option', 'explanation']; rc.explanationPool.sortReverse=!rc.explanationPool.sortReverse">
+                                        <span translate>Can be shown as sample?</span>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'considered_inappropriate' && rc.explanationPool.sortReverse" class="fa fa-caret-up fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] === 'considered_inappropriate' && !rc.explanationPool.sortReverse" class="fa fa-caret-down fa-fw" aria-hidden="true"></i>
+                                        <i ng-show="rc.explanationPool.sortType[0] !== 'considered_inappropriate'" class="fa fa-fw" aria-hidden="true">&nbsp;</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody data-ng-show="rc.explanationPool.pool.length">
+                            <tr ng-repeat="ans in rc.explanationPool.pool | orderBy:rc.explanationPool.sortType:rc.explanationPool.sortReverse">
+                                <td align="center">{{ ans.option-0 + 1 | number }}</td>
+                                <td>{{ ans.explanation }}</td>
+                                <td align="center" ng-if="rc.can_report_inappropriate">{{ ans.inappropriate_report_count }}</td>
+                                <td align="center" ng-if="rc.can_report_inappropriate">
+                                    <div ng-if="ans.considered_inappropriate">
+                                        <div class="ubcpi-staff-override-options" ng-show="ans.staff_set_inappropriate === true">
+                                            <i class="fa fa-fw fa-square-o ubcpi-staff-override-options-not-shown" confirm-staff-toggle-inappropriate="{{ 'Remove override?' | translate }}" value="false" aria-describedby="No"></i>
+                                        </div>
+                                        <div class="ubcpi-staff-override-options" ng-show="ans.staff_set_inappropriate !== true">
+                                            <i class="fa fa-fw fa-square-o ubcpi-staff-override-options-not-shown" confirm-staff-toggle-inappropriate="{{ 'Mark as appropriate?' | translate }}" value="false" aria-describedby="No"></i>
+                                        </div>
+                                    </div>
+                                    <div ng-if="!ans.considered_inappropriate">
+                                        <div class="ubcpi-staff-override-options" ng-show="ans.staff_set_inappropriate === false">
+                                            <i class="fa fa-fw fa-check-square ubcpi-staff-override-options-shown" confirm-staff-toggle-inappropriate="{{ 'Remove override?' | translate }}" value="true" aria-describedby="Yes"></i>
+                                        </div>
+                                        <div class="ubcpi-staff-override-options" ng-show="ans.staff_set_inappropriate !== false">
+                                            <i class="fa fa-fw fa-check-square ubcpi-staff-override-options-shown" confirm-staff-toggle-inappropriate="{{ 'Mark as inappropriate?' | translate }}" value="true" aria-describedby="Yes"></i>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody data-ng-show="!rc.explanationPool.pool.length">
+                            <tr>
+                                <td colspan="4" align="center"><div translate>No data vailable</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- .ubcpi-staff-explanation-pool -->
+        </div><!-- explanation pool -->
 
     </div><!-- .revise -->
 
