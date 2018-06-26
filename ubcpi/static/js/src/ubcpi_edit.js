@@ -90,6 +90,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
                 self.data.correct_rationale = data.correct_rationale;
             self.data.algo = data.algo;
             self.data.seeds = data.seeds;
+            self.data.flag_inappropriate_threshold = data.flag_inappropriate_threshold;
 
             self.add_option = function() {
                 self.data.options.push(

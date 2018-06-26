@@ -41,6 +41,224 @@ describe('UBCPI module', function () {
         });
     });
 
+    describe('autoFocus directive', function() {
+        var $compile, $rootScope;
+        beforeEach(inject(function (_$compile_, _$rootScope_) {
+            // The injector unwraps the underscores (_) from around the parameter names when matching
+            $compile = _$compile_;
+            $rootScope = _$rootScope_;
+        }));
+
+        it('should set focus to the element', function() {
+            var scope = $rootScope.$new(true);
+            var element = $compile("<form name='form'><input type='text' name='test' auto-focus></form>")(scope);
+            scope.$digest();
+            expect(element.is(":focus"));
+        });
+    });
+
+    describe('Confirm flag inappropriate directive', function () {
+        var element, scope, compile;
+        var confirmMsg = "Flag as inappropriate";
+        var backendService;
+        var backendDefer;
+        var successFlagResult = { 'success': 'true' };
+        var failFlagResult = { 'success': 'false' };
+
+        beforeEach(inject(function ($compile, $rootScope, _backendService_, _$q_) {
+            scope = $rootScope;
+            compile = $compile;
+            backendService = _backendService_;
+            backendDefer = _$q_.defer();
+
+            scope.otherAnswer = {"option": 0, "rationale": "A dummy answer.", "id": "123-456-789"};
+
+            window.gettext = function(){};
+            spyOn(window, 'gettext').and.callFake(function (t) {
+                return t;
+            });
+            spyOn(backendService, 'flagInappropriate').and.callFake(function (id) {
+                expect(id).toBe(scope.otherAnswer.id);
+                return backendDefer.promise;
+            });
+
+            element = angular.element(
+                '<div confirm-flag-appropriate="' + confirmMsg + '"></div>'
+            );
+        }));
+
+        it('should prompt confirmation dialog', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(window.confirm).toHaveBeenCalledWith(confirmMsg);
+        });
+
+        it('should flag answer if clicked OK', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.flagInappropriate).toHaveBeenCalledWith(scope.otherAnswer.id);
+
+            backendDefer.resolve(successFlagResult);
+            scope.$digest();
+            expect($(element).text()).toBe('Answer reported as inappropriate');
+        });
+
+        it('should not flag the answer if clicked cancel', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return false;
+            });
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.flagInappropriate).not.toHaveBeenCalled();
+        });
+
+        it('should show failed flagging message accordingly', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.flagInappropriate).toHaveBeenCalledWith(scope.otherAnswer.id);
+
+            backendDefer.resolve(failFlagResult);
+            scope.$digest();
+            expect($(element).text()).toBe('Error reporting inappropriate answer. Please refresh the page and try again.');
+        });
+
+        it('should show proper message when backend calls failed', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.flagInappropriate).toHaveBeenCalledWith(scope.otherAnswer.id);
+
+            backendDefer.reject();
+            scope.$digest();
+            expect($(element).text()).toBe('Error reporting inappropriate answer. Please refresh the page and try again.');
+        });
+
+    });
+
+    describe('Confirm staff toggle inappropriate directive', function () {
+        var element, scope, compile;
+        var confirmMsg = "Flag as inappropriate";
+        var backendService;
+        var backendDefer;
+
+        beforeEach(inject(function ($compile, $rootScope, _backendService_, _$q_) {
+            scope = $rootScope;
+            compile = $compile;
+            backendService = _backendService_;
+            backendDefer = _$q_.defer();
+
+            scope.ans = {"option": 0, "rationale": "A dummy answer.", "id": "123-456-789"};
+            scope.rc = { explanationPool: { pool: null } };
+
+            window.gettext = function(){};
+            spyOn(window, 'gettext').and.callFake(function (t) {
+                return t;
+            });
+            spyOn(backendService, 'staffToggleInappropriate').and.callFake(function (id, value) {
+                expect(id).toBe(scope.ans.id);
+                return backendDefer.promise;
+            });
+        }));
+
+        // it('should prompt confirmation dialog', function() {
+        //     spyOn(window, 'confirm').and.callFake(function (msg) {
+        //         return true;
+        //     });
+        // 
+        //     element = angular.element(
+        //         '<div confirm-staff-toggle-inappropriate="' + confirmMsg + '" value="false"></div>'
+        //     );
+        //     compile(element)(scope);
+        //     scope.$digest();
+        // 
+        //     $(element).click();
+        //     expect(window.confirm).toHaveBeenCalledWith(confirmMsg);
+        // });
+
+        it('should flag answer if clicked OK', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+
+            element = angular.element(
+                '<div confirm-staff-toggle-inappropriate="' + confirmMsg + '" value="true"></div>'
+            );
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.staffToggleInappropriate).toHaveBeenCalledWith(scope.ans.id, 'true');
+
+            var successToggleResult = [{
+                "option": "0",
+                "considered_inappropriate": true,
+                "explanation": scope.ans.rationale,
+                "staff_set_inappropriate": true,
+                "id": scope.ans.id,
+                "inappropriate_report_count": 0}]
+
+            backendDefer.resolve(successToggleResult);
+            scope.$digest();
+            expect(scope.rc.explanationPool.pool).toBe(successToggleResult);
+        });
+
+        // it('should not flag the answer if clicked cancel', function() {
+        //     spyOn(window, 'confirm').and.callFake(function (msg) {
+        //         return false;
+        //     });
+        // 
+        //     element = angular.element(
+        //         '<div confirm-staff-toggle-inappropriate="' + confirmMsg + '" value="false"></div>'
+        //     );
+        //     compile(element)(scope);
+        //     scope.$digest();
+        // 
+        //     $(element).click();
+        //     expect(backendService.staffToggleInappropriate).not.toHaveBeenCalled();
+        // });
+
+        it('should handle backend service error', function() {
+            spyOn(window, 'confirm').and.callFake(function (msg) {
+                return true;
+            });
+
+            element = angular.element(
+                '<div confirm-staff-toggle-inappropriate="' + confirmMsg + '" value="true"></div>'
+            );
+            compile(element)(scope);
+            scope.$digest();
+
+            $(element).click();
+            expect(backendService.staffToggleInappropriate).toHaveBeenCalledWith(scope.ans.id, 'true');
+
+            backendDefer.reject();
+            scope.$digest();
+            expect(scope.rc.explanationPool.pool).toBe(null);
+        });
+
+    });
+
     describe('backendService', function() {
         var backendService, $httpBackend;
 
@@ -183,7 +401,173 @@ describe('UBCPI module', function () {
                 expect(error).toBe('error');
             })
 
-        })
+        });
+
+        describe('flag_inappropriate', function() {
+
+            beforeEach(function() {
+                mockConfig.urls.flag_inappropriate = '/handler/flag_inappropriate';
+            });
+
+            it('should flag inappropriate', function() {
+                // mock ajax request
+                var testId = "123-456-789";
+                var post = {
+                    "id": testId
+                };
+                var exp = {
+                    "success": "true"
+                };
+                $httpBackend.expectPOST('/handler/flag_inappropriate', post).respond(200, exp);
+
+                backendService.flagInappropriate(testId).then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+
+            it('should return false status if answer cannot be flagged', function() {
+                // mock ajax request
+                var testId = "987-654-321";
+                var post = {
+                    "id": testId
+                };
+                var exp = {
+                    "success": "false"
+                };
+                $httpBackend.expectPOST('/handler/flag_inappropriate', post).respond(200, exp);
+
+                backendService.flagInappropriate(testId).then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+
+            it('should reject promise with error returned from backend when backend error ', function() {
+                // mock ajax request
+                var testId = "987-654-321";
+                var post = {
+                    "id": testId
+                };
+                $httpBackend.expectPOST('/handler/flag_inappropriate', post).respond(400, 'error');
+
+                backendService.flagInappropriate(testId).catch(function(e) {
+                    expect(e.data).toEqual('error');
+                });
+                $httpBackend.flush();
+            });
+        });
+
+        describe('staff_toggle_inappropriate', function() {
+
+            beforeEach(function() {
+                mockConfig.urls.staff_toggle_inappropriate = '/handler/staff_toggle_inappropriate';
+            });
+
+            it('should allow staff to flag answer as inappropriate', function() {
+                // mock ajax request
+                var testId = "123-456-789";
+                var post = {
+                    "id": testId,
+                    "considered_inappropriate": "true"
+                };
+                var exp = [{
+                    "optione": "1",
+                    "considered_inappropriate": true,
+                    "explanation": "test explanation",
+                    "staff_set_inappropriate": true,
+                    "id": testId,
+                    "inappropriate_report_count": 0
+                }];
+                $httpBackend.expectPOST('/handler/staff_toggle_inappropriate', post).respond(200, exp);
+
+                backendService.staffToggleInappropriate(testId, "true").then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+
+            it('should allow staff to flag answer as appropriate', function() {
+                // mock ajax request
+                var testId = "123-456-789";
+                var post = {
+                    "id": testId,
+                    "considered_inappropriate": "false"
+                };
+                var exp = [{
+                    "optione": "1",
+                    "considered_inappropriate": false,
+                    "explanation": "test explanation",
+                    "staff_set_inappropriate": false,
+                    "id": testId,
+                    "inappropriate_report_count": 0
+                }];
+                $httpBackend.expectPOST('/handler/staff_toggle_inappropriate', post).respond(200, exp);
+
+                backendService.staffToggleInappropriate(testId, "false").then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+
+            it('should allow staff to clear flagging', function() {
+                // mock ajax request
+                var testId = "123-456-789";
+                var post = {
+                    "id": testId,
+                    "considered_inappropriate": "null"
+                };
+                var exp = [{
+                    "optione": "1",
+                    "considered_inappropriate": false,
+                    "explanation": "test explanation",
+                    "staff_set_inappropriate": null,
+                    "id": testId,
+                    "inappropriate_report_count": 0
+                }];
+                $httpBackend.expectPOST('/handler/staff_toggle_inappropriate', post).respond(200, exp);
+
+                backendService.staffToggleInappropriate(testId, "null").then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+        });
+
+        describe('get_pool_status', function() {
+
+            beforeEach(function() {
+                mockConfig.urls.get_pool_status = '/handler/get_pool_status';
+            });
+
+            it('should allow staff to get pool staus', function() {
+                // mock ajax request
+                var post = {
+                };
+                var exp = [{
+                    "option": "1",
+                    "considered_inappropriate": false,
+                    "explanation": "testing for soil",
+                    "staff_set_inappropriate": null,
+                    "id": "75720d09-35e9-46dc-b72d-8e85c7297d4f",
+                    "inappropriate_report_count": 0
+                    }, {
+                    "option": "1",
+                    "considered_inappropriate": false,
+                    "explanation": "test test etst",
+                    "staff_set_inappropriate": null,
+                    "id": "21268762-29c3-4cf6-a578-a0995a6155cc",
+                    "inappropriate_report_count": 0
+                }];
+                $httpBackend.expectPOST('/handler/get_pool_status', post).respond(200, exp);
+
+                backendService.getPoolStatus().then(function(result) {
+                    expect(result).toEqual(exp);
+                });
+                $httpBackend.flush();
+            });
+
+        });
     });
 
     describe('ReviseController', function() {
@@ -450,8 +834,8 @@ describe('PeerInstructionXBlock function', function() {
     });
 
     it('should generate URLs using runtime', function() {
-        expect(mockRuntime.handlerUrl.calls.count()).toBe(4);
+        expect(mockRuntime.handlerUrl.calls.count()).toBe(7);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
-            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset'], [mockElement, 'get_data']]);
+            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset'], [mockElement, 'get_data'], [mockElement, 'flag_inappropriate'], [mockElement, 'get_pool_status'], [mockElement, 'staff_toggle_inappropriate']]);
     });
 });

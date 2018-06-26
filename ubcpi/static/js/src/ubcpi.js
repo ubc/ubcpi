@@ -75,11 +75,83 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
         };
     })
 
+    .directive('ubcpiModalTrigger', function() {
+        return {
+            restrict: 'A',
+            link: function(scope, ele, attr, ctrl) {
+                ele.leanModal({ closeButton: ".ubcpi-modal-dialog-close-button" });
+            }
+        };
+    })
+
+    .directive('confirmFlagAppropriate', ['backendService', 'notify', function(backendService, notify) {
+        return {
+            scope: true,
+            link: function (scope, element, attr) {
+                element.bind('click', function(event) {
+                    // there is no associated ID if the answer was submitted before the enhancement
+                    if (scope.otherAnswer.id && window.confirm(attr.confirmFlagAppropriate)) {
+                        scope.otherAnswer.reported = true;
+                        element.text(gettext('Submitting...'));
+                        element.unbind('click');
+
+                        backendService.flagInappropriate(scope.otherAnswer.id).then(function(data) {
+                            // LMS has no notify function.  for now, a quick hack to change the report button.
+                            // a reload will show the button again.  but backend only count each student's report once.
+                            if (data && data['success'] === 'true') {
+                                element.text(gettext('Answer reported as inappropriate'));
+                                notify('error', {
+                                    'title': gettext('Inappropriate Answer'),
+                                    'message': gettext('Answer reported as inappropriate')
+                                });
+                            } else {
+                                element.text(data && data.msg? data.msg : gettext('Error reporting inappropriate answer. Please refresh the page and try again.'));
+                                notify('error', {
+                                    'title': gettext('Error reporting inappropriate answer.'),
+                                    'message': data && data.msg? data.msg : gettext('Please refresh the page and try again.')
+                                });
+                            }
+                        }, function(error) {
+                            element.text(gettext('Error reporting inappropriate answer. Please refresh the page and try again.'));
+                            notify('error', {
+                                'title': gettext('Error reporting inappropriate answer!'),
+                                'message': gettext('Please refresh the page and try again.')
+                            });
+                        });
+                    };
+                });
+            }
+        };
+    }])
+
+    .directive('confirmStaffToggleInappropriate', ['backendService', 'notify', function(backendService, notify) {
+        return {
+            scope: true,
+            link: function (scope, element, attr, ctrl) {
+                element.bind('click', function(event) {
+                    //if (window.confirm(attr.confirmStaffToggleInappropriate)) {
+                        backendService.staffToggleInappropriate(scope.ans.id, attr.value).then(function(data) {
+                            scope.rc.explanationPool.pool = data;
+                        }, function(error) {
+                            notify('error', {
+                                'title': gettext('Error flagging inappropriate answer!'),
+                                'message': gettext('Please refresh the page and try again!')
+                            });
+                        });
+                    //};
+                });
+            }
+        };
+    }])
+
     .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             getStats: getStats,
             submit: submit,
             get_data: get_data,
+            flagInappropriate: flagInappropriate,
+            getPoolStatus: getPoolStatus,
+            staffToggleInappropriate: staffToggleInappropriate
         };
 
         function getStats() {
@@ -121,6 +193,50 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 }
             );
         }
+
+        function flagInappropriate(id) {
+            var flagUrl = $rootScope.config.urls.flag_inappropriate;
+            var flagData = JSON.stringify({
+                "id": id
+            });
+            return $http.post(flagUrl, flagData).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
+
+        function staffToggleInappropriate(id, considered_inappropriate) {
+            var flagUrl = $rootScope.config.urls.staff_toggle_inappropriate;
+            var flagData = JSON.stringify({
+                "id": id,
+                "considered_inappropriate": considered_inappropriate
+            });
+            return $http.post(flagUrl, flagData).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
+
+        function getPoolStatus() {
+            var getPoolStatusUrl = $rootScope.config.urls.get_pool_status;
+            return $http.post(getPoolStatusUrl, {}).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
+
     }])
 
     .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext', '$location',
@@ -141,10 +257,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
 
             // Assign data based on what has been persisted
             var persistedDataObject = get_data().then( function(persistedData) {
-
-                if ( persistedData.answer_original !== null ) {
-                    assignData(self, persistedData);
-                }
+                assignData(self, persistedData);
             });
 
 
@@ -153,6 +266,9 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
 
             // Whether user is revising the answer
             self.revising = false;
+
+            // Whether student can report inappropriate answer
+            self.can_report_inappropriate = false;
 
             /**
              * Determine if the submit button should be disabled
@@ -238,6 +354,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.rationale = data.rationale_revised || data.rationale_original;
                 self.weight = data.weight;
                 self.options = data.options;
+                self.can_report_inappropriate = data.can_report_inappropriate;
             }
 
             self.hasSampleExplanationForOption = function (option) {
@@ -248,6 +365,35 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 }
                 return false;
             };
+
+            self.explanationPool = {
+                showing: false,
+                pool: null,
+                sortType: ['option', 'explanation'],
+                sortReverse: false,
+            };
+            $scope.$watch(
+                function watchController(scope) {
+                    return self.explanationPool.showing;
+                },
+                function(newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    if (!newValue) {
+                        self.explanationPool.pool = null;
+                    } else {
+                        backendService.getPoolStatus().then(function(data) {
+                            self.explanationPool.pool = data;
+                        }, function(error) {
+                            notify('error', {
+                                'title': gettext('Error retrieving data!'),
+                                'message': gettext('Please refresh the page and try again!')
+                            });
+                        });
+                    }
+                });
+
         }]);
 
 /**
@@ -270,7 +416,10 @@ function PeerInstructionXBlock(runtime, element, data) {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
         'get_asset': runtime.handlerUrl(element, 'get_asset'),
-        'get_data': runtime.handlerUrl(element, 'get_data')
+        'get_data': runtime.handlerUrl(element, 'get_data'),
+        'flag_inappropriate': runtime.handlerUrl(element, 'flag_inappropriate'),
+        'get_pool_status': runtime.handlerUrl(element, 'get_pool_status'),
+        'staff_toggle_inappropriate': runtime.handlerUrl(element, 'staff_toggle_inappropriate'),
     };
 
     // in order to support multiple same apps on the same page but

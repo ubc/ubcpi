@@ -1,7 +1,7 @@
 {
   "basic": {
     "xml": [
-      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\">",
+      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\" flag_inappropriate_threshold=\"2\">",
         "<display_name>Sample Peer Instruction</display_name>",
         "<question>",
             "<text>This is the question text</text>",
@@ -56,7 +56,8 @@
           "rationale": "This is seed2"
         }
       ],
-      "algo": {"name": "simple", "num_responses": "#"}
+      "algo": {"name": "simple", "num_responses": "#"},
+      "flag_inappropriate_threshold": 2
     }
   },
   "minimal": {
@@ -102,12 +103,13 @@
           "rationale": "This is seed1"
         }
       ],
-      "algo": {"name": null, "num_responses": null}
+      "algo": {"name": null, "num_responses": null},
+      "flag_inappropriate_threshold": null
     }
   },
   "unicode": {
     "xml": [
-      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\">",
+      "<ubcpi rationale_size_min=\"1\" rationale_size_max=\"32000\" algorithm=\"simple\" num_responses=\"#\" flag_inappropriate_threshold=\"2\">",
       "<display_name>样品 Peer Instruction</display_name>",
       "<question>",
       "<text>这是一个问题</text>",
@@ -162,7 +164,8 @@
           "rationale": "种子2"
         }
       ],
-      "algo": {"name": "simple", "num_responses": "#"}
+      "algo": {"name": "simple", "num_responses": "#"},
+      "flag_inappropriate_threshold": 2
     }
   }
 }

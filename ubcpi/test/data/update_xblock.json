@@ -49,6 +49,7 @@
         "rationale": "dsfsdafsd"
       }
     ],
-    "weight": 1
+    "weight": 1,
+    "flag_inappropriate_threshold": 2
   }
 }
