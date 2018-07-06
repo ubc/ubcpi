@@ -62,14 +62,14 @@ Api.prototype.createUserOrLogin = function (username, target, course_id, callbac
             });
 
             // parse the response
-            var userInfo = body.match(/Logged in user (.+) \((.+)\) with password (.+) and user_id (.+)/);
+            var userInfo = JSON.parse(body)
             self.users[target] = {
-                username: userInfo[1],
-                email: userInfo[2],
-                password: userInfo[3],
-                id: userInfo[4]
+                username: userInfo['username'],
+                email: userInfo['email'],
+                password: userInfo['password'],
+                id: userInfo['user_id']
             };
-            //console.log(target + ': ' + body);
+            // console.log(self.users[target])
             callback(null, self.users[target]);
         }
     );

@@ -32,11 +32,14 @@ var config = require('./populate.json');
 
 api.baseUrls = config.baseUrls;
 
+var timestamp = new Date();
+var timestamp_str = timestamp.getFullYear() + ("0" + (timestamp.getMonth() + 1)).slice(-2) + ("0" + timestamp.getDate()).slice(-2) + ("0" + timestamp.getHours()).slice(-2) + ("0" + timestamp.getMinutes()).slice(-2) + ("0" + timestamp.getSeconds()).slice(-2);
+
 async.timesSeries(config.answers.length, function(i, next) {
     async.timesSeries(config.xblock_keys.length, function(j, nextx) {
         async.series([
             function (cb) {
-                api.createUserOrLogin('pitestuser'+i, 'lms', config.course_key, cb);
+                api.createUserOrLogin('pitestuser_'+timestamp_str+'_'+i, 'lms', config.course_key, cb);
             },
             function (cb) {
                 api.piSubmitAnswer(config.course_key, config.xblock_prefix + config.xblock_keys[j], {
