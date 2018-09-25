@@ -430,6 +430,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         else:
             return static_url
 
+    @XBlock.supports('multi_device') # Mark as mobile-friendly
     def student_view(self, context=None):
         """
         The primary view of the PeerInstructionXBlock, shown to students when viewing courses.
