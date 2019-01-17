@@ -53,6 +53,28 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
         };
     }])
 
+    /**
+     * Scroll to top of the xblock on given event
+     */
+    .directive('scrollToTopOfBlock', function() {
+        return {
+            restrict: 'A',
+            scope: {
+                scrollToTopOfBlock: '@'
+            },
+            link: function(scope, ele, attr, ctrl) {
+                ele.on(scope.scrollToTopOfBlock? scope.scrollToTopOfBlock : 'click', function() {
+                    var target;
+                    target = ele.parents('.ubcpi_block');
+                    if (!target) {
+                        target = ele;
+                    }
+                    $('html,body').animate({scrollTop: target.offset().top}, "slow");
+                });
+            }
+        };
+    })
+
     .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             getStats: getStats,
@@ -101,8 +123,8 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
         }
     }])
 
-    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext', '$location', '$anchorScroll', '$timeout',
-        function ($scope, notify, backendService, $q, gettext, $location, $anchorScroll, $timeout) {
+    .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext', '$location',
+        function ($scope, notify, backendService, $q, gettext, $location) {
             var self = this;
             var data = $scope.config.data;
 
@@ -121,7 +143,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             var persistedDataObject = get_data().then( function(persistedData) {
 
                 if ( persistedData.answer_original !== null ) {
-                    assignData(self, data);
+                    assignData(self, persistedData);
                 }
             });
 
@@ -154,10 +176,6 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.submitting = true;
                 return backendService.submit(self.answer, self.rationale, self.status()).then(function(data) {
                     assignData(self, data);
-                    $timeout(function() {
-                        $location.hash('others-responses');
-                        $anchorScroll();
-                    });
                 }, function(error) {
                     notify('error', {
                         'title': gettext('Error submitting answer!'),
@@ -185,7 +203,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             self.calc = function(s) {
                 var originalPercentage = gettext(" Initial Answer Selection: ");
                 var revisedPercentage = gettext(" Final Answer Selection: ");
-                if (typeof self.stats.original[s] !== 'undefined') {
+                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.original[s] !== 'undefined') {
                     var totalCounts = 0;
                     for (var i = 0; i < data.options.length; i++) {
                         if (typeof self.stats.original[i] !== 'undefined')
@@ -196,7 +214,7 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 else
                     originalPercentage += "0%";
 
-                if (typeof self.stats.revised[s] !== 'undefined') {
+                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.revised[s] !== 'undefined') {
                     var totalCounts = 0;
                     for (var i = 0; i < data.options.length; i++) {
                         if (typeof self.stats.revised[i] !== 'undefined')
