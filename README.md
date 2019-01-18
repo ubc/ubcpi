@@ -70,6 +70,12 @@ Single test:
 
 ## Changelog
 
+### [0.6.5](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.5+is%3Aclosed)
+1. Added logging of rationales seen by the learner when submitting final answer.
+2. Fixed issue with selecting answers when there are multiple ubcpi xblocks in the same unit.
+3. Fixed issue with anchoring the page after submission when there are multiple units with ubcpi xblocks in the same subsection.
+4. Fixed issue with Step 1 answer disappearing after switching to other units and back.
+
 ### [0.6.4](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.4+is%3Aclosed)
 1. Fixed broken buttons in Studio view.
 2. Fixed bug with certain strings not being exported for translation.
