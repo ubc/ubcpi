@@ -74,7 +74,7 @@
 
                     <div class="ubcpi-possible-options">
                         <p class="ubcpi-option" data-ng-repeat="option in options track by $index">
-                            <label class="ubcpi-label ubcpi-answer" for="original-option-input-{{ $index }}">
+                            <label class="ubcpi-label ubcpi-answer">
                                 <input class="ubcpi-field" type="radio" id="original-option-input-{{ $index }}" name="q" data-ng-model="rc.answer" value="{{$index}}" required integer>
 
                                 <img ng-src="{{option.image_url}}" id="original-option-image-{{ $index }}" alt="{{option.image_alt}}" ng-if="option.image_position == 'above' && option.image_url" />
@@ -130,7 +130,7 @@
                         </div>
                 </div>
 
-                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value="{{ 'Next Step' | translate }} &rarr;" name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event);" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" onclick=""/>
+                <input data-ng-disabled="answerForm.$invalid" type='button' class='ubcpi_submit' value="{{ 'Next Step' | translate }} &rarr;" name='ubcpi_next_step' data-ng-click="rc.clickSubmit($event);" aria-describedby="button-disabled-reason ubcpi-next-inline-hints" scroll-to-top-of-block='click' onclick=""/>
 
             </form>
 
