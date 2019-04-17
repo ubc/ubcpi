@@ -123,8 +123,12 @@ def parse_options_xml(root):
     options = []
     correct_option = None
     rationale = None
+    options_list = root.findall('option')
 
-    for option_el in root.findall('option'):
+    if len(options_list) == 0:
+        raise ValidationError(_('Missing options elements in XML definition'))
+
+    for option_el in options_list:
         option_dict = dict()
         option_prompt_el = option_el.find('text')
         if option_prompt_el is not None:
@@ -149,7 +153,7 @@ def parse_options_xml(root):
         options.append(option_dict)
 
     if correct_option is None or rationale is None:
-        raise ValidationError(_('Correct answer and rationale are required and have to be defined in one of the option.'))
+        correct_option = len(options)
 
     return options, correct_option, rationale
 
