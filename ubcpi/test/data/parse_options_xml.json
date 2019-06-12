@@ -83,5 +83,29 @@
       "correct_answer": 0,
       "correct_rationale": {"text": "This is correct."}
     }
+  },
+  "missing_correct_answer": {
+    "xml": [
+      "<options>",
+        "<option>",
+          "<text>Option1</text>",
+        "</option>",
+        "<option>",
+          "<text>Option2</text>",
+        "</option>",
+      "</options>"
+    ],
+    "expect": {
+      "options": [
+        {
+          "text": "Option1"
+        },
+        {
+          "text": "Option2"
+        }
+      ],
+      "correct_answer": 2,
+      "correct_rationale": null
+    }
   }
 }

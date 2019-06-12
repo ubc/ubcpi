@@ -1,17 +1,4 @@
 {
-  "missing_correct_answer": {
-    "xml": [
-      "<options>",
-        "<option>",
-            "<image position=\"below\" alt=\"This is a image\">/static/test1.jpg</image>",
-            "<text>Option1</text>",
-        "</option>",
-        "<option>",
-            "<text>Option2</text>",
-        "</option>",
-      "</options>"
-    ]
-  },
   "missing_correct_rationale": {
     "xml": [
       "<options>",
