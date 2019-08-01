@@ -1,18 +1,18 @@
 # 
 # Translators:
-# qualityalltext <quality@alltext.co.il>, 2016
+# Ettore Atalan <atalanttore@googlemail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: XBlocks\n"
 "POT-Creation-Date: 2016-03-16 15:27+0500\n"
-"PO-Revision-Date: 2017-09-23 22:34+0000\n"
-"Last-Translator: Eric Fischer <efischer@edx.org>\n"
-"Language-Team: Hebrew (http://www.transifex.com/open-edx/xblocks/language/he/)\n"
+"PO-Revision-Date: 2019-07-29 08:48+0000\n"
+"Last-Translator: Stefania Trabucchi <stefania.trabucchi@abstract-technology.de>\n"
+"Language-Team: German (Germany) (http://www.transifex.com/open-edx/xblocks/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: ubcpi.py\n"
@@ -297,7 +297,7 @@ msgstr ""
 
 #: ubcpi/static/html/ubcpi_edit.html:10
 msgid "Peer Instruction"
-msgstr "הוראת עמיתים"
+msgstr ""
 
 #: ubcpi/static/html/ubcpi_edit.html:11
 msgid ""
@@ -325,7 +325,7 @@ msgstr ""
 
 #: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:270
 msgid "Problem Weight"
-msgstr "משקל הבעיה"
+msgstr ""
 
 #: ubcpi/static/html/ubcpi_edit.html:46
 msgid ""
@@ -586,7 +586,7 @@ msgstr ""
 
 #: ubcpi/ubcpi.py:187
 msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
-msgstr "<p>מה מקור מרבית המסה של עץ בוגר?</p>"
+msgstr ""
 
 #: ubcpi/ubcpi.py:190
 msgid ""
@@ -594,19 +594,19 @@ msgid ""
 "answers which you set below. You can use text, an image or a combination of "
 "both. If you wish to add an image to your question, press the 'Add Image' "
 "button."
-msgstr "השאלה שרואה הסטודנט. השאלה מופיעה מעל התשובות האפשריות שהגדרת למטה. ניתן להשתמש בטקסט, תמונה או שילוב של השניים. אם תרצה להוסיף תמונה לשאלתך, לחץ על לחצן 'הוסף תמונה'."
+msgstr ""
 
 #: ubcpi/ubcpi.py:197
 msgid "Air"
-msgstr "אוויר"
+msgstr ""
 
 #: ubcpi/ubcpi.py:198
 msgid "Soil"
-msgstr "קרקע"
+msgstr ""
 
 #: ubcpi/ubcpi.py:199
 msgid "Water"
-msgstr "מים"
+msgstr ""
 
 #: ubcpi/ubcpi.py:202
 msgid "The possible options from which the student may select"
@@ -616,73 +616,73 @@ msgstr ""
 msgid ""
 "The minimum and maximum number of characters a student is allowed for their "
 "rationale."
-msgstr "המספר המינימלי והמקסימלי של גופנים שיכול הסטודנט  להשתמש בהסברו."
+msgstr ""
 
 #: ubcpi/ubcpi.py:212
 msgid "The correct option for the question"
-msgstr "האפשרות הנכונה לשאלה"
+msgstr ""
 
 #: ubcpi/ubcpi.py:216
 msgid "Photosynthesis"
-msgstr "פוטוסינתזה"
+msgstr ""
 
 #: ubcpi/ubcpi.py:217
 msgid "The feedback for student for the correct answer"
-msgstr "המשוב לסטודנט על תשובה נכונה"
+msgstr ""
 
 #: ubcpi/ubcpi.py:222
 msgid "Overall stats for the instructor"
-msgstr "סטטיסטיקה כללית עבור המורה"
+msgstr ""
 
 #: ubcpi/ubcpi.py:226
 msgid "Tree gets carbon from air."
-msgstr "העץ מקבל פחם מהאוויר."
+msgstr ""
 
 #: ubcpi/ubcpi.py:227
 msgid "Tree gets minerals from soil."
-msgstr "העץ מקבל מינרלים מהקרקע."
+msgstr ""
 
 #: ubcpi/ubcpi.py:228
 msgid "Tree drinks water."
-msgstr "העץ שותה מים."
+msgstr ""
 
 #: ubcpi/ubcpi.py:231
 msgid ""
 "Instructor configured examples to give to students during the revise stage."
-msgstr "המורה מתכנן דוגמאות לתלמידים במהלך שלב התיקון."
+msgstr ""
 
 #: ubcpi/ubcpi.py:245
 msgid "System selected answers to give to students during the revise stage."
-msgstr "המערכת בוחרת תשובות שיינתנו לתלמיד במהלך שלב התיקון."
+msgstr ""
 
 #: ubcpi/ubcpi.py:250
 msgid "The algorithm for selecting which answers to be presented to students"
-msgstr "האלגוריתם לבחירת התשובות שיוצגו לתלמידים"
+msgstr ""
 
 #: ubcpi/ubcpi.py:259
 msgid ""
 "ISO-8601 formatted string representing the start date of this assignment. We"
 " ignore this."
-msgstr "מחרוזת ISO-8601 מייצגת את תאריך ההתחלה של מטלה זו. אנו מתעלמים מכך."
+msgstr ""
 
 #: ubcpi/ubcpi.py:264
 msgid ""
 "ISO-8601 formatted string representing the due date of this assignment. We "
 "ignore this."
-msgstr "מחרוזת ISO-8601 מייצגת את תאריך המסירה של מטלה זו. אנו מתעלמים מכך."
+msgstr ""
 
 #: ubcpi/ubcpi.py:308
 msgid "System will select one of each option to present to the students."
-msgstr "המערכת תבחר אחת מהאפשרויות להציג לתלמידים."
+msgstr ""
 
 #: ubcpi/ubcpi.py:309
 msgid "Completely random selection from the response pool."
-msgstr "בחירה אקראית לחלוטין ממאגר התשובות."
+msgstr ""
 
 #: ubcpi/ubcpi.py:312
 msgid "Appears above"
-msgstr "מופיע למעלה"
+msgstr ""
 
 #: ubcpi/ubcpi.py:313
 msgid "Appears below"
-msgstr "מופיע למטה"
+msgstr ""

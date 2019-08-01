@@ -1,4 +1,4 @@
-.PHONY: docs
+.PHONY: docs requirements
 
 env:
 	pip install virtualenv && \
@@ -17,7 +17,7 @@ clean:
 	find . -name '*~' -exec rm -f {} \;
 	rm -rf bower_components node_modules
 
-test: test-py test-js
+test: test-py test-js extract
 
 test-py:
 	DJANGO_SETTINGS_MODULE=settings.test python manage.py test
@@ -58,3 +58,11 @@ extract:
 compile:
 	for i in `find ubcpi/translations/ -name *.po`; do msgfmt $$i -o `dirname $$i`/text.mo; done
 	node_modules/.bin/angular-gettext-cli --compile --files 'ubcpi/translations/**/*.po' --format javascript --dest 'ubcpi/static/js/src/translations.js'
+
+pull_translations:
+	tx pull --force --mode=reviewed -l=ar,es_419,ja_JP,fr,fr_CA,he,hi,ko_KR,pt_BR,ru,zh_CN,de_DE,pl
+	make compile
+
+push_translations:
+	make extract
+	tx push -s
