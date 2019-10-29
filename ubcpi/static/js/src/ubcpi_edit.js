@@ -76,6 +76,13 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
                 return options;
             };
 
+            self.makeGradingOptions = function() {
+                var gradingOptions = [];
+                gradingOptions.push("By Participation");
+                gradingOptions.push("By Correct Answer");
+                return gradingOptions;
+            };
+
             self.algos = data.algos;
             self.data = {};
             self.data.display_name = data.display_name;
@@ -85,6 +92,7 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
             self.image_position_locations = data.image_position_locations;
 
             self.data.options = data.options;
+            self.data.gradingOption = data.gradingOption;
             self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
                 self.data.correct_rationale = data.correct_rationale;
