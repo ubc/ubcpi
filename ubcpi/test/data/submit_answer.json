@@ -25,7 +25,8 @@
       "answer_original": 0,
       "rationale_original": "This is my answer.",
       "answer_revised": null,
-      "rationale_revised": null
+      "rationale_revised": null,
+      "alt_answers_available": {"1": false, "0": true, "2": false}
     },
     "post2": {
       "q": 1,

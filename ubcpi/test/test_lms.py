@@ -211,3 +211,31 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         for key, value in data.iteritems():
             self.assertIsNotNone(getattr(xblock, key))
             self.assertEqual(getattr(xblock, key), value)
+
+    @patch('ubcpi.ubcpi.get_other_answers')
+    @file_data('data/refresh_other_answers.json')
+    @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
+    def test_refresh_other_answers(self, xblock, data, mock):
+        # patch get_other_answers to avoid randomness
+        mock.return_value = data['expect']['other_answers']
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['submit_answer_param']), response_format='json')
+        self.assertEqual(resp, data['expect'])
+
+        original_other_ans = [ans['rationale'] for ans in xblock.other_answers_shown['answers'] if ans['option'] == int(data['refresh_params']['option'])]
+
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps({}), response_format='json')
+        self.assertEqual(resp, {'error': 'Missing option'})
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps({'option': -1}), response_format='json')
+        self.assertEqual(resp, {'error': 'Invalid option'})
+
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']), response_format='json')
+        self.assertEqual(xblock.other_answers_refresh_count[data['refresh_params']['option']] , 1)
+        self.assertEqual(len(xblock.other_answers_shown_history), 3)
+        refreshed_other_ans = [ans['rationale'] for ans in xblock.other_answers_shown['answers'] if ans['option'] == int(data['refresh_params']['option'])]
+        # rationale of the refreshed option should be chanaged
+        self.assertNotEqual(original_other_ans, refreshed_other_ans)
+
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']), response_format='json')
+        # refresh count of the option should be increased
+        self.assertEqual(xblock.other_answers_refresh_count[data['refresh_params']['option']] , 2)
+        self.assertEqual(len(xblock.other_answers_shown_history), 3)

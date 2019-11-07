@@ -52,6 +52,7 @@ fieldset .ubcpi-label {
     border-radius: 3px;
     padding: 10px;
     width: 100%;
+    background-color: #fbfbfb;
 }
 
 fieldset .ubcpi-label:hover {
@@ -189,10 +190,6 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
 div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers li {
     margin: 0.75em;
     border-bottom: 1px solid #cfc6c6;
-}
-
-div.course-wrapper section.course-content .vert-mod .sample-answer-list > :not(:first-child) {
-    border-top: 1px solid #cfc6c6;
 }
 
 div.course-wrapper section.course-content .vert-mod .sample-answer {
@@ -625,10 +622,28 @@ text.ubcpibar.label {
     border: 2px solid #e5e5e5;
     border-radius: 3px;
     padding: 10px;
+    background-color: #fbfbfb;
 }
 
 .ubcpi-breakdown-answer-options .ubcpi-option .ubcpi-breakdown-answer-text {
     display: block;
+}
+
+.ubcpi-refresh-section {
+    margin: 1em;
+    border-top: 1px solid #cfc6c6;
+    color: #0075b4;
+}
+
+.ubcpi-refresh-option-button * {
+    font-size: 0.9em;
+    transition: none;
+    cursor: pointer;
+}
+
+.ubcpi-refresh-option-button-disabled {
+    pointer-events: none;
+    color: #888;
 }
 
 #pi-form .list-input.settings-list .setting-label {

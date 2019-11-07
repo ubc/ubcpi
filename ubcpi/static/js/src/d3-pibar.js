@@ -182,13 +182,14 @@ d3.custom.perAnswerChart = function(scope, gettext, allAnswerCount) {
             });
 
             if (totalFreq < minTotalFrequency) {
+                d3.select(this).selectAll("svg > *").remove();
                 d3.select(this)
                     .append("span")
                     .attr("id", 'not-enough-data')
                     .text(gettext("Not enough data to generate the chart. Please check back later."));
                 return;
             } else {
-                var notEnoughDataSpan = d3.select('#not-enough-data');
+                var notEnoughDataSpan = d3.select(this).select('#not-enough-data');
                 if (typeof notEnoughDataSpan !== 'undefined') {
                     notEnoughDataSpan.remove();
                 }
