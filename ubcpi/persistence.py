@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from submissions import api as sub_api
 
 """

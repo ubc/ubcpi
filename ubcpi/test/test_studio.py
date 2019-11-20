@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 from lxml import etree
@@ -6,6 +7,7 @@ from django.test import TestCase
 from mock import MagicMock, Mock
 from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 from ubcpi.ubcpi import PeerInstructionXBlock
+import six
 
 
 @ddt
@@ -45,6 +47,6 @@ class StudioViewTest(XBlockHandlerTestCaseMixin, TestCase):
         self.check_fields(xblock, data['expect'])
 
     def check_fields(self, xblock, data):
-        for key, value in data.iteritems():
+        for key, value in six.iteritems(data):
             self.assertIsNotNone(getattr(xblock, key))
             self.assertEqual(getattr(xblock, key), value)

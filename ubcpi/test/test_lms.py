@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 
@@ -9,6 +10,7 @@ from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
 from ubcpi.ubcpi import truncate_rationale, MAX_RATIONALE_SIZE_IN_EVENT
+import six
 
 
 @ddt
@@ -208,6 +210,6 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):
-        for key, value in data.iteritems():
+        for key, value in six.iteritems(data):
             self.assertIsNotNone(getattr(xblock, key))
             self.assertEqual(getattr(xblock, key), value)

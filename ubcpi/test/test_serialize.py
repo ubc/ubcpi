@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from collections import namedtuple
 from doctest import Example
 
@@ -91,7 +92,7 @@ class TestSerialize(unittest.TestCase):
 
     @file_data('data/parse_options_xml.json')
     def test_serialize_options(self, data):
-        xblock_class = namedtuple('PeerInstructionXBlock', data['expect'].keys())
+        xblock_class = namedtuple('PeerInstructionXBlock', list(data['expect'].keys()))
         block = xblock_class(**data['expect'])
         root = etree.Element('options')
         serialize_options(root, block)
@@ -107,7 +108,7 @@ class TestSerialize(unittest.TestCase):
 
     @file_data('data/parse_from_xml.json')
     def test_serialize_to_xml(self, data):
-        xblock_class = namedtuple('PeerInstructionXBlock', data['expect'].keys())
+        xblock_class = namedtuple('PeerInstructionXBlock', list(data['expect'].keys()))
         block = xblock_class(**data['expect'])
         root = etree.Element('ubcpi')
         serialize_to_xml(root, block)

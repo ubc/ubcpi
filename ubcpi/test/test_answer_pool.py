@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import unittest
 from ddt import file_data, ddt
 
@@ -6,6 +7,7 @@ from ubcpi.answer_pool import offer_answer, validate_seeded_answers_simple, Unkn
     validate_seeded_answers_random, validate_seeded_answers, get_other_answers, get_other_answers_simple, \
     get_other_answers_random, get_max_size, POOL_ITEM_LENGTH_SIMPLE
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
+from six.moves import range
 
 
 @ddt
@@ -38,7 +40,7 @@ class TestAnswerPool(unittest.TestCase):
 
     def test_simple_algo_drop_from_pool(self):
         options = ['optionA', 'optionB', 'optionC']
-        pool = {'optionA': {i: {} for i in xrange(6)}}
+        pool = {'optionA': {i: {} for i in range(6)}}
         with patch('random.choice', return_value="0"):
             with patch('ubcpi.answer_pool.get_max_size', return_value="6"):
                 offer_answer(pool, options[0], "some rationale", "test student 7", {'name': 'simple'}, options)
@@ -153,4 +155,4 @@ class TestAnswerPool(unittest.TestCase):
     def test_get_max_size(self):
         self.assertEqual(get_max_size({}, 3, POOL_ITEM_LENGTH_SIMPLE), 102)
         self.assertEqual(get_max_size({}, 10, POOL_ITEM_LENGTH_SIMPLE), 67)
-        self.assertEqual(get_max_size({1: {i: {} for i in xrange(10)}}, 10, POOL_ITEM_LENGTH_SIMPLE), 62)
+        self.assertEqual(get_max_size({1: {i: {} for i in range(10)}}, 10, POOL_ITEM_LENGTH_SIMPLE), 62)

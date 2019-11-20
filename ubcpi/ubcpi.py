@@ -1,4 +1,5 @@
 """A Peer Instruction tool for edX by the University of British Columbia."""
+from __future__ import absolute_import
 import os
 import random
 from copy import deepcopy
@@ -16,9 +17,10 @@ from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _  # pylint: disable=unused-import
 
-from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
-import persistence as sas_api
-from serialize import parse_from_xml, serialize_to_xml
+from .answer_pool import offer_answer, validate_seeded_answers, get_other_answers
+from . import persistence as sas_api
+from .serialize import parse_from_xml, serialize_to_xml
+import six
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
@@ -43,7 +45,7 @@ def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
         was_truncated (bool): returns true if the rationale is truncated
 
     """
-    if isinstance(rationale, basestring) and max_length is not None and len(rationale) > max_length:
+    if isinstance(rationale, six.string_types) and max_length is not None and len(rationale) > max_length:
         return rationale[0:max_length], True
     else:
         return rationale, False
@@ -112,7 +114,7 @@ class MissingDataFetcherMixin:
             if self.scope_ids.user_id is None:
                 student_id = ''
             else:
-                student_id = unicode(self.scope_ids.user_id)
+                student_id = six.text_type(self.scope_ids.user_id)
 
         student_item_dict = dict(
             student_id=student_id,
@@ -159,7 +161,7 @@ class MissingDataFetcherMixin:
         if hasattr(key, 'to_deprecated_string'):
             return key.to_deprecated_string()
         else:
-            return unicode(key)
+            return six.text_type(key)
 
 
 @XBlock.needs('user')
@@ -405,7 +407,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Args:
             asset_key (str): Asset key to generate URL
         """
-        url = unicode(asset_key)
+        url = six.text_type(asset_key)
         if not url.startswith('/'):
             url = '/' + url
         return url
@@ -576,8 +578,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.stats = {
-            'original': {int(k): v for k, v in self.stats['original'].iteritems()},
-            'revised': {int(k): v for k, v in self.stats['revised'].iteritems()}
+            'original': {int(k): v for k, v in six.iteritems(self.stats['original'])},
+            'revised': {int(k): v for k, v in six.iteritems(self.stats['revised'])}
         }
         return self.stats
 
@@ -691,7 +693,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
         # TODO: more validation
 
-        for key, value in config.iteritems():
+        for key, value in six.iteritems(config):
             setattr(block, key, value)
 
         return block

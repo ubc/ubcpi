@@ -1,6 +1,8 @@
+from __future__ import absolute_import
 import random
-import persistence as sas_api
-from utils import _  # pylint: disable=unused-import
+from . import persistence as sas_api
+from .utils import _  # pylint: disable=unused-import
+from six.moves import range
 
 # min number of answers for each answers
 # so that we don't end up no answers for an option
@@ -36,7 +38,7 @@ def get_max_size(pool, num_option, item_length):
     max_items = POOL_SIZE / item_length
     # existing items plus the reserved for min size. If there is an option has 1 item, POOL_OPTION_MIN_SIZE - 1 space
     # is reserved.
-    existing = POOL_OPTION_MIN_SIZE * num_option + sum([max(0, len(pool.get(i, {})) - 5) for i in xrange(num_option)])
+    existing = POOL_OPTION_MIN_SIZE * num_option + sum([max(0, len(pool.get(i, {})) - 5) for i in range(num_option)])
     return int(max_items - existing)
 
 
@@ -82,7 +84,7 @@ def offer_simple(pool, answer, rationale, student_id, options):
     """
     existing = pool.setdefault(answer, {})
     if len(existing) >= get_max_size(pool, len(options), POOL_ITEM_LENGTH_SIMPLE):
-        student_id_to_remove = random.choice(existing.keys())
+        student_id_to_remove = random.choice(list(existing.keys()))
         del existing[student_id_to_remove]
     existing[student_id] = {}
     pool[answer] = existing
@@ -235,10 +237,10 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
         total_in_pool += len(pool[key])
         # if student_id has value, we assume the student just submitted an answer. So removing it
         # from total number in the pool
-        if student_id in pool[key].keys():
+        if student_id in list(pool[key].keys()):
             total_in_pool -= 1
         if key in merged_pool:
-            merged_pool[key].update(pool[key].items())
+            merged_pool[key].update(list(pool[key].items()))
         else:
             merged_pool[key] = pool[key]
 
@@ -255,7 +257,7 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
                 # we are suppose to get a different student answer or a seeded one in a few tries
                 # as we have at least one seeded answer for each option in the algo. And it is not
                 # suppose to overflow i order to break the loop
-                student = random.choice(students.keys())
+                student = random.choice(list(students.keys()))
                 i += 1
             selected.append(str(option)+student)
             if student.startswith('seeded'):
@@ -292,10 +294,10 @@ def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_re
     # clean up answers so that all keys are int
     pool = {int(k): v for k, v in pool.items()}
     seeded = {'seeded'+str(index): answer for index, answer in enumerate(seeded_answers)}
-    merged_pool = seeded.keys()
+    merged_pool = list(seeded.keys())
 
     for key in pool:
-        merged_pool += pool[key].keys()
+        merged_pool += list(pool[key].keys())
 
     # shuffle
     random.shuffle(merged_pool)
