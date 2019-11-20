@@ -119,9 +119,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    # Third party
-    'django_extensions',
-    'south',
 
     # XBlock
     'workbench',
