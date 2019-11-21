@@ -52,7 +52,8 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_submit_answer(self, xblock, data, mock):
         # patch get_other_answers to avoid randomness
         mock.return_value = data['expect1']['other_answers']
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, data['expect1'])
 
         # check the student is recorded
@@ -71,7 +72,8 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
 
 
         # submit revised answer
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']).encode('utf8'), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, data['expect2'])
 
         # check the student is recorded
@@ -100,7 +102,8 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_get_stats(self, xblock):
         stats = {"revised": {"1": 1}, "original": {"0": 1}}
         xblock.stats = stats
-        resp = self.request(xblock, 'get_stats', b'{}', response_format='json')
+        resp = self.request(xblock, 'get_stats', b'{}')
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, stats)
 
     @patch('ubcpi.ubcpi.PeerInstructionXBlock.resource_string')
