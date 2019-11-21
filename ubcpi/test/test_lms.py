@@ -52,7 +52,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_submit_answer(self, xblock, data, mock):
         # patch get_other_answers to avoid randomness
         mock.return_value = data['expect1']['other_answers']
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'), response_format='json')
         self.assertEqual(resp, data['expect1'])
 
         # check the student is recorded
@@ -71,7 +71,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
 
 
         # submit revised answer
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']).encode('utf8'), response_format='json')
         self.assertEqual(resp, data['expect2'])
 
         # check the student is recorded
@@ -94,21 +94,21 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_submit_answer_errors(self, xblock, data):
         with self.assertRaises(PermissionDenied):
-            self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
+            self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'), response_format='json')
 
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_stats(self, xblock):
         stats = {"revised": {"1": 1}, "original": {"0": 1}}
         xblock.stats = stats
-        resp = self.request(xblock, 'get_stats', '{}', response_format='json')
+        resp = self.request(xblock, 'get_stats', b'{}', response_format='json')
         self.assertEqual(resp, stats)
 
     @patch('ubcpi.ubcpi.PeerInstructionXBlock.resource_string')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_asset(self, xblock, mock):
         mock.return_value = 'test'
-        resp = self.request(xblock, 'get_asset', 'f=test.html', request_method='POST')
-        self.assertEqual(resp, 'test')
+        resp = self.request(xblock, 'get_asset', b'f=test.html', request_method='POST')
+        self.assertEqual(resp, b'test')
 
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_student_item_dict(self, xblock):

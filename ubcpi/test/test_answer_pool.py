@@ -41,8 +41,8 @@ class TestAnswerPool(unittest.TestCase):
     def test_simple_algo_drop_from_pool(self):
         options = ['optionA', 'optionB', 'optionC']
         pool = {'optionA': {i: {} for i in range(6)}}
-        with patch('random.choice', return_value="0"):
-            with patch('ubcpi.answer_pool.get_max_size', return_value="6"):
+        with patch('random.choice', return_value=0):
+            with patch('ubcpi.answer_pool.get_max_size', return_value=6):
                 offer_answer(pool, options[0], "some rationale", "test student 7", {'name': 'simple'}, options)
 
         # make sure student "0" for optionA is removed

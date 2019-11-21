@@ -30,7 +30,7 @@ STATUS_REVISED = 2
 # of 64k in size. Because we are storing rationale and revised rationale both in the the field, the max size
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
-MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
+MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT // 4
 
 def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
     """

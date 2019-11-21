@@ -88,7 +88,7 @@ class TestSerialize(unittest.TestCase):
     def test_serialize_image(self, data):
         root = etree.Element('option')
         serialize_image(data['expect'], root)
-        self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))
+        self.assertXmlEqual(etree.tostring(root).decode('utf-8'), "".join(data['xml']))
 
     @file_data('data/parse_options_xml.json')
     def test_serialize_options(self, data):
@@ -96,7 +96,7 @@ class TestSerialize(unittest.TestCase):
         block = xblock_class(**data['expect'])
         root = etree.Element('options')
         serialize_options(root, block)
-        self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))
+        self.assertXmlEqual(etree.tostring(root).decode('utf-8'), "".join(data['xml']))
 
     @file_data('data/parse_seeds_xml.json')
     def test_serialize_seeds(self, data):
@@ -104,7 +104,7 @@ class TestSerialize(unittest.TestCase):
         block = xblock_class(seeds=data['expect'])
         root = etree.Element('seeds')
         serialize_seeds(root, block)
-        self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))
+        self.assertXmlEqual(etree.tostring(root).decode('utf-8'), "".join(data['xml']))
 
     @file_data('data/parse_from_xml.json')
     def test_serialize_to_xml(self, data):
@@ -112,4 +112,4 @@ class TestSerialize(unittest.TestCase):
         block = xblock_class(**data['expect'])
         root = etree.Element('ubcpi')
         serialize_to_xml(root, block)
-        self.assertXmlEqual(etree.tostring(root), "".join(data['xml']))
+        self.assertXmlEqual(etree.tostring(root).decode('utf-8'), "".join(data['xml']))

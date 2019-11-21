@@ -3,3 +3,4 @@ Xblock==1.2.9
 
 # edx-submissions
 edx-submissions==3.0.2
+djangorestframework==3.7.7 # Now needed by edx-submissions

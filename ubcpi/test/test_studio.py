@@ -22,20 +22,20 @@ class StudioViewTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_studio_submit(self, xblock, data):
         xblock.runtime.modulestore = MagicMock()
         xblock.runtime.modulestore.has_published_version.return_value = False
-        resp = self.request(xblock, 'studio_submit', json.dumps(data), response_format='json')
+        resp = self.request(xblock, 'studio_submit', json.dumps(data).encode('utf8'), response_format='json')
         self.assertTrue(resp['success'], msg=resp.get('msg'))
         self.check_fields(xblock, data)
 
     @file_data('data/validate_form.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'))
     def test_validate_form(self, xblock, data):
-        resp = self.request(xblock, 'validate_form', json.dumps(data), response_format='json')
+        resp = self.request(xblock, 'validate_form', json.dumps(data).encode('utf8'), response_format='json')
         self.assertTrue(resp['success'], msg=resp.get('msg'))
 
     @file_data('data/validate_form_errors.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'))
     def test_validate_form_errors(self, xblock, data):
-        resp = self.request(xblock, 'validate_form', json.dumps(data['post']), response_format='json')
+        resp = self.request(xblock, 'validate_form', json.dumps(data['post']).encode('utf8'), response_format='json')
         self.assertEqual(resp, data['error'])
 
     @file_data('data/parse_from_xml.json')
