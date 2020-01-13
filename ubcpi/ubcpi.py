@@ -11,12 +11,14 @@ import pkg_resources
 from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
+# For supporting manual revision of scores.  Commented out for now.
+# from xblock.scorable import ScorableXBlockMixin, Score
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _  # pylint: disable=unused-import
 
-from answer_pool import offer_answer, validate_seeded_answers, get_other_answers
+from answer_pool import offer_answer, validate_seeded_answers, get_other_answers, get_other_answers_count, refresh_answers
 import persistence as sas_api
 from serialize import parse_from_xml, serialize_to_xml
 
@@ -29,6 +31,10 @@ STATUS_REVISED = 2
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
 MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
+
+# max number of times the student can refresh to see other student answers shown to them.
+# afterward, will fallback to only return seeded answers
+MAX_REFRESH_PER_OPTION = 5
 
 def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
     """
@@ -251,13 +257,21 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         help=_("Stores the specific answers of other students shown, for a given student."),
     )
 
+    other_answers_shown_history = Dict(
+        default={}, scope=Scope.user_state,
+        help=_("In case the student requested to see more answers, these are the answers previously shown."),
+    )
+
+    other_answers_refresh_count = Dict(
+        default={}, scope=Scope.user_state,
+        help=_("Keep track of the number of refreshes for each option")
+    )
+
     algo = Dict(
         default={'name': 'simple', 'num_responses': '#'}, scope=Scope.content,
         help=_("The algorithm for selecting which answers to be presented to students"),
     )
 
-    # Declare that we are not part of the grading System. Disabled for now as for the concern about the loading
-    # speed of the progress page.
     has_score = True
 
     start = DateTime(
@@ -292,6 +306,57 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         The maximum raw score of our problem.
         """
         return 1
+
+    # def calculate_score(self):
+    #     answers = self.get_answers_for_student()
+    #     if answers.has_revision(0) and answers.has_revision(1):
+    #         return Score(1, 1)
+    #     return Score(0, 1)
+    #
+    # def set_score(self, score):
+    #     # TODO persisting score
+    #     pass
+    #
+    # def get_score(self):
+    #     # TODO Since we are not persisting score, always return 1.
+    #     # That means the Overriding Score function will always set the score to 1
+    #     # Instructors can reset the score to 0 by deleting learner's state
+    #     return Score(1, 1)
+
+    def clear_student_state(self, user_id, course_id, item_id, requesting_user_id):
+        """
+        Being notified that student state is going to be deleted.  Mark student's
+        submissions as deleted
+        """
+        student_item = dict(
+            student_id=user_id,
+            item_id=item_id,
+            course_id=course_id,
+            item_type='ubcpi'
+        )
+
+        # TODO currently not possible to revise the stats as they are defined with scope Scope.user_state_summary.
+        # The stats are not available when clear_student_state is called
+        # answers = sas_api.get_answers_for_student(student_item)
+        # stats = self.get_current_stats()
+        # if answers.has_revision(0):
+        #     num_resp = stats['original'].setdefault(answers.get_vote(0), 0)
+        #     if num_resp > 0:
+        #         stats['original'][answers.get_vote(0)] = num_resp - 1
+        # if answers.has_revision(1):
+        #     num_resp = stats['revised'].setdefault(answers.get_vote(1), 0)
+        #     if num_resp > 0:
+        #         stats['revised'][answers.get_vote(1)] = num_resp - 1
+
+        # mark existing submission as deleted
+        sas_api.delete_answer_for_student(student_item, requesting_user_id)
+
+    # def has_submitted_answer(self):
+    #     answers = self.get_answers_for_student()
+    #     return answers.has_revision(0) and answers.has_revision(1)
+    #
+    # def publish_grade(self):
+    #     self._publish_grade(self.get_score())
 
     def studio_view(self, context=None):
         """
@@ -538,6 +603,10 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
                 student_item['student_id'], self.algo, self.options)
             self.other_answers_shown = get_other_answers(
                 self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            # reset the shown answers history and clear the refresh counts
+            self._reset_answers_shown_history()
+            self._record_answers_shown(self.other_answers_shown)
+
             event_dict['other_student_responses'] = self.other_answers_shown
             self.publish_event_from_dict(
                 self.event_namespace + '.original_submitted',
@@ -611,6 +680,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Adds the other answers and correct answer/rationale when needed
         """
         answers = self.get_answers_for_student()
+        pool_count = get_other_answers_count(self.sys_selected_answers, self.seeds, self.get_student_item_dict)
         ret = {
             "answer_original": answers.get_vote(0),
             "rationale_original": answers.get_rationale(0),
@@ -618,7 +688,22 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             "rationale_revised": answers.get_rationale(1),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
-            ret['other_answers'] = other_answers
+            # If no persisted peer answers, generate new ones.
+            # Could happen if a student completed Step 1 before ubcpi upgraded to persist peer answers.
+            if not other_answers:
+                ret['other_answers'] = get_other_answers(
+                    self.sys_selected_answers, self.seeds, self.get_student_item_dict, self.algo, self.options)
+            else:
+                ret['other_answers'] = other_answers
+
+            ret['alt_answers_available'] = {}
+            # count how many answers we are showing for each option
+            showing_count = {}
+            for ans in ret['other_answers'].get('answers', []):
+                if ans.get('option', None) is not None:
+                    showing_count[ans['option']] = showing_count.get(ans['option'], 0) + 1
+            for key in pool_count:
+                ret['alt_answers_available'][key] = True if pool_count[key] > showing_count.get(key, 0) else False
 
         # reveal the correct answer in the end
         if answers.has_revision(1):
@@ -701,3 +786,59 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Serialize the XBlock to XML for exporting.
         """
         serialize_to_xml(node, self)
+
+    @XBlock.json_handler
+    def refresh_other_answers(self, data, suffix=''):
+        """
+        Refresh other answers shown, if possible
+        """
+        if 'option' not in data:
+            raise JsonHandlerError(400, 'Missing option')
+        the_option = int(data['option'])
+        if the_option < 0 or the_option >= len(self.options):
+            raise JsonHandlerError(400, 'Invalid option')
+
+        student_item = self.get_student_item_dict()
+        if not student_item or not student_item['student_id']:
+            raise JsonHandlerError(400, 'Missing student info')
+
+        # can refresh only after intial submission and before final submission
+        answers = self.get_answers_for_student()
+        if not(answers.has_revision(0) and not answers.has_revision(1)):
+            return self.get_persisted_data(self.other_answers_shown)
+
+        seeded_first = self._over_answers_shown_refresh_limit(the_option)
+        self.other_answers_shown = \
+            refresh_answers(self.other_answers_shown, the_option, self.sys_selected_answers, self.seeds, self.get_student_item_dict, seeded_first)
+
+        self._incr_answers_shown_refresh_count(the_option)
+        self._record_answers_shown(self.other_answers_shown)
+
+        return self.get_persisted_data(self.other_answers_shown)
+
+    def _reset_answers_shown_history(self):
+        self.other_answers_shown_history = {}
+        self.other_answers_refresh_count = {}
+
+    def _record_answers_shown(self, answers_shown):
+        import time
+        answers = answers_shown.get("answers", None)
+
+        for option in range(len(self.options)):
+            key = str(option)
+            answers_shown_for_option = self.other_answers_shown_history.setdefault(key, {})
+            # see if we are showing new answers for this option
+            for ans in answers:
+                if ans.get('option', None) is not None and str(ans['option']) == key:
+                    answers_shown_for_option[ans.get('rationale', None)] = time.time()
+
+    def _incr_answers_shown_refresh_count(self, option):
+        key = str(option)
+        count = self.other_answers_refresh_count.get(key, 0) + 1
+        self.other_answers_refresh_count[key] = count
+
+    def _over_answers_shown_refresh_limit(self, option):
+        key = str(option)
+        count = self.other_answers_refresh_count.get(key, 0)
+        return count > MAX_REFRESH_PER_OPTION
+

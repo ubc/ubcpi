@@ -17,6 +17,8 @@ answer_item has to be in the format:
 """
 
 ANSWER_LIST_KEY = 'answers'
+DELETE_INDICATOR = 'deleted'
+REQUEST_USER_ID_KEY = 'requesting_user_id'
 
 VOTE_KEY = 'vote'
 RATIONALE_KEY = 'rationale'
@@ -39,6 +41,8 @@ def get_answers_for_student(student_item):
 
     latest_submission = submissions[0]
     latest_answer_item = latest_submission.get('answer', {})
+    if latest_answer_item.get(DELETE_INDICATOR, False):
+        return Answers()
     return Answers(latest_answer_item.get(ANSWER_LIST_KEY, []))
 
 
@@ -59,6 +63,19 @@ def add_answer_for_student(student_item, vote, rationale):
         ANSWER_LIST_KEY: answers.get_answers_as_list()
     })
 
+def delete_answer_for_student(student_item, requesting_user_id):
+    """
+    Create a new submission to indicate student's answer is deleted
+
+    Args:
+        student_item (dict): The location of the problem this submission is
+            associated with, as defined by a course, student, and item.
+        requesting_user_id: The user that is requesting to delete student answer
+    """
+    sub_api.create_submission(student_item, {
+        DELETE_INDICATOR: True,
+        REQUEST_USER_ID_KEY: requesting_user_id,
+    })
 
 class Answers:
     """

@@ -69,17 +69,78 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                     if (!target) {
                         target = ele;
                     }
-                    $('html,body').animate({scrollTop: target.offset().top}, "slow");
+                    if (target && target.offset()) {
+                        $('html,body').animate({scrollTop: target.offset().top}, "slow");
+                    }
                 });
             }
         };
     })
+
+    /**
+     * Scroll to the xblock progress bar
+     */
+    .directive('scrollToProgressBar', function() {
+        return {
+            restrict: 'A',
+            scope: {
+                scrollToProgressBar: '@'
+            },
+            link: function(scope, ele, attr, ctrl) {
+                ele.on(scope.scrollToProgressBar? scope.scrollToProgressBar : 'click', function() {
+                    var target;
+                    target = ele.parents('.ubcpi_block').find('.ubcpi_progress_bar');
+                    if (!target) {
+                        target = ele;
+                    }
+                    if (target && target.offset()) {
+                        $('html,body').animate({scrollTop: target.offset().top}, "slow");
+                    }
+                });
+            }
+        };
+    })
+
+    .directive('ubcpiRefreshRationale', ['backendService', 'notify', 'gettext', function(backendService, notify, gettext) {
+        return {
+            retrict: 'A',
+            replace: false,
+            scope: {
+                ubcpiRefreshModel: '=',
+            },
+            link: function(scope, ele, attr, ctrl) {
+                var option = attr.ubcpiOption;
+                var desc = '<span>' + gettext('Show other samples') + '</span>';
+                var desc_loading = '<span>' + gettext('Refreshing...') + '</span>';
+
+                function call_refresh() {
+                    ele.empty().append('<i class="icon fa fa-refresh fa-spin" aria-hidden="true"></i> ' + desc_loading);
+                    backendService.refreshOtherAnswers(option).then(function(data) {
+                        if (data && data.other_answers && data.other_answers.answers) {
+                            scope.ubcpiRefreshModel = data.other_answers.answers
+                        }
+                    }, function(error) {
+                        notify('error', {
+                            'title': gettext('Error refreshing answers from other students'),
+                            'message': gettext('Please refresh the page and try again!')
+                        });
+                    }).finally(function() {
+                        ele.empty().append('<i aria-hidden="true" class="icon fa fa-refresh"></i> ' + desc);
+                    });
+                }
+
+                ele.on('click', call_refresh);
+                ele.empty().append('<i aria-hidden="true" class="icon fa fa-refresh"></i> ' + desc);
+            }
+        }
+    }])
 
     .factory('backendService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
         return {
             getStats: getStats,
             submit: submit,
             get_data: get_data,
+            refreshOtherAnswers: refreshOtherAnswers,
         };
 
         function getStats() {
@@ -121,6 +182,21 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 }
             );
         }
+
+        function refreshOtherAnswers(option) {
+            var refreshUrl = $rootScope.config.urls.refresh_other_answers;
+            var refreshParam = JSON.stringify({
+                "option": option,
+            });
+            return $http.post(refreshUrl, refreshParam).then(
+                function(response) {
+                    return response.data;
+                },
+                function(error) {
+                    return $q.reject(error);
+                }
+            );
+        }
     }])
 
     .controller('ReviseController', ['$scope', 'notify', 'backendService', '$q', 'gettext', '$location',
@@ -150,6 +226,9 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
 
             // By default, we're not submitting, this changes when someone presses the submit button
             self.submitting = false;
+
+            // Whether user is revising the answer
+            self.revising = false;
 
             /**
              * Determine if the submit button should be disabled
@@ -191,6 +270,14 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
             self.getStats = function () {
                 return backendService.getStats().then(function(data) {
                     self.stats = data;
+
+                    self.perAnswerStats = {};
+                    for (var i = 0; i < $scope.options.length; i++) {
+                        self.perAnswerStats[i] = {
+                            'original': (typeof self.stats.original[i] !== 'undefined'? self.stats.original[i] : 0),
+                            'revised' : (typeof self.stats.revised[i] !== 'undefined'? self.stats.revised[i] : 0)
+                        }
+                    }
                 }, function(error) {
                     notify('error', {
                         'title': gettext('Error retrieving statistics!'),
@@ -198,34 +285,6 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                     });
                     return $q.reject(error);
                 });
-            };
-
-            self.calc = function(s) {
-                var originalPercentage = gettext(" Initial Answer Selection: ");
-                var revisedPercentage = gettext(" Final Answer Selection: ");
-                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.original[s] !== 'undefined') {
-                    var totalCounts = 0;
-                    for (var i = 0; i < data.options.length; i++) {
-                        if (typeof self.stats.original[i] !== 'undefined')
-                            totalCounts += self.stats.original[i];
-                    }
-                    originalPercentage += self.stats.original[s] / totalCounts * 100 + "%";
-                }
-                else
-                    originalPercentage += "0%";
-
-                if (typeof self.stats !== 'undefined' && typeof s !== 'undefined' && typeof self.stats.revised[s] !== 'undefined') {
-                    var totalCounts = 0;
-                    for (var i = 0; i < data.options.length; i++) {
-                        if (typeof self.stats.revised[i] !== 'undefined')
-                            totalCounts += self.stats.revised[i];
-                    }
-                    revisedPercentage += self.stats.revised[s] / totalCounts * 100 + "%";
-                }
-                else
-                    revisedPercentage += "0%";
-
-                return originalPercentage + " " + revisedPercentage;
             };
 
             function get_data() {
@@ -255,8 +314,17 @@ angular.module('UBCPI', ['ngSanitize', 'ngCookies', 'gettext'])
                 self.rationale = data.rationale_revised || data.rationale_original;
                 self.weight = data.weight;
                 self.options = data.options;
+                self.alt_answers_available = data.alt_answers_available;
             }
 
+            self.hasSampleExplanationForOption = function (option) {
+                for (var index in self.other_answers.answers) {
+                    if (option == self.other_answers.answers[index].option) {
+                        return true;
+                    }
+                }
+                return false;
+            };
         }]);
 
 /**
@@ -279,7 +347,8 @@ function PeerInstructionXBlock(runtime, element, data) {
         'get_stats': runtime.handlerUrl(element, 'get_stats'),
         'submit_answer': runtime.handlerUrl(element, 'submit_answer'),
         'get_asset': runtime.handlerUrl(element, 'get_asset'),
-        'get_data': runtime.handlerUrl(element, 'get_data')
+        'get_data': runtime.handlerUrl(element, 'get_data'),
+        'refresh_other_answers': runtime.handlerUrl(element, 'refresh_other_answers'),
     };
 
     // in order to support multiple same apps on the same page but

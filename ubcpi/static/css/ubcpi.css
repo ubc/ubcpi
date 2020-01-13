@@ -25,11 +25,6 @@ h2.question-text {
     padding: 0;
 }
 
-.choicegroup fieldset .ubcpi-possible-options {
-    padding-left: 20px;
-    border-left: 2px solid #e5e5e5;
-}
-
 div.course-wrapper section.course-content fieldset .ubcpi-option {
     margin: 0;
 }
@@ -57,6 +52,7 @@ fieldset .ubcpi-label {
     border-radius: 3px;
     padding: 10px;
     width: 100%;
+    background-color: #fbfbfb;
 }
 
 fieldset .ubcpi-label:hover {
@@ -75,6 +71,20 @@ fieldset .ubcpi-option:last-of-type .ubcpi-label {
 
 .ubcpi-label.ubcpi-answer {
     float: none;
+}
+
+.ubcpi-no-pointer {
+    cursor: default;
+}
+
+.ubcpi-answer img {
+    display: block;
+}
+
+.ubcpi-label.ubcpi-explain-label {
+    border: none;
+    margin-bottom: 0;
+    padding: 0px;
 }
 
 .results-container .ubcpi-label {
@@ -116,7 +126,8 @@ textarea.ubcpi-field {
     -webkit-font-smoothing: antialiased;
 }
 
-.choicegroup .ubcpi_submit {
+.choicegroup .ubcpi_submit,
+.others-responses .ubcpi_submit {
     padding: 10px 40px;
     border: 1px solid #2b8dbb;
     color: #fff;
@@ -140,7 +151,10 @@ textarea.ubcpi-field {
 
 .ubcpi_block .choicegroup .ubcpi_submit:hover,
 .ubcpi_block .choicegroup .ubcpi_submit:active,
-.ubcpi_block .choicegroup .ubcpi_submit:focus {
+.ubcpi_block .choicegroup .ubcpi_submit:focus,
+.others-responses .ubcpi_submit:hover,
+.others-responses .ubcpi_submit:active,
+.others-responses .ubcpi_submit:focus {
     border-color: #00a7f6;
     box-shadow: none;
     background: #00a7f6 none;
@@ -178,8 +192,26 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
     border-bottom: 1px solid #cfc6c6;
 }
 
-div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers li:last-of-type {
-    border-bottom: none;
+div.course-wrapper section.course-content .vert-mod .sample-answer {
+    margin: 1em;
+    display: block;
+}
+
+div.course-wrapper section.course-content .vert-mod .no-sample-answer {
+    font-style: italic;
+    margin: 1em;
+    display: block;
+}
+
+div.course-wrapper section.course-content .vert-mod .sample-answer .other-rationale {
+    line-height: 140%;
+    padding-left: 1em;
+}
+
+div.course-wrapper section.course-content .vert-mod .own-answer {
+    padding-top: 15px;
+    margin: 1em;
+    font-weight: bold;
 }
 
 .ubcpi-other-answers,
@@ -198,8 +230,15 @@ div.course-wrapper section.course-content .vert-mod > div ul.ubcpi-other-answers
 }
 
 .ubcpi-other-answers h4,
-.ubcpi-solution-your-initial-answer,
+.ubcpi-solution-your-initial-answer {
+    font-weight: 900;
+}
+
 .ubcpi-solution-your-final-answer {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 5px;
+    font-size: 0.85em;
     font-weight: 900;
 }
 
@@ -385,7 +424,6 @@ textarea.pi-options {
     position: relative;
     margin: 20px 0;
     border: 1px solid #d7dbdf;
-    border-left: 10px solid #b9c1c8;
     box-shadow: inset 0 1px 2px 1px rgba(2, 2, 3, 0.1);
     padding: 20px;
     background: #fdfdfd;
@@ -499,8 +537,26 @@ label.ubcpi-label {
     fill: #50c67b;
 }
 
-.ubcpibar:hover {
-    opacity: 1.0;
+.ubcpibar.original {
+    opacity: 0.4;
+}
+
+text.ubcpibar {
+    font-size: 12px;
+    font-weight: 600;
+    fill: #000000;
+}
+
+text.ubcpibar.correct-answer {
+    font-size: 12px;
+    font-weight: 600;
+    fill: #000000;
+}
+
+text.ubcpibar.label {
+    font-size: 12px;
+    font-weight: 600;
+    fill: #000000;
 }
 
 .ubcpi-correct-answer-option {
@@ -509,6 +565,11 @@ label.ubcpi-label {
 }
 
 .ubcpi-show-correct {
+    font-size: 0.85em;
+}
+
+.ubcpi-correct-answer-highlight {
+    font-weight: bold;
     color: #50c67b;
 }
 
@@ -525,11 +586,13 @@ label.ubcpi-label {
 .ubcpi-correct-answer-rationale {
     display: block;
     margin-bottom: 20px;
+    font-size: 0.85em;
 }
 
 .ubcpi-solution-rationales {
     padding-left: 10px;
     word-break: break-all;
+    font-weight: normal;
 }
 
 .other-rationale {
@@ -559,10 +622,28 @@ label.ubcpi-label {
     border: 2px solid #e5e5e5;
     border-radius: 3px;
     padding: 10px;
+    background-color: #fbfbfb;
 }
 
 .ubcpi-breakdown-answer-options .ubcpi-option .ubcpi-breakdown-answer-text {
     display: block;
+}
+
+.ubcpi-refresh-section {
+    margin: 1em;
+    border-top: 1px solid #cfc6c6;
+    color: #0075b4;
+}
+
+.ubcpi-refresh-option-button * {
+    font-size: 0.9em;
+    transition: none;
+    cursor: pointer;
+}
+
+.ubcpi-refresh-option-button-disabled {
+    pointer-events: none;
+    color: #888;
 }
 
 #pi-form .list-input.settings-list .setting-label {
@@ -628,6 +709,12 @@ div.course-wrapper section.course-content .warning-notice p {
 
 .possible-option {
     font-style: italic;
+}
+
+#decision-prompt {
+    font-weight: normal;
+    font-size: 120%;
+    padding-right: 4.8em;
 }
 
 .response-text {
@@ -780,4 +867,6 @@ pi-barchart > svg {
     text-transform: capitalize;
 }
 
-
+#not-enough-data {
+    font-size: 0.85em;
+}

@@ -4,7 +4,7 @@ from ddt import file_data, ddt
 from mock import patch, call, MagicMock
 from ubcpi.answer_pool import offer_answer, validate_seeded_answers_simple, UnknownChooseAnswerAlgorithm, \
     validate_seeded_answers_random, validate_seeded_answers, get_other_answers, get_other_answers_simple, \
-    get_other_answers_random, get_max_size, POOL_ITEM_LENGTH_SIMPLE
+    get_other_answers_random, get_max_size, POOL_ITEM_LENGTH_SIMPLE, refresh_answers
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
 
 
@@ -154,3 +154,69 @@ class TestAnswerPool(unittest.TestCase):
         self.assertEqual(get_max_size({}, 3, POOL_ITEM_LENGTH_SIMPLE), 102)
         self.assertEqual(get_max_size({}, 10, POOL_ITEM_LENGTH_SIMPLE), 67)
         self.assertEqual(get_max_size({1: {i: {} for i in xrange(10)}}, 10, POOL_ITEM_LENGTH_SIMPLE), 62)
+
+    @patch(
+        'ubcpi.persistence.get_answers_for_student',
+        return_value=Answers([{VOTE_KEY: 0, RATIONALE_KEY: 'my rationale'}])
+    )
+    @file_data('data/get_other_answers_simple.json')
+    def test_refresh_answers_normal(self, data, mock):
+        answer_shown = {'answers': [
+            {'option': 0, 'rationale': 'rationale to be refreshed'},
+            {'option': 1, 'rationale': 'rationale should stay'},
+        ]}
+        option = 0
+        pool = data['pool']
+        student_item_dict_func = MagicMock(return_value={'student_id': data['user_id']})
+        seeded_answers = data['seeds']
+        refreshed = refresh_answers(answer_shown, option, pool, seeded_answers, student_item_dict_func)
+        for answer in refreshed['answers']:
+            if answer['option'] == 0:
+                self.assertNotEqual(answer['rationale'], 'rationale to be refreshed')
+            else:
+                self.assertEqual(answer['rationale'], 'rationale should stay')
+
+    @patch(
+        'ubcpi.persistence.get_answers_for_student',
+        return_value=Answers([{VOTE_KEY: 0, RATIONALE_KEY: 'my rationale'}])
+    )
+    @file_data('data/get_other_answers_simple.json')
+    def test_refresh_answers_no_seed(self, data, mock):
+        answer_shown = {'answers': [
+            {'option': 0, 'rationale': 'rationale to be refreshed if pool not empty'},
+            {'option': 1, 'rationale': 'rationale should stay'},
+        ]}
+        option = 0
+        pool = data['pool']
+        student_item_dict_func = MagicMock(return_value={'student_id': data['user_id']})
+        seeded_answers = []
+        refreshed = refresh_answers(answer_shown, option, pool, seeded_answers, student_item_dict_func)
+        for answer in refreshed['answers']:
+            if answer['option'] == 0:
+                if len(pool) > 0:
+                    self.assertNotEqual(answer['rationale'], 'rationale to be refreshed if pool not empty')
+                else:
+                    self.assertEqual(answer['rationale'], 'rationale to be refreshed if pool not empty')
+            else:
+                self.assertEqual(answer['rationale'], 'rationale should stay')
+
+    @patch(
+        'ubcpi.persistence.get_answers_for_student',
+        return_value=Answers([{VOTE_KEY: 0, RATIONALE_KEY: 'my rationale'}])
+    )
+    @file_data('data/get_other_answers_simple.json')
+    def test_refresh_answers_seeded_first(self, data, mock):
+        answer_shown = {'answers': [
+            {'option': 0, 'rationale': 'rationale to be refreshed'},
+            {'option': 1, 'rationale': 'rationale should stay'},
+        ]}
+        option = 0
+        pool = data['pool']
+        student_item_dict_func = MagicMock(return_value={'student_id': data['user_id']})
+        seeded_answers = data['seeds']
+        refreshed = refresh_answers(answer_shown, option, pool, seeded_answers, student_item_dict_func, True)
+        for answer in refreshed['answers']:
+            if answer['option'] == 0:
+                self.assertNotEqual(answer['rationale'], 'rationale to be refreshed')
+            else:
+                self.assertEqual(answer['rationale'], 'rationale should stay')

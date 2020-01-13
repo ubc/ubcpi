@@ -1,0 +1,35 @@
+{
+  "valid": {
+    "submit_answer_param": {
+      "q": 0,
+      "rationale": "This is my answer.",
+      "status": 0
+    },
+    "refresh_params": {
+      "option": "2"
+    },
+    "expect": {
+      "other_answers": {
+        "answers": [
+          {
+            "option": 0,
+            "rationale": "This is answer shown for option 0"
+          },
+          {
+            "option": 1,
+            "rationale": "This is answer shown for option 1"
+          },
+          {
+            "option": 2,
+            "rationale": "This is answer shown for option 2"
+          }
+        ]
+      },
+      "answer_original": 0,
+      "rationale_original": "This is my answer.",
+      "answer_revised": null,
+      "rationale_revised": null,
+      "alt_answers_available": {"1": false, "0": true, "2": false}
+    }
+  }
+}

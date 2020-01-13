@@ -41,6 +41,69 @@ describe('UBCPI module', function () {
         });
     });
 
+    describe('ubcpi-refresh-rationale directive', function() {
+        var $compile,
+            $rootScope,
+            backendService,
+            $httpBackend;
+
+        // Store references to $rootScope and $compile
+        // so they are available to all tests in this describe block
+        beforeEach(inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
+            // The injector unwraps the underscores (_) from around the parameter names when matching
+            $compile = _$compile_;
+            $rootScope = _$rootScope_;
+            $httpBackend = _$httpBackend_;
+
+            mockConfig.urls.refresh_other_answers = '/handler/refresh_other_answers';
+        }));
+
+        afterEach(function() {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should show button to refresh answers shown', function () {
+            var scope = $rootScope.$new(true);
+            scope.rc = {
+                other_answers: { answer: [] }
+            };
+            // Compile a piece of HTML containing the directive
+            var element = $compile("<div name=\"test_div\" class=\"ubcpi-refresh-option-button\" ubcpi-refresh-rationale ubcpi-option=\"1\" ubcpi-refresh-model=\"rc.other_answers.answers\"></div>")(scope);
+            scope.$digest();
+            expect(element.html()).toContain('Show other samples');
+        });
+
+        it('should allow refreshing of answers shown', function () {
+            var scope = $rootScope.$new(true);
+            scope.rc = {
+                other_answers: { answers: [] }
+            };
+            var param = {"option": "1"};
+            var exp = {
+                "other_answers": {
+                    "answers": [
+                        {"option": 0, "rationale": "Tree gets carbon from air."},
+                        {"option": 1, "rationale": "Tree gets minerals from soil."},
+                        {"option": 2, "rationale": "Tree drinks water."}]
+                },
+                "rationale_revised": null,
+                "answer_original": 1,
+                "rationale_original": "testing",
+                "answer_revised": null
+            };
+            var data = undefined;
+            $httpBackend.expectPOST('/handler/refresh_other_answers', JSON.stringify(param)).respond(200, exp);
+
+            // Compile a piece of HTML containing the directive
+            var element = $compile("<div name=\"test_div\" class=\"ubcpi-refresh-option-button\" ubcpi-refresh-rationale ubcpi-option=\"1\" ubcpi-refresh-model=\"rc.other_answers.answers\"></div>")(scope);
+            scope.$digest();
+            $(element).click();
+            $httpBackend.flush();
+            expect(scope.rc.other_answers).toEqual(exp.other_answers);
+        });
+    });
+
     describe('backendService', function() {
         var backendService, $httpBackend;
 
@@ -125,6 +188,38 @@ describe('UBCPI module', function () {
                 $httpBackend.flush();
 
                 expect(error).toBe('error');
+            });
+        });
+
+        describe('refresh_other_answers', function() {
+
+            beforeEach(function() {
+                mockConfig.urls.refresh_other_answers = '/handler/refresh_other_answers';
+            });
+
+            it('should be able to refresh other answers', function() {
+                var param = {"option": 1};
+                var exp = {
+                    "other_answers": {
+                        "answers": [
+                            {"option": 0, "rationale": "Tree gets carbon from air."},
+                            {"option": 1, "rationale": "Tree gets minerals from soil."},
+                            {"option": 2, "rationale": "Tree drinks water."}]
+                    },
+                    "rationale_revised": null,
+                    "answer_original": 1,
+                    "rationale_original": "testing",
+                    "answer_revised": null
+                };
+                var data = undefined;
+                $httpBackend.expectPOST('/handler/refresh_other_answers', JSON.stringify(param)).respond(200, exp);
+
+                backendService.refreshOtherAnswers(1).then(function(d) {
+                    data = d;
+                });
+                $httpBackend.flush();
+
+                expect(data).toEqual(exp);
             });
         });
 
@@ -400,7 +495,6 @@ describe('UBCPI module', function () {
                 });
                 controller.getStats();
                 expect(controller.stats).toEqual(response);
-                expect(controller.calc(0)).toBe(" Initial Answer Selection: 100%  Final Answer Selection: 0%");
             });
 
             it('should call notify with error when backend errors', function() {
@@ -451,8 +545,8 @@ describe('PeerInstructionXBlock function', function() {
     });
 
     it('should generate URLs using runtime', function() {
-        expect(mockRuntime.handlerUrl.calls.count()).toBe(4);
+        expect(mockRuntime.handlerUrl.calls.count()).toBe(5);
         expect(mockRuntime.handlerUrl.calls.allArgs()).toEqual(
-            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset'], [mockElement, 'get_data']]);
+            [[mockElement, 'get_stats'], [mockElement, 'submit_answer'], [mockElement, 'get_asset'], [mockElement, 'get_data'], [mockElement, 'refresh_other_answers']]);
     });
 });
