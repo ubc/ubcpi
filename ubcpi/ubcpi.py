@@ -6,7 +6,6 @@ import uuid
 
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
-from django.utils import translation
 import pkg_resources
 from webob import Response
 from xblock.core import XBlock
@@ -16,7 +15,7 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
 from xblock.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
-from .utils import _  # pylint: disable=unused-import
+from .utils import _, get_language # pylint: disable=unused-import
 
 from answer_pool import offer_answer, validate_seeded_answers, get_other_answers, get_other_answers_count, refresh_answers
 import persistence as sas_api
@@ -384,7 +383,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
                 'below': self.ugettext('Appears below')
             },
             'seeds': self.seeds,
-            'lang': translation.get_language(),
+            'lang': get_language(),
         })
 
         return frag
@@ -546,7 +545,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
             'rationale_size': self.rationale_size,
             'user_role': self.get_user_role(),
             'all_status': {'NEW': STATUS_NEW, 'ANSWERED': STATUS_ANSWERED, 'REVISED': STATUS_REVISED},
-            'lang': translation.get_language(),
+            'lang': get_language(),
         }
         if answers.has_revision(0) and not answers.has_revision(1):
             js_vals['other_answers'] = self.other_answers_shown
