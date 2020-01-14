@@ -68,7 +68,16 @@ Single test:
 
     node_modules/protractor/bin/protractor protractor.conf.js --browser chrome --specs=ubcpi/static/js/features/cms.feature
 
+## Deploy UBCPI to upstream edx
+
+In order for the upstream edx to include a new version of UBCPI, modify the file [main.yml](https://github.com/edx/configuration/tree/master/playbooks/roles/edxapp/defaults) and submit a pull request to that repository.
+
 ## Changelog
+
+### [1.0.0](https://github.com/ubc/ubcpi/issues?q=milestone%3A1.0+is%3Aclosed)
+1. Revised UI to improve visual consistency.
+2. Fixed issues with deleting learner state.
+3. Added function to allow students to fresh rationales shown.
 
 ### [0.6.5](https://github.com/ubc/ubcpi/issues?q=milestone%3A0.6.5+is%3Aclosed)
 1. Added logging of rationales seen by the learner when submitting final answer.
