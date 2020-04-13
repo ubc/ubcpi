@@ -13,7 +13,7 @@ from webob import Response
 from xblock.core import XBlock
 from xblock.exceptions import JsonHandlerError
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
-from xblock.fragment import Fragment
+from web_fragments.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _  # pylint: disable=unused-import
 
