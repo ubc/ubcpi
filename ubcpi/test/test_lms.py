@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 
@@ -9,6 +10,7 @@ from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 
 from ubcpi.persistence import Answers, VOTE_KEY, RATIONALE_KEY
 from ubcpi.ubcpi import truncate_rationale, MAX_RATIONALE_SIZE_IN_EVENT
+import six
 
 
 @ddt
@@ -50,7 +52,8 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_submit_answer(self, xblock, data, mock):
         # patch get_other_answers to avoid randomness
         mock.return_value = data['expect1']['other_answers']
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, data['expect1'])
 
         # check the student is recorded
@@ -69,7 +72,8 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
 
 
         # submit revised answer
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['post2']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, data['expect2'])
 
         # check the student is recorded
@@ -92,21 +96,22 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_submit_answer_errors(self, xblock, data):
         with self.assertRaises(PermissionDenied):
-            self.request(xblock, 'submit_answer', json.dumps(data['post1']), response_format='json')
+            self.request(xblock, 'submit_answer', json.dumps(data['post1']).encode('utf8'))
 
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_stats(self, xblock):
         stats = {"revised": {"1": 1}, "original": {"0": 1}}
         xblock.stats = stats
-        resp = self.request(xblock, 'get_stats', '{}', response_format='json')
+        resp = self.request(xblock, 'get_stats', b'{}')
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, stats)
 
     @patch('ubcpi.ubcpi.PeerInstructionXBlock.resource_string')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_asset(self, xblock, mock):
         mock.return_value = 'test'
-        resp = self.request(xblock, 'get_asset', 'f=test.html', request_method='POST')
-        self.assertEqual(resp, 'test')
+        resp = self.request(xblock, 'get_asset', b'f=test.html', request_method='POST')
+        self.assertEqual(resp, b'test')
 
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'), user_id='Bob')
     def test_get_student_item_dict(self, xblock):
@@ -208,7 +213,7 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
         self.assertTrue(was_truncated)
 
     def check_fields(self, xblock, data):
-        for key, value in data.iteritems():
+        for key, value in six.iteritems(data):
             self.assertIsNotNone(getattr(xblock, key))
             self.assertEqual(getattr(xblock, key), value)
 
@@ -218,24 +223,29 @@ class LmsTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_refresh_other_answers(self, xblock, data, mock):
         # patch get_other_answers to avoid randomness
         mock.return_value = data['expect']['other_answers']
-        resp = self.request(xblock, 'submit_answer', json.dumps(data['submit_answer_param']), response_format='json')
+        resp = self.request(xblock, 'submit_answer', json.dumps(data['submit_answer_param']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, data['expect'])
 
         original_other_ans = [ans['rationale'] for ans in xblock.other_answers_shown['answers'] if ans['option'] == int(data['refresh_params']['option'])]
 
-        resp = self.request(xblock, 'refresh_other_answers', json.dumps({}), response_format='json')
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps({}).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, {'error': 'Missing option'})
-        resp = self.request(xblock, 'refresh_other_answers', json.dumps({'option': -1}), response_format='json')
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps({'option': -1}).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(resp, {'error': 'Invalid option'})
 
-        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']), response_format='json')
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         self.assertEqual(xblock.other_answers_refresh_count[data['refresh_params']['option']] , 1)
         self.assertEqual(len(xblock.other_answers_shown_history), 3)
         refreshed_other_ans = [ans['rationale'] for ans in xblock.other_answers_shown['answers'] if ans['option'] == int(data['refresh_params']['option'])]
         # rationale of the refreshed option should be chanaged
         self.assertNotEqual(original_other_ans, refreshed_other_ans)
 
-        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']), response_format='json')
+        resp = self.request(xblock, 'refresh_other_answers', json.dumps(data['refresh_params']).encode('utf8'))
+        resp = json.loads(resp.decode('utf8'))
         # refresh count of the option should be increased
         self.assertEqual(xblock.other_answers_refresh_count[data['refresh_params']['option']] , 2)
         self.assertEqual(len(xblock.other_answers_shown_history), 3)

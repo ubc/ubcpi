@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 from lxml import etree
@@ -6,6 +7,7 @@ from django.test import TestCase
 from mock import MagicMock, Mock
 from workbench.test_utils import scenario, XBlockHandlerTestCaseMixin
 from ubcpi.ubcpi import PeerInstructionXBlock
+import six
 
 
 @ddt
@@ -20,21 +22,23 @@ class StudioViewTest(XBlockHandlerTestCaseMixin, TestCase):
     def test_studio_submit(self, xblock, data):
         xblock.runtime.modulestore = MagicMock()
         xblock.runtime.modulestore.has_published_version.return_value = False
-        resp = self.request(xblock, 'studio_submit', json.dumps(data), response_format='json')
-        self.assertTrue(resp['success'], msg=resp.get('msg'))
+        resp = self.request(xblock, 'studio_submit', json.dumps(data).encode('utf8'))
+        resp_json = json.loads(resp.decode('utf8'))
+        self.assertTrue(resp_json['success'], msg=resp_json.get('msg'))
         self.check_fields(xblock, data)
 
     @file_data('data/validate_form.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'))
     def test_validate_form(self, xblock, data):
-        resp = self.request(xblock, 'validate_form', json.dumps(data), response_format='json')
-        self.assertTrue(resp['success'], msg=resp.get('msg'))
+        resp = self.request(xblock, 'validate_form', json.dumps(data).encode('utf8'))
+        resp_json = json.loads(resp.decode('utf8'))
+        self.assertTrue(resp_json['success'], msg=resp_json.get('msg'))
 
     @file_data('data/validate_form_errors.json')
     @scenario(os.path.join(os.path.dirname(__file__), 'data/basic_scenario.xml'))
     def test_validate_form_errors(self, xblock, data):
-        resp = self.request(xblock, 'validate_form', json.dumps(data['post']), response_format='json')
-        self.assertEqual(resp, data['error'])
+       resp = self.request(xblock, 'validate_form', json.dumps(data['post']).encode('utf8'))
+       self.assertEqual(json.loads(resp.decode('utf8')), data['error'])
 
     @file_data('data/parse_from_xml.json')
     def test_parse_xml(self, data):
@@ -45,6 +49,6 @@ class StudioViewTest(XBlockHandlerTestCaseMixin, TestCase):
         self.check_fields(xblock, data['expect'])
 
     def check_fields(self, xblock, data):
-        for key, value in data.iteritems():
+        for key, value in six.iteritems(data):
             self.assertIsNotNone(getattr(xblock, key))
             self.assertEqual(getattr(xblock, key), value)

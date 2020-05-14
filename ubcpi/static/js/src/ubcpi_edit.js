@@ -88,6 +88,8 @@ angular.module("ubcpi_edit", ['ngMessages', 'ngSanitize', 'ngCookies', 'gettext'
             self.data.correct_answer = data.correct_answer;
             if (data.correct_rationale)
                 self.data.correct_rationale = data.correct_rationale;
+            else
+                self.data.correct_rationale = {"text": ""};
             self.data.algo = data.algo;
             self.data.seeds = data.seeds;
 

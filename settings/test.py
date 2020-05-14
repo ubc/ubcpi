@@ -3,6 +3,7 @@ Test-specific Django settings.
 """
 
 # Inherit from base settings
+from __future__ import absolute_import
 from .base import *     # pylint:disable=W0614,W0401
 
 TEST_APPS = (

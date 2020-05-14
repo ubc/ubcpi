@@ -1,6 +1,8 @@
+from __future__ import absolute_import
 from lxml import etree
 
-from utils import _
+from .utils import _
+import six
 
 IMAGE_ATTRIBUTES = {'position': 'image_position', 'show_fields': 'image_show_fields', 'alt': 'image_alt'}
 
@@ -29,7 +31,7 @@ def _safe_get_text(element):
     Returns:
         unicode
     """
-    return unicode(element.text) if element.text is not None else u""
+    return six.text_type(element.text) if element.text is not None else u""
 
 
 def _parse_boolean(boolean_str):
@@ -56,10 +58,10 @@ def parse_image_xml(root):
 
     image_dict['image_url'] = _safe_get_text(image_el)
 
-    for attr, key in IMAGE_ATTRIBUTES.iteritems():
+    for attr, key in six.iteritems(IMAGE_ATTRIBUTES):
         if attr in image_el.attrib:
             image_dict[key] = int(image_el.attrib[attr]) \
-                if unicode(image_el.attrib[attr]).isnumeric() else unicode(image_el.attrib[attr])
+                if six.text_type(image_el.attrib[attr]).isnumeric() else six.text_type(image_el.attrib[attr])
 
     return image_dict
 
@@ -241,8 +243,8 @@ def parse_from_xml(root):
     else:
         seeds = parse_seeds_xml(seeds_el)
 
-    algo = unicode(root.attrib['algorithm']) if 'algorithm' in root.attrib else None
-    num_responses = unicode(root.attrib['num_responses']) if 'num_responses' in root.attrib else None
+    algo = six.text_type(root.attrib['algorithm']) if 'algorithm' in root.attrib else None
+    num_responses = six.text_type(root.attrib['num_responses']) if 'num_responses' in root.attrib else None
 
     return {
         'display_name': display_name,
@@ -290,7 +292,7 @@ def serialize_image(image_dict, root):
     image.text = image_dict.get('image_url', '')
     for attr in ['image_position', 'image_show_fields', 'image_alt']:
         if image_dict.get(attr) is not None:
-            image.set(attr[6:], unicode(image_dict.get(attr)))
+            image.set(attr[6:], six.text_type(image_dict.get(attr)))
 
 
 def serialize_seeds(seeds, block):
@@ -307,7 +309,7 @@ def serialize_seeds(seeds, block):
     for seed_dict in block.seeds:
         seed = etree.SubElement(seeds, 'seed')
         # options in xml starts with 1
-        seed.set('option', unicode(seed_dict.get('answer', 0) + 1))
+        seed.set('option', six.text_type(seed_dict.get('answer', 0) + 1))
         seed.text = seed_dict.get('rationale', '')
 
 
@@ -327,15 +329,15 @@ def serialize_to_xml(root, block):
 
     if block.rationale_size is not None:
         if block.rationale_size.get('min'):
-            root.set('rationale_size_min', unicode(block.rationale_size.get('min')))
+            root.set('rationale_size_min', six.text_type(block.rationale_size.get('min')))
         if block.rationale_size.get('max'):
-            root.set('rationale_size_max', unicode(block.rationale_size['max']))
+            root.set('rationale_size_max', six.text_type(block.rationale_size['max']))
 
     if block.algo:
         if block.algo.get('name'):
             root.set('algorithm', block.algo.get('name'))
         if block.algo.get('num_responses'):
-            root.set('num_responses', unicode(block.algo.get('num_responses')))
+            root.set('num_responses', six.text_type(block.algo.get('num_responses')))
 
     display_name = etree.SubElement(root, 'display_name')
     display_name.text = block.display_name

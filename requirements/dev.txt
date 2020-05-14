@@ -1,9 +1,9 @@
 -r test.txt
 
 # Debug tools
-django-debug-panel==0.8.1
-django-debug-toolbar==1.3.2
-django-pdb==0.4.2
+django-debug-panel==0.8.3
+django-debug-toolbar==1.11
+django-pdb==0.6.2
 sqlparse==0.1.10
 
 # runserver_plus
@@ -12,4 +12,4 @@ Werkzeug==0.10.4
 # required by edx-submission, other package will install 2015 version otherwise
 pytz==2012h
 
-git+https://github.com/edx/xblock-utils.git#egg=xblock-utils
+xblock-utils==1.2.2
