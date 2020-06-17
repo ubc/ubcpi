@@ -1,4 +1,5 @@
 """A Peer Instruction tool for edX by the University of British Columbia."""
+from __future__ import absolute_import
 import os
 import random
 from copy import deepcopy
@@ -13,13 +14,14 @@ from xblock.exceptions import JsonHandlerError
 # For supporting manual revision of scores.  Commented out for now.
 # from xblock.scorable import ScorableXBlockMixin, Score
 from xblock.fields import Scope, String, List, Dict, Integer, DateTime, Float
-from xblock.fragment import Fragment
+from web_fragments.fragment import Fragment
 from xblockutils.publish_event import PublishEventMixin
 from .utils import _, get_language # pylint: disable=unused-import
 
-from answer_pool import offer_answer, validate_seeded_answers, get_other_answers, get_other_answers_count, refresh_answers
-import persistence as sas_api
-from serialize import parse_from_xml, serialize_to_xml
+from .answer_pool import offer_answer, validate_seeded_answers, get_other_answers, get_other_answers_count, refresh_answers
+from . import persistence as sas_api
+from .serialize import parse_from_xml, serialize_to_xml
+import six
 
 STATUS_NEW = 0
 STATUS_ANSWERED = 1
@@ -29,7 +31,7 @@ STATUS_REVISED = 2
 # of 64k in size. Because we are storing rationale and revised rationale both in the the field, the max size
 # for the rationale is half
 MAX_RATIONALE_SIZE = 32000
-MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT / 4
+MAX_RATIONALE_SIZE_IN_EVENT = settings.TRACK_MAX_EVENT // 4
 
 # max number of times the student can refresh to see other student answers shown to them.
 # afterward, will fallback to only return seeded answers
@@ -48,7 +50,7 @@ def truncate_rationale(rationale, max_length=MAX_RATIONALE_SIZE_IN_EVENT):
         was_truncated (bool): returns true if the rationale is truncated
 
     """
-    if isinstance(rationale, basestring) and max_length is not None and len(rationale) > max_length:
+    if isinstance(rationale, six.string_types) and max_length is not None and len(rationale) > max_length:
         return rationale[0:max_length], True
     else:
         return rationale, False
@@ -117,7 +119,7 @@ class MissingDataFetcherMixin:
             if self.scope_ids.user_id is None:
                 student_id = ''
             else:
-                student_id = unicode(self.scope_ids.user_id)
+                student_id = six.text_type(self.scope_ids.user_id)
 
         student_item_dict = dict(
             student_id=student_id,
@@ -164,7 +166,7 @@ class MissingDataFetcherMixin:
         if hasattr(key, 'to_deprecated_string'):
             return key.to_deprecated_string()
         else:
-            return unicode(key)
+            return six.text_type(key)
 
 
 @XBlock.needs('user')
@@ -469,7 +471,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         Args:
             asset_key (str): Asset key to generate URL
         """
-        url = unicode(asset_key)
+        url = six.text_type(asset_key)
         if not url.startswith('/'):
             url = '/' + url
         return url
@@ -644,8 +646,8 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
         """
         # convert key into integers as json.dump and json.load convert integer dictionary key into string
         self.stats = {
-            'original': {int(k): v for k, v in self.stats['original'].iteritems()},
-            'revised': {int(k): v for k, v in self.stats['revised'].iteritems()}
+            'original': {int(k): v for k, v in six.iteritems(self.stats['original'])},
+            'revised': {int(k): v for k, v in six.iteritems(self.stats['revised'])}
         }
         return self.stats
 
@@ -775,7 +777,7 @@ class PeerInstructionXBlock(XBlock, MissingDataFetcherMixin, PublishEventMixin):
 
         # TODO: more validation
 
-        for key, value in config.iteritems():
+        for key, value in six.iteritems(config):
             setattr(block, key, value)
 
         return block

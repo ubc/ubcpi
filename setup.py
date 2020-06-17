@@ -1,5 +1,6 @@
 """Setup for ubcpi XBlock."""
 
+from __future__ import absolute_import
 import os
 from setuptools import setup
 
@@ -31,7 +32,7 @@ def readme():
 
 setup(
     name='ubcpi-xblock',
-    version='0.6.5',
+    version='1.0.0',
     description='UBC Peer Instruction XBlock',
     long_description=readme(),
     license='Affero GNU General Public License v3 (GPLv3)',

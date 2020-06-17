@@ -381,7 +381,74 @@ describe('UBCPI_Edit module', function () {
                 expect(mockNotify.calls.count()).toBe(3);
             });
         });
-    })
+    });
+
+    describe('EditSettingsControllerWithoutOptionalParam', function () {
+        var $rootScope, createController, controller, expectedCorrectRationale;
+
+        beforeEach(inject(function ($controller, _$rootScope_) {
+            mockConfig.data = {
+                "image_position_locations": {"below": "Appears below", "above": "Appears above"},
+                "rationale_size": {"max": 32000, "min": 1},
+                "display_name": "Peer Instruction",
+                "algo": {"num_responses": "#", "name": "simple"},
+                "algos": {
+                    "simple": "System will select one of each option to present to the students.",
+                    "random": "Completely random selection from the response pool."
+                },
+                "correct_answer": 1,
+                "seeds": [
+                    {answer:2, rationale:'rationale3'},
+                    {answer:1, rationale:'rationale2'},
+                    {answer:0, rationale:'rationale1'},
+                    {answer:2, rationale:'rationale3'},
+                    {answer:1, rationale:'rationale2'},
+                    {answer:0, rationale:'rationale1'}
+
+                ],
+                "question_text": {
+                    "text": "What is the answer to life, the universe and everything?",
+                    "image_show_fields": 0,
+                    "image_url": "",
+                    "image_position": "below",
+                    "image_alt": ""
+                },
+                "options": [
+                    {
+                        "text": "21",
+                        "image_show_fields": 0,
+                        "image_url": "",
+                        "image_position": "below",
+                        "image_alt": ""
+                    }
+                ]
+            };
+
+            $rootScope = _$rootScope_;
+            createController = function (params) {
+                return $controller(
+                    'EditSettingsController', {
+                        $scope: $rootScope,
+                        $stateParams: params || {}
+                    });
+            };
+            controller = createController();
+            expectedCorrectRationale = {"text": ""};
+        }));
+
+        it('should have correct initial states', function () {
+            expect(controller.algos).toBe(mockConfig.data.algos);
+            expect(controller.data.display_name).toBe(mockConfig.data.display_name);
+            expect(controller.data.question_text).toBe(mockConfig.data.question_text);
+            expect(controller.data.rationale_size).toBe(mockConfig.data.rationale_size);
+            expect(controller.image_position_locations).toBe(mockConfig.data.image_position_locations);
+            expect(controller.data.options).toBe(mockConfig.data.options);
+            expect(controller.data.correct_answer).toBe(mockConfig.data.correct_answer);
+            expect(controller.data.correct_rationale).toEqual(expectedCorrectRationale);
+            expect(controller.data.algo).toBe(mockConfig.data.algo);
+            expect(controller.data.seeds).toBe(mockConfig.data.seeds);
+        });
+    });
 });
 
 describe('PIEdit function', function () {

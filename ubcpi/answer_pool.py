@@ -1,7 +1,9 @@
+from __future__ import absolute_import
 import random
 import copy
-import persistence as sas_api
-from utils import _  # pylint: disable=unused-import
+from . import persistence as sas_api
+from .utils import _  # pylint: disable=unused-import
+from six.moves import range
 
 # min number of answers for each answers
 # so that we don't end up no answers for an option
@@ -37,7 +39,7 @@ def get_max_size(pool, num_option, item_length):
     max_items = POOL_SIZE / item_length
     # existing items plus the reserved for min size. If there is an option has 1 item, POOL_OPTION_MIN_SIZE - 1 space
     # is reserved.
-    existing = POOL_OPTION_MIN_SIZE * num_option + sum([max(0, len(pool.get(i, {})) - 5) for i in xrange(num_option)])
+    existing = POOL_OPTION_MIN_SIZE * num_option + sum([max(0, len(pool.get(i, {})) - 5) for i in range(num_option)])
     return int(max_items - existing)
 
 
@@ -83,7 +85,7 @@ def offer_simple(pool, answer, rationale, student_id, options):
     """
     existing = pool.setdefault(answer, {})
     if len(existing) >= get_max_size(pool, len(options), POOL_ITEM_LENGTH_SIMPLE):
-        student_id_to_remove = random.choice(existing.keys())
+        student_id_to_remove = random.choice(list(existing.keys()))
         del existing[student_id_to_remove]
     existing[student_id] = {}
     pool[answer] = existing
@@ -285,10 +287,11 @@ def get_other_answers_simple(pool, seeded_answers, get_student_item_dict, num_re
 
     # loop until we have enough answers to return or when there is nothing more to return
     while len(ret) < num_responses and merged_pool:
-        for option, students in merged_pool.items():
+        for option in list(merged_pool.keys()):
+            students = merged_pool[option]
             rationale = None
             while students:
-                student = random.choice(students.keys())
+                student = random.choice(list(students.keys()))
                 # remove the chosen answer from pool
                 content = students.pop(student, None)
 
@@ -336,10 +339,10 @@ def get_other_answers_random(pool, seeded_answers, get_student_item_dict, num_re
     # clean up answers so that all keys are int
     pool = {int(k): v for k, v in pool.items()}
     seeded = {'seeded'+str(index): answer for index, answer in enumerate(seeded_answers)}
-    merged_pool = seeded.keys()
+    merged_pool = list(seeded.keys())
 
     for key in pool:
-        merged_pool += pool[key].keys()
+        merged_pool += list(pool[key].keys())
 
     # shuffle
     random.shuffle(merged_pool)
@@ -430,14 +433,14 @@ def refresh_answers(answers_shown, option, pool, seeded_answers, get_student_ite
             rationale = None
 
             while available_seeds:
-                key = random.choice(available_seeds.keys())
+                key = random.choice(list(available_seeds.keys()))
                 rationale = available_seeds.pop(key, None)
                 if rationale is not None:
                     answer['rationale'] = rationale
                     break;
 
             while available_students and rationale is None:
-                key = random.choice(available_students.keys())
+                key = random.choice(list(available_students.keys()))
                 # remove the chosen answer from pool
                 content = available_students.pop(key, None)
 
