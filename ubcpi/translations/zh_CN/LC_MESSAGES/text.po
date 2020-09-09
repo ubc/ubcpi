@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: XBlocks\n"
 "POT-Creation-Date: 2016-03-16 15:27+0500\n"
-"PO-Revision-Date: 2019-08-01 10:57+0000\n"
-"Last-Translator: Omar Al-Ithawi <i@omardo.com>\n"
+"PO-Revision-Date: 2020-01-15 06:09+0000\n"
+"Last-Translator: 百杰 陈 <bj.chen@eliteu.com.cn>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/open-edx/xblocks/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: ubcpi.py\n"
 
-#: ubcpi/static/html/ubcpi_edit.html:127
+#: ubcpi/static/html/ubcpi_edit.html:133
 msgid ""
 "\"Simple\" means examples for different answer possibilities are "
 "intentionally selected when students are viewing peer answers.<br>\"Random\""
@@ -27,137 +27,124 @@ msgid ""
 "possibilities."
 msgstr "“Simple”表示当学生查看同伴的回答时，不同的可能答案的示例将会特地选择出来。<br>\"Random\" 表示选择答案示例时是随机的，可能不包含不同的可能答案。"
 
-#: ubcpi/static/html/ubcpi.html:9
-msgid "&nbsp;({{weight}} point possible)"
-msgstr "&nbsp;(总分{{weight}})"
-
-#: ubcpi/static/html/ubcpi.html:10
-msgid "&nbsp;({{weight}} points possible)"
-msgstr "&nbsp;(总分{{weight}})"
-
-#: ubcpi/static/html/ubcpi.html:196
-msgid "(Option {{rc.answer_original + 1}})"
-msgstr "(选项 {{rc.answer_original + 1}})"
-
-#: ubcpi/static/html/ubcpi.html:206
-msgid "(Option {{rc.answer_revised + 1}})"
-msgstr "(选项 {{rc.answer_revised + 1}})"
-
-#: ubcpi/static/html/ubcpi.html:237 ubcpi/static/html/ubcpi.html:86
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:8
 msgid "(You chose this option)"
 msgstr "（您已勾选此项）"
 
-#: ubcpi/static/html/ubcpi.html:229 ubcpi/static/html/ubcpi.html:246
-msgid "(correct)"
-msgstr "（正确）"
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:77
+msgid "(including you)"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:144
+#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:9
 msgid "({{weight}} point possible)"
 msgstr "(总分{{weight}})"
 
-#: ubcpi/static/html/ubcpi.html:146
+#: ubcpi/static/html/ubcpi.html:10 ubcpi/static/html/ubcpi.html:162
 msgid "({{weight}} points possible)"
 msgstr "(总分{{weight}})"
 
-#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:163
-#: ubcpi/static/html/ubcpi.html:25
+#: ubcpi/static/html/ubcpi.html:177 ubcpi/static/html/ubcpi.html:179
+#: ubcpi/static/html/ubcpi.html:35
 msgid ", Completed"
 msgstr "，已完成"
 
-#: ubcpi/static/html/ubcpi.html:165 ubcpi/static/html/ubcpi.html:27
-#: ubcpi/static/html/ubcpi.html:58
+#: ubcpi/static/html/ubcpi.html:181 ubcpi/static/html/ubcpi.html:26
+#: ubcpi/static/html/ubcpi.html:37
 msgid ", In Progress"
 msgstr "，进行中"
 
-#: ubcpi/static/html/ubcpi.html:29 ubcpi/static/html/ubcpi.html:60
-#: ubcpi/static/html/ubcpi.html:62
+#: ubcpi/static/html/ubcpi.html:28 ubcpi/static/html/ubcpi.html:30
+#: ubcpi/static/html/ubcpi.html:39
 msgid ", Upcoming"
 msgstr "，即将开始"
 
-#: ubcpi/static/html/ubcpi_edit.html:97
+#: ubcpi/static/html/ubcpi_edit.html:39
+msgid "Add Image To Question"
+msgstr ""
+
+#: ubcpi/static/html/ubcpi_edit.html:103
 msgid "Add New Answer"
 msgstr "添加新答案"
 
-#: ubcpi/static/html/ubcpi_edit.html:163
+#: ubcpi/static/html/ubcpi_edit.html:169
 msgid "Add New Example"
 msgstr "添加新示例答案"
 
-#: ubcpi/static/html/ubcpi_edit.html:145
+#: ubcpi/static/html/ubcpi_edit.html:151
 msgid ""
 "Add example answers to the answer pool for this question. Students most "
 "likely to see these answers are those completing the assignment first, when "
 "the answer pool is small."
 msgstr "添加示例答案至此题目的答案池中，一般是已完成任务的学员才可见此答案池，因为此时答案池内答案数量较少。"
 
-#: ubcpi/static/html/ubcpi_edit.html:81
+#: ubcpi/static/html/ubcpi_edit.html:87
 msgid ""
 "Add the text for this answer. If you wish to add an image, press the button "
 "below."
 msgstr "输入答案文字内容，也可以通过以下按钮来添加图片。"
 
-#: ubcpi/static/html/ubcpi_edit.html:91
+#: ubcpi/static/html/ubcpi_edit.html:97
 msgid ""
 "Alternative text - a description of the image for non-visual users. The "
 "description should provide all the information needed for someone to answer "
 "the question if the image did not load."
 msgstr "文字说明 - 提供给非可视用户的文字描述，应包含该题目的所有所需信息，即无需图片也可答题。"
 
-#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:25
-#: ubcpi/static/html/ubcpi.html:58
+#: ubcpi/static/html/ubcpi.html:177 ubcpi/static/html/ubcpi.html:26
+#: ubcpi/static/html/ubcpi.html:35
 msgid "Answer"
 msgstr "答案"
 
-#: ubcpi/static/html/ubcpi.html:223
-msgid "Answer Options"
-msgstr "答案选项"
-
-#: ubcpi/static/html/ubcpi_edit.html:80
+#: ubcpi/static/html/ubcpi_edit.html:86
 msgid "Answer {{$index + 1}}"
 msgstr "答案{{$index + 1}}"
 
-#: ubcpi/static/html/ubcpi_edit.html:134
+#: ubcpi/static/html/ubcpi_edit.html:140
 msgid "Answers Students See - Number Selected <font color=\"red\">*</font>"
 msgstr "学员可见答案 - 已挑选数字<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:126
+#: ubcpi/static/html/ubcpi_edit.html:132
 msgid "Answers Students See - Selection Logic <font color=\"red\">*</font>"
 msgstr "学员可见答案 - 挑选逻辑<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:188
+#: ubcpi/static/html/ubcpi.html:118 ubcpi/static/html/ubcpi_edit.html:194
 msgid "Cancel"
 msgstr "取消"
 
-#: ubcpi/static/html/ubcpi_edit.html:89
+#: ubcpi/static/html/ubcpi_edit.html:95
 msgid ""
 "Choose if you want the image to appear above or below the question text."
 msgstr "设置图片在题目文字上方/下方。"
 
-#: ubcpi/static/html/ubcpi_edit.html:44
+#: ubcpi/static/html/ubcpi_edit.html:50
 msgid "Choose if you want the image to appear above or below the question."
 msgstr "设置图片在题目上方/下方。"
 
-#: ubcpi/static/html/ubcpi_edit.html:109
+#: ubcpi/static/html/ubcpi_edit.html:115
 msgid ""
 "Choose the answer you consider correct, or select \"n/a\" if there is no "
 "correct answer."
 msgstr "选择您认为正确的答案，若所有答案皆不正确，请选择“n/a”。"
 
-#: ubcpi/static/html/ubcpi_edit.html:152
+#: ubcpi/static/html/ubcpi_edit.html:158
 msgid "Choose the answer."
 msgstr "选择答案。"
 
-#: ubcpi/static/html/ubcpi.html:221
-msgid "Class Breakdown"
-msgstr "划分等级"
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:81
+msgid "Chose after revision"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:174
-msgid "Correct Answer"
-msgstr "正确答案"
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:81
+msgid "Chose initially"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi_edit.html:108
+#: ubcpi/static/html/ubcpi_edit.html:114
 msgid "Correct Answer <font color=\"red\">*</font>"
 msgstr "正确答案<font color=\"red\">*</font>"
+
+#: ubcpi/static/html/ubcpi.html:138 ubcpi/static/html/ubcpi.html:204
+msgid "Correct Answer:"
+msgstr ""
 
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:7
 msgid "Correct Option"
@@ -173,57 +160,49 @@ msgstr "设置每一个题目的分值。如果未设置，则题目分值取其
 msgid "Display Name <font color=\"red\">*</font>"
 msgstr "显示名称<font color=\"red\">*</font>"
 
-#: ubcpi/static/js/src/ubcpi.js:215
+#: ubcpi/static/js/src/ubcpi.js:124
+msgid "Error refreshing answers from other students"
+msgstr ""
+
+#: ubcpi/static/js/src/ubcpi.js:295
 msgid "Error retrieving data!"
 msgstr "检索数据时发生错误！"
 
-#: ubcpi/static/js/src/ubcpi.js:175
+#: ubcpi/static/js/src/ubcpi.js:283
 msgid "Error retrieving statistics!"
 msgstr "检索统计数据时发生错误！"
 
-#: ubcpi/static/js/src/ubcpi_edit.js:162
+#: ubcpi/static/js/src/ubcpi_edit.js:161
 msgid "Error saving question"
 msgstr "保存问题时发生错误"
 
-#: ubcpi/static/js/src/ubcpi.js:160
+#: ubcpi/static/js/src/ubcpi.js:260
 msgid "Error submitting answer!"
 msgstr "提交答案时发生错误！"
 
-#: ubcpi/static/html/ubcpi.html:96
-msgid "Error:"
-msgstr "错误："
-
-#: ubcpi/static/html/ubcpi_edit.html:151
+#: ubcpi/static/html/ubcpi_edit.html:157
 msgid "Example Answer {{$index + 1}}"
 msgstr "示例答案{{$index + 1}}"
 
-#: ubcpi/static/html/ubcpi_edit.html:144
+#: ubcpi/static/html/ubcpi_edit.html:150
 msgid "Example Answers <font color=\"red\">*</font>"
 msgstr "示例答案<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi.html:93
-msgid "Explain to other students why you chose this answer (Required):"
-msgstr "将您选择此答案的理由解释给其他学员听（必填内容）："
+#: ubcpi/static/html/ubcpi.html:80
+msgid "Explain to other students why you chose this answer (required):"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi_edit.html:157
+#: ubcpi/static/html/ubcpi_edit.html:163
 msgid "Explanation"
 msgstr "解释"
 
-#: ubcpi/static/html/ubcpi_edit.html:116
+#: ubcpi/static/html/ubcpi_edit.html:122
 msgid "Explanation (optional)"
 msgstr "解释（选填内容）"
 
-#: ubcpi/static/html/ubcpi_edit.html:115
+#: ubcpi/static/html/ubcpi_edit.html:121
 msgid "Explanation <font color=\"red\">*</font>"
 msgstr "解释<font color=\"red\">*</font>"
-
-#: ubcpi/static/html/ubcpi.html:257
-msgid "Final Answer Selection"
-msgstr "最终答案选项"
-
-#: ubcpi/static/js/src/ubcpi.js:184
-msgid "Final Answer Selection:"
-msgstr "最终答案选项："
 
 #: ubcpi/static/html/ubcpi_edit.html:12
 msgid ""
@@ -235,67 +214,35 @@ msgid ""
 "explanation that you provided for it."
 msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:111
-msgid ""
-"In order to move to the next step please briefly explain why you chose this "
-"answer."
-msgstr "在进行下一步前，请您简述一下选择此项的理由。"
-
-#: ubcpi/static/html/ubcpi.html:112
-msgid "In order to move to the next step please choose an answer."
-msgstr "在进行下一步前，请选择一项答案。"
-
-#: ubcpi/static/html/ubcpi.html:113
-msgid ""
-"In order to move to the next step, please choose an answer and briefly "
-"explain your choice."
-msgstr "在进行下一步前，请选择一项答案并简述其理由。"
-
-#: ubcpi/static/html/ubcpi.html:100
+#: ubcpi/static/html/ubcpi.html:99
 msgid ""
 "In the next step, you will be shown a selection of other responses that may "
 "help you refine your answer."
 msgstr "在下一步中，您会看到其他答案，您可根据这些答案来修改自己的回答。"
 
-#: ubcpi/static/html/ubcpi.html:250
-msgid "Initial Answer Selection"
-msgstr "初始回答"
-
-#: ubcpi/static/js/src/ubcpi.js:183
-msgid "Initial Answer Selection:"
-msgstr "初始回答："
-
-#: ubcpi/static/html/ubcpi.html:176
-msgid "Instructor's Explanation"
-msgstr "教师答题解释"
-
-#: ubcpi/static/html/ubcpi_edit.html:63
+#: ubcpi/static/html/ubcpi_edit.html:69
 msgid "Maximum Characters <font color=\"red\">*</font>"
 msgstr "字符数上限<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:56
+#: ubcpi/static/html/ubcpi_edit.html:62
 msgid "Minimum Characters <font color=\"red\">*</font>"
 msgstr "字符数下限<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi.html:133
+#: ubcpi/static/html/ubcpi.html:104
 msgid "Next Step"
 msgstr "下一步"
 
-#: ubcpi/static/js/src/d3-pibar.js:36
+#: ubcpi/static/js/src/d3-pibar.js:189 ubcpi/static/js/src/d3-pibar.js:36
 msgid "Not enough data to generate the chart. Please check back later."
 msgstr "数据不足，无法生成图标，请稍后重试。"
 
-#: ubcpi/static/html/ubcpi.html:108
+#: ubcpi/static/html/ubcpi.html:89
 msgid "Note:"
 msgstr "注意："
 
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:6
 msgid "Option {{ $index + 1 }}"
 msgstr "选项{{ $index + 1 }}"
-
-#: ubcpi/static/html/ubcpi.html:245
-msgid "Option {{$index + 1}}: {{rc.calc($index)}}"
-msgstr "选项{{$index + 1}}: {{rc.calc($index)}}"
 
 #: ubcpi/static/html/ubcpi_edit.html:10
 msgid "Peer Instruction"
@@ -310,37 +257,31 @@ msgid ""
 " answer. Learners complete these problems in three steps."
 msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:96
-msgid ""
-"Please edit your explanation so that it is less than {{rationale_size.max}} "
-"characters."
-msgstr "您的解释内容不得超过{{rationale_size.max}}个字符。"
-
-#: ubcpi/static/js/src/ubcpi.js:161 ubcpi/static/js/src/ubcpi.js:176
-#: ubcpi/static/js/src/ubcpi.js:216
+#: ubcpi/static/js/src/ubcpi.js:125 ubcpi/static/js/src/ubcpi.js:261
+#: ubcpi/static/js/src/ubcpi.js:284 ubcpi/static/js/src/ubcpi.js:296
 msgid "Please refresh the page and try again!"
 msgstr "请刷新页面并重试！"
 
-#: ubcpi/static/html/ubcpi_edit.html:74
+#: ubcpi/static/html/ubcpi_edit.html:80
 msgid "Possible Answers <font color=\"red\">*</font>"
 msgstr "所有答案选项<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:270
+#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:289
 msgid "Problem Weight"
 msgstr "问题权重"
 
-#: ubcpi/static/html/ubcpi_edit.html:46
+#: ubcpi/static/html/ubcpi_edit.html:52
 msgid ""
 "Provide alternative text - a description of the image for non-visual users. "
 "The description should provide all the information needed for someone to "
 "answer the question if the image did not load."
 msgstr "文字说明 - 提供给非可视用户的文字描述，应包含该题目的所有所需信息，即无需图片也可答题。"
 
-#: ubcpi/static/html/ubcpi_edit.html:158
+#: ubcpi/static/html/ubcpi_edit.html:164
 msgid "Provide an explanation for this answer."
 msgstr "解释此答案。"
 
-#: ubcpi/static/html/ubcpi.html:12 ubcpi/static/html/ubcpi.html:148
+#: ubcpi/static/html/ubcpi.html:12 ubcpi/static/html/ubcpi.html:164
 msgid "Question"
 msgstr "问题"
 
@@ -348,66 +289,77 @@ msgstr "问题"
 msgid "Question Text <font color=\"red\">*</font>"
 msgstr "问题文字内容<font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi.html:163 ubcpi/static/html/ubcpi.html:27
-#: ubcpi/static/html/ubcpi.html:60
+#: ubcpi/static/html/ubcpi.html:179 ubcpi/static/html/ubcpi.html:28
+#: ubcpi/static/html/ubcpi.html:37
 msgid "Reflection"
 msgstr "参考其他答案"
 
-#: ubcpi/static/html/ubcpi_edit.html:155 ubcpi/static/html/ubcpi_edit.html:84
+#: ubcpi/static/js/src/ubcpi.js:114
+msgid "Refreshing..."
+msgstr ""
+
+#: ubcpi/static/html/ubcpi_edit.html:161 ubcpi/static/html/ubcpi_edit.html:90
 msgid "Remove"
 msgstr "移除"
 
-#: ubcpi/static/html/ubcpi.html:165 ubcpi/static/html/ubcpi.html:29
-#: ubcpi/static/html/ubcpi.html:62
+#: ubcpi/static/html/ubcpi_edit.html:42
+msgid "Remove Image"
+msgstr ""
+
+#: ubcpi/static/html/ubcpi.html:181 ubcpi/static/html/ubcpi.html:30
+#: ubcpi/static/html/ubcpi.html:39
 msgid "Results"
 msgstr "结果"
 
-#: ubcpi/static/html/ubcpi_edit.html:184
+#: ubcpi/static/html/ubcpi.html:117
+msgid "Revise Answer"
+msgstr ""
+
+#: ubcpi/static/html/ubcpi_edit.html:190
 msgid "Save"
 msgstr "保存"
 
-#: ubcpi/static/js/src/ubcpi_edit.js:158
+#: ubcpi/static/js/src/ubcpi_edit.js:157
 msgid "Saving"
 msgstr "正在保存"
 
-#: ubcpi/static/html/ubcpi.html:211
-msgid "See how your classmates answered <a href=\"#classbreakdown\">below</a>"
-msgstr "查看您同学的<a href=\"#classbreakdown\">作答</a>"
+#: ubcpi/static/js/src/ubcpi.js:113
+msgid "Show other samples"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:71
+#: ubcpi/static/html/ubcpi.html:48
 msgid ""
-"Step 1) Your Initial Answer <span class=\"inline-hint\">You can change this "
+"Step 1) Give Initial Answer <span class=\"inline-hint\">You can change this "
 "answer later, if you change your mind.</span>"
 msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:36
-msgid "Step 2) Read Other Students Answers"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:72
+#: ubcpi/static/html/ubcpi.html:49
 msgid ""
-"Step 3) Your Final Answer <span class=\"inline-hint\">You now have the "
-"option to change your initial selection and explanation, if you wish.</span>"
+"Step 2) Read Other Student Answers\n"
+"                            <p class=\"ubcpi-other-answers-instructions\" translate=\"\">These are randomly chosen samples of other student answers for this question. Read them and compare with your answer below. Then you may revise your answer, if you wish.</p>"
 msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:43
-msgid "Student Answer: {{options[answer.option].text}}"
-msgstr "学生答案：{{options[answer.option].text}}"
+#: ubcpi/static/html/ubcpi.html:192
+msgid "Step 3) View Course-Wide Results"
+msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:198 ubcpi/static/html/ubcpi.html:208
-#: ubcpi/static/html/ubcpi.html:46
+#: ubcpi/static/html/ubcpi.html:68
 msgid "Student Rationale"
 msgstr "学生答题依据"
 
-#: ubcpi/static/html/ubcpi_edit.html:117
+#: ubcpi/static/html/ubcpi_edit.html:123
 msgid "Students see the explanation after seeing the final answer."
 msgstr "在查看最终答案后，学员会查看作答解释。"
 
-#: ubcpi/static/js/src/ubcpi.js:154
+#: ubcpi/static/html/ubcpi.html:119
+msgid "Submit Answer"
+msgstr ""
+
+#: ubcpi/static/js/src/ubcpi.js:254
 msgid "Submitting"
 msgstr "提交中"
 
-#: ubcpi/static/html/ubcpi_edit.html:75
+#: ubcpi/static/html/ubcpi_edit.html:81
 msgid ""
 "The answers appear as choices underneath the question, with a maximum of 10 "
 "allowed per question. Each answer may contain text, an image, or a "
@@ -423,174 +375,175 @@ msgid ""
 " your question, press the \"Add Image To Question\" button."
 msgstr "问题显示在所有答案的上方，您可使用文字/图片/文字+图片进行作答。如需添加图片至问题中，请点击“添加图片至问题”按钮。"
 
-#: ubcpi/static/html/ubcpi.html:37
+#: ubcpi/static/html/ubcpi.html:50
 msgid ""
-"These are samples of other student answers for this question. Read them and "
-"then compare with your answer below."
-msgstr "这些是其他学员对此问题的答案例子，请查看并与您自己的作答相对比。"
+"These are randomly chosen samples of other student answers for this "
+"question. Read them and compare with your answer below. Then you may revise "
+"your answer, if you wish."
+msgstr ""
 
-#: ubcpi/static/html/ubcpi.html:222
+#: ubcpi/static/html/ubcpi.html:193
 msgid ""
-"This is a look at how your classmates answered the question during the "
-"initial and final rounds."
-msgstr "这是您同学分别在初始作答步骤和最终作答步骤的答题情况。"
+"This is a look at how your classmates answered the question initially and "
+"after revision."
+msgstr ""
 
-#: ubcpi/static/html/ubcpi_edit.html:64
+#: ubcpi/static/html/ubcpi_edit.html:70
 msgid ""
 "This is the maximum number of characters the student explanations may "
 "contain."
 msgstr "学员答案解释的字符数不得超过此值。"
 
-#: ubcpi/static/html/ubcpi_edit.html:57
+#: ubcpi/static/html/ubcpi_edit.html:63
 msgid ""
 "This is the minimum number of characters the student explanations must "
 "contain."
 msgstr "学员答案解释的字符数不得少于此值。"
 
-#: ubcpi/static/html/ubcpi_edit.html:135
+#: ubcpi/static/html/ubcpi_edit.html:141
 msgid ""
-"This is the number of examples shown to the students after they answer. "
-"Enter the # symbol to use the same number as the answer possibilities you've"
-" set."
-msgstr "学员在作答后可见的答案例子数量，请输入“#”符号以使用答案数量，与您所设置的所有答案数量相等。"
+"This is the number of examples shown on screen to the students after they "
+"answer. Students can choose to refresh for some other samples. Enter the # "
+"symbol to use the same number as the answer possibilities you've set."
+msgstr ""
 
 #: ubcpi/static/html/ubcpi_edit.html:19
 msgid "This name appears in the horizontal navigation at the top of the page."
 msgstr "名称显示在页面顶部的横向导航栏中。"
 
-#: ubcpi/static/html/ubcpi_edit.html:42
+#: ubcpi/static/html/ubcpi_edit.html:48 ubcpi/static/html/ubcpi_edit.html:93
 msgid ""
-"Upload a file first using Content > Files &amp; Uploads. Then copy the "
-"'Studio URL'. Paste that into the text field here."
-msgstr "通过“内容 > 上传&amp;文件”来上传文件，然后复制“Studio URL”并粘贴在此处输入框中。"
+"Upload a file first by clicking Content, then Files and Uploads. Then copy "
+"the Studio URL. Paste that into the text field here."
+msgstr ""
 
-#: ubcpi/static/html/ubcpi_edit.html:87
-msgid ""
-"Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio "
-"URL'. Paste that into the text field above."
-msgstr "通过“内容 > 上传&amp;文件”上传文件，然后复制“Studio URL”并粘贴至上方输入框中。"
-
-#: ubcpi/static/html/ubcpi.html:118
+#: ubcpi/static/html/ubcpi.html:130
 msgid "View Question Statistics"
 msgstr "查看问题统计数据"
 
-#: ubcpi/static/html/ubcpi.html:107
+#: ubcpi/static/html/ubcpi.html:88
 msgid "Warning"
 msgstr "警告"
 
-#: ubcpi/static/html/ubcpi.html:95
+#: ubcpi/static/html/ubcpi.html:115
+msgid "What would you like to do?"
+msgstr ""
+
+#: ubcpi/static/html/ubcpi.html:82
 msgid ""
 "You are approaching the limit of {{rationale_size.max}} characters for this "
 "answer. Characters left: {{rationale_size.max - rc.rationale.length}}"
 msgstr "此答案内容不得超过{{rationale_size.max}} 个字符，还可输入{{rationale_size.max - rc.rationale.length}}个字符。"
 
-#: ubcpi/static/html/ubcpi_edit.html:182
+#: ubcpi/static/html/ubcpi_edit.html:188
 msgid "You are unable to save this form as there are errors:"
 msgstr "无法保存此表格，发生错误："
 
-#: ubcpi/static/html/ubcpi.html:202
-msgid "Your final answer:"
-msgstr "您的最终作答："
-
-#: ubcpi/static/html/ubcpi.html:192
-msgid "Your initial answer:"
-msgstr "您的初始作答："
-
-#: ubcpi/static/html/ubcpi.html:110
-msgid "Your rationale must be a maximum of {{rationale_size.max}} characters."
-msgstr "您的答案解释不得超过{{rationale_size.max}}个字符。"
-
-#: ubcpi/static/html/ubcpi.html:109
-msgid "Your rationale must be a minimum of {{rationale_size.min}} characters."
-msgstr "您的答案解释不得少于{{rationale_size.max}}个字符。"
-
-#: ubcpi/answer_pool.py:125
-msgid "Option "
-msgstr "选项"
-
-#: ubcpi/answer_pool.py:129
-msgid "Missing option seed(s): "
+#: ubcpi/static/html/ubcpi.html:112
+msgid "You:"
 msgstr ""
 
-#: ubcpi/answer_pool.py:145
-msgid "Missing 1 option seed"
+#: ubcpi/static/html/ubcpi.html:90
+msgid ""
+"Your explanation must be at least {{rationale_size.min}} characters long. "
+"Please explain further."
+msgstr ""
+
+#: ubcpi/static/html/ubcpi.html:91
+msgid ""
+"Your explanation must contain fewer than {{rationale_size.max}} characters. "
+"Please trim the text."
+msgstr ""
+
+#: ubcpi/static/html/ubcpi.html:218
+msgid "Your final explanation:"
 msgstr ""
 
 #: ubcpi/serialize.py:93
 msgid "Question must have text element."
 msgstr "问题必须要有文本。"
 
-#: ubcpi/serialize.py:133
+#: ubcpi/serialize.py:129
+msgid "Missing options elements in XML definition"
+msgstr ""
+
+#: ubcpi/serialize.py:137
 msgid "Option must have text element."
 msgstr "选项必须要有文本。"
 
-#: ubcpi/serialize.py:145
+#: ubcpi/serialize.py:149
 msgid "Missing rationale for correct answer."
 msgstr "正确答案缺乏作答依据。"
 
-#: ubcpi/serialize.py:147
+#: ubcpi/serialize.py:151
 msgid "Only one correct answer can be defined in options."
 msgstr "选项中只能定义一个正确答案。"
 
-#: ubcpi/serialize.py:152
-msgid ""
-"Correct answer and rationale are required and have to be defined in one of "
-"the option."
-msgstr "必须在一个选项中定义一个正确答案和作答依据。"
-
-#: ubcpi/serialize.py:185
+#: ubcpi/serialize.py:189
 msgid "Seed element must have an option attribute."
 msgstr ""
 
-#: ubcpi/serialize.py:211
+#: ubcpi/serialize.py:215
 msgid "Every peer instruction tool must contain an \"ubcpi\" element."
 msgstr ""
 
-#: ubcpi/serialize.py:215
+#: ubcpi/serialize.py:219
 msgid "Every peer instruction tool must contain a \"display_name\" element."
 msgstr ""
 
-#: ubcpi/serialize.py:224
+#: ubcpi/serialize.py:228
 msgid "Every peer instruction must tool contain a \"question\" element."
 msgstr ""
 
-#: ubcpi/serialize.py:230
+#: ubcpi/serialize.py:234
 msgid "Every peer instruction must tool contain a \"options\" element."
 msgstr ""
 
-#: ubcpi/serialize.py:236
+#: ubcpi/serialize.py:240
 msgid "Every peer instruction must tool contain a \"seeds\" element."
 msgstr ""
 
-#: ubcpi/ubcpi.py:60 ubcpi/ubcpi.py:63 ubcpi/ubcpi.py:65
+#: ubcpi/answer_pool.py:126
+msgid "Option "
+msgstr "选项"
+
+#: ubcpi/answer_pool.py:130
+msgid "Missing option seed(s): "
+msgstr ""
+
+#: ubcpi/answer_pool.py:146
+msgid "Missing 1 option seed"
+msgstr ""
+
+#: ubcpi/ubcpi.py:64 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
 msgid "Minimum Characters"
 msgstr "最小字符数"
 
-#: ubcpi/ubcpi.py:62 ubcpi/ubcpi.py:63 ubcpi/ubcpi.py:65
+#: ubcpi/ubcpi.py:66 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
 msgid "Maximum Characters"
 msgstr "最大字符数"
 
-#: ubcpi/ubcpi.py:68
+#: ubcpi/ubcpi.py:72
 msgid "Number of Responses"
 msgstr "回复数量"
 
-#: ubcpi/ubcpi.py:70
+#: ubcpi/ubcpi.py:74
 msgid "Not an Integer"
 msgstr "非整数"
 
-#: ubcpi/ubcpi.py:75
+#: ubcpi/ubcpi.py:79
 msgid "Invalid Option(s): "
 msgstr "无效的选项(多个)："
 
-#: ubcpi/ubcpi.py:184
+#: ubcpi/ubcpi.py:190
 msgid "Peer Instruction Question"
 msgstr "结对指导问题"
 
-#: ubcpi/ubcpi.py:187
+#: ubcpi/ubcpi.py:193
 msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
 msgstr "<p>一棵完全成材的树的大部分质量来自哪里?</p>"
 
-#: ubcpi/ubcpi.py:190
+#: ubcpi/ubcpi.py:196
 msgid ""
 "The question the students see. This question appears above the possible "
 "answers which you set below. You can use text, an image or a combination of "
@@ -598,93 +551,108 @@ msgid ""
 "button."
 msgstr "学生看到的问题。此问题显示在可能的答案的上方，您在下方设置这些答案。您可以使用文本、图像，也可以将两者结合。如果您希望为问题添加图像，请按“添加图像”按钮。"
 
-#: ubcpi/ubcpi.py:197
+#: ubcpi/ubcpi.py:203
 msgid "Air"
 msgstr "空气"
 
-#: ubcpi/ubcpi.py:198
+#: ubcpi/ubcpi.py:204
 msgid "Soil"
 msgstr "土地"
 
-#: ubcpi/ubcpi.py:199
+#: ubcpi/ubcpi.py:205
 msgid "Water"
 msgstr "水"
 
-#: ubcpi/ubcpi.py:202
+#: ubcpi/ubcpi.py:208
 msgid "The possible options from which the student may select"
 msgstr "学生可能会选择的选项"
 
-#: ubcpi/ubcpi.py:207
+#: ubcpi/ubcpi.py:213
 msgid ""
 "The minimum and maximum number of characters a student is allowed for their "
 "rationale."
 msgstr "允许学生用于其原因陈述的字符的最小数量和最大数量。"
 
-#: ubcpi/ubcpi.py:212
+#: ubcpi/ubcpi.py:218
 msgid "The correct option for the question"
 msgstr "这个问题的正确选项"
 
-#: ubcpi/ubcpi.py:216
+#: ubcpi/ubcpi.py:222
 msgid "Photosynthesis"
 msgstr "光合作用"
 
-#: ubcpi/ubcpi.py:217
+#: ubcpi/ubcpi.py:223
 msgid "The feedback for student for the correct answer"
 msgstr "学生对正确答案的反馈"
 
-#: ubcpi/ubcpi.py:222
+#: ubcpi/ubcpi.py:228
 msgid "Overall stats for the instructor"
 msgstr "此导师的基本概况"
 
-#: ubcpi/ubcpi.py:226
+#: ubcpi/ubcpi.py:232
 msgid "Tree gets carbon from air."
 msgstr "树木从空气中获得二氧化碳。"
 
-#: ubcpi/ubcpi.py:227
+#: ubcpi/ubcpi.py:233
 msgid "Tree gets minerals from soil."
 msgstr "树木从土地里获得矿物质。"
 
-#: ubcpi/ubcpi.py:228
+#: ubcpi/ubcpi.py:234
 msgid "Tree drinks water."
 msgstr "树喝水。"
 
-#: ubcpi/ubcpi.py:231
+#: ubcpi/ubcpi.py:237
 msgid ""
 "Instructor configured examples to give to students during the revise stage."
 msgstr "导师配置了要在修订阶段提供给学生的示例。"
 
-#: ubcpi/ubcpi.py:245
+#: ubcpi/ubcpi.py:251
 msgid "System selected answers to give to students during the revise stage."
 msgstr "系统选择了要在修订阶段提供给学生的答案。"
 
-#: ubcpi/ubcpi.py:250
+#: ubcpi/ubcpi.py:256
+msgid ""
+"Stores the specific answers of other students shown, for a given student."
+msgstr ""
+
+#: ubcpi/ubcpi.py:261
+msgid ""
+"In case the student requested to see more answers, these are the answers "
+"previously shown."
+msgstr ""
+
+#: ubcpi/ubcpi.py:266
+msgid "Keep track of the number of refreshes for each option"
+msgstr ""
+
+#: ubcpi/ubcpi.py:271
 msgid "The algorithm for selecting which answers to be presented to students"
 msgstr "用于选择要向学生呈现哪些答案的算法"
 
-#: ubcpi/ubcpi.py:259
+#: ubcpi/ubcpi.py:278
 msgid ""
 "ISO-8601 formatted string representing the start date of this assignment. We"
 " ignore this."
 msgstr "表示此任务的开始日期的 ISO-8601 格式的字符串。我们将忽略此字符串。"
 
-#: ubcpi/ubcpi.py:264
+#: ubcpi/ubcpi.py:283
 msgid ""
 "ISO-8601 formatted string representing the due date of this assignment. We "
 "ignore this."
 msgstr "表示此任务的截止日期的 ISO-8601 格式的字符串。我们将忽略此字符串。"
 
-#: ubcpi/ubcpi.py:308
+#: ubcpi/ubcpi.py:378
 msgid "System will select one of each option to present to the students."
 msgstr "系统会选择一个选项给学生。"
 
-#: ubcpi/ubcpi.py:309
+#: ubcpi/ubcpi.py:379
 msgid "Completely random selection from the response pool."
 msgstr "来自答案池的完全随机的选择。"
 
-#: ubcpi/ubcpi.py:312
+#: ubcpi/ubcpi.py:382
 msgid "Appears above"
 msgstr "在上方显示"
 
-#: ubcpi/ubcpi.py:313
+#: ubcpi/ubcpi.py:383
 msgid "Appears below"
 msgstr "在下面显示"

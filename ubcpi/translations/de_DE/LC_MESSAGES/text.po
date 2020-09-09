@@ -1,11 +1,12 @@
 # 
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2018
+# Stefania Trabucchi <stefania.trabucchi@abstract-technology.de>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: XBlocks\n"
 "POT-Creation-Date: 2016-03-16 15:27+0500\n"
-"PO-Revision-Date: 2019-07-29 08:48+0000\n"
+"PO-Revision-Date: 2020-01-29 12:07+0000\n"
 "Last-Translator: Stefania Trabucchi <stefania.trabucchi@abstract-technology.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/open-edx/xblocks/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -17,211 +18,190 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: ubcpi.py\n"
 
-#: ubcpi/static/html/ubcpi_edit.html:127
+#: ubcpi/static/html/ubcpi_edit.html:133
 msgid ""
 "\"Simple\" means examples for different answer possibilities are "
 "intentionally selected when students are viewing peer answers.<br>\"Random\""
 " means examples are selected at random and may not include different answer "
 "possibilities."
-msgstr ""
+msgstr "\"Einfach\" bedeutet, dass Beispiele für verschiedene Antwortmöglichkeiten absichtlich ausgewählt werden, wenn die Schülerinnen und Schüler die Antworten von anderen ansehen.<br> \"Zufällig\" bedeutet, dass die Beispiele nach dem Zufallsprinzip ausgewählt werden und möglicherweise nicht verschiedene Antwortmöglichkeiten enthalten."
 
-#: ubcpi/static/html/ubcpi.html:9
-msgid "&nbsp;({{weight}} point possible)"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:10
-msgid "&nbsp;({{weight}} points possible)"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:196
-msgid "(Option {{rc.answer_original + 1}})"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:206
-msgid "(Option {{rc.answer_revised + 1}})"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:237 ubcpi/static/html/ubcpi.html:86
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:8
 msgid "(You chose this option)"
-msgstr ""
+msgstr "(Sie wählen diese Option)"
 
-#: ubcpi/static/html/ubcpi.html:229 ubcpi/static/html/ubcpi.html:246
-msgid "(correct)"
-msgstr ""
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:77
+msgid "(including you)"
+msgstr "(Sie eingeschlossen)"
 
-#: ubcpi/static/html/ubcpi.html:144
+#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:9
 msgid "({{weight}} point possible)"
-msgstr ""
+msgstr "({{weight}} Punkt möglich)"
 
-#: ubcpi/static/html/ubcpi.html:146
+#: ubcpi/static/html/ubcpi.html:10 ubcpi/static/html/ubcpi.html:162
 msgid "({{weight}} points possible)"
-msgstr ""
+msgstr "({{weight}} mögliche Punkte)"
 
-#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:163
-#: ubcpi/static/html/ubcpi.html:25
+#: ubcpi/static/html/ubcpi.html:177 ubcpi/static/html/ubcpi.html:179
+#: ubcpi/static/html/ubcpi.html:35
 msgid ", Completed"
-msgstr ""
+msgstr ", Fertiggestellt"
 
-#: ubcpi/static/html/ubcpi.html:165 ubcpi/static/html/ubcpi.html:27
-#: ubcpi/static/html/ubcpi.html:58
+#: ubcpi/static/html/ubcpi.html:181 ubcpi/static/html/ubcpi.html:26
+#: ubcpi/static/html/ubcpi.html:37
 msgid ", In Progress"
-msgstr ""
+msgstr ", Wird Bearbeitet"
 
-#: ubcpi/static/html/ubcpi.html:29 ubcpi/static/html/ubcpi.html:60
-#: ubcpi/static/html/ubcpi.html:62
+#: ubcpi/static/html/ubcpi.html:28 ubcpi/static/html/ubcpi.html:30
+#: ubcpi/static/html/ubcpi.html:39
 msgid ", Upcoming"
-msgstr ""
+msgstr ", Bevorstehend"
 
-#: ubcpi/static/html/ubcpi_edit.html:97
+#: ubcpi/static/html/ubcpi_edit.html:39
+msgid "Add Image To Question"
+msgstr "Ein Bild zur Frage hinzufügen"
+
+#: ubcpi/static/html/ubcpi_edit.html:103
 msgid "Add New Answer"
-msgstr ""
+msgstr "Eine neue Antwort hinzufügen"
 
-#: ubcpi/static/html/ubcpi_edit.html:163
+#: ubcpi/static/html/ubcpi_edit.html:169
 msgid "Add New Example"
-msgstr ""
+msgstr "Ein neues Beispiel hinzufügen"
 
-#: ubcpi/static/html/ubcpi_edit.html:145
+#: ubcpi/static/html/ubcpi_edit.html:151
 msgid ""
 "Add example answers to the answer pool for this question. Students most "
 "likely to see these answers are those completing the assignment first, when "
 "the answer pool is small."
-msgstr ""
+msgstr "Fügen Sie Beispielantworten zu dem Antwortenpool dieser Frage hinzu. Es ist vielleicht hilfreich für Teilnehmer diese Antworten zu sehen."
 
-#: ubcpi/static/html/ubcpi_edit.html:81
+#: ubcpi/static/html/ubcpi_edit.html:87
 msgid ""
 "Add the text for this answer. If you wish to add an image, press the button "
 "below."
-msgstr ""
+msgstr "Fügen Sie einen Antworttext hinzu. Wenn Sie möchten, können Sie auch ein Bild einfügen. Dazu die Schaltfläche unten benutzen."
 
-#: ubcpi/static/html/ubcpi_edit.html:91
+#: ubcpi/static/html/ubcpi_edit.html:97
 msgid ""
 "Alternative text - a description of the image for non-visual users. The "
 "description should provide all the information needed for someone to answer "
 "the question if the image did not load."
-msgstr ""
+msgstr "Alternativer Text - eine Beschreibung des Bildes für einen blinden Nutzer. Diese Beschreibung sollte den Nutzer mit allen relevanten Informationen versorgen, welche benötigt werden, um die Frage zu beantworten."
 
-#: ubcpi/static/html/ubcpi.html:161 ubcpi/static/html/ubcpi.html:25
-#: ubcpi/static/html/ubcpi.html:58
+#: ubcpi/static/html/ubcpi.html:177 ubcpi/static/html/ubcpi.html:26
+#: ubcpi/static/html/ubcpi.html:35
 msgid "Answer"
-msgstr ""
+msgstr "Antwort"
 
-#: ubcpi/static/html/ubcpi.html:223
-msgid "Answer Options"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi_edit.html:80
+#: ubcpi/static/html/ubcpi_edit.html:86
 msgid "Answer {{$index + 1}}"
-msgstr ""
+msgstr "Antwort {{$index + 1}}"
 
-#: ubcpi/static/html/ubcpi_edit.html:134
+#: ubcpi/static/html/ubcpi_edit.html:140
 msgid "Answers Students See - Number Selected <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Antworten, die ein Teilnehmer sieht - Ausgewählte Anzahl <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:126
+#: ubcpi/static/html/ubcpi_edit.html:132
 msgid "Answers Students See - Selection Logic <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Antworten, die ein Teilnehmer sieht - Ausgewählte Reihenfolge <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:188
+#: ubcpi/static/html/ubcpi.html:118 ubcpi/static/html/ubcpi_edit.html:194
 msgid "Cancel"
-msgstr ""
+msgstr "Löschen"
 
-#: ubcpi/static/html/ubcpi_edit.html:89
+#: ubcpi/static/html/ubcpi_edit.html:95
 msgid ""
 "Choose if you want the image to appear above or below the question text."
-msgstr ""
+msgstr "Wählen Sie, ob das Bild ober- oder unterhalb des Fragetextes erscheinen soll."
 
-#: ubcpi/static/html/ubcpi_edit.html:44
+#: ubcpi/static/html/ubcpi_edit.html:50
 msgid "Choose if you want the image to appear above or below the question."
-msgstr ""
+msgstr "Wählen Sie, ob das Bild ober- oder unterhalb der Frage erscheinen soll."
 
-#: ubcpi/static/html/ubcpi_edit.html:109
+#: ubcpi/static/html/ubcpi_edit.html:115
 msgid ""
 "Choose the answer you consider correct, or select \"n/a\" if there is no "
 "correct answer."
-msgstr ""
+msgstr "Wählen Sie die richtige Antwort aus oder wählen Sie \"n/a\", wenn es keine richtige Antwort gibt."
 
-#: ubcpi/static/html/ubcpi_edit.html:152
+#: ubcpi/static/html/ubcpi_edit.html:158
 msgid "Choose the answer."
-msgstr ""
+msgstr "Wählen Sie die Antwort"
 
-#: ubcpi/static/html/ubcpi.html:221
-msgid "Class Breakdown"
-msgstr ""
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:81
+msgid "Chose after revision"
+msgstr "Nach der Revision gewählt"
 
-#: ubcpi/static/html/ubcpi.html:174
-msgid "Correct Answer"
-msgstr ""
+#: ubcpi/static/js/src/ubcpi-barchart-directive.js:81
+msgid "Chose initially"
+msgstr "Zu Beginn gewählt"
 
-#: ubcpi/static/html/ubcpi_edit.html:108
+#: ubcpi/static/html/ubcpi_edit.html:114
 msgid "Correct Answer <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Richtige Antwort <font color=\"red\">*</font>"
+
+#: ubcpi/static/html/ubcpi.html:138 ubcpi/static/html/ubcpi.html:204
+msgid "Correct Answer:"
+msgstr "Richtige Antwort:"
 
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:7
 msgid "Correct Option"
-msgstr ""
+msgstr "Richtige Option"
 
 #: ubcpi/static/html/ubcpi_edit.html:28
 msgid ""
 "Defines the number of points each problem is worth. If the value is not set,"
 " the problem is worth the sum of the option point values."
-msgstr ""
+msgstr "Legt die Anzahl der Punkte fest, die jede Fragestellung wert ist. falls der Wert nicht gesetzt ist, ist jede Fragestellung einen Punkt wert."
 
 #: ubcpi/static/html/ubcpi_edit.html:18
 msgid "Display Name <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Anzeigename <font color=\"red\">*</font>"
 
-#: ubcpi/static/js/src/ubcpi.js:215
+#: ubcpi/static/js/src/ubcpi.js:124
+msgid "Error refreshing answers from other students"
+msgstr "Es ist ein Fehler beim Neuladen der Antworten anderer aufgetreten"
+
+#: ubcpi/static/js/src/ubcpi.js:295
 msgid "Error retrieving data!"
-msgstr ""
+msgstr "Fehler beim Abrufen der Daten!"
 
-#: ubcpi/static/js/src/ubcpi.js:175
+#: ubcpi/static/js/src/ubcpi.js:283
 msgid "Error retrieving statistics!"
-msgstr ""
+msgstr "Fehler beim Abrufen der Statistik!"
 
-#: ubcpi/static/js/src/ubcpi_edit.js:162
+#: ubcpi/static/js/src/ubcpi_edit.js:161
 msgid "Error saving question"
-msgstr ""
+msgstr "Fehler beim Speichern der Frage"
 
-#: ubcpi/static/js/src/ubcpi.js:160
+#: ubcpi/static/js/src/ubcpi.js:260
 msgid "Error submitting answer!"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:96
-msgid "Error:"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi_edit.html:151
-msgid "Example Answer {{$index + 1}}"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi_edit.html:144
-msgid "Example Answers <font color=\"red\">*</font>"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:93
-msgid "Explain to other students why you chose this answer (Required):"
-msgstr ""
+msgstr "Fehler beim Abgeben der Antwort!"
 
 #: ubcpi/static/html/ubcpi_edit.html:157
+msgid "Example Answer {{$index + 1}}"
+msgstr "Beispielantwort {{$index + 1}}"
+
+#: ubcpi/static/html/ubcpi_edit.html:150
+msgid "Example Answers <font color=\"red\">*</font>"
+msgstr "Beispielantwort <font color=\"red\">*</font>"
+
+#: ubcpi/static/html/ubcpi.html:80
+msgid "Explain to other students why you chose this answer (required):"
+msgstr "Erklären Sie, warum Sie diese Antwort gewählt haben (erforderlich):"
+
+#: ubcpi/static/html/ubcpi_edit.html:163
 msgid "Explanation"
-msgstr ""
+msgstr "Erklärung"
 
-#: ubcpi/static/html/ubcpi_edit.html:116
+#: ubcpi/static/html/ubcpi_edit.html:122
 msgid "Explanation (optional)"
-msgstr ""
+msgstr "Erklärung (optional)"
 
-#: ubcpi/static/html/ubcpi_edit.html:115
+#: ubcpi/static/html/ubcpi_edit.html:121
 msgid "Explanation <font color=\"red\">*</font>"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:257
-msgid "Final Answer Selection"
-msgstr ""
-
-#: ubcpi/static/js/src/ubcpi.js:184
-msgid "Final Answer Selection:"
-msgstr ""
+msgstr "Erklärung <font color=\"red\">*</font>"
 
 #: ubcpi/static/html/ubcpi_edit.html:12
 msgid ""
@@ -231,73 +211,41 @@ msgid ""
 "learner can make revisions and submit a final answer and explanation. "
 "Finally, the learner sees the correct answer, if supplied, and any "
 "explanation that you provided for it."
-msgstr ""
+msgstr "Zunächst beantwortet der Teilnehmer eine Multiple-Choice-Frage und gibt eine Erklärung für die Antwort. Anschließend sieht der Teilnehmer die Antworten und Erklärungen, die von anderen Teilnehmern eingereicht wurden. Nachdem er die Antworten der anderen Teilnehmer reflektiert hat, kann er seine überarbeiten und eine endgültige Antwort inkl. Erklärung abgeben. Schließlich sieht der Teilnehmer die richtige Antwort, sowie alle Erklärungen, die er dafür abgegeben hat."
 
-#: ubcpi/static/html/ubcpi.html:111
-msgid ""
-"In order to move to the next step please briefly explain why you chose this "
-"answer."
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:112
-msgid "In order to move to the next step please choose an answer."
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:113
-msgid ""
-"In order to move to the next step, please choose an answer and briefly "
-"explain your choice."
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:100
+#: ubcpi/static/html/ubcpi.html:99
 msgid ""
 "In the next step, you will be shown a selection of other responses that may "
 "help you refine your answer."
-msgstr ""
+msgstr "In dem nächsten Schritt wird Ihnen eine Auswahl an Antworten angezeigt, welche Ihnen helfen werden, Ihre Antwort zu überarbeiten."
 
-#: ubcpi/static/html/ubcpi.html:250
-msgid "Initial Answer Selection"
-msgstr ""
-
-#: ubcpi/static/js/src/ubcpi.js:183
-msgid "Initial Answer Selection:"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:176
-msgid "Instructor's Explanation"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi_edit.html:63
+#: ubcpi/static/html/ubcpi_edit.html:69
 msgid "Maximum Characters <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Maximale Anzahl an Zeichen <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:56
+#: ubcpi/static/html/ubcpi_edit.html:62
 msgid "Minimum Characters <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Minimale Anzahl an Zeichen <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi.html:133
+#: ubcpi/static/html/ubcpi.html:104
 msgid "Next Step"
-msgstr ""
+msgstr "Nächster Schritt"
 
-#: ubcpi/static/js/src/d3-pibar.js:36
+#: ubcpi/static/js/src/d3-pibar.js:189 ubcpi/static/js/src/d3-pibar.js:36
 msgid "Not enough data to generate the chart. Please check back later."
-msgstr ""
+msgstr "Nicht genügend Daten vorhanden, um eine Tabelle zu generieren. Bitte prüfen Sie es später erneut."
 
-#: ubcpi/static/html/ubcpi.html:108
+#: ubcpi/static/html/ubcpi.html:89
 msgid "Note:"
-msgstr ""
+msgstr "Achtung:"
 
 #: ubcpi/static/js/partials/ubcpi-answer-result.html:6
 msgid "Option {{ $index + 1 }}"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:245
-msgid "Option {{$index + 1}}: {{rc.calc($index)}}"
-msgstr ""
+msgstr "Option {{ $index + 1 }}"
 
 #: ubcpi/static/html/ubcpi_edit.html:10
 msgid "Peer Instruction"
-msgstr ""
+msgstr "Partner Instruktionen"
 
 #: ubcpi/static/html/ubcpi_edit.html:11
 msgid ""
@@ -306,383 +254,404 @@ msgid ""
 "answer. The tool supports deeper consideration of the learner’s "
 "understanding of a concept and the correctness (if applicable) of an initial"
 " answer. Learners complete these problems in three steps."
-msgstr ""
+msgstr "Partnerbewertungs-Aufgaben geben den Teilnehmern die Möglichkeit, miteinander zu interagieren, während Sie z.B. eine Multiple-Choice-Aufgabe lösen. Das Werkzeug ermöglicht eine tiefere Betrachtung des Wissens der Teilnehmer über das Konzept und die Richtigkeit (falls zutreffend) einer ersten Antwort. Die Aufgabe wird in drei Schritten bearbeitet."
 
-#: ubcpi/static/html/ubcpi.html:96
-msgid ""
-"Please edit your explanation so that it is less than {{rationale_size.max}} "
-"characters."
-msgstr ""
-
-#: ubcpi/static/js/src/ubcpi.js:161 ubcpi/static/js/src/ubcpi.js:176
-#: ubcpi/static/js/src/ubcpi.js:216
+#: ubcpi/static/js/src/ubcpi.js:125 ubcpi/static/js/src/ubcpi.js:261
+#: ubcpi/static/js/src/ubcpi.js:284 ubcpi/static/js/src/ubcpi.js:296
 msgid "Please refresh the page and try again!"
-msgstr ""
+msgstr "Bitte laden Sie die Seite erneut und versuchen Sie es noch einmal!"
 
-#: ubcpi/static/html/ubcpi_edit.html:74
+#: ubcpi/static/html/ubcpi_edit.html:80
 msgid "Possible Answers <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Mögliche Antworten <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:270
+#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:289
 msgid "Problem Weight"
-msgstr ""
+msgstr "Gewichtung der Fragestellung"
 
-#: ubcpi/static/html/ubcpi_edit.html:46
+#: ubcpi/static/html/ubcpi_edit.html:52
 msgid ""
 "Provide alternative text - a description of the image for non-visual users. "
 "The description should provide all the information needed for someone to "
 "answer the question if the image did not load."
-msgstr ""
+msgstr "Alternativer Text - eine Beschreibung des Bildes für einen blinden Nutzer. Diese Beschreibung sollte den Nutzer mit allen relevanten Informationen versorgen, welche benötigt werden, um die Frage zu beantworten."
 
-#: ubcpi/static/html/ubcpi_edit.html:158
+#: ubcpi/static/html/ubcpi_edit.html:164
 msgid "Provide an explanation for this answer."
-msgstr ""
+msgstr "Bitte geben Sie eine Erklärung zu dieser Antwort."
 
-#: ubcpi/static/html/ubcpi.html:12 ubcpi/static/html/ubcpi.html:148
+#: ubcpi/static/html/ubcpi.html:12 ubcpi/static/html/ubcpi.html:164
 msgid "Question"
-msgstr ""
+msgstr "Frage"
 
 #: ubcpi/static/html/ubcpi_edit.html:36
 msgid "Question Text <font color=\"red\">*</font>"
-msgstr ""
+msgstr "Fragetext <font color=\"red\">*</font>"
 
-#: ubcpi/static/html/ubcpi.html:163 ubcpi/static/html/ubcpi.html:27
-#: ubcpi/static/html/ubcpi.html:60
+#: ubcpi/static/html/ubcpi.html:179 ubcpi/static/html/ubcpi.html:28
+#: ubcpi/static/html/ubcpi.html:37
 msgid "Reflection"
-msgstr ""
+msgstr "Reflektion"
 
-#: ubcpi/static/html/ubcpi_edit.html:155 ubcpi/static/html/ubcpi_edit.html:84
+#: ubcpi/static/js/src/ubcpi.js:114
+msgid "Refreshing..."
+msgstr "Aktualisiert..."
+
+#: ubcpi/static/html/ubcpi_edit.html:161 ubcpi/static/html/ubcpi_edit.html:90
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
-#: ubcpi/static/html/ubcpi.html:165 ubcpi/static/html/ubcpi.html:29
-#: ubcpi/static/html/ubcpi.html:62
+#: ubcpi/static/html/ubcpi_edit.html:42
+msgid "Remove Image"
+msgstr "Entferne Abbildung"
+
+#: ubcpi/static/html/ubcpi.html:181 ubcpi/static/html/ubcpi.html:30
+#: ubcpi/static/html/ubcpi.html:39
 msgid "Results"
-msgstr ""
+msgstr "Ergebnisse"
 
-#: ubcpi/static/html/ubcpi_edit.html:184
+#: ubcpi/static/html/ubcpi.html:117
+msgid "Revise Answer"
+msgstr "Antwort kontrollieren"
+
+#: ubcpi/static/html/ubcpi_edit.html:190
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
-#: ubcpi/static/js/src/ubcpi_edit.js:158
+#: ubcpi/static/js/src/ubcpi_edit.js:157
 msgid "Saving"
-msgstr ""
+msgstr "Speichert"
 
-#: ubcpi/static/html/ubcpi.html:211
-msgid "See how your classmates answered <a href=\"#classbreakdown\">below</a>"
-msgstr ""
+#: ubcpi/static/js/src/ubcpi.js:113
+msgid "Show other samples"
+msgstr "Andere Beispiele zeigen"
 
-#: ubcpi/static/html/ubcpi.html:71
+#: ubcpi/static/html/ubcpi.html:48
 msgid ""
-"Step 1) Your Initial Answer <span class=\"inline-hint\">You can change this "
+"Step 1) Give Initial Answer <span class=\"inline-hint\">You can change this "
 "answer later, if you change your mind.</span>"
-msgstr ""
+msgstr "Schritt 1) Geben Sie eine Antwort <span class=\"inline-hint\">Sie können diese Antwort zu einem späteren Zeitpunkt ändern.</span>"
 
-#: ubcpi/static/html/ubcpi.html:36
-msgid "Step 2) Read Other Students Answers"
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:72
+#: ubcpi/static/html/ubcpi.html:49
 msgid ""
-"Step 3) Your Final Answer <span class=\"inline-hint\">You now have the "
-"option to change your initial selection and explanation, if you wish.</span>"
-msgstr ""
+"Step 2) Read Other Student Answers\n"
+"                            <p class=\"ubcpi-other-answers-instructions\" translate=\"\">These are randomly chosen samples of other student answers for this question. Read them and compare with your answer below. Then you may revise your answer, if you wish.</p>"
+msgstr "Schritt 2) Lesen Sie die Antworten anderer Teilnehmer\n<p class=\"ubcpi-other-answers-instructions\" translate=\"\">Dies sind zufällig ausgewählte Antworten, welch zu dieser Frage abgegeben wurden. Lesen Sie sie und vergleichen Sie sie mit Ihrer. Vielleicht möchten Sie anschließend Ihre Antwort überarbeiten.</p>"
 
-#: ubcpi/static/html/ubcpi.html:43
-msgid "Student Answer: {{options[answer.option].text}}"
-msgstr ""
+#: ubcpi/static/html/ubcpi.html:192
+msgid "Step 3) View Course-Wide Results"
+msgstr "Schritt 3) Sehen Sie die Kursweiten Ergebnisse"
 
-#: ubcpi/static/html/ubcpi.html:198 ubcpi/static/html/ubcpi.html:208
-#: ubcpi/static/html/ubcpi.html:46
+#: ubcpi/static/html/ubcpi.html:68
 msgid "Student Rationale"
-msgstr ""
+msgstr "Begründung eines Teilnehmers"
 
-#: ubcpi/static/html/ubcpi_edit.html:117
+#: ubcpi/static/html/ubcpi_edit.html:123
 msgid "Students see the explanation after seeing the final answer."
-msgstr ""
+msgstr "Teilnehmer sehen zuerst Ihre finale Antwort und anschließend die Erklärung."
 
-#: ubcpi/static/js/src/ubcpi.js:154
+#: ubcpi/static/html/ubcpi.html:119
+msgid "Submit Answer"
+msgstr "Antwort einreichen"
+
+#: ubcpi/static/js/src/ubcpi.js:254
 msgid "Submitting"
-msgstr ""
+msgstr "Einreichen"
 
-#: ubcpi/static/html/ubcpi_edit.html:75
+#: ubcpi/static/html/ubcpi_edit.html:81
 msgid ""
 "The answers appear as choices underneath the question, with a maximum of 10 "
 "allowed per question. Each answer may contain text, an image, or a "
 "combination of both. <br><br>To add another answer press the \"Add New "
 "Answer\" button. To remove an answer press the blue \"x\" next to the blue "
 "option you want to remove."
-msgstr ""
+msgstr "Die Antworten erscheinen als Auswahlmöglichkeiten unterhalb der Frage, wobei maximal 10 pro Frage zulässig sind. Jede Antwort kann Text, Bild oder eine Kombination aus beidem enthalten. <br> <br>Um eine weitere Antwort hinzuzufügen, klicken Sie auf die Schaltfläche \"Neue Antwort hinzufügen\". Um eine Antwort zu entfernen, drücken Sie auf das blaue \"x\" neben der blauen Option, die Sie entfernen möchten."
 
 #: ubcpi/static/html/ubcpi_edit.html:37
 msgid ""
 "The question appears above the possible answers that you set below. You can "
 "use text, an image, or a combination of both. If you wish to add an image to"
 " your question, press the \"Add Image To Question\" button."
-msgstr ""
+msgstr "Die Frage, die die Teilnehmer sehen. Diese Frage erscheint über den Antwortmöglichkeiten, die Sie unten festlegen. Sie können einen Text, ein Bild oder eine Kombination aus beiden verwenden. Wenn Sie möchten können Sie ein Bild zu Ihrer Frage hinzufügen, indem Sie auf 'Bild hinzufügen' klicken."
 
-#: ubcpi/static/html/ubcpi.html:37
+#: ubcpi/static/html/ubcpi.html:50
 msgid ""
-"These are samples of other student answers for this question. Read them and "
-"then compare with your answer below."
-msgstr ""
+"These are randomly chosen samples of other student answers for this "
+"question. Read them and compare with your answer below. Then you may revise "
+"your answer, if you wish."
+msgstr "Dies sind zufällig ausgewählte Beispiele anderer Teilnehmerantworten für diese Frage. Lesen Sie diese und vergleichen Sie sie mit Ihrer Antwort. Vielleicht möchten Sie anschließend Ihre Antwort überarbeiten."
 
-#: ubcpi/static/html/ubcpi.html:222
+#: ubcpi/static/html/ubcpi.html:193
 msgid ""
-"This is a look at how your classmates answered the question during the "
-"initial and final rounds."
-msgstr ""
+"This is a look at how your classmates answered the question initially and "
+"after revision."
+msgstr "Dies gibt Ihnen eine Vorstellung darüber, wie die ersten und die finalen Antworten anderer Teilnehmer aussehen."
 
-#: ubcpi/static/html/ubcpi_edit.html:64
+#: ubcpi/static/html/ubcpi_edit.html:70
 msgid ""
 "This is the maximum number of characters the student explanations may "
 "contain."
-msgstr ""
+msgstr "Dies ist die maximale Anzahl an Zeichen, die eine Erklärung umfassen sollte."
 
-#: ubcpi/static/html/ubcpi_edit.html:57
+#: ubcpi/static/html/ubcpi_edit.html:63
 msgid ""
 "This is the minimum number of characters the student explanations must "
 "contain."
-msgstr ""
+msgstr "Dies ist die minimale Anzahl an Zeichen, die eine Erklärung umfassen sollte."
 
-#: ubcpi/static/html/ubcpi_edit.html:135
+#: ubcpi/static/html/ubcpi_edit.html:141
 msgid ""
-"This is the number of examples shown to the students after they answer. "
-"Enter the # symbol to use the same number as the answer possibilities you've"
-" set."
-msgstr ""
+"This is the number of examples shown on screen to the students after they "
+"answer. Students can choose to refresh for some other samples. Enter the # "
+"symbol to use the same number as the answer possibilities you've set."
+msgstr "Dies ist die Anzahl der Beispiele, die den Schülern auf dem Bildschirm gezeigt werden, nachdem sie geantwortet haben. Die Studenten können wählen, ob sie für einige andere Beispiele eine Aktualisierung wünschen. Geben Sie das Symbol # ein, um die gleiche Anzahl wie die von Ihnen festgelegten Antwortmöglichkeiten zu verwenden."
 
 #: ubcpi/static/html/ubcpi_edit.html:19
 msgid "This name appears in the horizontal navigation at the top of the page."
-msgstr ""
+msgstr "Dies ist der Name, welcher in der horizontalen Navigation oben auf der Seite erscheint."
 
-#: ubcpi/static/html/ubcpi_edit.html:42
+#: ubcpi/static/html/ubcpi_edit.html:48 ubcpi/static/html/ubcpi_edit.html:93
 msgid ""
-"Upload a file first using Content > Files &amp; Uploads. Then copy the "
-"'Studio URL'. Paste that into the text field here."
-msgstr ""
+"Upload a file first by clicking Content, then Files and Uploads. Then copy "
+"the Studio URL. Paste that into the text field here."
+msgstr "Laden Sie eine Datei hoch, indem Sie zuerst auf Inhalt und dann auf Dateien und Uploads klicken. Kopieren Sie dann die Studio-URL. Fügen Sie sie hier in das Textfeld ein."
 
-#: ubcpi/static/html/ubcpi_edit.html:87
-msgid ""
-"Upload a file using Content > Files &amp; Uploads. Then copy the 'Studio "
-"URL'. Paste that into the text field above."
-msgstr ""
-
-#: ubcpi/static/html/ubcpi.html:118
+#: ubcpi/static/html/ubcpi.html:130
 msgid "View Question Statistics"
-msgstr ""
+msgstr "Aufgabenstatistik ansehen"
 
-#: ubcpi/static/html/ubcpi.html:107
+#: ubcpi/static/html/ubcpi.html:88
 msgid "Warning"
-msgstr ""
+msgstr "Warnung"
 
-#: ubcpi/static/html/ubcpi.html:95
+#: ubcpi/static/html/ubcpi.html:115
+msgid "What would you like to do?"
+msgstr "Was möchten Sie machen?"
+
+#: ubcpi/static/html/ubcpi.html:82
 msgid ""
 "You are approaching the limit of {{rationale_size.max}} characters for this "
 "answer. Characters left: {{rationale_size.max - rc.rationale.length}}"
-msgstr ""
+msgstr "Sie erreichen die maximale Anzahl von {{rationale_size.max}} Zeichen für diese Antwort. noch verfügbare Zeichen: {{rationale_size.max - rc.rationale.length}}"
 
-#: ubcpi/static/html/ubcpi_edit.html:182
+#: ubcpi/static/html/ubcpi_edit.html:188
 msgid "You are unable to save this form as there are errors:"
-msgstr ""
+msgstr "Speichern des Formulars nicht möglich, da es Fehler gibt:"
 
-#: ubcpi/static/html/ubcpi.html:202
-msgid "Your final answer:"
-msgstr ""
+#: ubcpi/static/html/ubcpi.html:112
+msgid "You:"
+msgstr "Sie:"
 
-#: ubcpi/static/html/ubcpi.html:192
-msgid "Your initial answer:"
-msgstr ""
+#: ubcpi/static/html/ubcpi.html:90
+msgid ""
+"Your explanation must be at least {{rationale_size.min}} characters long. "
+"Please explain further."
+msgstr "Ihre Erklärung muss mindestens {{rationale_size.min}} Zeichen umfassen. Bitte erklären Sie genauer."
 
-#: ubcpi/static/html/ubcpi.html:110
-msgid "Your rationale must be a maximum of {{rationale_size.max}} characters."
-msgstr ""
+#: ubcpi/static/html/ubcpi.html:91
+msgid ""
+"Your explanation must contain fewer than {{rationale_size.max}} characters. "
+"Please trim the text."
+msgstr "Ihre Erklärung darf maximal  {{rationale_size.max}} Zeichen umfassen. Bitte kürzen Sie Ihren Text."
 
-#: ubcpi/static/html/ubcpi.html:109
-msgid "Your rationale must be a minimum of {{rationale_size.min}} characters."
-msgstr ""
-
-#: ubcpi/answer_pool.py:125
-msgid "Option "
-msgstr ""
-
-#: ubcpi/answer_pool.py:129
-msgid "Missing option seed(s): "
-msgstr ""
-
-#: ubcpi/answer_pool.py:145
-msgid "Missing 1 option seed"
-msgstr ""
+#: ubcpi/static/html/ubcpi.html:218
+msgid "Your final explanation:"
+msgstr "Ihre finale Erklärung:"
 
 #: ubcpi/serialize.py:93
 msgid "Question must have text element."
-msgstr ""
+msgstr "Die Frage muss ein Textelement beinhalten."
 
-#: ubcpi/serialize.py:133
+#: ubcpi/serialize.py:129
+msgid "Missing options elements in XML definition"
+msgstr "Fehlende Optionselemente in XML Definitionen"
+
+#: ubcpi/serialize.py:137
 msgid "Option must have text element."
-msgstr ""
+msgstr "Option muss ein Textelement beinhalten."
 
-#: ubcpi/serialize.py:145
+#: ubcpi/serialize.py:149
 msgid "Missing rationale for correct answer."
-msgstr ""
+msgstr "Fehlende Begründung für die richtige Antwort."
 
-#: ubcpi/serialize.py:147
+#: ubcpi/serialize.py:151
 msgid "Only one correct answer can be defined in options."
-msgstr ""
+msgstr "Es kann nur eine richtige Antwort definiert werden."
 
-#: ubcpi/serialize.py:152
-msgid ""
-"Correct answer and rationale are required and have to be defined in one of "
-"the option."
-msgstr ""
-
-#: ubcpi/serialize.py:185
+#: ubcpi/serialize.py:189
 msgid "Seed element must have an option attribute."
-msgstr ""
-
-#: ubcpi/serialize.py:211
-msgid "Every peer instruction tool must contain an \"ubcpi\" element."
-msgstr ""
+msgstr "Ausgangselement muss ein Optionsattribut haben."
 
 #: ubcpi/serialize.py:215
+msgid "Every peer instruction tool must contain an \"ubcpi\" element."
+msgstr "Jedes Tool der Partnerbewertung muss ein \"ubcpi\" Element beinhalten."
+
+#: ubcpi/serialize.py:219
 msgid "Every peer instruction tool must contain a \"display_name\" element."
-msgstr ""
+msgstr "Jedes Tool der Partnerbewertung muss ein \"display_name\" Element beinhalten."
 
-#: ubcpi/serialize.py:224
+#: ubcpi/serialize.py:228
 msgid "Every peer instruction must tool contain a \"question\" element."
-msgstr ""
+msgstr "Jedes Tool der Partnerbewertung muss ein \"Frage\" Element beinhalten."
 
-#: ubcpi/serialize.py:230
+#: ubcpi/serialize.py:234
 msgid "Every peer instruction must tool contain a \"options\" element."
-msgstr ""
+msgstr "Jedes Tool der Partnerbewertung muss ein \"Options\" Element beinhalten."
 
-#: ubcpi/serialize.py:236
+#: ubcpi/serialize.py:240
 msgid "Every peer instruction must tool contain a \"seeds\" element."
-msgstr ""
+msgstr "Jedes Tool der Partnerbewertung muss ein \"Kern\" Element beinhalten."
 
-#: ubcpi/ubcpi.py:60 ubcpi/ubcpi.py:63 ubcpi/ubcpi.py:65
+#: ubcpi/answer_pool.py:126
+msgid "Option "
+msgstr "Option"
+
+#: ubcpi/answer_pool.py:130
+msgid "Missing option seed(s): "
+msgstr "Fehlendes Ausgangselement(e):"
+
+#: ubcpi/answer_pool.py:146
+msgid "Missing 1 option seed"
+msgstr "1 fehlende Ausgangsoption"
+
+#: ubcpi/ubcpi.py:64 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
 msgid "Minimum Characters"
-msgstr ""
+msgstr "Minimale Anzahl an Zeichen"
 
-#: ubcpi/ubcpi.py:62 ubcpi/ubcpi.py:63 ubcpi/ubcpi.py:65
+#: ubcpi/ubcpi.py:66 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
 msgid "Maximum Characters"
-msgstr ""
+msgstr "Maximale Anzahl an Zeichen"
 
-#: ubcpi/ubcpi.py:68
+#: ubcpi/ubcpi.py:72
 msgid "Number of Responses"
-msgstr ""
+msgstr "Anzahl der Antworten"
 
-#: ubcpi/ubcpi.py:70
+#: ubcpi/ubcpi.py:74
 msgid "Not an Integer"
-msgstr ""
+msgstr "Das ist keine Zahl"
 
-#: ubcpi/ubcpi.py:75
+#: ubcpi/ubcpi.py:79
 msgid "Invalid Option(s): "
-msgstr ""
-
-#: ubcpi/ubcpi.py:184
-msgid "Peer Instruction Question"
-msgstr ""
-
-#: ubcpi/ubcpi.py:187
-msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
-msgstr ""
+msgstr "Ungültige Option(en):"
 
 #: ubcpi/ubcpi.py:190
+msgid "Peer Instruction Question"
+msgstr "Partnerbewertungsfrage"
+
+#: ubcpi/ubcpi.py:193
+msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
+msgstr "<p>Woher kommt bei einem ausgewachsenen Baum der größte Teil der Masse?</p>"
+
+#: ubcpi/ubcpi.py:196
 msgid ""
 "The question the students see. This question appears above the possible "
 "answers which you set below. You can use text, an image or a combination of "
 "both. If you wish to add an image to your question, press the 'Add Image' "
 "button."
-msgstr ""
+msgstr "Die Frage, die die Teilnehmer sehen. Diese Frage erscheint über den Antwortmöglichkeiten, die Sie unten festlegen. Sie können einen Text, ein Bild oder eine Kombination aus beiden verwenden. Wenn Sie möchten können Sie ein Bild zu Ihrer Frage hinzufügen, indem Sie auf 'Bild hinzufügen' klicken."
 
-#: ubcpi/ubcpi.py:197
+#: ubcpi/ubcpi.py:203
 msgid "Air"
-msgstr ""
+msgstr "Luft"
 
-#: ubcpi/ubcpi.py:198
+#: ubcpi/ubcpi.py:204
 msgid "Soil"
-msgstr ""
+msgstr "Boden"
 
-#: ubcpi/ubcpi.py:199
+#: ubcpi/ubcpi.py:205
 msgid "Water"
-msgstr ""
+msgstr "Wasser"
 
-#: ubcpi/ubcpi.py:202
+#: ubcpi/ubcpi.py:208
 msgid "The possible options from which the student may select"
-msgstr ""
+msgstr "Die Antwortmöglichkeiten, aus denen die Teilnehmer wählen können."
 
-#: ubcpi/ubcpi.py:207
+#: ubcpi/ubcpi.py:213
 msgid ""
 "The minimum and maximum number of characters a student is allowed for their "
 "rationale."
-msgstr ""
+msgstr "Die minimale und maximale Anzahl an Zeichen, die ein Teilnehmer für seine Begründung nutzen darf."
 
-#: ubcpi/ubcpi.py:212
+#: ubcpi/ubcpi.py:218
 msgid "The correct option for the question"
-msgstr ""
-
-#: ubcpi/ubcpi.py:216
-msgid "Photosynthesis"
-msgstr ""
-
-#: ubcpi/ubcpi.py:217
-msgid "The feedback for student for the correct answer"
-msgstr ""
+msgstr "Die richtige Option dieser Frage"
 
 #: ubcpi/ubcpi.py:222
-msgid "Overall stats for the instructor"
-msgstr ""
+msgid "Photosynthesis"
+msgstr "Fotosynthese"
 
-#: ubcpi/ubcpi.py:226
-msgid "Tree gets carbon from air."
-msgstr ""
-
-#: ubcpi/ubcpi.py:227
-msgid "Tree gets minerals from soil."
-msgstr ""
+#: ubcpi/ubcpi.py:223
+msgid "The feedback for student for the correct answer"
+msgstr "Das Feedback für Teilnehmer für die richtige Antwort"
 
 #: ubcpi/ubcpi.py:228
-msgid "Tree drinks water."
-msgstr ""
+msgid "Overall stats for the instructor"
+msgstr "Statistiken für die Lehrkräfte"
 
-#: ubcpi/ubcpi.py:231
+#: ubcpi/ubcpi.py:232
+msgid "Tree gets carbon from air."
+msgstr "Baum bekommt Kohlenstoff aus der Luft."
+
+#: ubcpi/ubcpi.py:233
+msgid "Tree gets minerals from soil."
+msgstr "Baum bekommt Mineralien aus dem Boden."
+
+#: ubcpi/ubcpi.py:234
+msgid "Tree drinks water."
+msgstr "Baum trinkt Wasser."
+
+#: ubcpi/ubcpi.py:237
 msgid ""
 "Instructor configured examples to give to students during the revise stage."
-msgstr ""
+msgstr "Eine Lehrkraft hat Beispiele hinzugefügt, welche die Teilnehmer während des Überprüfungsschrittes bekommen."
 
-#: ubcpi/ubcpi.py:245
+#: ubcpi/ubcpi.py:251
 msgid "System selected answers to give to students during the revise stage."
-msgstr ""
+msgstr "Das System wählt Antwortmöglichkeiten aus, welche den Teilnehmern während des Überprüfungsschrittes gezeigt werden."
 
-#: ubcpi/ubcpi.py:250
+#: ubcpi/ubcpi.py:256
+msgid ""
+"Stores the specific answers of other students shown, for a given student."
+msgstr "Speichert die Antworten von anderen Teilnehmern, um diese anderen Teilnehmern anzuzeigen."
+
+#: ubcpi/ubcpi.py:261
+msgid ""
+"In case the student requested to see more answers, these are the answers "
+"previously shown."
+msgstr "Dies die zuvor angezeigten Antworten, für den Fall, dass der Teilnehmer mehr Antworten sehen will."
+
+#: ubcpi/ubcpi.py:266
+msgid "Keep track of the number of refreshes for each option"
+msgstr "Verfolgen Sie die Anzahl der Aktualisierungen für jede Option"
+
+#: ubcpi/ubcpi.py:271
 msgid "The algorithm for selecting which answers to be presented to students"
-msgstr ""
+msgstr "Der Algorithmus für die Auswahl an Antworten, die gezeigt werden."
 
-#: ubcpi/ubcpi.py:259
+#: ubcpi/ubcpi.py:278
 msgid ""
 "ISO-8601 formatted string representing the start date of this assignment. We"
 " ignore this."
-msgstr ""
+msgstr "Der ISO-8601 formatierter String steht für das Startdatum dieses Fachs. Wir ignorieren dies. "
 
-#: ubcpi/ubcpi.py:264
+#: ubcpi/ubcpi.py:283
 msgid ""
 "ISO-8601 formatted string representing the due date of this assignment. We "
 "ignore this."
-msgstr ""
+msgstr "Der ISO-8601 formatierter String steht für das Enddatum dieses Fachs. Wir ignorieren dies. "
 
-#: ubcpi/ubcpi.py:308
+#: ubcpi/ubcpi.py:378
 msgid "System will select one of each option to present to the students."
-msgstr ""
+msgstr "Das System wird eine von jeder Möglichkeit wählen, und dem Teilnehmer zeigen."
 
-#: ubcpi/ubcpi.py:309
+#: ubcpi/ubcpi.py:379
 msgid "Completely random selection from the response pool."
-msgstr ""
+msgstr "Komplett zufällige Auswahl aus dem Antwortenpool."
 
-#: ubcpi/ubcpi.py:312
+#: ubcpi/ubcpi.py:382
 msgid "Appears above"
-msgstr ""
+msgstr "Erscheint darüber"
 
-#: ubcpi/ubcpi.py:313
+#: ubcpi/ubcpi.py:383
 msgid "Appears below"
-msgstr ""
+msgstr "Erscheint darunter"
