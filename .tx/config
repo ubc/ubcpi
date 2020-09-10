@@ -6,3 +6,4 @@ file_filter = ubcpi/translations/<lang>/LC_MESSAGES/text.po
 source_file = ubcpi/translations/en/LC_MESSAGES/text.po
 source_lang = en
 type = PO
+

@@ -167,7 +167,7 @@ msgstr ""
 msgid "Error retrieving statistics!"
 msgstr ""
 
-#: ubcpi/static/js/src/ubcpi_edit.js:161
+#: ubcpi/static/js/src/ubcpi_edit.js:163
 msgid "Error saving question"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Possible Answers <font color=\"red\">*</font>"
 msgstr ""
 
-#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:289
+#: ubcpi/static/html/ubcpi_edit.html:28 ubcpi/ubcpi.py:291
 msgid "Problem Weight"
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ubcpi/static/js/src/ubcpi_edit.js:157
+#: ubcpi/static/js/src/ubcpi_edit.js:159
 msgid "Saving"
 msgstr ""
 
@@ -457,91 +457,91 @@ msgstr ""
 msgid "Your final explanation:"
 msgstr ""
 
-#: ubcpi/serialize.py:93
-msgid "Question must have text element."
-msgstr ""
-
-#: ubcpi/serialize.py:129
-msgid "Missing options elements in XML definition"
-msgstr ""
-
-#: ubcpi/serialize.py:137
-msgid "Option must have text element."
-msgstr ""
-
-#: ubcpi/serialize.py:149
-msgid "Missing rationale for correct answer."
-msgstr ""
-
-#: ubcpi/serialize.py:151
-msgid "Only one correct answer can be defined in options."
-msgstr ""
-
-#: ubcpi/serialize.py:189
-msgid "Seed element must have an option attribute."
-msgstr ""
-
-#: ubcpi/serialize.py:215
-msgid "Every peer instruction tool must contain an \"ubcpi\" element."
-msgstr ""
-
-#: ubcpi/serialize.py:219
-msgid "Every peer instruction tool must contain a \"display_name\" element."
-msgstr ""
-
-#: ubcpi/serialize.py:228
-msgid "Every peer instruction must tool contain a \"question\" element."
-msgstr ""
-
-#: ubcpi/serialize.py:234
-msgid "Every peer instruction must tool contain a \"options\" element."
-msgstr ""
-
-#: ubcpi/serialize.py:240
-msgid "Every peer instruction must tool contain a \"seeds\" element."
-msgstr ""
-
-#: ubcpi/answer_pool.py:126
+#: ubcpi/answer_pool.py:128
 msgid "Option "
 msgstr ""
 
-#: ubcpi/answer_pool.py:130
+#: ubcpi/answer_pool.py:132
 msgid "Missing option seed(s): "
 msgstr ""
 
-#: ubcpi/answer_pool.py:146
+#: ubcpi/answer_pool.py:148
 msgid "Missing 1 option seed"
 msgstr ""
 
-#: ubcpi/ubcpi.py:64 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
+#: ubcpi/serialize.py:95
+msgid "Question must have text element."
+msgstr ""
+
+#: ubcpi/serialize.py:131
+msgid "Missing options elements in XML definition"
+msgstr ""
+
+#: ubcpi/serialize.py:139
+msgid "Option must have text element."
+msgstr ""
+
+#: ubcpi/serialize.py:151
+msgid "Missing rationale for correct answer."
+msgstr ""
+
+#: ubcpi/serialize.py:153
+msgid "Only one correct answer can be defined in options."
+msgstr ""
+
+#: ubcpi/serialize.py:191
+msgid "Seed element must have an option attribute."
+msgstr ""
+
+#: ubcpi/serialize.py:217
+msgid "Every peer instruction tool must contain an \"ubcpi\" element."
+msgstr ""
+
+#: ubcpi/serialize.py:221
+msgid "Every peer instruction tool must contain a \"display_name\" element."
+msgstr ""
+
+#: ubcpi/serialize.py:230
+msgid "Every peer instruction must tool contain a \"question\" element."
+msgstr ""
+
+#: ubcpi/serialize.py:236
+msgid "Every peer instruction must tool contain a \"options\" element."
+msgstr ""
+
+#: ubcpi/serialize.py:242
+msgid "Every peer instruction must tool contain a \"seeds\" element."
+msgstr ""
+
+#: ubcpi/ubcpi.py:66 ubcpi/ubcpi.py:69 ubcpi/ubcpi.py:71
 msgid "Minimum Characters"
 msgstr ""
 
-#: ubcpi/ubcpi.py:66 ubcpi/ubcpi.py:67 ubcpi/ubcpi.py:69
+#: ubcpi/ubcpi.py:68 ubcpi/ubcpi.py:69 ubcpi/ubcpi.py:71
 msgid "Maximum Characters"
 msgstr ""
 
-#: ubcpi/ubcpi.py:72
+#: ubcpi/ubcpi.py:74
 msgid "Number of Responses"
 msgstr ""
 
-#: ubcpi/ubcpi.py:74
+#: ubcpi/ubcpi.py:76
 msgid "Not an Integer"
 msgstr ""
 
-#: ubcpi/ubcpi.py:79
+#: ubcpi/ubcpi.py:81
 msgid "Invalid Option(s): "
 msgstr ""
 
-#: ubcpi/ubcpi.py:190
+#: ubcpi/ubcpi.py:192
 msgid "Peer Instruction Question"
 msgstr ""
 
-#: ubcpi/ubcpi.py:193
+#: ubcpi/ubcpi.py:195
 msgid "<p>Where does most of the mass in a fully grown tree originate?</p>"
 msgstr ""
 
-#: ubcpi/ubcpi.py:196
+#: ubcpi/ubcpi.py:198
 msgid ""
 "The question the students see. This question appears above the possible "
 "answers which you set below. You can use text, an image or a combination of "
@@ -549,108 +549,108 @@ msgid ""
 "button."
 msgstr ""
 
-#: ubcpi/ubcpi.py:203
+#: ubcpi/ubcpi.py:205
 msgid "Air"
 msgstr ""
 
-#: ubcpi/ubcpi.py:204
+#: ubcpi/ubcpi.py:206
 msgid "Soil"
 msgstr ""
 
-#: ubcpi/ubcpi.py:205
+#: ubcpi/ubcpi.py:207
 msgid "Water"
 msgstr ""
 
-#: ubcpi/ubcpi.py:208
+#: ubcpi/ubcpi.py:210
 msgid "The possible options from which the student may select"
 msgstr ""
 
-#: ubcpi/ubcpi.py:213
+#: ubcpi/ubcpi.py:215
 msgid ""
 "The minimum and maximum number of characters a student is allowed for their "
 "rationale."
 msgstr ""
 
-#: ubcpi/ubcpi.py:218
+#: ubcpi/ubcpi.py:220
 msgid "The correct option for the question"
 msgstr ""
 
-#: ubcpi/ubcpi.py:222
+#: ubcpi/ubcpi.py:224
 msgid "Photosynthesis"
 msgstr ""
 
-#: ubcpi/ubcpi.py:223
+#: ubcpi/ubcpi.py:225
 msgid "The feedback for student for the correct answer"
 msgstr ""
 
-#: ubcpi/ubcpi.py:228
+#: ubcpi/ubcpi.py:230
 msgid "Overall stats for the instructor"
 msgstr ""
 
-#: ubcpi/ubcpi.py:232
+#: ubcpi/ubcpi.py:234
 msgid "Tree gets carbon from air."
 msgstr ""
 
-#: ubcpi/ubcpi.py:233
+#: ubcpi/ubcpi.py:235
 msgid "Tree gets minerals from soil."
 msgstr ""
 
-#: ubcpi/ubcpi.py:234
+#: ubcpi/ubcpi.py:236
 msgid "Tree drinks water."
 msgstr ""
 
-#: ubcpi/ubcpi.py:237
+#: ubcpi/ubcpi.py:239
 msgid ""
 "Instructor configured examples to give to students during the revise stage."
 msgstr ""
 
-#: ubcpi/ubcpi.py:251
+#: ubcpi/ubcpi.py:253
 msgid "System selected answers to give to students during the revise stage."
 msgstr ""
 
-#: ubcpi/ubcpi.py:256
+#: ubcpi/ubcpi.py:258
 msgid ""
 "Stores the specific answers of other students shown, for a given student."
 msgstr ""
 
-#: ubcpi/ubcpi.py:261
+#: ubcpi/ubcpi.py:263
 msgid ""
 "In case the student requested to see more answers, these are the answers "
 "previously shown."
 msgstr ""
 
-#: ubcpi/ubcpi.py:266
+#: ubcpi/ubcpi.py:268
 msgid "Keep track of the number of refreshes for each option"
 msgstr ""
 
-#: ubcpi/ubcpi.py:271
+#: ubcpi/ubcpi.py:273
 msgid "The algorithm for selecting which answers to be presented to students"
 msgstr ""
 
-#: ubcpi/ubcpi.py:278
+#: ubcpi/ubcpi.py:280
 msgid ""
 "ISO-8601 formatted string representing the start date of this assignment. We "
 "ignore this."
 msgstr ""
 
-#: ubcpi/ubcpi.py:283
+#: ubcpi/ubcpi.py:285
 msgid ""
 "ISO-8601 formatted string representing the due date of this assignment. We "
 "ignore this."
 msgstr ""
 
-#: ubcpi/ubcpi.py:378
+#: ubcpi/ubcpi.py:380
 msgid "System will select one of each option to present to the students."
 msgstr ""
 
-#: ubcpi/ubcpi.py:379
+#: ubcpi/ubcpi.py:381
 msgid "Completely random selection from the response pool."
 msgstr ""
 
-#: ubcpi/ubcpi.py:382
+#: ubcpi/ubcpi.py:384
 msgid "Appears above"
 msgstr ""
 
-#: ubcpi/ubcpi.py:383
+#: ubcpi/ubcpi.py:385
 msgid "Appears below"
 msgstr ""
