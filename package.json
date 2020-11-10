@@ -16,7 +16,7 @@
     "cucumber": "^0.5.2",
     "d3": "~3.5.17",
     "jasmine-core": "^2.3.4",
-    "jquery": "~2.2",
+    "jquery": "~3.5",
     "karma": "^0.13",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.4.2",
