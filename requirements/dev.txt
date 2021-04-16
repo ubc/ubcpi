@@ -2,7 +2,7 @@
 
 # Debug tools
 django-debug-panel==0.8.3
-django-debug-toolbar==1.11
+django-debug-toolbar==1.11.1
 django-pdb==0.6.2
 sqlparse==0.1.10
 
