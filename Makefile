@@ -60,7 +60,7 @@ compile:
 	node_modules/.bin/angular-gettext-cli --compile --files 'ubcpi/translations/**/*.po' --format javascript --dest 'ubcpi/static/js/src/translations.js'
 
 pull_translations:
-	tx pull --force --mode=reviewed -l=ar,es_419,ja_JP,fr,fr_CA,he,hi,ko_KR,pt_BR,ru,zh_CN,de_DE,pl
+	tx pull --force --mode=reviewed -l=ar,es_419,ja_JP,fr,fr_CA,he,hi,ko_KR,pt_BR,pt_PT,ru,zh_CN,de_DE,pl
 	make compile
 
 push_translations:
