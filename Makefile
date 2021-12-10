@@ -66,3 +66,18 @@ pull_translations:
 push_translations:
 	make extract
 	tx push -s
+
+piptools:
+	pip install -q -r requirements/pip-tools.txt
+
+upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
+upgrade: piptools ## Update the requirements/*.txt files with the latest packages satisfying requirements/*.in
+	# Make sure to compile files after any other files they include!
+	pip-compile --upgrade --verbose --rebuild -o requirements/pip-tools.txt requirements/pip-tools.in
+	pip-compile --upgrade --verbose --rebuild -o requirements/base.txt requirements/base.in
+	pip-compile --upgrade --verbose --rebuild -o requirements/test.txt requirements/test.in
+	pip-compile --upgrade --verbose --rebuild -o requirements/dev.txt requirements/dev.in
+	# Let tox control the Django and DRF versions for tests
+	grep -e "^django==" requirements/test.txt > requirements/django.txt
+	sed -i.tmp '/^django==/d' requirements/test.txt
+	rm requirements/test.txt.tmp

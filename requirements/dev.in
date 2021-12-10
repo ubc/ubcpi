@@ -1,0 +1,16 @@
+-c constraints.txt
+-r test.in
+
+# Debug tools
+django-debug-panel
+django-debug-toolbar
+django-pdb
+sqlparse
+
+# runserver_plus
+Werkzeug
+
+# required by edx-submission, other package will install 2015 version otherwise
+pytz
+
+xblock-utils

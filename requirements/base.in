@@ -1,0 +1,8 @@
+-c constraints.txt
+
+django
+
+# edX Internal Requirements
+Xblock
+edx-submissions
+djangorestframework

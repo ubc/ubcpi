@@ -1,0 +1,13 @@
+-c constraints.txt
+-r base.in
+
+coverage
+ddt
+django-nose
+mock
+pep8
+pylint
+
+django-pyfs
+edx-i18n-tools
+xblock-sdk
