@@ -1,5 +1,5 @@
 -c constraints.txt
--r base.in
+-r base.txt
 
 coverage
 ddt
@@ -11,3 +11,4 @@ pylint
 django-pyfs
 edx-i18n-tools
 xblock-sdk
+tox

@@ -1,10 +1,11 @@
-name: Unit tests
+name: Python CI
 
 on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: 
+      - '**'
 
 jobs:
   build:
@@ -12,7 +13,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8, 3.9]
         django-version: [32]
 
     steps:
@@ -21,8 +22,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install tox
-        run: pip install tox
+
+      - name: Setup Ubuntu Dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y gettext
+      - name: Install Dependencies
+        run: |
+          make deps
+          pip install -e .
+          pip install coveralls
+
       - name: Run Tests
         env:
           TOXENV: django${{ matrix.django-version }}

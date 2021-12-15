@@ -50,7 +50,7 @@ release:
 	rm README.rst
 
 extract:
-	find ubcpi/ -iname "*.py" ! -path "ubcpi/test/*" | xargs xgettext --from-code=UTF-8 --default-domain=py --language=Python --force-po --output-dir=build --omit-header
+	find ubcpi/ -iname "*.py" ! -path "ubcpi/test/*" | xargs xgettext --from-code=UTF-8 --default-domain=py --language=Python --force-po --output-dir=./build --omit-header
 	node_modules/.bin/angular-gettext-cli --files './ubcpi/static/**/*.+(js|html)' --exclude '**/*_(spec|steps).js' --dest 'build/static.po'
 	msgcat build/static.po build/py.po > build/text.po
 	msgmerge --update ubcpi/translations/en/LC_MESSAGES/text.po build/text.po
@@ -77,7 +77,7 @@ upgrade: piptools ## Update the requirements/*.txt files with the latest package
 	pip-compile --upgrade --verbose --rebuild -o requirements/base.txt requirements/base.in
 	pip-compile --upgrade --verbose --rebuild -o requirements/test.txt requirements/test.in
 	pip-compile --upgrade --verbose --rebuild -o requirements/dev.txt requirements/dev.in
-	# Let tox control the Django and DRF versions for tests
+	# Let tox control the Django version for tests
 	grep -e "^django==" requirements/test.txt > requirements/django.txt
 	sed -i.tmp '/^django==/d' requirements/test.txt
 	rm requirements/test.txt.tmp

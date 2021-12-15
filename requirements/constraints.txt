@@ -9,6 +9,6 @@
 # linking to it here is good.
 
 
-django<4.0
+django<3.3
 
 ddt==1.0.0      # greater versions causing failures.
