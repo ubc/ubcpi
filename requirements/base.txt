@@ -28,7 +28,7 @@ fs==2.4.14
     # via xblock
 jsonfield==3.1.0
     # via edx-submissions
-lxml==4.6.4
+lxml==4.7.1
     # via xblock
 markupsafe==2.0.1
     # via xblock
@@ -48,7 +48,7 @@ six==1.16.0
     #   python-dateutil
 sqlparse==0.4.2
     # via django
-web-fragments==1.1.0
+web-fragments==2.0.0
     # via xblock
 webob==1.8.7
     # via xblock

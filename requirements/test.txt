@@ -5,16 +5,20 @@
 #    make upgrade
 #
 appdirs==1.4.4
-    # via fs
+    # via
+    #   -r requirements/base.txt
+    #   fs
 asgiref==3.4.1
-    # via django
+    # via
+    #   -r requirements/base.txt
+    #   django
 astroid==2.9.0
     # via pylint
 backports.entry-points-selectable==1.1.1
     # via virtualenv
-boto3==1.20.23
+boto3==1.20.24
     # via fs-s3fs
-botocore==1.23.23
+botocore==1.23.24
     # via
     #   boto3
     #   s3transfer
@@ -28,7 +32,7 @@ distlib==0.3.4
     # via virtualenv
     # via
     #   -c requirements/constraints.txt
-    #   -r requirements/base.in
+    #   -r requirements/base.txt
     #   django-model-utils
     #   django-pyfs
     #   djangorestframework
@@ -37,25 +41,28 @@ distlib==0.3.4
     #   jsonfield
     #   xblock-sdk
 django-model-utils==4.2.0
-    # via edx-submissions
+    # via
+    #   -r requirements/base.txt
+    #   edx-submissions
 django-nose==1.4.7
     # via -r requirements/test.in
 django-pyfs==3.1.0
     # via -r requirements/test.in
 djangorestframework==3.12.4
     # via
-    #   -r requirements/base.in
+    #   -r requirements/base.txt
     #   edx-submissions
 edx-i18n-tools==0.8.1
     # via -r requirements/test.in
 edx-submissions==3.4.2
-    # via -r requirements/base.in
+    # via -r requirements/base.txt
 filelock==3.4.0
     # via
     #   tox
     #   virtualenv
 fs==2.4.14
     # via
+    #   -r requirements/base.txt
     #   django-pyfs
     #   fs-s3fs
     #   xblock
@@ -68,13 +75,19 @@ jmespath==0.10.0
     #   boto3
     #   botocore
 jsonfield==3.1.0
-    # via edx-submissions
-lazy-object-proxy==1.6.0
+    # via
+    #   -r requirements/base.txt
+    #   edx-submissions
+lazy-object-proxy==1.7.1
     # via astroid
-lxml==4.6.4
-    # via xblock
+lxml==4.7.1
+    # via
+    #   -r requirements/base.txt
+    #   xblock
 markupsafe==2.0.1
-    # via xblock
+    # via
+    #   -r requirements/base.txt
+    #   xblock
 mccabe==0.6.1
     # via pylint
 mock==4.0.3
@@ -103,29 +116,35 @@ pyparsing==3.0.6
     # via packaging
 python-dateutil==2.8.2
     # via
+    #   -r requirements/base.txt
     #   botocore
     #   xblock
 pytz==2021.3
     # via
+    #   -r requirements/base.txt
     #   django
     #   edx-submissions
     #   fs
     #   xblock
 pyyaml==6.0
     # via
+    #   -r requirements/base.txt
     #   edx-i18n-tools
     #   xblock
 s3transfer==0.5.0
     # via boto3
 six==1.16.0
     # via
+    #   -r requirements/base.txt
     #   fs
     #   fs-s3fs
     #   python-dateutil
     #   tox
     #   virtualenv
 sqlparse==0.4.2
-    # via django
+    # via
+    #   -r requirements/base.txt
+    #   django
 toml==0.10.2
     # via
     #   pylint
@@ -140,14 +159,18 @@ urllib3==1.26.7
     # via botocore
 virtualenv==20.10.0
     # via tox
-web-fragments==1.1.0
-    # via xblock
+web-fragments==2.0.0
+    # via
+    #   -r requirements/base.txt
+    #   xblock
 webob==1.8.7
-    # via xblock
+    # via
+    #   -r requirements/base.txt
+    #   xblock
 wrapt==1.13.3
     # via astroid
 xblock==1.5.1
-    # via -r requirements/base.in
+    # via -r requirements/base.txt
 xblock-sdk==0.4.0
     # via -r requirements/test.in
 

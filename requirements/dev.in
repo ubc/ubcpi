@@ -2,7 +2,6 @@
 -r test.txt
 
 # Debug tools
-django-debug-panel
 django-debug-toolbar
 django-pdb
 sqlparse
