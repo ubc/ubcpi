@@ -7,7 +7,7 @@ django-pdb==0.6.2
 sqlparse==0.1.10
 
 # runserver_plus
-Werkzeug==0.10.4
+Werkzeug==0.15.5
 
 # required by edx-submission, other package will install 2015 version otherwise
 pytz==2012h
